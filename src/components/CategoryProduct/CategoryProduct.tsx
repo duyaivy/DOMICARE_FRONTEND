@@ -1,5 +1,5 @@
 import { Category } from '@/models/interface/category.interface'
-import React from 'react'
+
 import { Link } from 'react-router-dom'
 
 export default function CategoryProduct(category: Category) {

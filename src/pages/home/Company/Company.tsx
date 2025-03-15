@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function Company() {
   return (
     <div className='flex flex-col md:flex-row items-center justify-center  gap-8 md:gap-10 lg:gap-20  w-full my-4 md:my-8'>
