@@ -21,7 +21,7 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
-import { loginPic, logo } from '@/assets/images'
+import { loginPic, logoSecond } from '@/assets/images'
 import { IconMail } from '@/assets/icons/icon-mail'
 import LoginGoogle from './LoginGoogle'
 
@@ -85,19 +85,14 @@ export default function Login() {
           <div
             style={{ backgroundImage: `url(${loginPic})` }}
             className={`bg-center w-full h-full bg-contain bg-no-repeat relative`}
-          >
-            <Link to={path.home}>
-              <img
-                src={logo}
-                alt='logo'
-                className='hidden md:block absolute top-[30%] left-[50%] translate-y-[-50%] translate-x-[-50%]'
-              />
-            </Link>
-          </div>
+          ></div>
         </div>
       </div>
       <div className='col-span-1 md:col-span-5 md:h-full '>
         <div className='flex justify-center flex-col items-center md:h-screen '>
+          <Link to={path.home}>
+            <img src={logoSecond} alt='logo' className='hidden md:block mb-4' />
+          </Link>
           <h1 className='text-2xl md:text-5xl font-semibold text-black mb-6'>Đăng nhập</h1>
           <div className='flex  items-center justify-start gap-2 mb-4'>
             <p className='text-sm text-[#112211]  text-left'>Đăng nhập vào hệ thống </p>
