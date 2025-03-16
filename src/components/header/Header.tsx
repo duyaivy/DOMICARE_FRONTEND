@@ -3,6 +3,7 @@ import { path } from '@/core/constants/path'
 import { Link } from 'react-router-dom'
 import { animateScroll } from 'react-scroll'
 // import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+
 import {
   NavigationMenu,
   NavigationMenuContent,
