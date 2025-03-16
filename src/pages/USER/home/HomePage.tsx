@@ -120,7 +120,7 @@ const HomePage = () => {
         <div className='max-w-7xl mx-auto p-4 h-[300px] md:h-[500px] relative'>
           <div className='grid h-full grid-cols-12 gap-4  '>
             <div className='md:col-start-5 md:col-span-8 col-span-12 z-20 '>
-              <div className='flex flex-col items-center justify-center gap-8 h-full'>
+              <SecctionInView className='flex flex-col items-center justify-center gap-8 h-full'>
                 <h2 className='text-black text-head text-center'>
                   Tại sao nên thuê <span className='text-main font-semibold'>Domicare</span> làm dịch vụ vệ sinh cho bạn
                 </h2>
@@ -130,9 +130,10 @@ const HomePage = () => {
                 >
                   Tìm hiểu thêm
                 </Link>
-              </div>
+              </SecctionInView>
             </div>
           </div>
+
           <div
             className='absolute inset-0 bg-no-repeat bg-contain bg-left-bottom hidden md:block z-10'
             style={{ backgroundImage: `url(${Person})` }}

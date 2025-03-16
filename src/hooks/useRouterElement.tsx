@@ -1,14 +1,17 @@
 import { useLocation, useRoutes } from 'react-router-dom'
 import { ReactNode } from 'react'
 import LayoutMain from '@/app/layout/LayoutMain'
-import HomePage from '@/pages/home/HomePage'
-import Login from '@/pages/login/Login'
-import Register from '@/pages/register/Register'
-import Dashboard from '@/pages/dashboard/Dashboard'
-import PageNotFound from '@/pages/404/PageNotFound'
+
 import { path } from '@/core/constants/path'
 import { AnimatePresence, motion } from 'framer-motion'
 import CustomerLayout from '@/app/layout/CustomerLayout'
+
+import Login from '@/pages/ALL/login'
+import Register from '@/pages/ALL/register'
+import Dashboard from '@/pages/ADMIN/dashboard/Dashboard'
+import PageNotFound from '@/pages/ALL/404/PageNotFound'
+import HomePage from '@/pages/USER/home'
+import AboutUs from '@/pages/USER/AboutUs'
 
 interface RouteConfig {
   path: string
@@ -24,6 +27,14 @@ export default function useRoutesElements() {
       element: (
         <CustomerLayout>
           <HomePage />
+        </CustomerLayout>
+      )
+    },
+    {
+      path: path.aboutUs,
+      element: (
+        <CustomerLayout>
+          <AboutUs />
         </CustomerLayout>
       )
     },

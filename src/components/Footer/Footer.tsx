@@ -48,7 +48,7 @@ export default function Footer() {
                     <h3 className='text-sub1 font-semibold md:pb-3 pb-1 cursor-pointer text-end'>DomiCare và bạn</h3>
                   </li>
                   <li>
-                    <Link to={'/'}>
+                    <Link to={path.aboutUs}>
                       <p className='hover:text-gray-300 duration-300 text-end'>Tại sao lại là DomiCare</p>
                     </Link>
                   </li>

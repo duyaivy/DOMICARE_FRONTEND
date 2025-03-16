@@ -1,6 +1,7 @@
 import { logoSecond } from '@/assets/images'
 import { path } from '@/core/constants/path'
 import { Link } from 'react-router-dom'
+import { animateScroll } from 'react-scroll'
 // import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import {
   NavigationMenu,
@@ -12,10 +13,14 @@ import {
 import classnames from 'classnames'
 import { useState } from 'react'
 import IconHeadphone from '@/assets/icons/icon-headphone'
+import IconChevronUp from '@/assets/icons/icon-chevron-up'
+
 export default function Header() {
   const [isShow, setIsShow] = useState<boolean>(false)
+  const handleScrollUp = () => animateScroll.scrollTo(0, { smooth: true, duration: 500 })
+
   return (
-    <header className='w-full h-10 md:h-16 z-50 relative'>
+    <header className='w-full h-10 md:h-16 z-50 relative mb-[64px] md:mb-0'>
       <div className='bg-secondary w-full h-10 md:h-16'>
         <div className='max-w-7xl mx-auto px-4 py-2 h-full flex justify-center md:justify-end items-center'>
           <div className='flex justify-center items-center gap-1 cursor-pointer'>
@@ -24,7 +29,7 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className='absolute top-10 md:top-[64px] right-0 left-0 bg-white md:bg-white/80 h-[60px] md:h-[100px] z-90'>
+      <div className='absolute top-10 md:top-[64px] mb-[64px] right-0 left-0 bg-white md:bg-white/80 h-[60px] md:h-[100px] z-90'>
         <div className='max-w-7xl mx-auto px-4  h-full flex justify-end items-center'>
           <div className='grid grid-cols-12 gap-4 w-full h-full'>
             <div className='col-span-8 md:col-span-3 order-2'>
@@ -75,21 +80,21 @@ export default function Header() {
                   </NavigationMenu>
                 </li>
                 <li>
-                  <Link to={'/'} className='flex justify-between items-center  w-full group'>
+                  <Link to={path.blog} className='flex justify-between items-center  w-full group'>
                     <p className='text-sm text-tmain text-center line-clamp-2 group-hover:text-main duration-300'>
                       Tin tức
                     </p>
                   </Link>
                 </li>
                 <li>
-                  <Link to={'/'} className='flex justify-between items-center  w-full group'>
+                  <Link to={path.recuitment} className='flex justify-between items-center  w-full group'>
                     <p className='text-sm text-tmain text-center line-clamp-2 group-hover:text-main duration-300'>
                       Tuyển dụng
                     </p>
                   </Link>
                 </li>
                 <li>
-                  <Link to={'/'} className='flex justify-between items-center  w-full group'>
+                  <Link to={path.aboutUs} className='flex justify-between items-center  w-full group'>
                     <p className='text-sm text-tmain text-center line-clamp-2 group-hover:text-main duration-300'>
                       Tại sao lại chọn DomiCare?
                     </p>
@@ -201,6 +206,17 @@ export default function Header() {
         </div>
       </div>
 
+      <div className='fixed bottom-20 right-3 md:bottom-40  md:right-5  overflow-hidden z-50'>
+        <button
+          onClick={handleScrollUp}
+          className='flex rounded-full shadow-sm m-2 items-center justify-center w-18 h-18 cursor-pointer  bg-emerald-400'
+        >
+          <IconChevronUp className='fill-white w-10 h-10 text-center ml-1' />
+        </button>
+        <div className='flex rounded-full mt-6 shadow-sm m-2 items-center justify-center w-18 h-18 cursor-pointer animate-bounce text-white bg-emerald-400'>
+          Đặt Lịch
+        </div>
+      </div>
       {/* <div className='flex items-center gap-10'>
         <Link to='/login' className='text-[#8987A1]'>
           Sign In

@@ -7,6 +7,7 @@ export const path = {
   products: '/products',
   blog: '/blog',
   buy: '/buy',
+  recuitment: '/recuitment',
   admin: {
     dashboard: '/admin/dashboard'
   }

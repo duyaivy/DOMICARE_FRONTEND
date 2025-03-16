@@ -14,12 +14,11 @@
   --color-blue: #0f62fe;
 
   /* custom animate */
-  --animate-fade-up: fade-up 1s ease-out;
   --animate-caret-blink: caret-blink 1.25s ease-out infinite;
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
   --animate-fade-down: fade-down 1s ease-out;
-  --animate-fade-up: fade-up 2s ease-out;
+  --animate-fade-up: fade-up 1s ease-out;
   --animate-fade-right: fade-right 1s ease-out;
 
   /* config shadcn UI đen -> xanh theo màu.*/
@@ -111,6 +110,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   letter-spacing: 0.5px;
+  color: #333;
 }
 /* box shadown */
 .box-shadow {
@@ -179,7 +179,7 @@ body {
 
 @keyframes fade-up {
   0% {
-    opacity: 0;
+    opacity: 0.5;
     transform: translateY(20px);
   }
   100% {
