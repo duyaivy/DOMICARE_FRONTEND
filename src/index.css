@@ -11,7 +11,9 @@
   --color-brown: #cc6600;
   --color-gray: #697077;
   --color-yellow: #febb2e;
+  --color-yellowBg: #feffc4;
   --color-blue: #0f62fe;
+  --color-greenStrong: #395f18;
 
   /* custom animate */
   --animate-caret-blink: caret-blink 1.25s ease-out infinite;

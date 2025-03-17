@@ -88,7 +88,7 @@ const HomePage = () => {
             <div className='grid grid-cols-12 gap-2 md:gap-4'>
               {Array(4)
                 .fill(0)
-                .map((index) => {
+                .map((_, index) => {
                   return (
                     <div key={index} className='col-span-6 md:col-span-3 '>
                       <CategoryProduct

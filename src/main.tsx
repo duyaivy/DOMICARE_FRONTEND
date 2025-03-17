@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import App from './App.tsx'
 import './index.css'
+import { Toaster } from './components/ui/sonner.tsx'
 
 const clientAPI = '1028525044202-qvt3p190o3l7sisveqgcemltuva0es04.apps.googleusercontent.com'
 const queryClient = new QueryClient({
@@ -26,6 +27,7 @@ createRoot(document.getElementById('root')!).render(
       <GoogleOAuthProvider clientId={clientAPI}>
         <QueryClientProvider client={queryClient}>
           <App />
+          <Toaster richColors closeButton />
         </QueryClientProvider>
       </GoogleOAuthProvider>
     </BrowserRouter>

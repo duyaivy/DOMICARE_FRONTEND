@@ -8,6 +8,7 @@ import Comment from '@/components/Comment'
 import FeatureCard from '@/components/FeatureCard'
 
 import { IconRedTick } from '@/assets/icons/icon-redTick'
+import { IconClear, IconClear2, IconClear3, IconClear4, IconClear5, IconClear6 } from '@/assets/icons/icon-clears'
 
 export default function AboutUs() {
   return (
@@ -89,23 +90,56 @@ export default function AboutUs() {
             <h2 className='text-head text-black text-center py-3 font-semibold  flex justify-center gap-2 cursor-default mb-4 '>
               <p className='text-main font-semibold'>Chuyên gia</p> vệ sinh
             </h2>
-            <div className='grid grid-cols-12 grid-rows-2 gap-6'>
-              {Array(6)
-                .fill(0)
-                .map((_, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className='col-span-6 md:col-span-4 rounded-sm shadow bg-bg hover:translate-y-[-5px] duration-300 cursor-default'
-                    >
-                      <FeatureCard
-                        classNameContainer='pt-4'
-                        icon={<IconRedTick />}
-                        title='Các chương trình làm sạch phù hợp'
-                      />
-                    </div>
-                  )
-                })}
+            <div className='grid  grid-cols-12 grid-rows-2 gap-6'>
+              <div className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'>
+                <FeatureCard
+                  classNameContainer='pt-4'
+                  textClassname=' text-greenStrong font-bold '
+                  icon={<IconClear />}
+                  title='Các chương trình làm sạch phù hợp'
+                />
+              </div>
+
+              <div className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'>
+                <FeatureCard
+                  textClassname=' text-greenStrong font-bold'
+                  classNameContainer='pt-4'
+                  icon={<IconClear2 />}
+                  title='Thiết bị hiện đại'
+                />
+              </div>
+              <div className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'>
+                <FeatureCard
+                  classNameContainer='pt-4'
+                  textClassname=' text-greenStrong font-bold'
+                  icon={<IconClear3 />}
+                  title='Dịch vụ khách hàng & Hệ thống báo cáo'
+                />
+              </div>
+              <div className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'>
+                <FeatureCard
+                  textClassname=' text-greenStrong font-bold'
+                  classNameContainer='pt-4'
+                  icon={<IconClear4 />}
+                  title='Được cấp phép'
+                />
+              </div>
+              <div className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'>
+                <FeatureCard
+                  textClassname=' text-greenStrong font-bold'
+                  classNameContainer='pt-4'
+                  icon={<IconClear5 />}
+                  title='Nhân viên được đào tạo chuyên nghiệp'
+                />
+              </div>
+              <div className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'>
+                <FeatureCard
+                  textClassname=' text-greenStrong font-bold'
+                  classNameContainer='pt-4'
+                  icon={<IconClear6 />}
+                  title='Chương trình khử trùng toàn diện'
+                />
+              </div>
             </div>
           </div>
         </div>

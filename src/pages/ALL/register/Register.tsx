@@ -11,17 +11,20 @@ import { path } from '@/core/constants/path'
 import { mutationKeys } from '@/core/helpers/key-tanstack'
 import { authApi } from '@/core/services/auth.service'
 import { RegisterSchema } from '@/core/zod'
+import { Toast } from '@/utils/toastMessage'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
+import { omit } from 'lodash'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+
 import { z } from 'zod'
 
 export default function Register() {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isConfirm, setIsconfirm] = useState<boolean>(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false)
 
@@ -36,13 +39,13 @@ export default function Register() {
 
   const mutationRegister = useMutation({
     mutationKey: mutationKeys.register,
-    mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(data),
+    mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(omit(data, 'confirm_password')),
     onSuccess: () => {
       navigate('/login')
-      toast.success('Register success 🚀🚀⚡⚡')
+      Toast.success({ title: 'Thành công', description: 'Đăng kí tài khoản thành công 🚀🚀⚡⚡' })
     },
     onError: () => {
-      toast.error('Register failed!')
+      Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng ki tài khoản thất bại, vui lòng thử lại sau.' })
     },
     onSettled: () => {
       setIsLoading(false)
@@ -107,7 +110,7 @@ export default function Register() {
                     <FormLabel>Mật khẩu</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='Nhập mật khẩu'
+                        placeholder='Nhập mật khẩu bao gồm chữ in hoa in thường và chữ số'
                         className='w-full focus:outline-0 mt-1'
                         type={isPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
                         {...field}
@@ -141,10 +144,15 @@ export default function Register() {
               />
               <div className='flex justify-between'>
                 <div className='flex items-center justify-center space-x-2'>
-                  <Checkbox checked={true} id='terms' className='w-4 h-4' />
-                  <Label htmlFor='terms' className='text-base font-normal text-gray-500 cursor-pointer'>
-                    Tôi đồng ý với mọi <span className='text-redCustom'>Điều khoản</span> và{' '}
-                    <span className='text-redCustom'>Chính sách bảo mật</span>
+                  <Checkbox
+                    onClick={() => setIsconfirm((prev) => !prev)}
+                    checked={isConfirm}
+                    id='terms'
+                    className='cursor-pointer w-4 h-4'
+                  />
+                  <Label htmlFor='terms' className='text-base font-normal text-gray-500 cursor-default'>
+                    Tôi đồng ý với mọi <span className='text-main hover:underline cursor-pointer'>Điều khoản</span> và{' '}
+                    <span className='text-main hover:underline cursor-pointer '>Chính sách bảo mật</span>
                   </Label>
                 </div>
               </div>

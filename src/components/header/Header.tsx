@@ -12,14 +12,28 @@ import {
   NavigationMenuTrigger
 } from '../ui/navigation-menu'
 import classnames from 'classnames'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import IconHeadphone from '@/assets/icons/icon-headphone'
 import IconChevronUp from '@/assets/icons/icon-chevron-up'
 
 export default function Header() {
   const [isShow, setIsShow] = useState<boolean>(false)
   const handleScrollUp = () => animateScroll.scrollTo(0, { smooth: true, duration: 500 })
+  const [showUpBtn, setShowUpBtn] = useState<boolean>(false)
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowUpBtn(true)
+      } else {
+        setShowUpBtn(false)
+      }
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
   return (
     <header className='w-full h-10 md:h-16 z-50 relative mb-[64px] md:mb-0'>
       <div className='bg-secondary w-full h-10 md:h-16'>
@@ -207,13 +221,15 @@ export default function Header() {
         </div>
       </div>
 
-      <div className='fixed bottom-20 right-3 md:bottom-40  md:right-5  overflow-hidden z-50'>
-        <button
-          onClick={handleScrollUp}
-          className='flex rounded-full shadow-sm m-2 items-center justify-center w-18 h-18 cursor-pointer  bg-emerald-400'
-        >
-          <IconChevronUp className='fill-white w-10 h-10 text-center ml-1' />
-        </button>
+      <div className='fixed bottom-20 right-2 md:bottom-30   overflow-hidden z-50'>
+        {showUpBtn && (
+          <button
+            onClick={handleScrollUp}
+            className='flex rounded-full shadow-sm m-2 items-center justify-center w-18 h-18 cursor-pointer  bg-emerald-400'
+          >
+            <IconChevronUp className='fill-white w-10 h-10 text-center ml-1' />
+          </button>
+        )}
         <div className='flex rounded-full mt-6 shadow-sm m-2 items-center justify-center w-18 h-18 cursor-pointer animate-bounce text-white bg-emerald-400'>
           Đặt Lịch
         </div>

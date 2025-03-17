@@ -3,9 +3,9 @@ import {
   getAccessTokenFromLS,
   getRefreshTokenFromLS,
   removeAccessTokenFromLS,
-  setAccessTokenToLS,
-  setRefreshTokenToLS
+  setAccessTokenToLS
 } from '@/core/shared/storage'
+import { SuccessResponse } from '@/models/interface/response.interface'
 import axios, { HttpStatusCode } from 'axios'
 import { isEqual } from 'lodash'
 
@@ -42,15 +42,18 @@ axiosClient.interceptors.response.use(
 
       try {
         const refreshToken = getRefreshTokenFromLS()
-        const response = await axios.post(`${config.baseUrl}/auth/refresh-token`, {
-          refresh_token: refreshToken
-        })
+        const response = await axios.post<SuccessResponse<{ accessToken: string; email: string }>>(
+          `${config.baseUrl}/refresh-token`,
+          {
+            refresh_token: refreshToken
+          }
+        )
 
         if (isEqual(response.status, HttpStatusCode.Ok)) {
-          const { access_token, refresh_token } = response.data
-          setAccessTokenToLS(access_token)
-          setRefreshTokenToLS(refresh_token)
-          axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`
+          const { accessToken } = response.data.data
+          setAccessTokenToLS(accessToken)
+
+          axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
           return axiosClient(originalRequest)
         }
       } catch (refreshError) {

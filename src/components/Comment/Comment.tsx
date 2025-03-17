@@ -5,7 +5,7 @@ export default function Comment() {
   return (
     <Carousel
       autoChange={true}
-      autoChangeInterval={3000}
+      autoChangeInterval={10000}
       opts={{
         align: 'start'
       }}

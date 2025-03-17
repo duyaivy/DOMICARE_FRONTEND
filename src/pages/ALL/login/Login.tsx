@@ -19,11 +19,12 @@ import { isEqual } from 'lodash'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+
 import { z } from 'zod'
 import { loginPic, logoSecond } from '@/assets/images'
 import { IconMail } from '@/assets/icons/icon-mail'
 import LoginGoogle from './LoginGoogle'
+import { Toast } from '@/utils/toastMessage'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -48,15 +49,16 @@ export default function Login() {
     setIsLoading(true)
     const loginData = form.getValues() as z.infer<typeof LoginSchema>
     mutationLogin.mutate(loginData, {
-      onSuccess: ({ access_token, refresh_token, user }) => {
-        setAccessTokenToLS(access_token)
-        setRefreshTokenToLS(refresh_token)
-        setUserToLS(user)
-        navigate(isEqual(user.role, ROLE_ADMIN) || isEqual(user.role, ROLE_CUSTOMER) ? path.admin.dashboard : path.home)
-        toast.success('Login success 🚀🚀⚡⚡!')
+      onSuccess: ({ data }) => {
+        setAccessTokenToLS(data.data.access_token)
+        setRefreshTokenToLS(data.data.refresh_token)
+        setUserToLS(data.data.user)
+        const roles = data?.data?.user?.roles ?? []
+        navigate(isEqual(roles[0], ROLE_ADMIN) || isEqual(roles[0], ROLE_CUSTOMER) ? path.admin.dashboard : path.home)
+        Toast.success({ title: 'Thành công', description: 'Đăng nhập thành công 🚀🚀⚡⚡' })
       },
       onError: () => {
-        toast.error('Login failed!')
+        Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng nhập thất bại, vui lòng thử lại sau.' })
       },
       onSettled: () => {
         setIsLoading(false)
@@ -134,6 +136,7 @@ export default function Login() {
                     <FormControl>
                       <Input
                         placeholder='Nhập password'
+                        autoComplete='false'
                         className='w-full focus:outline-0 mt-1'
                         type={isPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
                         {...field}

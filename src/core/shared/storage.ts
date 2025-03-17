@@ -1,3 +1,4 @@
+import { User } from '@/models/interface/auth.interface'
 import { UserResponseType } from '@/models/interface/user.interface'
 
 export const LocalStorageEventTarget = new EventTarget()
@@ -30,6 +31,6 @@ export const removeAccessTokenFromLS = () => {
   localStorage.removeItem('access_token')
 }
 
-export const setUserToLS = (user: { id: string; name: string; email: string; role: string }) => {
+export const setUserToLS = (user: User) => {
   localStorage.setItem('user', JSON.stringify(user))
 }

@@ -1,24 +1,35 @@
 // define the Login interface
 export interface LoginResponse {
-  user: { id: string; name: string; email: string; role: string }
   access_token: string
   refresh_token: string
+  user: User
 }
 
 // define the Account interface
-export interface Account {
+export interface User {
+  id?: number
+  name?: string
   email?: string
   password?: string
-  confirmPassword?: string
-  name?: string
   phone?: string
+  address?: string
+  emailConfirmationToken?: string
+  googleId?: string
+  createBy?: string
+  updateBy?: string
+  createAt?: string
+  updateAt?: string
+  roles?: string[]
+  emailConfirmed?: boolean
 }
 
 // define the RegisterReponse interface
 export interface RegisterReponse {
-  name: string
+  id: number
   email: string
   password: string
-  confirmPassword: string
-  phone?: string
+  accessToken: string
+  refreshToken: string
+  roles: string[]
+  emailConfirmed: boolean
 }
