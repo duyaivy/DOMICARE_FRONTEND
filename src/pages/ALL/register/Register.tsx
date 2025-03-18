@@ -56,11 +56,11 @@ export default function Register() {
         if (isError422<FailResponse<null>>(error as AxiosError)) {
           const err: FailResponse<null> = error.response?.data
           form.setError('email', {
-            message: err.error,
+            message: err.message,
             type: 'Server'
           })
         } else {
-          Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng ki tài khoản thất bại, vui lòng thử lại sau.' })
+          Toast.error({ title: 'Có lỗi xảy ra', description: error.response?.data.message })
         }
       } else {
         Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng ki tài khoản thất bại, vui lòng thử lại sau.' })
@@ -109,6 +109,7 @@ export default function Register() {
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
+                        autoComplete='off'
                         placeholder='Nhập email'
                         type='email'
                         className='w-full focus:outline-0 mt-1'
@@ -129,7 +130,8 @@ export default function Register() {
                     <FormLabel>Mật khẩu</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='Nhập mật khẩu bao gồm chữ in hoa in thường và chữ số'
+                        autoComplete='off'
+                        placeholder='Nhập mật khẩu'
                         className='w-full focus:outline-0 mt-1'
                         type={isPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
                         {...field}

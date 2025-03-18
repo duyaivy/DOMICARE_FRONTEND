@@ -1,35 +1,34 @@
-import { IconEye, IconNonEye } from '@/assets/icons'
-// import { logo } from '@/assets/images'
-import { Button } from '@/components/ui/button'
+import { AxiosError, isAxiosError } from 'axios'
+import { isEqual } from 'lodash'
+import { useForm } from 'react-hook-form'
+import { useContext, useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { z } from 'zod'
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { LoginSchema } from '@/core/zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import { isError422 } from '@/utils/isAxioxErr422'
+import { FailResponse } from '@/models/interface/response.interface'
+import { AppContext } from '@/core/contexts/app.context'
+import HttpStatusCode from '@/core/constants/http'
+import { Button } from '@/components/ui/button'
+import LoginGoogle from './LoginGoogle'
+import { Toast } from '@/utils/toastMessage'
 import { PASSWORD_TYPE, ROLE_ADMIN, TEXT_TYPE } from '@/configs/consts'
 import { EMAIL, REMEMBER_ME } from '@/core/configs/const'
 import { path } from '@/core/constants/path'
 import { mutationKeys } from '@/core/helpers/key-tanstack'
 import { authApi } from '@/core/services/auth.service'
-import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
-import { LoginSchema } from '@/core/zod'
-import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useMutation } from '@tanstack/react-query'
-import { isEqual } from 'lodash'
-import { useContext, useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
-
-import { z } from 'zod'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { IconEye, IconNonEye } from '@/assets/icons'
 import { loginPic, logoSecond } from '@/assets/images'
 import { IconMail } from '@/assets/icons/icon-mail'
-import LoginGoogle from './LoginGoogle'
-import { Toast } from '@/utils/toastMessage'
-import { AxiosError, isAxiosError } from 'axios'
-import { isError422 } from '@/utils/isAxioxErr422'
-import { FailResponse } from '@/models/interface/response.interface'
-import { AppContext } from '@/core/contexts/app.context'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
+import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
 export default function Login() {
   const navigate = useNavigate()
   const { setProfile, setIsAuthenticated } = useContext(AppContext)
@@ -69,12 +68,19 @@ export default function Login() {
         if (isAxiosError(error)) {
           if (isError422<FailResponse<null>>(error as AxiosError)) {
             const err: FailResponse<null> = error.response?.data
-            form.setError('password', {
-              message: err.error,
-              type: 'Server'
-            })
+            if (isEqual(err.status, HttpStatusCode.ErrorPass)) {
+              form.setError('password', {
+                message: err.message,
+                type: 'Server'
+              })
+            } else {
+              form.setError('email', {
+                message: err.message,
+                type: 'Server'
+              })
+            }
           } else {
-            Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng nhập thất bại, vui lòng thử lại sau.' })
+            Toast.error({ title: 'Có lỗi xảy ra', description: error.response?.data.message })
           }
         } else {
           Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng nhập thất bại, vui lòng thử lại sau.' })
@@ -156,7 +162,7 @@ export default function Login() {
                     <FormControl>
                       <Input
                         placeholder='Nhập password'
-                        autoComplete='false'
+                        autoComplete='off'
                         className='w-full focus:outline-0 mt-1'
                         type={isPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
                         {...field}
