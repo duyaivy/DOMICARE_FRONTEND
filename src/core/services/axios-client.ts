@@ -1,10 +1,5 @@
 import config from '@/configs'
-import {
-  getAccessTokenFromLS,
-  getRefreshTokenFromLS,
-  removeAccessTokenFromLS,
-  setAccessTokenToLS
-} from '@/core/shared/storage'
+import { clearLS, getAccessTokenFromLS, getRefreshTokenFromLS, setAccessTokenToLS } from '@/core/shared/storage'
 import { SuccessResponse } from '@/models/interface/response.interface'
 import axios, { HttpStatusCode } from 'axios'
 import { isEqual } from 'lodash'
@@ -33,7 +28,7 @@ axiosClient.interceptors.request.use(
 // Response interceptor
 axiosClient.interceptors.response.use(
   (response) => {
-    return response.data
+    return response
   },
   async (error) => {
     const originalRequest = error.config
@@ -57,11 +52,11 @@ axiosClient.interceptors.response.use(
           return axiosClient(originalRequest)
         }
       } catch (refreshError) {
-        removeAccessTokenFromLS()
+        clearLS()
         return Promise.reject(refreshError)
       }
     } else if (error.response && isEqual(error.response.status, HttpStatusCode.Unauthorized)) {
-      removeAccessTokenFromLS()
+      clearLS()
     }
     return Promise.reject(error)
   }

@@ -1,7 +1,7 @@
 import IconFace from '@/assets/icons/icon-face'
 import IconPeople from '@/assets/icons/icon-people'
 import IconSave from '@/assets/icons/icon-save'
-import { Person, pic7, pic9 } from '@/assets/images'
+import { Person, pic10, pic11, pic12, pic7, pic9 } from '@/assets/images'
 import CardItem from '@/components/CardItem'
 import Company from './Company'
 import SecctionInView from '@/components/SecctionInView'
@@ -86,19 +86,34 @@ const HomePage = () => {
               </Link>
             </div>
             <div className='grid grid-cols-12 gap-2 md:gap-4'>
-              {Array(4)
-                .fill(0)
-                .map((_, index) => {
-                  return (
-                    <div key={index} className='col-span-6 md:col-span-3 '>
-                      <CategoryProduct
-                        title='Vệ sinh bệnh viện, trường học'
-                        description='Các trường học, bệnh viện cần duy trì một môi trường sạch sẽ, anh toàn. '
-                        img={pic9}
-                      />
-                    </div>
-                  )
-                })}
+              <div className='col-span-6 md:col-span-3 '>
+                <CategoryProduct
+                  title='Vệ sinh bệnh viện, trường học'
+                  description='Các trường học, bệnh viện cần duy trì một môi trường sạch sẽ, anh toàn. '
+                  img={pic9}
+                />
+              </div>
+              <div className='col-span-6 md:col-span-3 '>
+                <CategoryProduct
+                  title='Tổng vệ sinh nhà định kỳ '
+                  description='Tổng vệ sinh nhà cửa giúp không gian sạch sẽ và tối ưu. '
+                  img={pic10}
+                />
+              </div>
+              <div className='col-span-6 md:col-span-3 '>
+                <CategoryProduct
+                  title='Dịch vụ chăm sóc nội thất'
+                  description='Chăm sóc nội thất được thực hiện định kỳ bởi các nhân viên chuyên trách. Sử dụng thiết bị chuyên dụng. '
+                  img={pic12}
+                />
+              </div>
+              <div className='col-span-6 md:col-span-3 '>
+                <CategoryProduct
+                  title='Nhân viên vệ sinh theo giờ'
+                  description='Nhân viên sẽ vệ sinh theo khung giờ Khách hàng đăng ký khi phát sinh nhu cầu.'
+                  img={pic11}
+                />
+              </div>
             </div>
           </div>
         </div>

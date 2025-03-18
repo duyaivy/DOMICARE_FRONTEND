@@ -3,17 +3,21 @@ import { IconMail } from '@/assets/icons/icon-mail'
 import { pic6, logoSecond } from '@/assets/images'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { PASSWORD_TYPE, TEXT_TYPE } from '@/configs/consts'
+
 import { path } from '@/core/constants/path'
 import { mutationKeys } from '@/core/helpers/key-tanstack'
 import { authApi } from '@/core/services/auth.service'
 import { RegisterSchema } from '@/core/zod'
+import { FailResponse } from '@/models/interface/response.interface'
+import { isError422 } from '@/utils/isAxioxErr422'
 import { Toast } from '@/utils/toastMessage'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
+import { AxiosError, isAxiosError } from 'axios'
 import { omit } from 'lodash'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -41,11 +45,26 @@ export default function Register() {
     mutationKey: mutationKeys.register,
     mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(omit(data, 'confirm_password')),
     onSuccess: () => {
-      navigate('/login')
-      Toast.success({ title: 'Thành công', description: 'Đăng kí tài khoản thành công 🚀🚀⚡⚡' })
+      navigate(path.login)
+      Toast.success({
+        title: 'Thành công',
+        description: 'Đăng kí tài khoản thành công. Vui lòng kiểm tra Mail của bạn.'
+      })
     },
-    onError: () => {
-      Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng ki tài khoản thất bại, vui lòng thử lại sau.' })
+    onError: (error) => {
+      if (isAxiosError(error)) {
+        if (isError422<FailResponse<null>>(error as AxiosError)) {
+          const err: FailResponse<null> = error.response?.data
+          form.setError('email', {
+            message: err.error,
+            type: 'Server'
+          })
+        } else {
+          Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng ki tài khoản thất bại, vui lòng thử lại sau.' })
+        }
+      } else {
+        Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng ki tài khoản thất bại, vui lòng thử lại sau.' })
+      }
     },
     onSettled: () => {
       setIsLoading(false)
@@ -79,7 +98,7 @@ export default function Register() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleRegister)}
-              className='w-[90%] md:w-full lg:w-3/4 xl:w-2/3 space-y-6 px-4 mb-10'
+              className='w-[90%] md:w-full lg:w-3/4 xl:w-2/3 space-y-2 px-4 mb-10'
               noValidate
             >
               <FormField
@@ -119,6 +138,15 @@ export default function Register() {
                       />
                     </FormControl>
                     <FormMessage />
+                    <FormDescription>
+                      <div className='flex flex-col text-sub2 text-gray'>
+                        <h4 className=''>Mật khẩu bao gồm:</h4>
+                        <ul className='flex flex-col '>
+                          <li>- Ít nhất 6 kí tự.</li>
+                          <li>- Chữ in hoa, chữ thường và chữ số.</li>
+                        </ul>
+                      </div>
+                    </FormDescription>
                   </FormItem>
                 )}
               />
@@ -138,6 +166,7 @@ export default function Register() {
                         iconOnClick={toggleConfirmPasswordVisibility}
                       />
                     </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}

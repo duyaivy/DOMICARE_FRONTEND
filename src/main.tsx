@@ -8,6 +8,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import App from './App.tsx'
 import './index.css'
 import { Toaster } from './components/ui/sonner.tsx'
+import { AppProvider } from './core/contexts/app.context.tsx'
 
 const clientAPI = '1028525044202-qvt3p190o3l7sisveqgcemltuva0es04.apps.googleusercontent.com'
 const queryClient = new QueryClient({
@@ -26,7 +27,9 @@ createRoot(document.getElementById('root')!).render(
       <ToastContainer />
       <GoogleOAuthProvider clientId={clientAPI}>
         <QueryClientProvider client={queryClient}>
-          <App />
+          <AppProvider>
+            <App />
+          </AppProvider>
           <Toaster richColors closeButton />
         </QueryClientProvider>
       </GoogleOAuthProvider>

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { PASSWORD_TYPE, ROLE_ADMIN, ROLE_CUSTOMER, TEXT_TYPE } from '@/configs/consts'
+import { PASSWORD_TYPE, ROLE_ADMIN, TEXT_TYPE } from '@/configs/consts'
 import { EMAIL, REMEMBER_ME } from '@/core/configs/const'
 import { path } from '@/core/constants/path'
 import { mutationKeys } from '@/core/helpers/key-tanstack'
@@ -16,7 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useMutation } from '@tanstack/react-query'
 import { isEqual } from 'lodash'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -25,9 +25,14 @@ import { loginPic, logoSecond } from '@/assets/images'
 import { IconMail } from '@/assets/icons/icon-mail'
 import LoginGoogle from './LoginGoogle'
 import { Toast } from '@/utils/toastMessage'
+import { AxiosError, isAxiosError } from 'axios'
+import { isError422 } from '@/utils/isAxioxErr422'
+import { FailResponse } from '@/models/interface/response.interface'
+import { AppContext } from '@/core/contexts/app.context'
 
 export default function Login() {
   const navigate = useNavigate()
+  const { setProfile, setIsAuthenticated } = useContext(AppContext)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const [rememberMe, setRememberMe] = useState<boolean>(localStorage.getItem(REMEMBER_ME) === 'true' ? true : false)
@@ -50,15 +55,30 @@ export default function Login() {
     const loginData = form.getValues() as z.infer<typeof LoginSchema>
     mutationLogin.mutate(loginData, {
       onSuccess: ({ data }) => {
-        setAccessTokenToLS(data.data.access_token)
-        setRefreshTokenToLS(data.data.refresh_token)
+        setAccessTokenToLS(data.data.accessToken)
+        setRefreshTokenToLS(data.data.refreshToken)
         setUserToLS(data.data.user)
+        setIsAuthenticated(true)
+        setProfile(data.data.user)
+
         const roles = data?.data?.user?.roles ?? []
-        navigate(isEqual(roles[0], ROLE_ADMIN) || isEqual(roles[0], ROLE_CUSTOMER) ? path.admin.dashboard : path.home)
+        navigate(isEqual(roles[0], ROLE_ADMIN) ? path.admin.dashboard : path.home)
         Toast.success({ title: 'Thành công', description: 'Đăng nhập thành công 🚀🚀⚡⚡' })
       },
-      onError: () => {
-        Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng nhập thất bại, vui lòng thử lại sau.' })
+      onError: (error) => {
+        if (isAxiosError(error)) {
+          if (isError422<FailResponse<null>>(error as AxiosError)) {
+            const err: FailResponse<null> = error.response?.data
+            form.setError('password', {
+              message: err.error,
+              type: 'Server'
+            })
+          } else {
+            Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng nhập thất bại, vui lòng thử lại sau.' })
+          }
+        } else {
+          Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng nhập thất bại, vui lòng thử lại sau.' })
+        }
       },
       onSettled: () => {
         setIsLoading(false)

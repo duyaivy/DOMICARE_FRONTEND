@@ -8,19 +8,22 @@ interface Toast {
 export const Toast = {
   success: ({ title, description }: Toast) => {
     toast.success(title || 'Thành công!', {
-      description
+      description,
+      duration: 5000
     })
   },
 
   info: ({ title, description }: Toast) => {
     toast.info(title || 'Thông tin', {
-      description
+      description,
+      duration: 5000
     })
   },
 
   error: ({ title, description }: Toast) => {
     toast.error(title || 'Lỗi!', {
-      description
+      description,
+      duration: 5000
     })
   }
 }
