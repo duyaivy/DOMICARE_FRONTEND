@@ -1,10 +1,13 @@
 import { ICON_SIZE_LARGE } from '@/core/configs/icon-size'
+import { IconSvgProps } from '@/core/configs/IconSvgProps'
 
-const IconFb = ({ className }: { className?: string }) => {
+const IconFb = (props: IconSvgProps) => {
+  const { className, width = ICON_SIZE_LARGE, height = ICON_SIZE_LARGE } = props
+
   return (
     <svg
-      width={ICON_SIZE_LARGE}
-      height={ICON_SIZE_LARGE}
+      width={width}
+      height={height}
       className={className}
       viewBox='0 0 576 512'
       fill='none'

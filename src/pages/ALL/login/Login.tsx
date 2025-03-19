@@ -1,32 +1,34 @@
-import { IconEye, IconNonEye } from '@/assets/icons'
-// import { logo } from '@/assets/images'
-import { Button } from '@/components/ui/button'
+import { isEqual } from 'lodash'
+import { useForm } from 'react-hook-form'
+import { useContext, useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { z } from 'zod'
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { PASSWORD_TYPE, ROLE_ADMIN, ROLE_CUSTOMER, TEXT_TYPE } from '@/configs/consts'
+import { LoginSchema } from '@/core/zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import { AppContext } from '@/core/contexts/app.context'
+import { Button } from '@/components/ui/button'
+import LoginGoogle from './LoginGoogle'
+import { Toast } from '@/utils/toastMessage'
+import { PASSWORD_TYPE, ROLE_ADMIN, TEXT_TYPE } from '@/configs/consts'
 import { EMAIL, REMEMBER_ME } from '@/core/configs/const'
 import { path } from '@/core/constants/path'
 import { mutationKeys } from '@/core/helpers/key-tanstack'
 import { authApi } from '@/core/services/auth.service'
-import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
-import { LoginSchema } from '@/core/zod'
-import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useMutation } from '@tanstack/react-query'
-import { isEqual } from 'lodash'
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import { z } from 'zod'
-import { loginPic, logo } from '@/assets/images'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { IconEye, IconNonEye } from '@/assets/icons'
+import { loginPic, logoSecond } from '@/assets/images'
 import { IconMail } from '@/assets/icons/icon-mail'
-import LoginGoogle from './LoginGoogle'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
+import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
+import { handleErrorAPI } from '@/utils/handleErrorAPI'
 export default function Login() {
   const navigate = useNavigate()
+  const { setProfile, setIsAuthenticated } = useContext(AppContext)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const [rememberMe, setRememberMe] = useState<boolean>(localStorage.getItem(REMEMBER_ME) === 'true' ? true : false)
@@ -48,16 +50,18 @@ export default function Login() {
     setIsLoading(true)
     const loginData = form.getValues() as z.infer<typeof LoginSchema>
     mutationLogin.mutate(loginData, {
-      onSuccess: ({ access_token, refresh_token, user }) => {
-        setAccessTokenToLS(access_token)
-        setRefreshTokenToLS(refresh_token)
-        setUserToLS(user)
-        navigate(isEqual(user.role, ROLE_ADMIN) || isEqual(user.role, ROLE_CUSTOMER) ? path.admin.dashboard : path.home)
-        toast.success('Login success 🚀🚀⚡⚡!')
+      onSuccess: ({ data }) => {
+        setAccessTokenToLS(data.data.accessToken)
+        setRefreshTokenToLS(data.data.refreshToken)
+        setUserToLS(data.data.user)
+        setIsAuthenticated(true)
+        setProfile(data.data.user)
+
+        const roles = data?.data?.user?.roles ?? []
+        navigate(isEqual(roles[0], ROLE_ADMIN) ? path.admin.dashboard : path.home)
+        Toast.success({ title: 'Thành công', description: 'Đăng nhập thành công 🚀🚀⚡⚡' })
       },
-      onError: () => {
-        toast.error('Login failed!')
-      },
+      onError: (error) => handleErrorAPI(error, form),
       onSettled: () => {
         setIsLoading(false)
       }
@@ -85,19 +89,14 @@ export default function Login() {
           <div
             style={{ backgroundImage: `url(${loginPic})` }}
             className={`bg-center w-full h-full bg-contain bg-no-repeat relative`}
-          >
-            <Link to={path.home}>
-              <img
-                src={logo}
-                alt='logo'
-                className='hidden md:block absolute top-[30%] left-[50%] translate-y-[-50%] translate-x-[-50%]'
-              />
-            </Link>
-          </div>
+          ></div>
         </div>
       </div>
       <div className='col-span-1 md:col-span-5 md:h-full '>
         <div className='flex justify-center flex-col items-center md:h-screen '>
+          <Link to={path.home}>
+            <img src={logoSecond} alt='logo' className='hidden md:block mb-4' />
+          </Link>
           <h1 className='text-2xl md:text-5xl font-semibold text-black mb-6'>Đăng nhập</h1>
           <div className='flex  items-center justify-start gap-2 mb-4'>
             <p className='text-sm text-[#112211]  text-left'>Đăng nhập vào hệ thống </p>
@@ -139,6 +138,7 @@ export default function Login() {
                     <FormControl>
                       <Input
                         placeholder='Nhập password'
+                        autoComplete='off'
                         className='w-full focus:outline-0 mt-1'
                         type={isPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
                         {...field}

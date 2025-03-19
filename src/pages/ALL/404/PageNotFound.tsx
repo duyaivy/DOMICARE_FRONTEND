@@ -15,7 +15,7 @@ const IconLeftArrow = (
 )
 const PageNotFound = () => {
   return (
-    <div className='flex flex-col items-center justify-center h-screen'>
+    <div className='flex bg-bg flex-col items-center justify-center h-[500px] mt-20'>
       <h1 className='font-bold text-7xl'>404</h1>
       <h2 className='mb-5'>Page not found</h2>
       <Link to={path.home} className='flex items-center gap-2 hover:text-primary'>

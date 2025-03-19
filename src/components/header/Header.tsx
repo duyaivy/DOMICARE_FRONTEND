@@ -1,7 +1,9 @@
 import { logoSecond } from '@/assets/images'
 import { path } from '@/core/constants/path'
-import { Link } from 'react-router-dom'
-// import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Link, useNavigate } from 'react-router-dom'
+import { animateScroll } from 'react-scroll'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,12 +12,40 @@ import {
   NavigationMenuTrigger
 } from '../ui/navigation-menu'
 import classnames from 'classnames'
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import IconHeadphone from '@/assets/icons/icon-headphone'
+import IconChevronUp from '@/assets/icons/icon-chevron-up'
+import { AppContext } from '@/core/contexts/app.context'
+import { clearLS } from '@/core/shared/storage'
+
 export default function Header() {
+  const { isAuthenticated, profile, setIsAuthenticated, setProfile } = useContext(AppContext)
+  const navigate = useNavigate()
   const [isShow, setIsShow] = useState<boolean>(false)
+  const handleScrollUp = () => animateScroll.scrollTo(0, { smooth: true, duration: 500 })
+  const [showUpBtn, setShowUpBtn] = useState<boolean>(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowUpBtn(true)
+      } else {
+        setShowUpBtn(false)
+      }
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+  const handleLogout = () => {
+    setIsAuthenticated(false)
+    clearLS()
+    setProfile(null)
+    navigate(path.login)
+  }
   return (
-    <header className='w-full h-10 md:h-16 z-50 relative'>
+    <header className='w-full h-10 md:h-16 z-50 relative mb-[64px] md:mb-0'>
       <div className='bg-secondary w-full h-10 md:h-16'>
         <div className='max-w-7xl mx-auto px-4 py-2 h-full flex justify-center md:justify-end items-center'>
           <div className='flex justify-center items-center gap-1 cursor-pointer'>
@@ -24,7 +54,7 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className='absolute top-10 md:top-[64px] right-0 left-0 bg-white md:bg-white/80 h-[60px] md:h-[100px] z-90'>
+      <div className='absolute top-10 md:top-[64px] mb-[64px] right-0 left-0 bg-white md:bg-white/80 h-[60px] md:h-[100px] z-90'>
         <div className='max-w-7xl mx-auto px-4  h-full flex justify-end items-center'>
           <div className='grid grid-cols-12 gap-4 w-full h-full'>
             <div className='col-span-8 md:col-span-3 order-2'>
@@ -75,21 +105,21 @@ export default function Header() {
                   </NavigationMenu>
                 </li>
                 <li>
-                  <Link to={'/'} className='flex justify-between items-center  w-full group'>
+                  <Link to={path.blog} className='flex justify-between items-center  w-full group'>
                     <p className='text-sm text-tmain text-center line-clamp-2 group-hover:text-main duration-300'>
                       Tin tức
                     </p>
                   </Link>
                 </li>
                 <li>
-                  <Link to={'/'} className='flex justify-between items-center  w-full group'>
+                  <Link to={path.recuitment} className='flex justify-between items-center  w-full group'>
                     <p className='text-sm text-tmain text-center line-clamp-2 group-hover:text-main duration-300'>
                       Tuyển dụng
                     </p>
                   </Link>
                 </li>
                 <li>
-                  <Link to={'/'} className='flex justify-between items-center  w-full group'>
+                  <Link to={path.aboutUs} className='flex justify-between items-center  w-full group'>
                     <p className='text-sm text-tmain text-center line-clamp-2 group-hover:text-main duration-300'>
                       Tại sao lại chọn DomiCare?
                     </p>
@@ -98,52 +128,58 @@ export default function Header() {
               </ul>
             </div>
             <div className='col-span-2 md:col-span-2 order-1 md:order-3'>
-              <div className='flex h-full justify-end items-center'>
-                {/* <NavigationMenu>
-                  <NavigationMenuList>
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger className='!bg-transparent hover:!bg-transparent text-sm !text-tmain hover:!text-main duration-300 flex h-full justify-start md:justify-end items-center gap-3 group cursor-pointer !p-2 !pl-0 md:!pl-4 md:!pr-0'>
-                        <div className='shrink-0 flex justify-center items-center  w-10 h-10   '>
-                          <Avatar>
-                            <AvatarImage
-                              src='https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/475180610_584795851049457_244361787057408833_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=RvSzXxT51ykQ7kNvgGTYoFt&_nc_oc=Adh2WswNkFbyDl5Dkub6oIF5dRBgWtiiRP8IA9Z-TLQ7VUqxeNDqsqhv6oYL_tAq-l12Gqjyv7n2I8-oCu-c_KfM&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=AMD8yIr19kdndAdQ6fbHiQc&oh=00_AYFGpO96-ETpecOqF1xiGKRqbPgrTX8IaCEw8lF4mlP5dw&oe=67D62E14'
-                              alt='@shadcn'
-                            />
-                            <AvatarFallback>CN</AvatarFallback>
-                          </Avatar>
-                        </div>
-                        <p className='hidden md:block text-sm text-tmain group-hover:text-main duration-300 truncate'>
-                          duyaivy
-                        </p>
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <div className='w-[150px] min-h-10 py-2 '>
-                          <ul className='flex flex-col justify-center items-center gap-1'>
-                            <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                              <Link to={'/profile'}>Tài khoản của tôi</Link>
-                            </li>
-                            <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                              <Link to={'/history'}>Lịch sử dịch vụ</Link>
-                            </li>
-                            <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                              <Link to={'/logout'}>Đăng xuất</Link>
-                            </li>
-                          </ul>
-                        </div>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-                </NavigationMenu> */}
+              <div className='flex h-full justify-end items-center '>
+                {isAuthenticated && profile ? (
+                  <NavigationMenu>
+                    <NavigationMenuList>
+                      <NavigationMenuItem>
+                        <NavigationMenuTrigger className='!bg-transparent hover:!bg-transparent text-sm !text-tmain hover:!text-main duration-300 flex h-full justify-start md:justify-end items-center group cursor-pointer  w-full !p-0 !pl-0 md:!ml-4 md:!pr-0 '>
+                          <div className='shrink-0 flex justify-center items-center  w-10 h-10  '>
+                            <Avatar>
+                              <AvatarImage
+                                src='https://photo.znews.vn/w660/Uploaded/mfnuy/2022_09_01/s1_1.jpg'
+                                alt='@shadcn'
+                              />
+                              <AvatarFallback>CN</AvatarFallback>
+                            </Avatar>
+                          </div>
+                          <p className='hidden md:block text-sm text-tmain group-hover:text-main md:max-w-23 lg:max-w-30 truncate duration-300  '>
+                            {profile.name ? profile.name : profile.email}
+                          </p>
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <div className='w-[150px] min-h-10 py-2 '>
+                            <ul className='flex flex-col justify-center items-center gap-1'>
+                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
+                                <Link to={'/profile'}>Tài khoản của tôi</Link>
+                              </li>
+                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
+                                <Link to={'/history'}>Lịch sử dịch vụ</Link>
+                              </li>
+                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
+                                {/* <Link to={'/logout'}>Đăng xuất</Link> */}
+                                <button onClick={handleLogout} className='cursor-pointer font-semibold'>
+                                  Đăng xuất
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                    </NavigationMenuList>
+                  </NavigationMenu>
+                ) : (
+                  <div className='flex justify-end h-full items-center '>
+                    <Link
+                      to={path.login}
+                      className='rounded-sm  md:px-4 mo:!px-8 text-sub2 py-2 duration-300 md:bg-main md:text-white md:hover:bg-main/90 '
+                    >
+                      Đăng nhập
+                    </Link>
+                  </div>
+                )}
 
                 {/* Đăng nhập */}
-                <div className='flex justify-end h-full items-center '>
-                  <Link
-                    to={path.login}
-                    className='rounded-sm  md:px-4 mo:!px-8 text-sub2 py-2 duration-300 md:bg-main md:text-white md:hover:bg-main/90 '
-                  >
-                    Đăng nhập
-                  </Link>
-                </div>
               </div>
             </div>
             <div className='col-span-2 order-3 md:hidden'>
@@ -201,14 +237,19 @@ export default function Header() {
         </div>
       </div>
 
-      {/* <div className='flex items-center gap-10'>
-        <Link to='/login' className='text-[#8987A1]'>
-          Sign In
-        </Link>
-        <Link to='/register' className='bg-[#4E47FF] text-white px-4 py-2 rounded-lg'>
-          Sign Up
-        </Link>
-      </div> */}
+      <div className='fixed bottom-20 right-2 md:bottom-30   overflow-hidden z-50'>
+        {showUpBtn && (
+          <button
+            onClick={handleScrollUp}
+            className='flex rounded-full shadow-sm m-2 items-center justify-center w-18 h-18 cursor-pointer  bg-emerald-400'
+          >
+            <IconChevronUp className='fill-white w-10 h-10 text-center ml-1' />
+          </button>
+        )}
+        <div className='flex rounded-full mt-6 shadow-sm m-2 items-center justify-center w-18 h-18 cursor-pointer animate-bounce text-white bg-emerald-400'>
+          Đặt Lịch
+        </div>
+      </div>
     </header>
   )
 }

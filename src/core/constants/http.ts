@@ -3,6 +3,7 @@ enum HttpStatusCode {
   SwitchingProtocols = 101,
   Processing = 102,
   EarlyHints = 103,
+  ErrorPass = 119,
   Ok = 200,
   Created = 201,
   Accepted = 202,

@@ -1,14 +1,17 @@
 import axiosClient from '@/core/services/axios-client'
-import { Account, LoginResponse, RegisterReponse } from '@/models/interface/auth.interface'
+import { LoginResponse, RegisterReponse } from '@/models/interface/auth.interface'
+import { SuccessResponse } from '@/models/interface/response.interface'
+import { LoginType } from '@/models/types/login.type'
+import { RegisterType } from '@/models/types/register.type'
 
-const API_LOGIN_URL = '/auth/login'
-const API_REGISTER_URL = '/auth/register'
+const API_LOGIN_URL = '/login'
+const API_REGISTER_URL = '/register'
 
 export const authApi = {
-  login(params: Account): Promise<LoginResponse> {
-    return axiosClient.post(API_LOGIN_URL, params)
+  login: (params: LoginType) => {
+    return axiosClient.post<SuccessResponse<LoginResponse>>(API_LOGIN_URL, params)
   },
-  register(params: Account): Promise<RegisterReponse> {
-    return axiosClient.post(API_REGISTER_URL, params)
+  register: (params: Omit<RegisterType, 'confirm_password'>) => {
+    return axiosClient.post<SuccessResponse<RegisterReponse>>(API_REGISTER_URL, params)
   }
 }

@@ -1,7 +1,7 @@
 import IconFace from '@/assets/icons/icon-face'
 import IconPeople from '@/assets/icons/icon-people'
 import IconSave from '@/assets/icons/icon-save'
-import { Person, pic7, pic9 } from '@/assets/images'
+import { Person, pic10, pic11, pic12, pic7, pic9 } from '@/assets/images'
 import CardItem from '@/components/CardItem'
 import Company from './Company'
 import SecctionInView from '@/components/SecctionInView'
@@ -86,19 +86,34 @@ const HomePage = () => {
               </Link>
             </div>
             <div className='grid grid-cols-12 gap-2 md:gap-4'>
-              {Array(4)
-                .fill(0)
-                .map((index) => {
-                  return (
-                    <div key={index} className='col-span-6 md:col-span-3 '>
-                      <CategoryProduct
-                        title='Vệ sinh bệnh viện, trường học'
-                        description='Các trường học, bệnh viện cần duy trì một môi trường sạch sẽ, anh toàn. '
-                        img={pic9}
-                      />
-                    </div>
-                  )
-                })}
+              <div className='col-span-6 md:col-span-3 '>
+                <CategoryProduct
+                  title='Vệ sinh bệnh viện, trường học'
+                  description='Các trường học, bệnh viện cần duy trì một môi trường sạch sẽ, anh toàn. '
+                  img={pic9}
+                />
+              </div>
+              <div className='col-span-6 md:col-span-3 '>
+                <CategoryProduct
+                  title='Tổng vệ sinh nhà định kỳ '
+                  description='Tổng vệ sinh nhà cửa giúp không gian sạch sẽ và tối ưu. '
+                  img={pic10}
+                />
+              </div>
+              <div className='col-span-6 md:col-span-3 '>
+                <CategoryProduct
+                  title='Dịch vụ chăm sóc nội thất'
+                  description='Chăm sóc nội thất được thực hiện định kỳ bởi các nhân viên chuyên trách. Sử dụng thiết bị chuyên dụng. '
+                  img={pic12}
+                />
+              </div>
+              <div className='col-span-6 md:col-span-3 '>
+                <CategoryProduct
+                  title='Nhân viên vệ sinh theo giờ'
+                  description='Nhân viên sẽ vệ sinh theo khung giờ Khách hàng đăng ký khi phát sinh nhu cầu.'
+                  img={pic11}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -120,7 +135,7 @@ const HomePage = () => {
         <div className='max-w-7xl mx-auto p-4 h-[300px] md:h-[500px] relative'>
           <div className='grid h-full grid-cols-12 gap-4  '>
             <div className='md:col-start-5 md:col-span-8 col-span-12 z-20 '>
-              <div className='flex flex-col items-center justify-center gap-8 h-full'>
+              <SecctionInView className='flex flex-col items-center justify-center gap-8 h-full'>
                 <h2 className='text-black text-head text-center'>
                   Tại sao nên thuê <span className='text-main font-semibold'>Domicare</span> làm dịch vụ vệ sinh cho bạn
                 </h2>
@@ -130,9 +145,10 @@ const HomePage = () => {
                 >
                   Tìm hiểu thêm
                 </Link>
-              </div>
+              </SecctionInView>
             </div>
           </div>
+
           <div
             className='absolute inset-0 bg-no-repeat bg-contain bg-left-bottom hidden md:block z-10'
             style={{ backgroundImage: `url(${Person})` }}

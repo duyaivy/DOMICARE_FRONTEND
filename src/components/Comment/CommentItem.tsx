@@ -1,19 +1,30 @@
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-
-export default function CommentItem() {
+interface CommentItemProps {
+  comment?: string
+  gender?: boolean
+  avatar?: string
+  address?: string
+  name?: string
+}
+export default function CommentItem(props: CommentItemProps) {
+  const {
+    comment = 'Tôi năm nay hơn 20 tuổi mà tôi chừa gặp cái dịch vụ nào mà nó như thế này cả, phải tôi tôi book cho mấy phát.',
+    address = ' Hoà Khánh',
+    avatar = 'https://github.com/shadcn.png',
+    gender = true,
+    name = 'Trung Ánh'
+  } = props
   return (
-    <div className='bg-white p-6 rounded-lg max-w-md  shadow-md'>
-      <p className='text-gray text-base mb-4 text-justify italic'>
-        " Tôi năm nay hơn 20 tuổi mà tôi chừa gặp cái dịch vụ nào mà nó như thế này cả, phải tôi tôi book cho mấy phát."
-      </p>
+    <div className='bg-white p-6 rounded-lg max-w-md  shadow-md min-h-72 md:min-h-64 flex justify-center flex-col'>
+      <p className='text-gray text-base mb-4 text-justify italic'>"{comment}"</p>
       <div className='flex items-center space-x-4'>
         <Avatar className='!size-10'>
-          <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
+          <AvatarImage src={avatar} className='w-full h-full object-cover' alt='@shadcn' />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <div>
-          <h3 className='text-lg font-semibold text-black'>Anh Trung Ánh</h3>
-          <p className='text-sm text-gray'>Hoà Khánh</p>
+          <h3 className='text-lg font-semibold text-black'>{(gender ? 'Anh ' : 'Chị ') + name} </h3>
+          <p className='text-sm text-gray'>{address}</p>
         </div>
       </div>
     </div>

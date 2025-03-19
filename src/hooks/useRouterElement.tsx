@@ -1,18 +1,46 @@
-import { useLocation, useRoutes } from 'react-router-dom'
-import { ReactNode } from 'react'
+import { Navigate, Outlet, RouteObject, useLocation, useRoutes } from 'react-router-dom'
+import { ReactNode, useContext } from 'react'
 import LayoutMain from '@/app/layout/LayoutMain'
-import HomePage from '@/pages/home/HomePage'
-import Login from '@/pages/login/Login'
-import Register from '@/pages/register/Register'
-import Dashboard from '@/pages/dashboard/Dashboard'
-import PageNotFound from '@/pages/404/PageNotFound'
+
 import { path } from '@/core/constants/path'
 import { AnimatePresence, motion } from 'framer-motion'
 import CustomerLayout from '@/app/layout/CustomerLayout'
 
+import Login from '@/pages/ALL/login'
+import Register from '@/pages/ALL/register'
+import Dashboard from '@/pages/ADMIN/dashboard/Dashboard'
+import PageNotFound from '@/pages/ALL/404/PageNotFound'
+import HomePage from '@/pages/USER/home'
+import AboutUs from '@/pages/USER/AboutUs'
+import { AppContext } from '@/core/contexts/app.context'
+import { ROLE_ADMIN, ROLE_USER } from '@/configs/consts'
+import Profile from '@/pages/USER/Profile'
+
 interface RouteConfig {
   path: string
   element: ReactNode
+  children?: RouteObject[] | undefined
+}
+function ProtectedRouteAdmin() {
+  const { isAuthenticated, profile } = useContext(AppContext)
+  console.log('admin')
+  if (profile?.roles && profile.roles[0] === ROLE_ADMIN && isAuthenticated) {
+    return <Outlet />
+  }
+  return <Navigate to={path.login} />
+}
+function ProtectedRouteUser() {
+  const { isAuthenticated, profile } = useContext(AppContext)
+  console.log('user')
+  if (profile?.roles && profile.roles[0] === ROLE_USER && isAuthenticated) {
+    return <Outlet />
+  }
+  return <Navigate to={path.login} />
+}
+function RejectedRoute() {
+  const { isAuthenticated } = useContext(AppContext)
+  console.log('login')
+  return !isAuthenticated ? <Outlet /> : <Navigate to={path.home} />
 }
 
 export default function useRoutesElements() {
@@ -27,17 +55,59 @@ export default function useRoutesElements() {
         </CustomerLayout>
       )
     },
-    { path: path.login, element: <Login /> },
-    { path: path.register, element: <Register /> },
     {
-      path: path.admin.dashboard,
+      path: path.aboutUs,
       element: (
-        <LayoutMain>
-          <Dashboard />
-        </LayoutMain>
+        <CustomerLayout>
+          <AboutUs />
+        </CustomerLayout>
       )
     },
-    { path: '*', element: <PageNotFound /> }
+
+    {
+      path: '',
+      element: <ProtectedRouteUser />,
+      children: [
+        {
+          path: path.profile,
+          element: (
+            <CustomerLayout>
+              <Profile />
+            </CustomerLayout>
+          )
+        }
+      ]
+    },
+    {
+      path: '',
+      element: <RejectedRoute />,
+      children: [
+        { path: path.login, element: <Login /> },
+        { path: path.register, element: <Register /> }
+      ]
+    },
+    {
+      path: '',
+      element: <ProtectedRouteAdmin />,
+      children: [
+        {
+          path: path.admin.dashboard,
+          element: (
+            <LayoutMain>
+              <Dashboard />
+            </LayoutMain>
+          )
+        }
+      ]
+    },
+    {
+      path: '*',
+      element: (
+        <CustomerLayout>
+          <PageNotFound />
+        </CustomerLayout>
+      )
+    }
   ]
 
   const routeElements = useRoutes(routes, location)

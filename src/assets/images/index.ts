@@ -11,6 +11,8 @@ import pic7 from './pic7.jpg'
 import pic8 from './pic8.jpg'
 import pic9 from './pic9.png'
 import pic10 from './pic10.png'
+import pic12 from './anh 12.png'
+import pic11 from './qnh 11.png'
 import Person from './Persion.png'
 
-export { logo, loginPic, logoSecond, pic1, pic2, pic3, pic4, pic5, pic10, pic6, pic7, pic8, pic9, Person }
+export { logo, loginPic, logoSecond, pic1, pic2, pic3, pic4, pic5, pic10, pic6, pic7, pic8, pic9, pic11, pic12, Person }

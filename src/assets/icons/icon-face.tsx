@@ -1,10 +1,14 @@
 import { ICON_SIZE_EXTRA } from '@/configs/icon-size'
+import { IconSvgProps } from '@/core/configs/IconSvgProps'
 
-const IconFace = () => {
+const IconFace = (props: IconSvgProps) => {
+  const { className, width = ICON_SIZE_EXTRA, height = ICON_SIZE_EXTRA } = props
+
   return (
     <svg
-      width={ICON_SIZE_EXTRA}
-      height={ICON_SIZE_EXTRA}
+      width={width}
+      height={height}
+      className={className}
       viewBox='0 0 24 24'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'

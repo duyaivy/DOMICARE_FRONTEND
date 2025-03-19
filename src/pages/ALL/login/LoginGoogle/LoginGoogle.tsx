@@ -60,7 +60,7 @@ export default function LoginGoogle() {
             </g>
           </g>
         </svg>
-        <span>Sign in with Google</span>
+        <span>Đăng nhập với Google</span>
       </button>
     </div>
   )
