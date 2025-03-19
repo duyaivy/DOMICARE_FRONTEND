@@ -1,11 +1,15 @@
+import { IconSvgProps } from '@/core/configs/IconSvgProps'
+
 const SIZE_SEVENTY = 70
 
-export const IconClear = ({ className }: { className?: string }) => {
+export const IconClear = (props: IconSvgProps) => {
+  const { className, width = SIZE_SEVENTY, height = SIZE_SEVENTY } = props
+
   return (
     <svg
       className={className}
-      width={SIZE_SEVENTY}
-      height={SIZE_SEVENTY}
+      width={width}
+      height={height}
       viewBox='0 0 70 70'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
@@ -28,12 +32,14 @@ export const IconClear = ({ className }: { className?: string }) => {
   )
 }
 
-export const IconClear2 = ({ className }: { className?: string }) => {
+export const IconClear2 = (props: IconSvgProps) => {
+  const { className, width = SIZE_SEVENTY, height = SIZE_SEVENTY } = props
+
   return (
     <svg
       className={className}
-      width={SIZE_SEVENTY}
-      height={SIZE_SEVENTY}
+      width={width}
+      height={height}
       viewBox='0 0 70 70'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
@@ -56,12 +62,14 @@ export const IconClear2 = ({ className }: { className?: string }) => {
   )
 }
 
-export const IconClear3 = ({ className }: { className?: string }) => {
+export const IconClear3 = (props: IconSvgProps) => {
+  const { className, width = SIZE_SEVENTY, height = SIZE_SEVENTY } = props
+
   return (
     <svg
       className={className}
-      width={SIZE_SEVENTY}
-      height={SIZE_SEVENTY}
+      width={width}
+      height={height}
       viewBox='0 0 70 70'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
@@ -84,12 +92,14 @@ export const IconClear3 = ({ className }: { className?: string }) => {
   )
 }
 
-export const IconClear4 = ({ className }: { className?: string }) => {
+export const IconClear4 = (props: IconSvgProps) => {
+  const { className, width = SIZE_SEVENTY, height = SIZE_SEVENTY } = props
+
   return (
     <svg
       className={className}
-      width={SIZE_SEVENTY}
-      height={SIZE_SEVENTY}
+      width={width}
+      height={height}
       viewBox='0 0 70 70'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
@@ -111,12 +121,14 @@ export const IconClear4 = ({ className }: { className?: string }) => {
     </svg>
   )
 }
-export const IconClear5 = ({ className }: { className?: string }) => {
+export const IconClear5 = (props: IconSvgProps) => {
+  const { className, width = SIZE_SEVENTY, height = SIZE_SEVENTY } = props
+
   return (
     <svg
       className={className}
-      width={SIZE_SEVENTY}
-      height={SIZE_SEVENTY}
+      width={width}
+      height={height}
       viewBox='0 0 70 70'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
@@ -138,12 +150,14 @@ export const IconClear5 = ({ className }: { className?: string }) => {
     </svg>
   )
 }
-export const IconClear6 = ({ className }: { className?: string }) => {
+export const IconClear6 = (props: IconSvgProps) => {
+  const { className, width = SIZE_SEVENTY, height = SIZE_SEVENTY } = props
+
   return (
     <svg
       className={className}
-      width={SIZE_SEVENTY}
-      height={SIZE_SEVENTY}
+      width={width}
+      height={height}
       viewBox='0 0 70 70'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'

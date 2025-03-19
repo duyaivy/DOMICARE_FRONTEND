@@ -1,4 +1,3 @@
-import { AxiosError, isAxiosError } from 'axios'
 import { isEqual } from 'lodash'
 import { useForm } from 'react-hook-form'
 import { useContext, useEffect, useState } from 'react'
@@ -8,10 +7,7 @@ import { z } from 'zod'
 import { LoginSchema } from '@/core/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { isError422 } from '@/utils/isAxioxErr422'
-import { FailResponse } from '@/models/interface/response.interface'
 import { AppContext } from '@/core/contexts/app.context'
-import HttpStatusCode from '@/core/constants/http'
 import { Button } from '@/components/ui/button'
 import LoginGoogle from './LoginGoogle'
 import { Toast } from '@/utils/toastMessage'
@@ -29,6 +25,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
+import { handleErrorAPI } from '@/utils/handleErrorAPI'
 export default function Login() {
   const navigate = useNavigate()
   const { setProfile, setIsAuthenticated } = useContext(AppContext)
@@ -64,28 +61,7 @@ export default function Login() {
         navigate(isEqual(roles[0], ROLE_ADMIN) ? path.admin.dashboard : path.home)
         Toast.success({ title: 'Thành công', description: 'Đăng nhập thành công 🚀🚀⚡⚡' })
       },
-      onError: (error) => {
-        if (isAxiosError(error)) {
-          if (isError422<FailResponse<null>>(error as AxiosError)) {
-            const err: FailResponse<null> = error.response?.data
-            if (isEqual(err.status, HttpStatusCode.ErrorPass)) {
-              form.setError('password', {
-                message: err.message,
-                type: 'Server'
-              })
-            } else {
-              form.setError('email', {
-                message: err.message,
-                type: 'Server'
-              })
-            }
-          } else {
-            Toast.error({ title: 'Có lỗi xảy ra', description: error.response?.data.message })
-          }
-        } else {
-          Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng nhập thất bại, vui lòng thử lại sau.' })
-        }
-      },
+      onError: (error) => handleErrorAPI(error, form),
       onSettled: () => {
         setIsLoading(false)
       }

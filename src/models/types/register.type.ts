@@ -1,5 +1,5 @@
-import { loginType } from './login.type'
+import { LoginType } from './login.type'
 
-export type registerType = loginType & {
+export type RegisterType = LoginType & {
   confirm_password: string
 }

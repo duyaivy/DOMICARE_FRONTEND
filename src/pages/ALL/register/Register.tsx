@@ -12,12 +12,10 @@ import { path } from '@/core/constants/path'
 import { mutationKeys } from '@/core/helpers/key-tanstack'
 import { authApi } from '@/core/services/auth.service'
 import { RegisterSchema } from '@/core/zod'
-import { FailResponse } from '@/models/interface/response.interface'
-import { isError422 } from '@/utils/isAxioxErr422'
+import { handleErrorAPI } from '@/utils/handleErrorAPI'
 import { Toast } from '@/utils/toastMessage'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { AxiosError, isAxiosError } from 'axios'
 import { omit } from 'lodash'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -51,21 +49,7 @@ export default function Register() {
         description: 'Đăng kí tài khoản thành công. Vui lòng kiểm tra Mail của bạn.'
       })
     },
-    onError: (error) => {
-      if (isAxiosError(error)) {
-        if (isError422<FailResponse<null>>(error as AxiosError)) {
-          const err: FailResponse<null> = error.response?.data
-          form.setError('email', {
-            message: err.message,
-            type: 'Server'
-          })
-        } else {
-          Toast.error({ title: 'Có lỗi xảy ra', description: error.response?.data.message })
-        }
-      } else {
-        Toast.error({ title: 'Có lỗi xảy ra', description: 'Đăng ki tài khoản thất bại, vui lòng thử lại sau.' })
-      }
-    },
+    onError: (error) => handleErrorAPI(error, form),
     onSettled: () => {
       setIsLoading(false)
     }

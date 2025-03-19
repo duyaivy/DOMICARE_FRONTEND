@@ -1,9 +1,12 @@
-interface props {
-  className: string
-}
-export default function IconHeadphone({ className }: props) {
+import { ICON_SIZE_LARGE } from '@/core/configs/icon-size'
+import { IconSvgProps } from '@/core/configs/IconSvgProps'
+
+export default function IconHeadphone(props: IconSvgProps) {
+  const { className, width = ICON_SIZE_LARGE, height = ICON_SIZE_LARGE } = props
   return (
     <svg
+      height={height}
+      width={width}
       className={className}
       viewBox='0 0 32 32'
       fill='none'
