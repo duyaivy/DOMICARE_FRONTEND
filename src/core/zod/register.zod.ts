@@ -38,3 +38,14 @@ export const RegisterSchema = z
       })
     }
   })
+
+export const SentMailSchema = z.object({
+  email: z
+    .string()
+    .min(numberConstants.TWO, {
+      message: 'Email không được để trống.'
+    })
+    .email({
+      message: 'Email không đúng định dạng.'
+    })
+})

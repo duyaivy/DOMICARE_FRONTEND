@@ -3,9 +3,10 @@ import { IconMail } from '@/assets/icons/icon-mail'
 import { pic6, logoSecond } from '@/assets/images'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+
 import { PASSWORD_TYPE, TEXT_TYPE } from '@/configs/consts'
 
 import { path } from '@/core/constants/path'
@@ -19,12 +20,13 @@ import { useMutation } from '@tanstack/react-query'
 import { omit } from 'lodash'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { z } from 'zod'
+import SentEmail from './SentEmail'
+import { useSentMailMutation } from '@/hooks/useSentMailMutation'
 
 export default function Register() {
-  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isConfirm, setIsconfirm] = useState<boolean>(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
@@ -38,16 +40,17 @@ export default function Register() {
       confirmPassword: ''
     }
   })
-
+  const sentEmailMutation = useSentMailMutation(form)
   const mutationRegister = useMutation({
     mutationKey: mutationKeys.register,
     mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(omit(data, 'confirm_password')),
     onSuccess: () => {
-      navigate(path.login)
+      // navigate(path.login)
       Toast.success({
         title: 'Thành công',
         description: 'Đăng kí tài khoản thành công. Vui lòng kiểm tra Mail của bạn.'
       })
+      sentEmailMutation.mutate()
     },
     onError: (error) => handleErrorAPI(error, form),
     onSettled: () => {
@@ -124,15 +127,14 @@ export default function Register() {
                       />
                     </FormControl>
                     <FormMessage />
-                    <FormDescription>
-                      <div className='flex flex-col text-sub2 text-gray'>
-                        <h4 className=''>Mật khẩu bao gồm:</h4>
-                        <ul className='flex flex-col '>
-                          <li>- Ít nhất 6 kí tự.</li>
-                          <li>- Chữ in hoa, chữ thường và chữ số.</li>
-                        </ul>
-                      </div>
-                    </FormDescription>
+
+                    <div className='flex flex-col text-sub2 text-gray'>
+                      <h4 className=''>Mật khẩu bao gồm:</h4>
+                      <ul className='flex flex-col '>
+                        <li>- Ít nhất 6 kí tự.</li>
+                        <li>- Chữ in hoa, chữ thường và chữ số.</li>
+                      </ul>
+                    </div>
                   </FormItem>
                 )}
               />
@@ -145,6 +147,7 @@ export default function Register() {
                     <FormControl>
                       <Input
                         placeholder='Nhập lại mật khẩu'
+                        autoComplete='off'
                         className='w-full focus:outline-0 mt-1'
                         type={isConfirmPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
                         {...field}
@@ -178,10 +181,10 @@ export default function Register() {
               >
                 Tạo tài khoản
               </Button>
-
+              <SentEmail />
               <p className='flex items-center justify-center '>
                 Đã có tài khoản?&nbsp;
-                <Link to='/login' className='cursor-pointer text-main hover:underline '>
+                <Link to='/login' className='cursor-pointer  text-main hover:underline '>
                   Đăng nhập
                 </Link>
               </p>

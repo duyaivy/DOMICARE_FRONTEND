@@ -6,6 +6,10 @@ export interface LoginResponse {
   refreshToken: string
   user: User
 }
+export interface SentEmailResponse {
+  email: string
+  token: string
+}
 
 // define the RegisterReponse interface
 export interface RegisterReponse {
