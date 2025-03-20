@@ -137,10 +137,14 @@ export default function Header() {
                           <div className='shrink-0 flex justify-center items-center  w-10 h-10  '>
                             <Avatar>
                               <AvatarImage
-                                src='https://photo.znews.vn/w660/Uploaded/mfnuy/2022_09_01/s1_1.jpg'
+                                src={
+                                  profile.avatar
+                                    ? profile.avatar
+                                    : 'https://photo.znews.vn/w660/Uploaded/mfnuy/2022_09_01/s1_1.jpg'
+                                }
                                 alt='@shadcn'
                               />
-                              <AvatarFallback>CN</AvatarFallback>
+                              <AvatarFallback>CC</AvatarFallback>
                             </Avatar>
                           </div>
                           <p className='hidden md:block text-sm text-tmain group-hover:text-main md:max-w-23 lg:max-w-30 truncate duration-300  '>
