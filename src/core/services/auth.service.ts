@@ -5,6 +5,7 @@ import { LoginType } from '@/models/types/login.type'
 import { RegisterType } from '@/models/types/register.type'
 
 const API_LOGIN_URL = '/login'
+const API_LOGOUT_URL = '/logout'
 const API_REGISTER_URL = '/register'
 const API_SENT_EMAIL_URL = '/email/verify'
 
@@ -19,5 +20,8 @@ export const authApi = {
     return axiosClient.get<SuccessResponse<SentEmailResponse>>(API_SENT_EMAIL_URL, {
       params
     })
+  },
+  logout: (parasm: { refreshToken: string }) => {
+    return axiosClient.post<SuccessResponse<null>>(API_LOGOUT_URL, { parasm })
   }
 }

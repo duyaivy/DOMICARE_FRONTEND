@@ -20,13 +20,13 @@ import { useMutation } from '@tanstack/react-query'
 import { omit } from 'lodash'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { z } from 'zod'
 import SentEmail from './SentEmail'
-import { useSentMailMutation } from '@/hooks/useSentMailMutation'
 
 export default function Register() {
+  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isConfirm, setIsconfirm] = useState<boolean>(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
@@ -40,17 +40,16 @@ export default function Register() {
       confirmPassword: ''
     }
   })
-  const sentEmailMutation = useSentMailMutation(form)
+
   const mutationRegister = useMutation({
     mutationKey: mutationKeys.register,
     mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(omit(data, 'confirm_password')),
     onSuccess: () => {
-      // navigate(path.login)
+      navigate(path.login)
       Toast.success({
         title: 'Thành công',
         description: 'Đăng kí tài khoản thành công. Vui lòng kiểm tra Mail của bạn.'
       })
-      sentEmailMutation.mutate()
     },
     onError: (error) => handleErrorAPI(error, form),
     onSettled: () => {

@@ -71,31 +71,31 @@ export default function Header() {
                     <NavigationMenuList>
                       <NavigationMenuItem>
                         <NavigationMenuTrigger className='!bg-transparent hover:!bg-transparent text-sm !text-tmain hover:!text-main duration-300'>
-                          Dịch vụ cung cấp
+                          <Link to={path.products}>Dịch vụ cung cấp</Link>
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
                           <div className='w-[200px] min-h-20 py-2'>
                             <ul className='flex flex-col justify-center items-center gap-1'>
                               <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Khử trùng
+                                <Link to={path.products}>Khử trùng</Link>
                               </li>
                               <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Dịch vụ vệ sinh nhà
+                                <Link to={path.products}>Dịch vụ vệ sinh nhà</Link>
                               </li>
                               <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Dịch vụ vệ sinh nội thất
+                                <Link to={path.products}>Dịch vụ vệ sinh nội thất</Link>
                               </li>
                               <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Dịch vụ vệ sinh thảm
+                                <Link to={path.products}>Dịch vụ vệ sinh thảm</Link>
                               </li>
                               <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Dịch vụ vệ sinh điều hoà
+                                <Link to={path.products}>Dịch vụ vệ sinh điều hoà</Link>
                               </li>
                               <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Thuê giúp việc
+                                <Link to={path.products}>Thuê giúp việc</Link>
                               </li>
                               <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Dịch vụ vệ sinh các cơ sở
+                                <Link to={path.products}>Dịch vụ vệ sinh các cơ sở</Link>
                               </li>
                             </ul>
                           </div>
@@ -204,7 +204,6 @@ export default function Header() {
         <div
           className={classnames(
             'absotute top-[-100%] right-0 left-0 bg-white shadow h-80px] translate-y-[-80px] opacity-0 invisible duration-300 z-10',
-
             { 'translate-y-[0px] opacity-100 visible ': isShow }
           )}
         >

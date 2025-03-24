@@ -12,7 +12,7 @@ import { IconQuickly } from '@/assets/icons/icon-quickly'
 import { IconStaff } from '@/assets/icons/icon-staff'
 import { Link } from 'react-router-dom'
 import { path } from '@/core/constants/path'
-import CategoryProduct from '@/components/CategoryProduct'
+import CategoryProduct from '@/components/Product'
 import Comment from '@/components/Comment'
 
 const HomePage = () => {
