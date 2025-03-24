@@ -1,5 +1,4 @@
 import CategoryList from './CategoryList'
-
 import Search from '@/components/Search'
 import CategoryProductList from './CategoryProductList'
 

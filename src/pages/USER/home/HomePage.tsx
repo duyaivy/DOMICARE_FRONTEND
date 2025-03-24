@@ -88,6 +88,7 @@ const HomePage = () => {
             <div className='grid grid-cols-12 gap-2 md:gap-4'>
               <div className='col-span-6 md:col-span-3  '>
                 <CategoryProduct
+                  id='123'
                   title='Vệ sinh bệnh viện, trường học'
                   description='Các trường học, bệnh viện cần duy trì một môi trường sạch sẽ, anh toàn. '
                   img={pic9}
@@ -95,6 +96,7 @@ const HomePage = () => {
               </div>
               <div className='col-span-6 md:col-span-3 '>
                 <CategoryProduct
+                  id='123'
                   title='Tổng vệ sinh nhà định kỳ '
                   description='Tổng vệ sinh nhà cửa giúp không gian sạch sẽ và tối ưu. '
                   img={pic10}
@@ -102,6 +104,7 @@ const HomePage = () => {
               </div>
               <div className='col-span-6 md:col-span-3 '>
                 <CategoryProduct
+                  id='123'
                   title='Dịch vụ chăm sóc nội thất'
                   description='Chăm sóc nội thất được thực hiện định kỳ bởi các nhân viên chuyên trách. Sử dụng thiết bị chuyên dụng. '
                   img={pic12}
@@ -109,6 +112,7 @@ const HomePage = () => {
               </div>
               <div className='col-span-6 md:col-span-3 '>
                 <CategoryProduct
+                  id='123'
                   title='Nhân viên vệ sinh theo giờ'
                   description='Nhân viên sẽ vệ sinh theo khung giờ Khách hàng đăng ký khi phát sinh nhu cầu.'
                   img={pic11}
