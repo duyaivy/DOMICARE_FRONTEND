@@ -4,6 +4,14 @@ import { cva } from 'class-variance-authority'
 import { ChevronDownIcon } from 'lucide-react'
 
 import { cn } from '@/core/lib/utils'
+import { Link, To } from 'react-router-dom'
+
+interface ListItemProps
+  extends React.ComponentProps<React.ForwardRefExoticComponent<React.RefAttributes<HTMLLIElement>>> {
+  to: To
+  children: React.ReactNode
+  className?: string
+}
 
 function NavigationMenu({
   className,
@@ -54,7 +62,11 @@ function NavigationMenuTrigger({
   return (
     <NavigationMenuPrimitive.Trigger
       data-slot='navigation-menu-trigger'
-      className={cn(navigationMenuTriggerStyle(), 'group', className)}
+      className={cn(
+        navigationMenuTriggerStyle(),
+        'group bg-transparent  text-sm text-tmain hover:text-main ',
+        className
+      )}
       {...props}
     >
       {children}
@@ -104,7 +116,7 @@ function NavigationMenuLink({ className, ...props }: React.ComponentProps<typeof
     <NavigationMenuPrimitive.Link
       data-slot='navigation-menu-link'
       className={cn(
-        "data-[active=true]:focus:bg-neutral-100 data-[active=true]:hover:bg-neutral-100 data-[active=true]:bg-neutral-100/50 data-[active=true]:text-neutral-900 hover:bg-neutral-100 hover:text-neutral-900 focus:bg-neutral-100 focus:text-neutral-900 ring-neutral-950/10 dark:ring-neutral-950/20 dark:outline-ring/40 outline-ring/50 [&_svg:not([class*='text-'])]:text-neutral-500 flex flex-col gap-1 rounded-sm p-2 text-sm transition-[color,box-shadow] focus-visible:ring-4 focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-4 dark:data-[active=true]:focus:bg-neutral-800 dark:data-[active=true]:hover:bg-neutral-800 dark:data-[active=true]:bg-neutral-800/50 dark:data-[active=true]:text-neutral-50 dark:hover:bg-neutral-800 dark:hover:text-neutral-50 dark:focus:bg-neutral-800 dark:focus:text-neutral-50 dark:ring-neutral-300/10 dark:dark:ring-neutral-300/20 dark:[&_svg:not([class*='text-'])]:text-neutral-400",
+        "data-[active=true]:focus:bg-neutral-100 data-[active=true]:hover:bg-neutral-100 data-[active=true]:bg-neutral-100/50 data-[active=true]:text-neutral-900  hover:!bg-neutral-100/50  text-sm text-tmain hover:!text-main focus:bg-neutral-100 focus:text-neutral-900 ring-neutral-950/10 dark:ring-neutral-950/20 dark:outline-ring/40 outline-ring/50 [&_svg:not([class*='text-'])]:text-neutral-500 flex flex-col gap-1 rounded-sm p-2  transition-[color,box-shadow] focus-visible:ring-4 focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-4 dark:data-[active=true]:focus:bg-neutral-800 dark:data-[active=true]:hover:bg-neutral-800 dark:data-[active=true]:bg-neutral-800/50 dark:data-[active=true]:text-neutral-50 dark:hover:bg-neutral-800 dark:hover:text-neutral-50 dark:focus:bg-neutral-800 dark:focus:text-neutral-50 dark:ring-neutral-300/10 dark:dark:ring-neutral-300/20 dark:[&_svg:not([class*='text-'])]:text-neutral-400",
         className
       )}
       {...props}
@@ -129,8 +141,21 @@ function NavigationMenuIndicator({
     </NavigationMenuPrimitive.Indicator>
   )
 }
-
+function ListItem({ className, children, to, ...props }: ListItemProps) {
+  return (
+    <li
+      className={cn(
+        'hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer deco',
+        className
+      )}
+      {...props}
+    >
+      <Link to={to}>{children}</Link>
+    </li>
+  )
+}
 export {
+  ListItem,
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,

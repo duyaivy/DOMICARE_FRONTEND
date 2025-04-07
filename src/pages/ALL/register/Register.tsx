@@ -24,7 +24,6 @@ import { Link } from 'react-router-dom'
 
 import { z } from 'zod'
 import SentEmail from './SentEmail'
-import { useSentMailMutation } from '@/hooks/useSentMailMutation'
 
 export default function Register() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -40,7 +39,6 @@ export default function Register() {
       confirmPassword: ''
     }
   })
-  const sentEmailMutation = useSentMailMutation(form)
   const mutationRegister = useMutation({
     mutationKey: mutationKeys.register,
     mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(omit(data, 'confirm_password')),
@@ -50,7 +48,6 @@ export default function Register() {
         title: 'Thành công',
         description: 'Đăng kí tài khoản thành công. Vui lòng kiểm tra Mail của bạn.'
       })
-      sentEmailMutation.mutate()
     },
     onError: (error) => handleErrorAPI(error, form),
     onSettled: () => {
@@ -155,7 +152,6 @@ export default function Register() {
                         iconOnClick={toggleConfirmPasswordVisibility}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
