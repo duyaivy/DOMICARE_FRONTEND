@@ -40,7 +40,6 @@ export default function Register() {
       confirmPassword: ''
     }
   })
-
   const mutationRegister = useMutation({
     mutationKey: mutationKeys.register,
     mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(omit(data, 'confirm_password')),
@@ -154,7 +153,6 @@ export default function Register() {
                         iconOnClick={toggleConfirmPasswordVisibility}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
