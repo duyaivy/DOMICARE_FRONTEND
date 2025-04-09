@@ -1,13 +1,18 @@
 import IconChevronUp from '@/assets/icons/icon-chevron-up'
+import { Skeleton } from '@/components/ui/skeleton'
 import { ICON_SIZE_MEDIUM } from '@/core/configs/icon-size'
 import { path } from '@/core/constants/path'
+import { Category } from '@/models/interface/category.interface'
+import { isActive } from '@/utils/isActiveLocation'
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
-import { createSearchParams, Link } from 'react-router-dom'
+import { Fragment, useState } from 'react'
+import { createSearchParams, Link, useLocation } from 'react-router-dom'
 
-export default function CategoryList() {
+export default function CategoryList({ categories, isLoading }: { categories?: Category[]; isLoading: boolean }) {
   const [isShow, setIsShow] = useState<boolean>(false)
+  const { search } = useLocation()
+  const isAllActive = categories?.some((cate) => isActive(`categoryid=${cate.id}`, search))
   return (
     <div className='bg-white rounded-sm md:rounded-2xl relative'>
       <ul className={'ml-2 flex flex-col items-start justify-start gap-1 p-2 '}>
@@ -40,28 +45,62 @@ export default function CategoryList() {
             Danh Mục
           </Link>
         </li>
-        {Array(8)
-          .fill(0)
-          .map((_, index) => {
-            return (
-              <li
-                key={index}
-                className='hidden md:block w-full hover:text-main duration-300 hover:translate-x-[5px] hover:bg-bg rounded-md cursor-pointer py-2'
+        {isLoading ? (
+          <div className='hidden md:block w-full space-y-3 p-2'>
+            {Array(6)
+              .fill(0)
+              .map((_, index) => (
+                <Skeleton key={index} className='w-full h-8 rounded-t-sm' />
+              ))}
+          </div>
+        ) : (
+          <Fragment>
+            <li
+              className={classNames(
+                'hidden md:block w-full  duration-300 hover:translate-x-[5px] hover:text-main rounded-md cursor-pointer py-2',
+                { 'text-main': isActive(`category=${2}`, search) }
+              )}
+            >
+              <Link
+                to={{
+                  pathname: path.products,
+                  search: createSearchParams({
+                    categoryid: 'cate.id.toString()'
+                  }).toString()
+                }}
+                className={classNames('block w-full h-full md:text-sub1 lg:text-sub0 capitalize px-2 text-left', {
+                  'text-main': !isAllActive
+                })}
               >
-                <Link
-                  to={{
-                    pathname: path.products,
-                    search: createSearchParams({
-                      category: 'name'
-                    }).toString()
-                  }}
-                  className='block w-full h-full md:text-sub1 lg:text-sub0 capitalize px-2 text-left'
-                >
-                  Dọn dẹp nhà cửa
-                </Link>
-              </li>
-            )
-          })}
+                Tất cả
+              </Link>
+            </li>
+            {categories &&
+              categories.map((cate) => {
+                return (
+                  <li
+                    key={cate.id}
+                    className={classNames(
+                      'hidden md:block w-full  duration-300 hover:translate-x-[5px] hover:text-main rounded-md cursor-pointer py-2',
+                      { 'text-main': isActive(`categoryid=${cate.id}`, search) }
+                    )}
+                  >
+                    <Link
+                      to={{
+                        pathname: path.products,
+                        search: createSearchParams({
+                          categoryid: cate.id.toString()
+                        }).toString()
+                      }}
+                      className='block w-full h-full md:text-sub1 lg:text-sub0 capitalize px-2 text-left'
+                    >
+                      {cate.name}
+                    </Link>
+                  </li>
+                )
+              })}
+          </Fragment>
+        )}
       </ul>
       <AnimatePresence>
         {isShow && (
@@ -72,25 +111,38 @@ export default function CategoryList() {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className='absolute top-full left-0 right-0 bg-white/80 !z-99 overflow-hidden rounded-b-md '
           >
-            {Array(8)
-              .fill(0)
-              .map((_, index) => {
-                return (
-                  <li
-                    key={index}
-                    className='w-full hover:text-main duration-300 hover:translate-x-[5px] hover:bg-bg rounded-md cursor-pointer py-2'
+            {isLoading ? (
+              <div className=' w-full space-y-3 p-2'>
+                {Array(4)
+                  .fill(0)
+                  .map((_, index) => (
+                    <Skeleton key={index} className='w-full h-8 rounded-t-sm' />
+                  ))}
+              </div>
+            ) : (
+              categories &&
+              categories.map((cate) => (
+                <li
+                  key={cate.id}
+                  className={classNames(
+                    ' w-full  duration-300 hover:translate-x-[5px] hover:text-main rounded-md cursor-pointer py-2',
+                    { 'text-main': isActive(`category%3D${cate.id}`, search) }
+                  )}
+                >
+                  <Link
+                    to={{
+                      pathname: path.products,
+                      search: createSearchParams({
+                        categoryid: cate.id.toString()
+                      }).toString()
+                    }}
+                    className='block w-full h-full md:text-sub1 lg:text-sub0 capitalize px-2 text-left'
                   >
-                    <Link
-                      to={{
-                        pathname: path.products
-                      }}
-                      className='block w-full h-full  md:text-sub1 lg:text-sub0 capitalize px-2 pl-4 text-left '
-                    >
-                      Dọn dẹp nhà cửa
-                    </Link>
-                  </li>
-                )
-              })}
+                    {cate.name}
+                  </Link>
+                </li>
+              ))
+            )}
           </motion.ul>
         )}
       </AnimatePresence>

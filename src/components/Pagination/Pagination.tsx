@@ -1,14 +1,26 @@
-import { queryString } from '@/models/types/queryString.type'
-import classNames from 'classnames'
+import { QueryConfig } from '@/hooks/usePrdQueryConfig'
 import { createSearchParams, Link } from 'react-router-dom'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationLink,
+  PaginationNext,
+  PaginationEllipsis
+} from '@/components/ui/pagination'
+
 interface PaginationProps {
-  queryString: queryString
+  queryString: QueryConfig
   pageSize: number
   path: string
+  currentPage: number
 }
+
 const RANGE = 2
-export default function Pagination({ queryString, pageSize, path }: PaginationProps) {
-  const page = Number(1) // config sau
+
+export default function ProductPagination({ queryString, pageSize, path, currentPage }: PaginationProps) {
+  const page = Number(currentPage)
 
   const renderPagination = () => {
     let dotAfter = false
@@ -17,11 +29,9 @@ export default function Pagination({ queryString, pageSize, path }: PaginationPr
       if (!dotBefore) {
         dotBefore = true
         return (
-          <span key={index} className='bg-white/40  w-8 h-9 flex justify-center items-center cursor-pointer'>
-            <svg className='w-4 h-4  fill-black' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'>
-              <path d='M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z' />
-            </svg>
-          </span>
+          <PaginationItem key={index}>
+            <PaginationEllipsis />
+          </PaginationItem>
         )
       }
       return null
@@ -30,21 +40,20 @@ export default function Pagination({ queryString, pageSize, path }: PaginationPr
       if (!dotAfter) {
         dotAfter = true
         return (
-          <span key={index} className='bg-white/40 w-8 h-9 flex justify-center items-center cursor-pointer'>
-            <svg className='w-4 h-4  fill-black' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'>
-              <path d='M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z' />
-            </svg>
-          </span>
+          <PaginationItem key={index}>
+            <PaginationEllipsis />
+          </PaginationItem>
         )
       }
       return null
     }
+
     return Array(pageSize)
       .fill(0)
       .map((_, index) => {
         const pageNumber = index + 1
 
-        // Điều kiện để return về ...
+        // Conditions for showing dots
         if (page <= RANGE * 2 + 1 && pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
           return renderDotAfter(index)
         } else if (page > RANGE * 2 + 1 && page < pageSize - RANGE * 2) {
@@ -58,75 +67,64 @@ export default function Pagination({ queryString, pageSize, path }: PaginationPr
         }
 
         return (
-          <Link
-            to={{
-              pathname: path,
-              search: createSearchParams({
-                ...queryString,
-                page: pageNumber.toString()
-              }).toString()
-            }}
-            key={index}
-            className={classNames('bg-white w-8 h-9 flex justify-center items-center cursor-pointer rounded-[2px]', {
-              '!bg-main text-white': pageNumber === page,
-              'bg-white text-black': pageNumber !== page
-            })}
-          >
-            {pageNumber}
-          </Link>
+          <PaginationItem key={index}>
+            <Link
+              to={{
+                pathname: path,
+                search: createSearchParams({
+                  ...queryString,
+                  page: pageNumber.toString()
+                }).toString()
+              }}
+            >
+              <PaginationLink isActive={pageNumber === page}>{pageNumber}</PaginationLink>
+            </Link>
+          </PaginationItem>
         )
       })
   }
-  return (
-    <div className='mt-6 flex flex-wrap justify-center gap-2'>
-      {page === 1 ? (
-        <span className='mx-2 cursor-not-allowed bg-slate-200/60 w-8 h-9 flex justify-center items-center '>
-          <svg className='fill-black w-4 h-4' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'>
-            <path d='M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z' />
-          </svg>
-        </span>
-      ) : (
-        <Link
-          to={{
-            pathname: path,
-            search: createSearchParams({
-              ...queryString,
-              page: (page - 1).toString()
-            }).toString()
-          }}
-          className='bg-white w-8 h-10 flex justify-center items-center cursor-pointer'
-        >
-          <svg className='fill-black w-4 h-4' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'>
-            <path d='M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z' />
-          </svg>
-        </Link>
-      )}
 
-      {renderPagination()}
-      {page === pageSize ? (
-        <span className='mx-2 cursor-not-allowed bg-slate-200/60 w-8 h-9 flex justify-center items-center'>
-          <svg className='fill-black w-4 h-4' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'>
-            //{' '}
-            <path d='M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z' />
-            //{' '}
-          </svg>
-        </span>
-      ) : (
-        <Link
-          to={{
-            pathname: path,
-            search: createSearchParams({
-              ...queryString,
-              page: (page + 1).toString()
-            }).toString()
-          }}
-          className='bg-white w-8 h-9 flex justify-center items-center cursor-pointer'
-        >
-          <svg className='fill-black w-4 h-4' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'>
-            <path d='M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z' />
-          </svg>
-        </Link>
-      )}
-    </div>
+  return (
+    <Pagination className='col-span-12'>
+      <PaginationContent>
+        <PaginationItem>
+          {page === 1 ? (
+            <PaginationPrevious isActive={false} />
+          ) : (
+            <Link
+              to={{
+                pathname: path,
+                search: createSearchParams({
+                  ...queryString,
+                  page: (page - 1).toString()
+                }).toString()
+              }}
+            >
+              <PaginationPrevious />
+            </Link>
+          )}
+        </PaginationItem>
+
+        {renderPagination()}
+
+        <PaginationItem>
+          {page === pageSize ? (
+            <PaginationNext isActive={false} />
+          ) : (
+            <Link
+              to={{
+                pathname: path,
+                search: createSearchParams({
+                  ...queryString,
+                  page: (page + 1).toString()
+                }).toString()
+              }}
+            >
+              <PaginationNext />
+            </Link>
+          )}
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   )
 }

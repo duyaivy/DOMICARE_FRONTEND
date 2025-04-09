@@ -1,7 +1,7 @@
 import IconFace from '@/assets/icons/icon-face'
 import IconPeople from '@/assets/icons/icon-people'
 import IconSave from '@/assets/icons/icon-save'
-import { Person, pic10, pic11, pic12, pic7, pic9 } from '@/assets/images'
+import { Person, pic7 } from '@/assets/images'
 import CardItem from '@/components/CardItem'
 import Company from './Company'
 import SecctionInView from '@/components/SecctionInView'
@@ -12,10 +12,23 @@ import { IconQuickly } from '@/assets/icons/icon-quickly'
 import { IconStaff } from '@/assets/icons/icon-staff'
 import { Link } from 'react-router-dom'
 import { path } from '@/core/constants/path'
-import CategoryProduct from '@/components/Product'
+
 import Comment from '@/components/Comment'
+import { useQuery } from '@tanstack/react-query'
+import { categoryApi } from '@/core/services/category.service'
+import Category from '@/components/Category'
+import { Fragment } from 'react/jsx-runtime'
+import { Card, CardContent } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const HomePage = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: [path.home],
+    queryFn: categoryApi.get,
+    staleTime: 1000 * 60 * 30
+  })
+
+  const cateList = data?.data.data.data
   return (
     <div className='w-full min-h-96 bg-secondary'>
       <div
@@ -79,45 +92,40 @@ const HomePage = () => {
       <section className='bg-white min-h-[800px] flex items-center'>
         <div className='max-w-7xl mx-auto'>
           <div className='w-full py-20 px-4'>
-            <h2 className='text-head text-black text-center mb-6 md:mb-16 font-semibold '>Dịch vụ của chúng tôi</h2>
+            <h2 className=' text-head text-black text-center mb-6 md:mb-16 font-semibold '>Dịch vụ của chúng tôi</h2>
             <div className='flex  justify-end items-center'>
               <Link to={path.products} className=' text-right text-black text-sub2 py-2 hover:underline duration-200'>
                 Xem tất cả
               </Link>
             </div>
             <div className='grid grid-cols-12 gap-2 md:gap-4'>
-              <div className='col-span-6 md:col-span-3  '>
-                <CategoryProduct
-                  id='123'
-                  title='Vệ sinh bệnh viện, trường học'
-                  description='Các trường học, bệnh viện cần duy trì một môi trường sạch sẽ, anh toàn. '
-                  img={pic9}
-                />
-              </div>
-              <div className='col-span-6 md:col-span-3 '>
-                <CategoryProduct
-                  id='123'
-                  title='Tổng vệ sinh nhà định kỳ '
-                  description='Tổng vệ sinh nhà cửa giúp không gian sạch sẽ và tối ưu. '
-                  img={pic10}
-                />
-              </div>
-              <div className='col-span-6 md:col-span-3 '>
-                <CategoryProduct
-                  id='123'
-                  title='Dịch vụ chăm sóc nội thất'
-                  description='Chăm sóc nội thất được thực hiện định kỳ bởi các nhân viên chuyên trách. Sử dụng thiết bị chuyên dụng. '
-                  img={pic12}
-                />
-              </div>
-              <div className='col-span-6 md:col-span-3 '>
-                <CategoryProduct
-                  id='123'
-                  title='Nhân viên vệ sinh theo giờ'
-                  description='Nhân viên sẽ vệ sinh theo khung giờ Khách hàng đăng ký khi phát sinh nhu cầu.'
-                  img={pic11}
-                />
-              </div>
+              {isLoading ? (
+                <Fragment>
+                  {Array(4)
+                    .fill(0)
+                    .map((_, index) => (
+                      <Card key={index} className='col-span-6 lg:col-span-3 rounded-sm shadow p-3 w-40'>
+                        <Skeleton className=' w-full h-40 rounded-t-sm' />
+                        <CardContent className='space-y-2 pt-4'>
+                          <Skeleton className='h-4 w-3/4' />
+                          <Skeleton className='h-12 w-full' />
+                          <Skeleton className='h-5 w-20 mt-4' />
+                        </CardContent>
+                      </Card>
+                    ))}
+                </Fragment>
+              ) : (
+                <Fragment>
+                  {cateList &&
+                    cateList.slice(0, 4).map((cate) => {
+                      return (
+                        <div className='col-span-6 md:col-span-3  '>
+                          <Category category={cate} />
+                        </div>
+                      )
+                    })}
+                </Fragment>
+              )}
             </div>
           </div>
         </div>
