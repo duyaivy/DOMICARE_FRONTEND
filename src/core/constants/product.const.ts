@@ -8,3 +8,7 @@ export const sortBy = {
   discount: 'discount',
   ratingStar: 'ratingStar'
 }
+export const sortDirection = {
+  desc: 'desc',
+  asc: 'asc'
+}

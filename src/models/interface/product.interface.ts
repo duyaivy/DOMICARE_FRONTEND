@@ -1,3 +1,5 @@
+import { Review } from './review.interface'
+
 export interface Product {
   id: number
   name: string
@@ -6,7 +8,10 @@ export interface Product {
   image: string
   ratingStar: number
   discount: number
+  priceAfterDiscount: number
+  landingImages: string[]
   categoryID: number
+  reviewDTOs: Review[]
   createBy: string
   updateBy: string
   createAt: string
@@ -26,8 +31,8 @@ export interface ProductListConfig {
   page?: number
   size?: number
   sortBy?: 'price' | 'name' | 'discount' | 'ratingStar'
-  sortByStar?: boolean // thiet ke lai
-  isAcsending?: 'true' | 'false'
+  sortDirection?: 'desc' | 'asc'
+  // isAcsending?: 'true' | 'false'
   filter?: string
   categoryid?: number
 }

@@ -21,7 +21,7 @@ import { AppContext } from '@/core/contexts/app.context'
 import { clearLS } from '@/core/shared/storage'
 
 export default function Header() {
-  const { isAuthenticated, profile, setIsAuthenticated, setProfile } = useContext(AppContext)
+  const { isAuthenticated, profile, setIsAuthenticated, setProfile, categories } = useContext(AppContext)
   const navigate = useNavigate()
   const [isShow, setIsShow] = useState<boolean>(false)
   const handleScrollUp = () => animateScroll.scrollTo(0, { smooth: true, duration: 500 })
@@ -72,20 +72,23 @@ export default function Header() {
                   <NavigationMenuList>
                     <NavigationMenuItem>
                       <NavigationMenuTrigger>
-                        {/* <Link to={path.products}>Dịch vụ cung cấp</Link> */}
                         <Link to={path.products}>
                           <NavigationMenuLink className={'hover:bg-[transparent]'}>Dịch vụ cung cấp</NavigationMenuLink>
                         </Link>
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
                         <ul className='w-[200px] min-h-20 py-2 flex flex-col justify-center items-center gap-1  '>
-                          <ListItem to={path.products}>Khử trùng</ListItem>
-                          <ListItem to={path.products}>Dịch vụ vệ sinh nhà</ListItem>
-                          <ListItem to={path.products}>Dịch vụ vệ sinh nội thất</ListItem>
-                          <ListItem to={path.products}>Dịch vụ vệ sinh thảm</ListItem>
-                          <ListItem to={path.products}>Dịch vụ vệ sinh điều hoà</ListItem>
-                          <ListItem to={path.products}>Thuê giúp việc</ListItem>
-                          <ListItem to={path.products}>Dịch vụ vệ các cơ sở</ListItem>
+                          {categories &&
+                            categories.map((cate) => (
+                              <ListItem
+                                key={cate.id}
+                                to={{
+                                  pathname: path.products,
+                                  search: `categoryid=${cate.id}`
+                                }}
+                                children={cate.name}
+                              />
+                            ))}
                         </ul>
                       </NavigationMenuContent>
                     </NavigationMenuItem>
@@ -182,34 +185,26 @@ export default function Header() {
           )}
         >
           <ul className='flex w-full flex-col justify-center items-center py-2'>
-            <li>
-              <Link to={'/'} className='flex justify-between items-center  w-full group'>
-                <p className='text-sm text-tmain py-2 text-center line-clamp-2 group-hover:text-main duration-300'>
-                  Dịch vụ cung cấp
-                </p>
-              </Link>
-            </li>
-            <li>
-              <Link to={'/'} className='flex justify-between items-center  w-full group'>
-                <p className='text-sm text-tmain py-2 text-center line-clamp-2 group-hover:text-main duration-300'>
-                  Tin tức
-                </p>
-              </Link>
-            </li>
-            <li>
-              <Link to={'/'} className='flex justify-between items-center  w-full group'>
-                <p className='text-sm text-tmain py-2 text-center line-clamp-2 group-hover:text-main duration-300'>
-                  Tuyển dụng
-                </p>
-              </Link>
-            </li>
-            <li>
-              <Link to={'/'} className='flex justify-between items-center  w-full group'>
-                <p className='text-sm text-tmain py-2 text-center line-clamp-2 group-hover:text-main duration-300'>
-                  Tại sao lại chọn DomiCare?
-                </p>
-              </Link>
-            </li>
+            <ListItem to={path.products}>
+              <p className='text-sm text-tmain py-2 text-center line-clamp-2 group-hover:text-main duration-300'>
+                Dịch vụ cung cấp
+              </p>
+            </ListItem>
+            <ListItem to={path.blog}>
+              <p className='text-sm text-tmain py-2 text-center line-clamp-2 group-hover:text-main duration-300'>
+                Tin tức
+              </p>
+            </ListItem>
+            <ListItem to={path.recuitment}>
+              <p className='text-sm text-tmain py-2 text-center line-clamp-2 group-hover:text-main duration-300'>
+                Tuyển dụng
+              </p>
+            </ListItem>
+            <ListItem to={path.aboutUs}>
+              <p className='text-sm text-tmain py-2 text-center line-clamp-2 group-hover:text-main duration-300'>
+                Tại sao lại chọn DomiCare?
+              </p>
+            </ListItem>
           </ul>
         </div>
       </div>

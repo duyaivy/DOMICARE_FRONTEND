@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { QueryConfig } from '@/hooks/usePrdQueryConfig'
 import { ProductListConfig } from '@/models/interface/product.interface'
 import { path } from '@/core/constants/path'
-import { isAcsending as Acsending, sortBy as sort_by } from '@/core/constants/product.const'
+import { sortDirection as direction, sortBy as sort_by } from '@/core/constants/product.const'
 import { isActive } from '@/utils/isActiveLocation'
 
 interface props {
@@ -14,7 +14,7 @@ interface props {
 
 export default function SortProduct({ queryString }: props) {
   const navigate = useNavigate()
-  const { isAcsending = 'false', sortBy = 'name' } = queryString
+  const { sortDirection = 'desc', sortBy = 'name' } = queryString
 
   const handleSort = (sortByValue: ProductListConfig['sortBy']) => {
     navigate({
@@ -30,12 +30,12 @@ export default function SortProduct({ queryString }: props) {
       ).toString()
     })
   }
-  const handleOrder = (value: ProductListConfig['isAcsending']) => {
+  const handleOrder = (value: ProductListConfig['sortDirection']) => {
     navigate({
       pathname: path.products,
       search: createSearchParams({
         ...queryString,
-        isAcsending: value || Acsending.false
+        sortDirection: value || direction.desc
       }).toString()
     })
   }
@@ -51,7 +51,7 @@ export default function SortProduct({ queryString }: props) {
           <button
             onClick={() => handleSort(sort_by.name as ProductListConfig['sortBy'])}
             className={classNames(
-              'col-span-6 md:col-span-3 mo:!col-span-2  cursor-pointer py-2 capitalize rounded-[2px]  shadow hover:opacity-90 text-sm  lg:text-sm   duration-200',
+              'col-span-6 md:col-span-3 mo:!col-span-2  cursor-pointer py-2.5 capitalize rounded-[2px]  shadow hover:opacity-90 text-sm  lg:text-sm   duration-200',
               { 'bg-main text-white': isActive(sort_by.name, sortBy) },
               { 'bg-bg text-black': !isActive(sort_by.name, sortBy) }
             )}
@@ -90,24 +90,24 @@ export default function SortProduct({ queryString }: props) {
           </button>
 
           <select
-            name='isAcsending'
+            name='sortDirection'
             title='Sắp xếp'
-            value={isAcsending}
+            value={sortDirection}
             onChange={(event) => {
-              handleOrder(event.target.value as ProductListConfig['isAcsending'])
+              handleOrder(event.target.value as ProductListConfig['sortDirection'])
             }}
             className={classNames(
               'col-span-6 md:col-span-3 mo:!col-span-2  cursor-pointer focus:outline-0 capitalize rounded-[2px] py-2.5  hover:opacity-90 text-sm  lg:text-sm duration-200 bg-bg shadow flex justify-center items-center'
             )}
           >
             <option
-              value={Acsending.false}
+              value={direction.desc}
               className='text-sm text-center  text-black  shadow lg:text-sm  my-1 px-2 capitalize'
             >
               cao đến thấp
             </option>
             <option
-              value={Acsending.true}
+              value={direction.asc}
               className='text-sm  text-center  shadow lg:text-sm text-black  my-1 px-2 capitalize'
             >
               Thấp đến cao

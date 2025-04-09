@@ -1,3 +1,4 @@
+import { Category } from '@/models/interface/category.interface'
 import { User } from '@/models/interface/user.interface'
 
 export const LocalStorageEventTarget = new EventTarget()
@@ -26,10 +27,17 @@ export const getUserFromLocalStorage = (): User | null => {
   const user = localStorage.getItem('user')
   return user ? JSON.parse(user) : null
 }
+export const getCategoriesFromLocalStorage = (): Category[] | null => {
+  const category = localStorage.getItem('category')
+  return category ? JSON.parse(category) : null
+}
 export const removeAccessTokenFromLS = () => {
   localStorage.removeItem('access_token')
 }
 
 export const setUserToLS = (user: User) => {
   localStorage.setItem('user', JSON.stringify(user))
+}
+export const setCateToLS = (category: Category[]) => {
+  localStorage.setItem('category', JSON.stringify(category))
 }

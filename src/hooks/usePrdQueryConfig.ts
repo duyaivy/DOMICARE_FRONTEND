@@ -19,8 +19,7 @@ export const usePrdQueryConfig = () => {
       page: queryString.page || 1,
       size: queryString.size || 20,
       categoryid: queryString.categoryid,
-      isAcsending: queryString.isAcsending || false,
-      sortByStar: queryString.sortByStar || true,
+      sortDirection: queryString.sortDirection || 'desc',
       sortBy: queryString.sortBy,
       filter: queryString.filter
     },

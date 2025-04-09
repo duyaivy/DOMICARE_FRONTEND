@@ -6,12 +6,16 @@ import { Form, FormControl, FormField, FormItem } from '../ui/form'
 import { Input } from '../ui/input'
 import IconSeacrh from '@/assets/icons/icon-search'
 import { Button } from '../ui/button'
+import { QueryConfig } from '@/hooks/usePrdQueryConfig'
+import { createSearchParams, useNavigate } from 'react-router-dom'
+import { path } from '@/core/constants/path'
 
 const SearchChema = z.object({
   name: z.string().min(numberConstants.TWO)
 })
 
-export default function Search() {
+export default function Search({ queryString }: { queryString: QueryConfig }) {
+  const navigate = useNavigate()
   const form = useForm<z.infer<typeof SearchChema>>({
     resolver: zodResolver(SearchChema),
     defaultValues: {
@@ -19,7 +23,13 @@ export default function Search() {
     }
   })
   const onSubmit = () => {
-    console.log(123)
+    navigate({
+      pathname: path.products,
+      search: createSearchParams({
+        ...queryString,
+        filter: `name~~'*${form.getValues('name')}*'`
+      }).toString()
+    })
   }
   return (
     <div className='flex flex-col md:flex-row items-center justify-between pb-6 gap-4 '>

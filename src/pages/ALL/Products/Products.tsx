@@ -6,7 +6,6 @@ import { path } from '@/core/constants/path'
 import { productApi } from '@/core/services/products.service'
 import { ProductListConfig } from '@/models/interface/product.interface'
 import Product from '@/components/Product'
-import { categoryApi } from '@/core/services/category.service'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -17,12 +16,6 @@ import SortProduct from './SortProduct'
 export default function Products() {
   const queryString = usePrdQueryConfig()
 
-  const { data: categoriesData, isLoading: cateLoading } = useQuery({
-    queryKey: ['categories'],
-    queryFn: () => categoryApi.get(),
-    staleTime: 1000 * 60 * 3
-  })
-
   const { data: productsData, isLoading } = useQuery({
     queryKey: [path.products, queryString],
     queryFn: () => productApi.get(queryString as ProductListConfig),
@@ -32,14 +25,14 @@ export default function Products() {
 
   const prdList = productsData?.data.data.data
   const pageController = productsData?.data.data.meta
-  console.log(pageController)
+
   return (
     <div className='bg-bg md:pt-25 '>
       <div className='max-w-7xl mx-auto p-4'>
-        <Search />
+        <Search queryString={queryString} />
         <div className='grid grid-cols-12 gap-3 lg:gap-6 p'>
           <div className=' col-span-12 md:col-span-3 w-full'>
-            <CategoryList isLoading={cateLoading} categories={categoriesData?.data.data.data} />
+            <CategoryList queryString={queryString} />
           </div>
           <div className='col-span-12 md:col-span-9 space-y-6 mb-4'>
             <div className='bg-white rounded-sm md:rounded-2xl'>

@@ -5,11 +5,13 @@ export interface Category {
   name: string
   description: string
   products: Product[]
-  createBy: string
-  updateBy: null
+  image: string
+  createBy: string | null
+  updateBy: string | null
   createAt: string
-  updateAt: null
+  updateAt: string | null
 }
+
 export interface CategoryResponse {
   meta: {
     page: number
