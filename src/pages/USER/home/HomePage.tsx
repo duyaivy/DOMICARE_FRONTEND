@@ -89,7 +89,7 @@ const HomePage = () => {
               {categories &&
                 categories.slice(0, 4).map((cate) => {
                   return (
-                    <div className='col-span-6 md:col-span-3  '>
+                    <div key={cate.id} className='col-span-6 md:col-span-3  '>
                       <Category category={cate} />
                     </div>
                   )

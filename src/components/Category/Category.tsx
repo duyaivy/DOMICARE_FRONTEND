@@ -4,7 +4,6 @@ import { Category as CategoryType } from '@/models/interface/category.interface'
 import { Link } from 'react-router-dom'
 
 export default function Category({ category }: { category: CategoryType }) {
-  console.log(category)
   return (
     <div>
       <div className='rouded-xs shadow w-full flex  flex-col gap-3  pt-0 group hover:shadow-xl hover:translate-y-[-5px] duration-300'>

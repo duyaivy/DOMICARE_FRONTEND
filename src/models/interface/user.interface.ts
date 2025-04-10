@@ -16,7 +16,8 @@ export interface User {
   emailConfirmed?: boolean
 }
 
-type role = {
+export type role = {
   id: number
-  name: 'ROLE_ADMIN' | 'ROLE_USER'
+  name: 'ROLE_ADMIN' | 'ROLE_USER' | 'ROLE_SALE'
+  active: boolean
 }

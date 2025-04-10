@@ -13,9 +13,16 @@ import PageNotFound from '@/pages/ALL/404/PageNotFound'
 import HomePage from '@/pages/USER/home'
 import AboutUs from '@/pages/USER/AboutUs'
 import { AppContext } from '@/core/contexts/app.context'
-import { ROLE_ADMIN, ROLE_USER } from '@/configs/consts'
+
 import Profile from '@/pages/USER/Profile'
 import Products from '@/pages/ALL/Products'
+import { rolesCheck } from '@/utils/rolesCheck'
+import ProfileAdmin from '@/pages/ADMIN/Profile.setting'
+import Category from '@/pages/ADMIN/Category.manage'
+import Product from '@/pages/ADMIN/Product.manage'
+import Sale from '@/pages/ADMIN/Sale.manage'
+import User from '@/pages/ADMIN/User.manage'
+import ProductDetail from '@/pages/ALL/ProductDetail'
 
 interface RouteConfig {
   path: string
@@ -25,7 +32,7 @@ interface RouteConfig {
 function ProtectedRouteAdmin() {
   //admin
   const { isAuthenticated, profile } = useContext(AppContext)
-  if (profile?.roles && profile.roles[0].name === ROLE_ADMIN && isAuthenticated) {
+  if (profile?.roles && rolesCheck.isAdminOrSale(profile.roles) && isAuthenticated) {
     return <Outlet />
   }
   return <Navigate to={path.login} />
@@ -33,15 +40,19 @@ function ProtectedRouteAdmin() {
 function ProtectedRouteUser() {
   // user
   const { isAuthenticated, profile } = useContext(AppContext)
-  if (profile?.roles && profile.roles[0].name === ROLE_USER && isAuthenticated) {
+  if (profile?.roles && rolesCheck.isUser(profile.roles) && isAuthenticated) {
     return <Outlet />
   }
   return <Navigate to={path.login} />
 }
 function RejectedRoute() {
   //login
-  const { isAuthenticated } = useContext(AppContext)
-  return !isAuthenticated ? <Outlet /> : <Navigate to={path.home} />
+  const { isAuthenticated, profile } = useContext(AppContext)
+  return !isAuthenticated ? (
+    <Outlet />
+  ) : (
+    <Navigate to={rolesCheck.isAdminOrSale(profile?.roles || []) ? path.admin.dashboard : path.home} />
+  )
 }
 
 export default function useRoutesElements() {
@@ -70,6 +81,14 @@ export default function useRoutesElements() {
       element: (
         <CustomerLayout>
           <Products />
+        </CustomerLayout>
+      )
+    },
+    {
+      path: path.productDetail,
+      element: (
+        <CustomerLayout>
+          <ProductDetail />
         </CustomerLayout>
       )
     },
@@ -104,6 +123,46 @@ export default function useRoutesElements() {
           element: (
             <LayoutMain>
               <Dashboard />
+            </LayoutMain>
+          )
+        },
+        {
+          path: path.admin.setting.profile,
+          element: (
+            <LayoutMain>
+              <ProfileAdmin />
+            </LayoutMain>
+          )
+        },
+        {
+          path: path.admin.manage.category,
+          element: (
+            <LayoutMain>
+              <Category />
+            </LayoutMain>
+          )
+        },
+        {
+          path: path.admin.manage.product,
+          element: (
+            <LayoutMain>
+              <Product />
+            </LayoutMain>
+          )
+        },
+        {
+          path: path.admin.manage.user,
+          element: (
+            <LayoutMain>
+              <User />
+            </LayoutMain>
+          )
+        },
+        {
+          path: path.admin.manage.sale,
+          element: (
+            <LayoutMain>
+              <Sale />
             </LayoutMain>
           )
         }
