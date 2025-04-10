@@ -86,7 +86,7 @@ const HomePage = () => {
               </Link>
             </div>
             <div className='grid grid-cols-12 gap-2 md:gap-4'>
-              <div className='col-span-6 md:col-span-3 '>
+              <div className='col-span-6 md:col-span-3  '>
                 <CategoryProduct
                   title='Vệ sinh bệnh viện, trường học'
                   description='Các trường học, bệnh viện cần duy trì một môi trường sạch sẽ, anh toàn. '

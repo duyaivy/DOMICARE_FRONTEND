@@ -107,7 +107,7 @@ export default function Login() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className='w-[90%] md:w-full lg:w-3/4 xl:w-2/3 space-y-6 px-4'
+              className='w-[90%] md:w-full lg:w-3/4 xl:w-2/3 space-y-2 px-4'
               noValidate
             >
               <FormField

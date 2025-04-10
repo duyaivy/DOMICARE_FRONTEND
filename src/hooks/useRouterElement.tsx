@@ -22,24 +22,24 @@ interface RouteConfig {
   children?: RouteObject[] | undefined
 }
 function ProtectedRouteAdmin() {
+  //admin
   const { isAuthenticated, profile } = useContext(AppContext)
-  console.log('admin')
   if (profile?.roles && profile.roles[0] === ROLE_ADMIN && isAuthenticated) {
     return <Outlet />
   }
   return <Navigate to={path.login} />
 }
 function ProtectedRouteUser() {
+  // user
   const { isAuthenticated, profile } = useContext(AppContext)
-  console.log('user')
   if (profile?.roles && profile.roles[0] === ROLE_USER && isAuthenticated) {
     return <Outlet />
   }
   return <Navigate to={path.login} />
 }
 function RejectedRoute() {
+  //login
   const { isAuthenticated } = useContext(AppContext)
-  console.log('login')
   return !isAuthenticated ? <Outlet /> : <Navigate to={path.home} />
 }
 

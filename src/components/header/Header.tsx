@@ -8,8 +8,10 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
+  NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger
+  NavigationMenuTrigger,
+  ListItem
 } from '../ui/navigation-menu'
 import classnames from 'classnames'
 import { useContext, useEffect, useState } from 'react'
@@ -65,67 +67,46 @@ export default function Header() {
               </div>
             </div>
             <div className='col-span-7 order-2 hidden md:block'>
-              <ul className='flex h-full items-center justify-center  gap-4 lg:gap-6 ml-4'>
-                <li>
-                  <NavigationMenu>
-                    <NavigationMenuList>
-                      <NavigationMenuItem>
-                        <NavigationMenuTrigger className='!bg-transparent hover:!bg-transparent text-sm !text-tmain hover:!text-main duration-300'>
-                          Dịch vụ cung cấp
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                          <div className='w-[200px] min-h-20 py-2'>
-                            <ul className='flex flex-col justify-center items-center gap-1'>
-                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Khử trùng
-                              </li>
-                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Dịch vụ vệ sinh nhà
-                              </li>
-                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Dịch vụ vệ sinh nội thất
-                              </li>
-                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Dịch vụ vệ sinh thảm
-                              </li>
-                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Dịch vụ vệ sinh điều hoà
-                              </li>
-                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Thuê giúp việc
-                              </li>
-                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                Dịch vụ vệ sinh các cơ sở
-                              </li>
-                            </ul>
-                          </div>
-                        </NavigationMenuContent>
-                      </NavigationMenuItem>
-                    </NavigationMenuList>
-                  </NavigationMenu>
-                </li>
-                <li>
-                  <Link to={path.blog} className='flex justify-between items-center  w-full group'>
-                    <p className='text-sm text-tmain text-center line-clamp-2 group-hover:text-main duration-300'>
-                      Tin tức
-                    </p>
-                  </Link>
-                </li>
-                <li>
-                  <Link to={path.recuitment} className='flex justify-between items-center  w-full group'>
-                    <p className='text-sm text-tmain text-center line-clamp-2 group-hover:text-main duration-300'>
-                      Tuyển dụng
-                    </p>
-                  </Link>
-                </li>
-                <li>
-                  <Link to={path.aboutUs} className='flex justify-between items-center  w-full group'>
-                    <p className='text-sm text-tmain text-center line-clamp-2 group-hover:text-main duration-300'>
-                      Tại sao lại chọn DomiCare?
-                    </p>
-                  </Link>
-                </li>
-              </ul>
+              <div className='flex h-full  items-center justify-center  gap-4 lg:gap-6 '>
+                <NavigationMenu>
+                  <NavigationMenuList>
+                    <NavigationMenuItem>
+                      <NavigationMenuTrigger>
+                        {/* <Link to={path.products}>Dịch vụ cung cấp</Link> */}
+                        <Link to={path.products}>
+                          <NavigationMenuLink className={'hover:bg-[transparent]'}>Dịch vụ cung cấp</NavigationMenuLink>
+                        </Link>
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <ul className='w-[200px] min-h-20 py-2 flex flex-col justify-center items-center gap-1  '>
+                          <ListItem to={path.products}>Khử trùng</ListItem>
+                          <ListItem to={path.products}>Dịch vụ vệ sinh nhà</ListItem>
+                          <ListItem to={path.products}>Dịch vụ vệ sinh nội thất</ListItem>
+                          <ListItem to={path.products}>Dịch vụ vệ sinh thảm</ListItem>
+                          <ListItem to={path.products}>Dịch vụ vệ sinh điều hoà</ListItem>
+                          <ListItem to={path.products}>Thuê giúp việc</ListItem>
+                          <ListItem to={path.products}>Dịch vụ vệ các cơ sở</ListItem>
+                        </ul>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                      <Link to={path.blog}>
+                        <NavigationMenuLink>Tin tức</NavigationMenuLink>
+                      </Link>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                      <Link to={path.recuitment}>
+                        <NavigationMenuLink>Tuyển dụng</NavigationMenuLink>
+                      </Link>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                      <Link to={path.aboutUs}>
+                        <NavigationMenuLink>Tại sao lại chọn DomiCare?</NavigationMenuLink>
+                      </Link>
+                    </NavigationMenuItem>
+                  </NavigationMenuList>
+                </NavigationMenu>
+              </div>
             </div>
             <div className='col-span-2 md:col-span-2 order-1 md:order-3'>
               <div className='flex h-full justify-end items-center '>
@@ -148,22 +129,15 @@ export default function Header() {
                           </p>
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
-                          <div className='w-[150px] min-h-10 py-2 '>
-                            <ul className='flex flex-col justify-center items-center gap-1'>
-                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                <Link to={'/profile'}>Tài khoản của tôi</Link>
-                              </li>
-                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                <Link to={'/history'}>Lịch sử dịch vụ</Link>
-                              </li>
-                              <li className='hover:bg-main/10 w-full rounded-[2px] py-1 text-center text-tmain hover:!text-main text-sm cursor-pointer'>
-                                {/* <Link to={'/logout'}>Đăng xuất</Link> */}
-                                <button onClick={handleLogout} className='cursor-pointer font-semibold'>
-                                  Đăng xuất
-                                </button>
-                              </li>
-                            </ul>
-                          </div>
+                          <ul className='w-[150px] min-h-10 py-2 flex flex-col justify-center items-center gap-1'>
+                            <ListItem to={path.profile}>Tài khoản của tôi</ListItem>
+                            <ListItem to={path.profile}>Lịch sử dịch vụ</ListItem>
+                            <ListItem to={path.profile}>
+                              <button onClick={handleLogout} className='cursor-pointer font-semibold'>
+                                Đăng xuất
+                              </button>
+                            </ListItem>
+                          </ul>
                         </NavigationMenuContent>
                       </NavigationMenuItem>
                     </NavigationMenuList>
