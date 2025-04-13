@@ -1,7 +1,6 @@
-import { isEqual } from 'lodash'
 import { useForm } from 'react-hook-form'
 import { useContext, useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
 import { LoginSchema } from '@/core/zod'
@@ -11,7 +10,7 @@ import { AppContext } from '@/core/contexts/app.context'
 import { Button } from '@/components/ui/button'
 import LoginGoogle from './LoginGoogle'
 import { Toast } from '@/utils/toastMessage'
-import { PASSWORD_TYPE, ROLE_ADMIN, TEXT_TYPE } from '@/configs/consts'
+import { PASSWORD_TYPE, TEXT_TYPE } from '@/configs/consts'
 import { EMAIL, REMEMBER_ME } from '@/core/configs/const'
 import { path } from '@/core/constants/path'
 import { mutationKeys } from '@/core/helpers/key-tanstack'
@@ -27,7 +26,6 @@ import { Label } from '@/components/ui/label'
 import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
 import { handleErrorAPI } from '@/utils/handleErrorAPI'
 export default function Login() {
-  const navigate = useNavigate()
   const { setProfile, setIsAuthenticated } = useContext(AppContext)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
@@ -57,8 +55,6 @@ export default function Login() {
         setIsAuthenticated(true)
         setProfile(data.data.user)
 
-        const roles = data?.data?.user?.roles ?? []
-        navigate(isEqual(roles[0], ROLE_ADMIN) ? path.admin.dashboard : path.home)
         Toast.success({ title: 'Thành công', description: 'Đăng nhập thành công 🚀🚀⚡⚡' })
       },
       onError: (error) => handleErrorAPI(error, form),

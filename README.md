@@ -1,4 +1,4 @@
-<h1 align="center">React Boilerplate The Best 2025 🚀🔥🦖</h1>
+<h1 align="center">DomiCare  🚀🔥🦖</h1>
 
   <br />
 
@@ -21,36 +21,16 @@
 - 💖 Code Formatter with [Prettier](https://prettier.io)
 - 🦊 Husky for Git Hooks
 
-### Requirements
+### Start
 
-- Node.js 16+ and yarn
-
-### Getting started
-
-Run the following command on your local environment:
+You can run locally in development mode with live reload:
 
 ```shell
-git clone https://github.com/...
-cd my-project-name
-yarn install
-```
-
-**Set Up Environment Variables**
-
-Create a new file named `.env` in the root of your project and add the following content:
-
-```env
-VITE_API_URL=
-```
-
-Then, you can run locally in development mode with live reload:
-
-```shell
-yarn run dev
+yarn dev
 ```
 
 Open http://localhost:4000 with your favorite browser to see your project.
 
 ---
 
-Made with ♥ by [ThanhDev](https://www.facebook.com/thanh.vophuoc.50)
+Made with DOMICARE

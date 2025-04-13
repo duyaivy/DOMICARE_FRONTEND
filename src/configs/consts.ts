@@ -161,6 +161,7 @@ export const DATE_PLACEHOLDER = STANDARD_DATE_FORMAT_SLASH.toLowerCase()
 // config role
 export const ROLE_ADMIN = 'ROLE_ADMIN'
 export const ROLE_USER = 'ROLE_USER'
+export const ROLE_SALE = 'ROLE_SALE'
 
 // config type text
 export const TEXT_TYPE = 'text'

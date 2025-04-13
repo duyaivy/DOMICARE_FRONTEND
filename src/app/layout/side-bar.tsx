@@ -41,7 +41,7 @@ const Sidebar = () => {
   const { sidebarOpen, toggleSidebar } = useToggleSideBar()
 
   return (
-    <div className={`px-4 py-4 bg-[#FCFCFC] ${sidebarOpen ? 'w-20' : 'w-64'} transition-width duration-300`}>
+    <div className={`px-4 py-4 bg-bg ${sidebarOpen ? 'w-20' : 'w-64'} transition-width duration-300`}>
       <div className='flex items-center gap-2 mb-5'>
         <Logo isCollapsed={sidebarOpen} />
         <button onClick={toggleSidebar} className={`ml-auto ${sidebarOpen ? 'mr-2' : ''}`}>

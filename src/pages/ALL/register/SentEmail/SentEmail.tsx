@@ -23,10 +23,10 @@ export default function SentEmail() {
   }
   return (
     <div className='flex items-center justify-center flex-wrap '>
-      <p className='shrink-0'>Không nhận được email xác thực?</p>
+      <p className='shrink-0'>Không nhận được email xác thực?&nbsp;</p>
 
       <ModalClick
-        children={<p className='cursor-pointer text-main hover:underline '>Nhấn vào đây để thử lại.</p>}
+        children={<p className='cursor-pointer text-main hover:underline '>Gửi lại mã</p>}
         render={
           <div className=' bg-white rounded-md h-80 md:h-96 p-4 w-[350px] md:w-2xl flex flex-col items-center justify-center gap-3 '>
             <h2 className='text-head font-semibold'>Gửi lại mã xác nhận</h2>

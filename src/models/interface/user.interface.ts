@@ -11,7 +11,13 @@ export interface User {
   updateBy?: string
   createAt?: string
   updateAt?: string
-  roles?: string[]
+  roles?: role[]
   avatar?: string
   emailConfirmed?: boolean
+}
+
+export type role = {
+  id: number
+  name: 'ROLE_ADMIN' | 'ROLE_USER' | 'ROLE_SALE'
+  active: boolean
 }
