@@ -10,8 +10,10 @@ import './index.css'
 import { Toaster } from './components/ui/sonner.tsx'
 import { AppProvider } from './core/contexts/app.context.tsx'
 import ScrollToTop from './app/layout/ScrollToTop.tsx'
+import config from './configs/index.ts'
 
-const clientAPI = '1028525044202-qvt3p190o3l7sisveqgcemltuva0es04.apps.googleusercontent.com'
+const clientAPI = config.googleId
+// '1028525044202-qvt3p190o3l7sisveqgcemltuva0es04.apps.googleusercontent.com'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
