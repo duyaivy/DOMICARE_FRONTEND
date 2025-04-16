@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react'
 import {
   getAccessTokenFromLS,
   getCategoriesFromLocalStorage,
@@ -13,13 +13,15 @@ import { initialSideBar, Sidebar } from '../constants/sidebar.const'
 
 interface AppContextInterface {
   isAuthenticated: boolean
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
+  setIsAuthenticated: Dispatch<SetStateAction<boolean>>
   profile: User | null
-  setProfile: React.Dispatch<React.SetStateAction<User | null>>
+  setProfile: Dispatch<SetStateAction<User | null>>
   categories: Category[] | null
+
   setCategories: React.Dispatch<React.SetStateAction<Category[] | null>>
   sidebar: Sidebar | null
   setSidebar: React.Dispatch<React.SetStateAction<Sidebar | null>>
+
 }
 
 const initialAppContext: AppContextInterface = {
@@ -34,7 +36,7 @@ const initialAppContext: AppContextInterface = {
 }
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
 
-export const AppProvider = ({ children }: { children: React.ReactNode }) => {
+export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated)
   const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
   const [categories, setCategories] = useState<Category[] | null>(initialAppContext.categories)

@@ -1,4 +1,3 @@
-import { numberConstants } from '@/configs/consts'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -9,17 +8,14 @@ import { Button } from '../ui/button'
 import { QueryConfig } from '@/hooks/usePrdQueryConfig'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import { path } from '@/core/constants/path'
-
-const SearchChema = z.object({
-  name: z.string().min(numberConstants.TWO)
-})
+import { SearchChema } from '@/core/zod/productSearch.zod'
 
 export default function Search({ queryString }: { queryString: QueryConfig }) {
   const navigate = useNavigate()
   const form = useForm<z.infer<typeof SearchChema>>({
     resolver: zodResolver(SearchChema),
     defaultValues: {
-      name: ''
+      name: queryString.searchName || ''
     }
   })
   const onSubmit = () => {
@@ -27,7 +23,7 @@ export default function Search({ queryString }: { queryString: QueryConfig }) {
       pathname: path.products,
       search: createSearchParams({
         ...queryString,
-        filter: `name~~'*${form.getValues('name')}*'`
+        searchName: form.getValues('name')
       }).toString()
     })
   }

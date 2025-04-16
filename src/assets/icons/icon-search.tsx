@@ -1,7 +1,7 @@
 import { ICON_SIZE_EXTRA } from '@/configs/icon-size'
 import { IconSvgProps } from '@/core/configs/IconSvgProps'
 
-const IconSeacrh = (props: IconSvgProps) => {
+const IconSearch = (props: IconSvgProps) => {
   const { className, width = ICON_SIZE_EXTRA, height = ICON_SIZE_EXTRA } = props
 
   return (
@@ -11,4 +11,4 @@ const IconSeacrh = (props: IconSvgProps) => {
   )
 }
 
-export default IconSeacrh
+export default IconSearch
