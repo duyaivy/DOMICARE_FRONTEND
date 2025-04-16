@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FloatingPortal } from '@floating-ui/react'
 
 interface ModalProps {
-  children: React.ReactNode
-  render: React.ReactNode
+  children: ReactNode
+  render: ReactNode
 }
 
 export default function Modal({ children, render }: ModalProps) {

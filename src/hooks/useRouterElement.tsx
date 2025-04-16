@@ -15,6 +15,7 @@ import AboutUs from '@/pages/USER/AboutUs'
 import { AppContext } from '@/core/contexts/app.context'
 import { ROLE_ADMIN, ROLE_USER } from '@/configs/consts'
 import Profile from '@/pages/USER/Profile'
+import Products from '@/pages/ALL/Products'
 
 interface RouteConfig {
   path: string
@@ -24,7 +25,7 @@ interface RouteConfig {
 function ProtectedRouteAdmin() {
   //admin
   const { isAuthenticated, profile } = useContext(AppContext)
-  if (profile?.roles && profile.roles[0] === ROLE_ADMIN && isAuthenticated) {
+  if (profile?.roles && profile.roles[0].name === ROLE_ADMIN && isAuthenticated) {
     return <Outlet />
   }
   return <Navigate to={path.login} />
@@ -32,7 +33,7 @@ function ProtectedRouteAdmin() {
 function ProtectedRouteUser() {
   // user
   const { isAuthenticated, profile } = useContext(AppContext)
-  if (profile?.roles && profile.roles[0] === ROLE_USER && isAuthenticated) {
+  if (profile?.roles && profile.roles[0].name === ROLE_USER && isAuthenticated) {
     return <Outlet />
   }
   return <Navigate to={path.login} />
@@ -64,6 +65,14 @@ export default function useRoutesElements() {
       )
     },
 
+    {
+      path: path.products,
+      element: (
+        <CustomerLayout>
+          <Products />
+        </CustomerLayout>
+      )
+    },
     {
       path: '',
       element: <ProtectedRouteUser />,

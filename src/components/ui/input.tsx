@@ -1,13 +1,14 @@
 import { cn } from '@/core/lib/utils'
-import * as React from 'react'
+import { forwardRef, ReactNode } from 'react'
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  icon?: React.ReactNode
+  icon?: ReactNode
+  classNameInput?: string
   iconOnClick?: () => void
 }
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, icon, iconOnClick, ...props }, ref) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, icon, iconOnClick, classNameInput, ...props }, ref) => {
     return (
       <div className='relative flex items-center'>
         <input
@@ -20,7 +21,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {icon && (
-          <div className='absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer' onClick={iconOnClick}>
+          <div
+            className={cn('absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer', classNameInput)}
+            onClick={iconOnClick}
+          >
             {icon}
           </div>
         )}
