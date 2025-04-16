@@ -57,7 +57,7 @@ export default function Comment({ reviews = initialValue }: CommentProps) {
         >
           <CarouselContent className='flex items-center py-2'>
             {reviews.map((item) => (
-              <CarouselItem className='md:basis-1/2 flex items-center justify-center'>
+              <CarouselItem key={item.id} className='md:basis-1/2 flex items-center justify-center'>
                 <CommentItem
                   address={item.updateAt || ''}
                   avatar={item.createAt}

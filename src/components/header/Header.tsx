@@ -74,9 +74,9 @@ export default function Header() {
                   <NavigationMenuList>
                     <NavigationMenuItem>
                       <NavigationMenuTrigger>
-                        <Link to={path.products}>
-                          <NavigationMenuLink className={'hover:bg-[transparent]'}>Dịch vụ cung cấp</NavigationMenuLink>
-                        </Link>
+                        <NavigationMenuLink asChild className={'hover:bg-[transparent]'}>
+                          <Link to={path.products}>Dịch vụ cung cấp</Link>
+                        </NavigationMenuLink>
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
                         <ul className='w-[200px] min-h-20 py-2 flex flex-col justify-center items-center gap-1  '>
@@ -95,19 +95,19 @@ export default function Header() {
                       </NavigationMenuContent>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                      <Link to={path.blog}>
-                        <NavigationMenuLink>Tin tức</NavigationMenuLink>
-                      </Link>
+                      <NavigationMenuLink asChild>
+                        <Link to={path.blog}>Tin tức</Link>
+                      </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                      <Link to={path.recuitment}>
-                        <NavigationMenuLink>Tuyển dụng</NavigationMenuLink>
-                      </Link>
+                      <NavigationMenuLink asChild>
+                        <Link to={path.recuitment}>Tuyển dụng </Link>
+                      </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                      <Link to={path.aboutUs}>
-                        <NavigationMenuLink>Tại sao lại chọn DomiCare?</NavigationMenuLink>
-                      </Link>
+                      <NavigationMenuLink asChild>
+                        <Link to={path.aboutUs}>Tại sao lại chọn DomiCare? </Link>
+                      </NavigationMenuLink>
                     </NavigationMenuItem>
                   </NavigationMenuList>
                 </NavigationMenu>
