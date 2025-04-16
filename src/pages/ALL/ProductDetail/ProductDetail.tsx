@@ -101,10 +101,10 @@ export default function ProductDetail() {
         <Fragment>
           <section className='bg-linear-to-br from-gray-100 to-slate-50 '>
             <div className='max-w-6xl mx-auto  py-10 flex items-center px-4'>
-              <h1 className='text-head font-semibold mr-15 w-full md:w-1/2 lg:w-2/3 text-center md:text-left'>
+              <h1 className='text-head font-semibold md:mr-15 w-full md:w-1/2 lg:w-2/3 text-center md:text-left'>
                 <span className='text-main font-bold text-justify'>Danh mục:</span> {category?.name}
               </h1>
-              <div className='lg:w-1/3 md:w-1/2 md:block rounded-sm '>
+              <div className='lg:w-1/3 md:w-1/2 md:block rounded-sm hidden'>
                 <img src={category?.image} alt={category?.name} className='w-full h-auto object-cover' />
               </div>
             </div>
@@ -349,16 +349,6 @@ export default function ProductDetail() {
                         <FormItem className='mb-4'>
                           <FormLabel>Ghi chú</FormLabel>
                           <FormControl>
-                            {/* <div className='flex items-center'>
-                              <div className='flex items-center gap-4'>
-                                <Input id='oneTime' type='radio' {...field} />
-                                <Label htmlFor='oneTime'>Một lần</Label>
-                              </div>
-                              <div className='flex items-center gap-2'>
-                                <Input id='manyTime' type='radio' {...field} />
-                                <Label htmlFor='manyTime'>Định kỳ</Label>
-                              </div>
-                            </div> */}
                             <textarea
                               className='block w-full h-20 mt-1 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium focus:ring-primary focus:ring-2 placeholder:text-slate-500 outline-none pr-10'
                               id='note'
@@ -407,6 +397,5 @@ export default function ProductDetail() {
         <div className=''> nobody</div>
       )}
     </div>
-    // </div>
   )
 }
