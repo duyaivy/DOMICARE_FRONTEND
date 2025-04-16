@@ -37,7 +37,7 @@ export function NavMain({
   const isAdmin = rolesCheck.isAdmin(profile?.roles || [])
   const context = useSidebar()
 
-  const handleClickSidebarItem = (item: string, index: number) => {
+  const handleClickSidebarItem = (index: number) => {
     if (isAdmin) {
       const value = !sidebar?.admin[index].isActive
 
@@ -62,7 +62,7 @@ export function NavMain({
         {items.map((item, index) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive} className='group/collapsible'>
             <SidebarMenuItem>
-              <CollapsibleTrigger asChild onClick={() => handleClickSidebarItem(item.title, index)}>
+              <CollapsibleTrigger asChild onClick={() => handleClickSidebarItem(index)}>
                 {context.open ? (
                   item.items && item.items.length > 0 ? (
                     <SidebarMenuButton tooltip={item.title}>
