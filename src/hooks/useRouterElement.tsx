@@ -10,19 +10,23 @@ import Login from '@/pages/ALL/login'
 import Register from '@/pages/ALL/register'
 import Dashboard from '@/pages/ADMIN/dashboard/Dashboard'
 import PageNotFound from '@/pages/ALL/404/PageNotFound'
-import HomePage from '@/pages/USER/home'
-import AboutUs from '@/pages/USER/AboutUs'
+
 import { AppContext } from '@/core/contexts/app.context'
 
 import Profile from '@/pages/USER/Profile'
 import Products from '@/pages/ALL/Products'
 import { rolesCheck } from '@/utils/rolesCheck'
-import ProfileAdmin from '@/pages/ADMIN/Profile.setting'
-import Category from '@/pages/ADMIN/Category.manage'
-import Product from '@/pages/ADMIN/Product.manage'
-import Sale from '@/pages/ADMIN/Sale.manage'
-import User from '@/pages/ADMIN/User.manage'
+import ProfileAdmin from '@/pages/ADMIN/Settings/Profile.setting'
+import Category from '@/pages/ADMIN/Manage/Category.manage'
+import Product from '@/pages/ADMIN/Manage/Product.manage'
+import Sale from '@/pages/ADMIN/Manage/Sale.manage'
+import User from '@/pages/ADMIN/Manage/User.manage'
 import ProductDetail from '@/pages/ALL/ProductDetail'
+import Setting from '@/pages/ADMIN/Settings'
+import SystemSetting from '@/pages/ADMIN/Settings/System.setting'
+import Manage from '@/pages/ADMIN/Manage'
+import HomePage from '@/pages/ALL/home'
+import AboutUs from '@/pages/ALL/AboutUs'
 
 interface RouteConfig {
   path: string
@@ -114,57 +118,60 @@ export default function useRoutesElements() {
         { path: path.register, element: <Register /> }
       ]
     },
+
     {
       path: '',
       element: <ProtectedRouteAdmin />,
       children: [
         {
-          path: path.admin.dashboard,
+          path: path._admin,
           element: (
             <LayoutMain>
-              <Dashboard />
+              <Outlet />
             </LayoutMain>
-          )
-        },
-        {
-          path: path.admin.setting.profile,
-          element: (
-            <LayoutMain>
-              <ProfileAdmin />
-            </LayoutMain>
-          )
-        },
-        {
-          path: path.admin.manage.category,
-          element: (
-            <LayoutMain>
-              <Category />
-            </LayoutMain>
-          )
-        },
-        {
-          path: path.admin.manage.product,
-          element: (
-            <LayoutMain>
-              <Product />
-            </LayoutMain>
-          )
-        },
-        {
-          path: path.admin.manage.user,
-          element: (
-            <LayoutMain>
-              <User />
-            </LayoutMain>
-          )
-        },
-        {
-          path: path.admin.manage.sale,
-          element: (
-            <LayoutMain>
-              <Sale />
-            </LayoutMain>
-          )
+          ),
+          children: [
+            {
+              path: path.admin.dashboard,
+              element: <Dashboard />
+            },
+            {
+              path: path.admin._setting,
+              element: <Setting />,
+              children: [
+                {
+                  path: path.admin.setting.profile,
+                  element: <ProfileAdmin />
+                },
+                {
+                  path: path.admin.setting.system,
+                  element: <SystemSetting />
+                }
+              ]
+            },
+            {
+              path: path.admin._manage,
+              element: <Manage />,
+              children: [
+                {
+                  path: path.admin.manage.category,
+                  element: <Category />
+                },
+                {
+                  path: path.admin.manage.product,
+                  element: <Product />
+                },
+                {
+                  path: path.admin.manage.user,
+                  element: <User />
+                },
+                {
+                  path: path.admin.manage.sale,
+                  element: <Sale />
+                }
+              ]
+            }
+          ]
         }
       ]
     },

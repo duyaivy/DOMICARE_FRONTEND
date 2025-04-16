@@ -36,3 +36,16 @@ export interface ProductListConfig {
   filter?: string
   categoryid?: number
 }
+
+// update
+// {
+//   "oldProductId": 4,
+//   "oldCategoryId": 2,
+//   "updateProduct": {
+//                        "name": "Don dep cong trinh xay dung",
+//                        "description": "Thu don do dat ",
+//                        "price": 90,
+//                        "discount": 40,
+//                        "categoryID": 3
+//                    }
+// }

@@ -15,7 +15,7 @@ export default function CommentItem(props: CommentItemProps) {
     name = 'Trung Ánh'
   } = props
   return (
-    <div className='bg-white p-6 rounded-lg max-w-md  shadow-md min-h-72 md:min-h-64 flex justify-center flex-col'>
+    <div className='bg-white p-6 rounded-lg  border shadow-md min-h-72 md:min-h-64 flex justify-center flex-col'>
       <p className='text-gray text-base mb-4 text-justify italic'>"{comment}"</p>
       <div className='flex items-center space-x-4'>
         <Avatar className='!size-10'>

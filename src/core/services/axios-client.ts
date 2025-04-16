@@ -12,8 +12,12 @@ const axiosClient = axios.create({
 })
 
 // Request interceptor
+// const noRequestAuth = ['/api/products', '/api/categories']
+const noRequestAuth = ['/api/products']
 axiosClient.interceptors.request.use(
   (config) => {
+    const urlBase = config?.url
+    if (urlBase && noRequestAuth.includes(urlBase)) return config
     const token = getAccessTokenFromLS()
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
@@ -34,7 +38,7 @@ axiosClient.interceptors.response.use(
     const originalRequest = error.config
     if (error.response && isEqual(error.response.status, HttpStatusCode.Unauthorized) && !originalRequest._retry) {
       originalRequest._retry = true
-
+      console.log('gọi lại lần 1')
       try {
         const refreshToken = getRefreshTokenFromLS()
         const response = await axios.post<SuccessResponse<{ accessToken: string; email: string }>>(

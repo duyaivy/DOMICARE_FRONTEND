@@ -16,5 +16,8 @@ export const productApi = {
   },
   update: (prd: Product) => {
     return axiosClient.put<SuccessResponse<Product>>(API_PRODUCT_URL, prd)
+  },
+  getPrdDetail: (id: number) => {
+    return axiosClient.get<SuccessResponse<Product>>(`${API_PRODUCT_URL}/${id}`)
   }
 }

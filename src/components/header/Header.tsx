@@ -19,6 +19,8 @@ import IconHeadphone from '@/assets/icons/icon-headphone'
 import IconChevronUp from '@/assets/icons/icon-chevron-up'
 import { AppContext } from '@/core/contexts/app.context'
 import { clearLS } from '@/core/shared/storage'
+import { PhoneCallIcon } from 'lucide-react'
+import { ICON_SIZE_EXTRA } from '@/core/configs/icon-size'
 
 export default function Header() {
   const { isAuthenticated, profile, setIsAuthenticated, setProfile, categories } = useContext(AppContext)
@@ -219,7 +221,7 @@ export default function Header() {
           </button>
         )}
         <div className='flex rounded-full mt-6 shadow-sm m-2 items-center justify-center w-18 h-18 cursor-pointer animate-bounce text-white bg-emerald-400'>
-          Đặt Lịch
+          <PhoneCallIcon width={ICON_SIZE_EXTRA} height={ICON_SIZE_EXTRA} />
         </div>
       </div>
     </header>

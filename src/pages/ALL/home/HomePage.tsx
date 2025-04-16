@@ -105,7 +105,9 @@ const HomePage = () => {
           </h2>
         </div>
         <SecctionInView>
-          <Comment />
+          <div className='w-full flex justify-center'>
+            <Comment />
+          </div>
         </SecctionInView>
       </SectionBgGreen>
       <SectionBgWhite className=' p-4 h-[300px] md:h-[500px] relative mt-8'>
