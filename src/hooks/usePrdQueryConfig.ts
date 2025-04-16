@@ -5,9 +5,6 @@ import { useSearchParams } from 'react-router-dom'
 export type QueryConfig = {
   [key in keyof ProductListConfig]: string
 }
-// type PurchasesConfig = {
-//   [key in keyof PurchasesHistoryConfig]: number
-// }
 export const useParamsString = () => {
   const [searchParams] = useSearchParams()
   return Object.fromEntries(searchParams.entries())
@@ -18,27 +15,14 @@ export const usePrdQueryConfig = () => {
     {
       page: queryString.page || 1,
       size: queryString.size || 20,
-      categoryid: queryString.categoryid,
+      categoryId: queryString.categoryId,
       sortDirection: queryString.sortDirection || 'desc',
       sortBy: queryString.sortBy,
-      filter: queryString.filter
+      filter: queryString.filter,
+      searchName: queryString.searchName
     },
     isUndefined
   )
 
   return queryConfig
 }
-
-// export const useQueryPurchasesConfig = () => {
-//   const queryString: PurchasesConfig = useParamsString()
-//   console.log('purchases query', queryString)
-//   const purchasesConfig: PurchasesConfig = omitBy(
-//     {
-//       status: Number(queryString.status) || 0
-//     },
-//     isUndefined
-//   )
-//   console.log('params', purchasesConfig)
-
-//   return purchasesConfig
-// }

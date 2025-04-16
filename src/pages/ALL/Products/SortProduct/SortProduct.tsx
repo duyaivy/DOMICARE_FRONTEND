@@ -7,15 +7,14 @@ import { path } from '@/core/constants/path'
 import { sortDirection as direction, sortBy as sort_by } from '@/core/constants/product.const'
 import { isActive } from '@/utils/isActiveLocation'
 
-interface props {
+interface SortProductProps {
   queryString: QueryConfig
   pageSize: number
 }
 
-export default function SortProduct({ queryString }: props) {
+export default function SortProduct({ queryString }: SortProductProps) {
   const navigate = useNavigate()
   const { sortDirection = 'desc', sortBy = 'name' } = queryString
-
   const handleSort = (sortByValue: ProductListConfig['sortBy']) => {
     navigate({
       pathname: path.products,
@@ -43,7 +42,6 @@ export default function SortProduct({ queryString }: props) {
   return (
     <div className='bg-white py-4 px-3 rounded-xl'>
       <div className='flex justify-between items-center gap-2 flex-row  md:flex-row'>
-        {/* <div className='grid grid-cols-12 gap-4'>  */}
         <div className='grid grid-cols-12 gap-2 w-full'>
           <div className='col-span-6 md:col-span-3 mo:!col-span-2  text-sm text-gray-600  flex justify-center items-center '>
             Sắp xếp theo

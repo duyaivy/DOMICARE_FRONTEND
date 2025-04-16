@@ -40,7 +40,7 @@ axiosClient.interceptors.response.use(
         const response = await axios.post<SuccessResponse<{ accessToken: string; email: string }>>(
           `${config.baseUrl}/refresh-token`,
           {
-            refresh_token: refreshToken
+            refreshToken: refreshToken
           }
         )
 

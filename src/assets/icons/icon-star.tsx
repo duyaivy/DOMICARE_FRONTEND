@@ -9,7 +9,6 @@ export const IconStar = (props: IconSvgProps) => {
     <svg
       width={width}
       height={height}
-      // className={className}
       className={cn('fill-yellow', className)}
       viewBox='0 0 576 512'
       fill='none'
