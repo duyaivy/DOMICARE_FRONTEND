@@ -8,13 +8,11 @@ import { Link } from 'react-router-dom'
 
 export default function Product({ product }: { product: ProductType }) {
   return (
-
     <div className='rounded-xs shadow w-full flex  flex-col gap-3  pt-0 group hover:shadow-xl hover:translate-y-[-5px] duration-300'>
       <Link
         to={`${path.product}/${urlSEO(product.id.toString(), product.name)}`}
         className='w-full h-40 sm:h-55 group relative'
       >
-
         <img className='w-full h-full object-center object-cover' src={product.image} alt={product.name} />
         <div className='absolute inset-0 bg-gray-400 opacity-0 group-hover:opacity-40 transition-opacity duration-300'></div>
       </Link>

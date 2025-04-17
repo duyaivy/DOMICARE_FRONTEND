@@ -21,7 +21,6 @@ interface AppContextInterface {
   setCategories: React.Dispatch<React.SetStateAction<Category[] | null>>
   sidebar: Sidebar | null
   setSidebar: React.Dispatch<React.SetStateAction<Sidebar | null>>
-
 }
 
 const initialAppContext: AppContextInterface = {
