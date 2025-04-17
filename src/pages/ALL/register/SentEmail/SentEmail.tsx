@@ -41,7 +41,7 @@ export default function SentEmail() {
                   name={'email'}
                   render={({ field }) => (
                     <FormItem className=' w-full'>
-                      <FormLabel>Username</FormLabel>
+                      <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
                           autoComplete='off'
