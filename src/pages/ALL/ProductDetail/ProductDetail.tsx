@@ -8,8 +8,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { isEqual } from 'lodash'
 import { Fragment, useContext, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import SlideShow from './SlideShow'
-import SecctionInView from '@/components/SecctionInView'
+import SectionInView from '@/components/SectionInView'
 import { CalendarIcon, FlameIcon } from 'lucide-react'
 import RatingStars from '@/components/RatingStars/RatingStars'
 import Comment from '@/components/Comment'
@@ -36,6 +35,8 @@ import { isOneTime } from '@/core/constants/booking.const'
 import { formatDateTime } from '@/core/helpers/date-time'
 import { STANDARD_DATE_FORMAT_INVERSE } from '@/configs/consts'
 import dayjs from 'dayjs'
+import Slider from './Slider'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function ProductDetail() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -83,11 +84,8 @@ export default function ProductDetail() {
       setIsLoading(false)
     }
   })
-  console.log(mutationBooking)
-
   const handleBooking = () => {
     setIsLoading(true)
-    console.log(form.getValues())
     mutationBooking.mutate(form.getValues())
   }
 
@@ -101,7 +99,7 @@ export default function ProductDetail() {
         <Fragment>
           <section className='bg-linear-to-br from-gray-100 to-slate-50 '>
             <div className='max-w-6xl mx-auto  py-10 flex items-center px-4'>
-              <h1 className='text-head font-semibold md:mr-15 w-full md:w-1/2 lg:w-2/3 text-center md:text-left'>
+              <h1 className='text-head font-semibold md:mr-12 w-full md:w-1/2 lg:w-2/3 text-center md:text-left'>
                 <span className='text-main font-bold text-justify'>Danh mục:</span> {category?.name}
               </h1>
               <div className='lg:w-1/3 md:w-1/2 md:block rounded-sm hidden'>
@@ -109,30 +107,31 @@ export default function ProductDetail() {
               </div>
             </div>
           </section>
-          <SectionBgGreen>
-            <div className=' flex items-center flex-col md:flex-row py-10'>
-              <div className=' lg:w-1/3 md:w-1/2 md:block rounded-sm w-full'>
-                <img src={product.image} alt={category?.name} className='w-full h-auto object-cover' />
+          <SectionBgWhite>
+            {/* option 1 */}
+            <div className=' grid grid-cols-1 md:grid-cols-12 gap-6  p-4'>
+              <div className='col-span-1 md:col-span-4'>
+                <Slider images={product.landingImages || []} />
               </div>
-              <div className=' md:ml-15 w-full md:w-1/2 grow mt-4'>
-                <h2 className='text-head font-semibold self-center  text-center md:text-left'>
-                  {product?.name} Dịch vụ phun sơn khử khuẩn cho y tế
-                </h2>
-                <p className='text-gray text-base text-justify'>{product?.description}</p>
+              <div className='col-span-1 md:col-span-8'>
+                <SectionInView className='w-full h-full flex-col flex justify-center md:px-20'>
+                  <h2 className='text-head font-semibold self-center text-center  md:text-left py-4'>
+                    <span className='text-main font-bold text-justify mr-2'>Dịch vụ:</span>
+                    {product?.name}
+                  </h2>
+                  <p className='text-gray text-base text-justify'>{product?.description}</p>
+                </SectionInView>
               </div>
             </div>
-          </SectionBgGreen>
-
-          <SectionBgWhite className='my-10'>
-            <h3 className='text-center text-head font-semibold mb-6'>Chúng tôi làm những gì</h3>
-            <SlideShow landingImages={product?.landingImages} />
           </SectionBgWhite>
 
-          <SectionBgGreen className='p-4 min-h-[300px] md:min-h-[600px] relative mt-8 w-7xl'>
-            <h3 className='w-full text-center text-head font-semibold mb-2'>Gói dịch vụ của chúng tôi</h3>
+          <SectionBgGreen className='p-4 min-h-[300px] md:min-h-[600px] relative mt-8 w-6xl'>
+            <h3 className='w-full text-center text-head font-semibold md:pb-10'>
+              Gói dịch vụ của <span className='text-main text-head ml-2 z-10 font-bold'>DomiCare</span>
+            </h3>
             <div className='grid h-full grid-cols-12 gap-4  '>
               <div className=' md:col-span-8 col-span-12 z-20 '>
-                <SecctionInView className='flex flex-col items-center justify-center gap-8 h-full py-8'>
+                <SectionInView className='flex flex-col items-center justify-center gap-8 h-full py-8'>
                   {isSale ? (
                     <div className='flex flex-col items-center py-30 border-2 border-dashed rounded-lg border-gray px-10 '>
                       <span className='text-red-600 font-semibold px-4 py-2 rounded-3xl bg-orange-300 flex justify-center items-center'>
@@ -149,30 +148,30 @@ export default function ProductDetail() {
                       </p>
                     </div>
                   )}
-                </SecctionInView>
+                </SectionInView>
               </div>
             </div>
             <div
-              className='absolute inset-0 bg-no-repeat bg-contain bg-right-bottom z-10 hidden md:block'
+              className='absolute inset-0 bg-no-repeat bg-contain bg-right-bottom !z-0 hidden md:block'
               style={{ backgroundImage: `url(${pic13})` }}
-            ></div>
+            />
           </SectionBgGreen>
 
           <SectionBgWhite>
             <h2 className='text-head font-semibold text-center py-10'>Nhận xét và đánh giá</h2>
-            <div className='grid grid-cols-12 gap-6'>
+            <div className='grid grid-cols-12 gap-6 w-full md:w-2xl lg:w-4xl  xl:w-6xl'>
               <div className='col-span-12 md:col-span-4 flex flex-col items-center md:py-10'>
                 <RatingStars
                   activeClassname='h-8 w-8 fill-yellow-300 text-yellow-300'
                   nonActiveClassname='h-8 w-8 fill-current text-gray-300'
-                  rating={product.ratingStar}
+                  rating={product.ratingStar || 0}
                 />
                 <div className='text-head font-bold mb-2'>{product.ratingStar}</div>
-                <p className='text-lg text-gray'>{product.reviewDTOs.length} lượt đánh giá</p>
+                <p className='text-lg text-gray'>{product.reviewDTOs && product.reviewDTOs.length} lượt đánh giá</p>
               </div>
               <div className='col-span-12 md:col-span-8 md:pb-5'>
-                {product.reviewDTOs.length > 0 ? (
-                  <Comment reviews={product.reviewDTOs} />
+                {product.reviewDTOs && product.reviewDTOs.length > 0 ? (
+                  <Comment reviews={product.reviewDTOs && product.reviewDTOs} />
                 ) : (
                   <h3 className='text-head font-semibold text-center py-5 px-8'>Dịch vụ này chưa có đánh giá</h3>
                   // fake data
@@ -182,7 +181,7 @@ export default function ProductDetail() {
             </div>
           </SectionBgWhite>
           <SectionBgGreen>
-            <h2 className='text-head font-semibold text-center py-10'>Đặt dịch vụ</h2>
+            <h2 className='text-head font-semibold text-center py-5 md:py-10'>Đặt dịch vụ</h2>
             <div className='grid grid-cols-12 gap-4'>
               <div className='order-2 md:order-0 col-span-12 md:col-span-6 flex justify-end'>
                 <Form {...form}>
@@ -264,7 +263,7 @@ export default function ProductDetail() {
                                   <Button
                                     variant={'secondary'}
                                     className={cn(
-                                      'w-full text-left justify-start mt-1 h-10 relative',
+                                      'w-full text-left justify-start mt-1 h-9.5 relative',
                                       !field.value && 'text-muted-foreground'
                                     )}
                                   >
@@ -370,7 +369,7 @@ export default function ProductDetail() {
                   </form>
                 </Form>
               </div>
-              <div className='order-1 col-span-12 md:col-span-6 h-full flex justify-start'>
+              <div className='order-1 col-span-12 md:col-span-6 h-full flex justify-start items-center'>
                 <p className='text-base md:text-xl text-justify md:pb-10 pb-5 px-5 md:pr-20 '>
                   <span className='text-main mr-2 font-semibold'>Domicare Company</span>Công ty chúng tôi chuyên cung
                   cấp các dịch vụ vệ sinh công nghiệp, dân dụng và khử khuẩn với đội ngũ nhân viên giàu kinh nghiệm,
@@ -383,18 +382,61 @@ export default function ProductDetail() {
           <SectionBgWhite>
             <h2 className='text-head font-semibold text-center py-10 '>Tìm hiểu thêm các dịch vụ khác của chúng tôi</h2>
             <div className='grid grid-cols-12  gap-4'>
-              {category?.products.map((prd) => {
-                return (
-                  <div key={prd.id} className='col-span-6 mo:col-span-4 lg:col-span-3'>
-                    <Product product={prd} />
-                  </div>
-                )
-              })}
+              {category?.products &&
+                category?.products.map((prd) => {
+                  return (
+                    <div key={prd.id} className='col-span-6 mo:col-span-4 lg:col-span-3'>
+                      <Product product={prd} />
+                    </div>
+                  )
+                })}
             </div>
           </SectionBgWhite>
         </Fragment>
       ) : (
-        <div className=''> nobody</div>
+        <div className='max-w-7xl mx-auto p-2'>
+          <div className='w-full flex flex-col md:flex-row gap-10 p-4'>
+            <div className='w-full flex flex-col items-center md:w-1/2 md:max-w-[400px]'>
+              <div className='relative pt-[100%] w-full overflow-hidden rounded-md'>
+                <Skeleton className='absolute top-0 left-0 w-full h-full' />
+              </div>
+
+              <div className='w-full flex gap-2 mt-4'>
+                {[...Array(4)].map((_, index) => (
+                  <div key={index} className='h-20 relative w-1/4'>
+                    <Skeleton className='absolute top-0 left-0 w-full h-full' />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* === CỘT 2: Form đặt dịch vụ === */}
+            <div className='w-full md:flex-1'>
+              <div className='space-y-4'>
+                <Skeleton className='h-8 w-1/3' />
+                <div className='flex gap-3'>
+                  <Skeleton className='h-10 w-full' />
+                  <Skeleton className='h-10 w-full max-w-[180px]' />
+                </div>
+                <Skeleton className='h-10 w-full' />
+                <div className='flex gap-6 items-center'>
+                  <Skeleton className='h-5 w-5 rounded-full' />
+                  <Skeleton className='h-5 w-20' />
+                  <Skeleton className='h-5 w-5 rounded-full' />
+                  <Skeleton className='h-5 w-20' />
+                </div>
+                <Skeleton className='h-30 w-full' />
+                <Skeleton className='h-10 w-1/3 rounded-md' />
+              </div>
+
+              <div className='mt-6'>
+                <Skeleton className='h-4 w-[80%] mb-2' />
+                <Skeleton className='h-4 w-[90%] mb-2' />
+                <Skeleton className='h-4 w-[70%]' />
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )

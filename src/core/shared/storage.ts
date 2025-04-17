@@ -46,6 +46,10 @@ export const getCategoriesFromLocalStorage = (): Category[] | null => {
 export const removeAccessTokenFromLS = () => {
   localStorage.removeItem('access_token')
 }
+export const removeRefreshTokenFromLS = () => {
+  localStorage.removeItem('refresh_token')
+}
+
 export const removeSidebarFromLS = () => {
   localStorage.removeItem('sidebar')
 }

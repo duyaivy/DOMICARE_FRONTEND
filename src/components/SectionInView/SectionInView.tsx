@@ -5,7 +5,7 @@ interface SecctionInViewProps {
   className?: string
   children: ReactNode
 }
-export default function SecctionInView({ className, children }: SecctionInViewProps) {
+export default function SectionInView({ className, children }: SecctionInViewProps) {
   const { ref, inView } = useInView({
     triggerOnce: true
   })

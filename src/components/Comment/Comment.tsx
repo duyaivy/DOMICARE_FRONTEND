@@ -2,6 +2,9 @@ import { Review } from '@/models/interface/review.interface'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel'
 import CommentItem from './CommentItem'
 import { Fragment } from 'react/jsx-runtime'
+import classNames from 'classnames'
+import { isEqual } from 'lodash'
+import { numberConstants } from '@/configs/consts'
 interface CommentProps {
   reviews?: Review[]
 }
@@ -44,6 +47,8 @@ const initialValue: Review[] = [
   }
 ]
 export default function Comment({ reviews = initialValue }: CommentProps) {
+  const isOneItem = isEqual(reviews.length, numberConstants.ONE)
+  console.log(reviews.length)
   return (
     <Fragment>
       {reviews && reviews.length > 0 && (
@@ -57,7 +62,7 @@ export default function Comment({ reviews = initialValue }: CommentProps) {
         >
           <CarouselContent className='flex items-center py-2'>
             {reviews.map((item) => (
-              <CarouselItem className='md:basis-1/2 flex items-center justify-center'>
+              <CarouselItem className={classNames(' flex items-center justify-center', { 'md:basis-1/2': !isOneItem })}>
                 <CommentItem
                   address={item.updateAt || ''}
                   avatar={item.createAt}
