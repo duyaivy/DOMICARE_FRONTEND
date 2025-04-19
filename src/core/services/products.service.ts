@@ -3,10 +3,11 @@ import axiosClient from './axios-client'
 import { SuccessResponse } from '@/models/interface/response.interface'
 
 const API_PRODUCT_URL = '/api/products'
+const API_PRODUCT_PUBLIC_URL = '/api/public/products'
 
 export const productApi = {
   get: (params: ProductListConfig) => {
-    return axiosClient.get<SuccessResponse<ProductResponse>>(API_PRODUCT_URL, { params })
+    return axiosClient.get<SuccessResponse<ProductResponse>>(API_PRODUCT_PUBLIC_URL, { params })
   },
   delete: (id: number) => {
     return axiosClient.delete<SuccessResponse<null>>(`${API_PRODUCT_URL}/${id}`)
@@ -18,6 +19,6 @@ export const productApi = {
     return axiosClient.put<SuccessResponse<Product>>(API_PRODUCT_URL, prd)
   },
   getPrdDetail: (id: number) => {
-    return axiosClient.get<SuccessResponse<Product>>(`${API_PRODUCT_URL}/${id}`)
+    return axiosClient.get<SuccessResponse<Product>>(`${API_PRODUCT_PUBLIC_URL}/${id}`)
   }
 }

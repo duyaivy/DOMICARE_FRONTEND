@@ -4,8 +4,7 @@ import {
   getRefreshTokenFromLS,
   removeAccessTokenFromLS,
   removeRefreshTokenFromLS,
-  setAccessTokenToLS,
-  setRefreshTokenToLS
+  setAccessTokenToLS
 } from '@/core/shared/storage'
 import axios, {
   AxiosError,
@@ -18,8 +17,8 @@ import axios, {
 import { isEqual } from 'lodash'
 
 interface TokenResponse {
-  access_token: string
-  refresh_token: string
+  accessToken: string
+  email: string
 }
 
 interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
@@ -87,18 +86,17 @@ axiosClient.interceptors.response.use(
 
           if (isEqual(response.status, HttpStatusCode.Ok)) {
             console.log(response.data)
-            const { access_token, refresh_token } = response.data
+            const { accessToken } = response.data
 
-            setAccessTokenToLS(access_token)
-            setRefreshTokenToLS(refresh_token)
+            setAccessTokenToLS(accessToken)
 
-            axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`
+            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
 
             if (originalRequest.headers) {
-              originalRequest.headers.Authorization = `Bearer ${access_token}`
+              originalRequest.headers.Authorization = `Bearer ${accessToken}`
             }
 
-            onRefreshed(access_token)
+            onRefreshed(accessToken)
 
             isRefreshing = false
             return axiosClient(originalRequest)

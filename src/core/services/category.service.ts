@@ -3,13 +3,13 @@ import { SuccessResponse } from '@/models/interface/response.interface'
 import { Category, CategoryListConfig, CategoryResponse } from '@/models/interface/category.interface'
 
 const API_CATEGORY_URL = '/api/categories'
-
+const API_CATEGORY_PUBLIC_URL = '/api/public/categories'
 export const categoryApi = {
   query: (params: CategoryListConfig) => {
-    return axiosClient.get<SuccessResponse<CategoryResponse>>(API_CATEGORY_URL, { params })
+    return axiosClient.get<SuccessResponse<CategoryResponse>>(API_CATEGORY_PUBLIC_URL, { params })
   },
   get: () => {
-    return axiosClient.get<SuccessResponse<CategoryResponse>>(API_CATEGORY_URL)
+    return axiosClient.get<SuccessResponse<CategoryResponse>>(API_CATEGORY_PUBLIC_URL)
   },
   delete: (id: number) => {
     return axiosClient.delete<SuccessResponse<null>>(`${API_CATEGORY_URL}/${id}`)

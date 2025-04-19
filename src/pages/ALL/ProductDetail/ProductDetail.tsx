@@ -410,7 +410,6 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* === CỘT 2: Form đặt dịch vụ === */}
             <div className='w-full md:flex-1'>
               <div className='space-y-4'>
                 <Skeleton className='h-8 w-1/3' />

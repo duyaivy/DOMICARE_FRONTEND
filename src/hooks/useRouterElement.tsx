@@ -13,7 +13,6 @@ import PageNotFound from '@/pages/ALL/404/PageNotFound'
 
 import { AppContext } from '@/core/contexts/app.context'
 
-import Profile from '@/pages/USER/Profile'
 import Products from '@/pages/ALL/Products'
 import { rolesCheck } from '@/utils/rolesCheck'
 import ProfileAdmin from '@/pages/ADMIN/Settings/Profile.setting'
@@ -27,6 +26,10 @@ import SystemSetting from '@/pages/ADMIN/Settings/System.setting'
 import Manage from '@/pages/ADMIN/Manage'
 import HomePage from '@/pages/ALL/home'
 import AboutUs from '@/pages/ALL/AboutUs'
+import Profile from '@/pages/USER/Pages/Profile'
+import UserLayout from '@/pages/USER/Layouts'
+import ChangePassword from '@/pages/USER/Pages/ChangePassword'
+import History from '@/pages/USER/Pages/History'
 
 interface RouteConfig {
   path: string
@@ -101,12 +104,17 @@ export default function useRoutesElements() {
       element: <ProtectedRouteUser />,
       children: [
         {
-          path: path.profile,
+          path: path._user,
           element: (
             <CustomerLayout>
-              <Profile />
+              <UserLayout />
             </CustomerLayout>
-          )
+          ),
+          children: [
+            { path: path.user.profile, element: <Profile /> },
+            { path: path.user.history, element: <History /> },
+            { path: path.user.change_password, element: <ChangePassword /> }
+          ]
         }
       ]
     },

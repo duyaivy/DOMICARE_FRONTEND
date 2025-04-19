@@ -2,5 +2,6 @@ export const mutationKeys = {
   register: ['register'],
   login: ['login'],
   updateProfile: ['updateProfile'],
-  booking: ['booking']
+  booking: ['booking'],
+  postAvatar: ['postAvatar']
 }

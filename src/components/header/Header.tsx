@@ -139,9 +139,9 @@ export default function Header() {
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
                           <ul className='w-[150px] min-h-10 py-2 flex flex-col justify-center items-center gap-1'>
-                            <ListItem to={path.profile}>Tài khoản của tôi</ListItem>
-                            <ListItem to={path.profile}>Lịch sử dịch vụ</ListItem>
-                            <ListItem to={path.profile}>
+                            <ListItem to={path.user.profile}>Tài khoản của tôi</ListItem>
+                            <ListItem to={path.user.history}>Lịch sử dịch vụ</ListItem>
+                            <ListItem to={path.login}>
                               <button onClick={handleLogout} className='cursor-pointer font-semibold'>
                                 Đăng xuất
                               </button>
