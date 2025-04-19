@@ -22,5 +22,5 @@ export const BookingSchema = z.object({
   date: z.date({ message: 'Ngày không được để trống.' }),
 
   note: z.string().optional(), // cho phép để trống
-  isOneTime: z.enum(['oneTime', 'month'])
+  isPeriodic: z.enum(['true', 'false'])
 })

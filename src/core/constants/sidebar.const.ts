@@ -7,11 +7,13 @@ export interface SidebarItem {
   url: string
   isActive?: boolean
   icon?: React.ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & React.RefAttributes<SVGSVGElement>>
-  items?: {
-    title: string
-    url: string
-  }[]
+  items?: ItemChild[]
 }
+export type ItemChild = {
+  title: string
+  url: string
+}
+
 export interface Sidebar {
   admin: SidebarItem[]
   sale: SidebarItem[]

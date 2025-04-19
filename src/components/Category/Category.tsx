@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom'
 export default function Category({ category }: { category: CategoryType }) {
   return (
     <div>
-      <div className='rouded-xs shadow w-full flex  flex-col gap-3  pt-0 group hover:shadow-xl hover:translate-y-[-5px] duration-300'>
+      <div className='rounded-xs shadow w-full flex  flex-col gap-3  pt-0 group hover:shadow-xl hover:translate-y-[-5px] duration-300'>
         <Link
           to={{
             pathname: path.products,
-            search: `categoryid=${category.id}`
+            search: `categoryId=${category.id}`
           }}
           className='w-full h-40 sm:h-55 group relative'
         >

@@ -1,4 +1,4 @@
-export const isOneTime = {
-  oneTime: 'oneTime',
-  month: 'month'
+export const isPeriodic = {
+  oneTime: 'false',
+  month: 'true'
 }

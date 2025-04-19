@@ -25,16 +25,19 @@ import { Label } from '@/components/ui/label'
 
 import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
 import { handleErrorAPI } from '@/utils/handleErrorAPI'
+import { User } from '@/models/interface/user.interface'
+import { isEqual } from 'lodash'
 export default function Login() {
   const { setProfile, setIsAuthenticated } = useContext(AppContext)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
-  const [rememberMe, setRememberMe] = useState<boolean>(localStorage.getItem(REMEMBER_ME) === 'true' ? true : false)
+  const REMEMBER = localStorage.getItem(REMEMBER_ME)
+  const [rememberMe, setRememberMe] = useState<boolean>(isEqual(REMEMBER, 'true') ? true : false)
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: localStorage.getItem(REMEMBER_ME) === 'true' ? localStorage.getItem(EMAIL) || '' : '',
+      email: isEqual(REMEMBER, 'true') ? localStorage.getItem(EMAIL) || '' : '',
       password: ''
     }
   })
@@ -49,11 +52,11 @@ export default function Login() {
     const loginData = form.getValues() as z.infer<typeof LoginSchema>
     mutationLogin.mutate(loginData, {
       onSuccess: ({ data }) => {
-        setAccessTokenToLS(data.data.accessToken)
-        setRefreshTokenToLS(data.data.refreshToken)
-        setUserToLS(data.data.user)
+        setAccessTokenToLS(data.data.accessToken as string)
+        setRefreshTokenToLS(data.data.refreshToken as string)
+        setUserToLS(data.data.user as User)
         setIsAuthenticated(true)
-        setProfile(data.data.user)
+        setProfile(data.data.user as User)
 
         Toast.success({ title: 'Thành công', description: 'Đăng nhập thành công 🚀🚀⚡⚡' })
       },
@@ -72,7 +75,7 @@ export default function Login() {
   }
 
   useEffect(() => {
-    const email = form.getValues('email') // Extract the value of email outside of useEffect
+    const email = form.getValues('email')
 
     if (rememberMe) {
       localStorage.setItem(EMAIL, email)

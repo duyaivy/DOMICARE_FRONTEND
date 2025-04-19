@@ -10,7 +10,7 @@ export default function Product({ product }: { product: ProductType }) {
   return (
     <div className='rounded-xs shadow w-full flex  flex-col gap-3  pt-0 group hover:shadow-xl hover:translate-y-[-5px] duration-300'>
       <Link
-        to={`${path.product}/${urlSEO(product.id.toString(), product.name)}`}
+        to={`${path.product}/${urlSEO(product.id ? product.id.toString() : '', product.name as string)}`}
         className='w-full h-40 sm:h-55 group relative'
       >
         <img className='w-full h-full object-center object-cover' src={product.image} alt={product.name} />

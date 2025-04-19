@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import { isEqual } from 'lodash'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
@@ -7,17 +8,13 @@ interface SlideShowProps {
 }
 export default function SlideShow({ images }: SlideShowProps) {
   const [currentIndexImg, setCurrentIndexImg] = useState([0, 5])
-  // current index img gom mang [0 va 1] chua min va max cua mang chua phan tu
+
   const [activeImg, setActiveImg] = useState<string | null>(null)
 
-  const currentImgs = useMemo(
-    () => (images ? images.slice(...currentIndexImg) : []), // usememo vi moi lan rerender -> phai tinh toan tro lai
-    [images, currentIndexImg]
-  )
+  const currentImgs = useMemo(() => (images ? images.slice(...currentIndexImg) : []), [images, currentIndexImg])
   const ref = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
-    // kiem tra case array rong
     if (images && images.length > 0) setActiveImg(images && images[0])
   }, [images])
 
@@ -74,13 +71,13 @@ export default function SlideShow({ images }: SlideShowProps) {
             e.preventDefault()
             prevSlider()
           }}
-          className='bg-slate-500/30 hover:bg-slate-500/50 cursor-pointer absolute top-[50%] px-2 py-3 left-0 translate-y-[-50%] z-10 flex items-center justify-center'
+          className='bg-slate-500/30 hover:bg-slate-500/50 cursor-pointer absolute top-[50%] px-1 py-3 left-0 translate-y-[-50%] z-10 flex items-center justify-center'
         >
           <ChevronLeft className='!w-6 !h-auto  text-white' />
         </button>
         {currentImgs &&
           currentImgs.slice(0, 5).map((img, index) => {
-            const isActive = img == activeImg
+            const isActive = isEqual(img, activeImg)
             return (
               <div
                 key={index}
