@@ -5,14 +5,13 @@ import { SuccessResponse } from '@/models/interface/response.interface'
 const API_BOOKING_URL = '/api/bookings'
 
 export const bookingApi = {
-  post: (params: BookingRequest) => {
-    return axiosClient.post<SuccessResponse<null>>(API_BOOKING_URL, params)
-  },
-  postUnlogin: (params: BookingRequest) => {
-    return axiosClient.post<SuccessResponse<null>>(API_BOOKING_URL, params, {
-      headers: {
-        Authorization: null
-      }
-    })
+  post: (params: BookingRequest, isLogin?: boolean) => {
+    const headers = !isLogin
+      ? {
+          Authorization: null
+        }
+      : {}
+
+    return axiosClient.post<SuccessResponse<null>>(API_BOOKING_URL, params, { headers })
   }
 }

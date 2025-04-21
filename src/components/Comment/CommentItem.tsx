@@ -35,13 +35,13 @@ export default function CommentItem(props: CommentItemProps) {
     >
       <p className='text-gray text-base mb-4 text-justify italic'>{comment && `"${comment}"`}</p>
       <div className='flex items-center space-x-4'>
-        <Avatar className='!size-10'>
+        <Avatar className='!size-15'>
           <AvatarImage src={avatar} className='w-full h-full object-cover' alt='@shadcn' />
-          <AvatarFallback>{name.substring(0, 2)}</AvatarFallback>
+          <AvatarFallback>{name?.substring(0, 2) || 'CC'}</AvatarFallback>
         </Avatar>
         <div>
           <RatingStars rating={rating} />
-          <h3 className='text-lg font-semibold text-black line-clamp-1'>{genderName + name} </h3>
+          <h3 className='text-lg font-semibold text-black line-clamp-1'>{name ? genderName + name : 'User'} </h3>
           <p className='text-sm text-gray'>{address}</p>
         </div>
       </div>

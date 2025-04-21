@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import CategoryList from './CategoryList'
 import Search from '@/components/Search'
 import { usePrdQueryConfig } from '@/hooks/usePrdQueryConfig'
@@ -19,7 +19,7 @@ export default function Products() {
   const { data: productsData, isLoading } = useQuery({
     queryKey: [path.products, queryString],
     queryFn: () => productApi.get(queryString as ProductListConfig),
-    // keepPreviousData: true,
+    placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 3
   })
 
