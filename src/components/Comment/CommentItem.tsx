@@ -3,9 +3,11 @@ import RatingStars from '../RatingStars/RatingStars'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { initialComment } from '@/core/constants/initialValue.const'
 import { isEqual } from 'lodash'
+import { GENDER_TYPE } from '@/models/types/user.type'
+
 interface CommentItemProps {
   comment?: string
-  gender?: 'MALE' | 'FEMALE' | 'OTHER'
+  gender?: GENDER_TYPE
   avatar?: string
   address?: string
   name?: string

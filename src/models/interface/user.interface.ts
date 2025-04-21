@@ -1,3 +1,5 @@
+import { GENDER_TYPE, ROLE_TYPE } from '../types/user.type'
+
 export interface User {
   id?: number
   name?: string
@@ -14,10 +16,11 @@ export interface User {
   roles?: role[]
   avatar?: string
   emailConfirmed?: boolean
+  gender: GENDER_TYPE
 }
 
 export type role = {
   id: number
-  name: 'ROLE_ADMIN' | 'ROLE_USER' | 'ROLE_SALE'
+  name: ROLE_TYPE
   active: boolean
 }
