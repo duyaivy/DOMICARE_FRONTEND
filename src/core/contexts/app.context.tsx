@@ -9,6 +9,7 @@ import { User } from '@/models/interface/user.interface'
 import { Category } from '@/models/interface/category.interface'
 import { categoryApi } from '../services/category.service'
 import { useQuery } from '@tanstack/react-query'
+import { initialSideBar, Sidebar } from '../constants/sidebar.const'
 
 interface AppContextInterface {
   isAuthenticated: boolean
@@ -16,7 +17,10 @@ interface AppContextInterface {
   profile: User | null
   setProfile: Dispatch<SetStateAction<User | null>>
   categories: Category[] | null
-  setCategories: Dispatch<SetStateAction<Category[] | null>>
+
+  setCategories: React.Dispatch<React.SetStateAction<Category[] | null>>
+  sidebar: Sidebar | null
+  setSidebar: React.Dispatch<React.SetStateAction<Sidebar | null>>
 }
 
 const initialAppContext: AppContextInterface = {
@@ -25,7 +29,9 @@ const initialAppContext: AppContextInterface = {
   profile: getUserFromLocalStorage(),
   setProfile: () => null,
   categories: getCategoriesFromLocalStorage(),
-  setCategories: () => null
+  setCategories: () => null,
+  sidebar: initialSideBar,
+  setSidebar: () => null
 }
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
 
@@ -33,7 +39,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated)
   const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
   const [categories, setCategories] = useState<Category[] | null>(initialAppContext.categories)
-
+  const [sidebar, setSidebar] = useState<Sidebar | null>(initialAppContext.sidebar)
   const { data } = useQuery({
     queryKey: ['categories'],
     queryFn: () => categoryApi.get()
@@ -48,7 +54,16 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AppContext.Provider
-      value={{ isAuthenticated, setIsAuthenticated, profile, setProfile, categories, setCategories }}
+      value={{
+        isAuthenticated,
+        setIsAuthenticated,
+        profile,
+        setProfile,
+        categories,
+        setCategories,
+        setSidebar,
+        sidebar
+      }}
     >
       {children}
     </AppContext.Provider>

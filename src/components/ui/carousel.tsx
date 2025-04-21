@@ -4,6 +4,8 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 import { cn } from '@/core/lib/utils'
 import { Button } from '@/components/ui/button'
+import classNames from 'classnames'
+import { isEqual } from 'lodash'
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -183,9 +185,9 @@ function CarouselPrevious({
       variant={variant}
       size={size}
       className={cn(
-        'absolute size-8 rounded-full',
+        'absolute size-8 rounded-full z-10',
         orientation === 'horizontal'
-          ? 'top-1/2 -left-12 -translate-y-1/2'
+          ? '-top-10 left-0 md:top-1/2 md:-left-4'
           : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
         className
       )}
@@ -215,7 +217,7 @@ function CarouselNext({
       className={cn(
         'absolute size-8 rounded-full',
         orientation === 'horizontal'
-          ? 'top-1/2 -right-12 -translate-y-1/2'
+          ? '-top-10 left-9 md:left-auto md:top-1/2 md:-right-4 '
           : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
         className
       )}
@@ -226,6 +228,54 @@ function CarouselNext({
       <ArrowRight />
       <span className='sr-only'>Next slide</span>
     </Button>
+  )
+}
+export function CarouselPagination() {
+  const { api } = useCarousel()
+  const [selectedIndex, setSelectedIndex] = React.useState(0)
+  const [scrollSnaps, setScrollSnaps] = React.useState<number[]>([])
+
+  React.useEffect(() => {
+    if (!api) return
+
+    const onSelect = () => {
+      setSelectedIndex(api.selectedScrollSnap())
+    }
+
+    setScrollSnaps(api.scrollSnapList())
+    api.on('select', onSelect)
+
+    onSelect() // sync ngay lần đầu
+    return () => {
+      api?.off('select', onSelect)
+    }
+  }, [api])
+
+  const scrollTo = (index: number) => {
+    if (api) {
+      api.scrollTo(index)
+    }
+  }
+
+  return (
+    <div className='absolute bottom-2 left-1/2 -translate-x-1/2 flex justify-center mt-4 gap-2'>
+      {scrollSnaps.map((_, index) => (
+        <button
+          key={index}
+          onClick={() => scrollTo(index)}
+          className={classNames(
+            'w-2.5 h-2.5 rounded-full transition-colors',
+            {
+              'bg-main': isEqual(selectedIndex, index)
+            },
+            {
+              'bg-gray-200 hover:bg-muted-foreground/70': !isEqual(selectedIndex, index)
+            }
+          )}
+          aria-label={`Go to slide ${index + 1}`}
+        />
+      ))}
+    </div>
   )
 }
 

@@ -4,7 +4,7 @@ import IconSave from '@/assets/icons/icon-save'
 import { Person, pic7 } from '@/assets/images'
 import CardItem from '@/components/CardItem'
 import Company from './Company'
-import SecctionInView from '@/components/SecctionInView'
+import SecctionInView from '@/components/SectionInView'
 import FeatureCard from '@/components/FeatureCard'
 import { Button } from '@/components/ui/button'
 import { IconGood } from '@/assets/icons/icon-good'
@@ -89,7 +89,7 @@ const HomePage = () => {
               {categories &&
                 categories.slice(0, 4).map((cate) => {
                   return (
-                    <div className='col-span-6 md:col-span-3  '>
+                    <div key={cate.id} className='col-span-6 md:col-span-3  '>
                       <Category category={cate} />
                     </div>
                   )
@@ -105,7 +105,9 @@ const HomePage = () => {
           </h2>
         </div>
         <SecctionInView>
-          <Comment />
+          <div className='w-full flex justify-center'>
+            <Comment />
+          </div>
         </SecctionInView>
       </SectionBgGreen>
       <SectionBgWhite className=' p-4 h-[300px] md:h-[500px] relative mt-8'>

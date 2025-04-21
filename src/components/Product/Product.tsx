@@ -2,13 +2,17 @@ import { IconArrowRight } from '@/assets/icons/icon-arrow'
 import { IconStar } from '@/assets/icons/icon-star'
 import { path } from '@/core/constants/path'
 import { Product as ProductType } from '@/models/interface/product.interface'
+import { urlSEO } from '@/utils/urlSEO'
 
 import { Link } from 'react-router-dom'
 
 export default function Product({ product }: { product: ProductType }) {
   return (
     <div className='rounded-xs shadow w-full flex  flex-col gap-3  pt-0 group hover:shadow-xl hover:translate-y-[-5px] duration-300'>
-      <Link to={path.products} className='w-full h-40 sm:h-55 group relative'>
+      <Link
+        to={`${path.product}/${urlSEO(product.id ? product.id.toString() : '', product.name as string)}`}
+        className='w-full h-40 sm:h-55 group relative'
+      >
         <img className='w-full h-full object-center object-cover' src={product.image} alt={product.name} />
         <div className='absolute inset-0 bg-gray-400 opacity-0 group-hover:opacity-40 transition-opacity duration-300'></div>
       </Link>

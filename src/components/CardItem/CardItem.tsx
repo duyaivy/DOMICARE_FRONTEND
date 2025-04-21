@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import SecctionInView from '../SecctionInView'
+import SecctionInView from '../SectionInView'
 interface CartItemProps {
   icon: ReactNode
   title: string

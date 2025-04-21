@@ -36,3 +36,16 @@ export interface ProductListConfig {
   categoryId?: number
   searchName?: string
 }
+export interface ProductUpdateRequest {
+  oldProductId: number
+  oldCategoryId: number
+  updateProduct: {
+    name?: string
+    description?: string
+    price?: number
+    discount?: number
+    categoryID?: number
+    image?: string
+    landingImages?: string[]
+  }
+}

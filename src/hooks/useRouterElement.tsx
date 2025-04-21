@@ -10,12 +10,23 @@ import Login from '@/pages/ALL/login'
 import Register from '@/pages/ALL/register'
 import Dashboard from '@/pages/ADMIN/dashboard/Dashboard'
 import PageNotFound from '@/pages/ALL/404/PageNotFound'
-import HomePage from '@/pages/USER/home'
-import AboutUs from '@/pages/USER/AboutUs'
+
 import { AppContext } from '@/core/contexts/app.context'
-import { ROLE_ADMIN, ROLE_USER } from '@/configs/consts'
+
 import Profile from '@/pages/USER/Profile'
 import Products from '@/pages/ALL/Products'
+import { rolesCheck } from '@/utils/rolesCheck'
+import ProfileAdmin from '@/pages/ADMIN/Settings/Profile.setting'
+import Category from '@/pages/ADMIN/Manage/Category.manage'
+import Product from '@/pages/ADMIN/Manage/Product.manage'
+import Sale from '@/pages/ADMIN/Manage/Sale.manage'
+import User from '@/pages/ADMIN/Manage/User.manage'
+import ProductDetail from '@/pages/ALL/ProductDetail'
+import Setting from '@/pages/ADMIN/Settings'
+import SystemSetting from '@/pages/ADMIN/Settings/System.setting'
+import Manage from '@/pages/ADMIN/Manage'
+import HomePage from '@/pages/ALL/home'
+import AboutUs from '@/pages/ALL/AboutUs'
 
 interface RouteConfig {
   path: string
@@ -25,7 +36,7 @@ interface RouteConfig {
 function ProtectedRouteAdmin() {
   //admin
   const { isAuthenticated, profile } = useContext(AppContext)
-  if (profile?.roles && profile.roles[0].name === ROLE_ADMIN && isAuthenticated) {
+  if (profile?.roles && rolesCheck.isAdminOrSale(profile.roles) && isAuthenticated) {
     return <Outlet />
   }
   return <Navigate to={path.login} />
@@ -33,15 +44,19 @@ function ProtectedRouteAdmin() {
 function ProtectedRouteUser() {
   // user
   const { isAuthenticated, profile } = useContext(AppContext)
-  if (profile?.roles && profile.roles[0].name === ROLE_USER && isAuthenticated) {
+  if (profile?.roles && rolesCheck.isUser(profile.roles) && isAuthenticated) {
     return <Outlet />
   }
   return <Navigate to={path.login} />
 }
 function RejectedRoute() {
   //login
-  const { isAuthenticated } = useContext(AppContext)
-  return !isAuthenticated ? <Outlet /> : <Navigate to={path.home} />
+  const { isAuthenticated, profile } = useContext(AppContext)
+  return !isAuthenticated ? (
+    <Outlet />
+  ) : (
+    <Navigate to={rolesCheck.isAdminOrSale(profile?.roles || []) ? path.admin.dashboard : path.home} />
+  )
 }
 
 export default function useRoutesElements() {
@@ -74,6 +89,14 @@ export default function useRoutesElements() {
       )
     },
     {
+      path: path.productDetail,
+      element: (
+        <CustomerLayout>
+          <ProductDetail />
+        </CustomerLayout>
+      )
+    },
+    {
       path: '',
       element: <ProtectedRouteUser />,
       children: [
@@ -95,17 +118,60 @@ export default function useRoutesElements() {
         { path: path.register, element: <Register /> }
       ]
     },
+
     {
       path: '',
       element: <ProtectedRouteAdmin />,
       children: [
         {
-          path: path.admin.dashboard,
+          path: path._admin,
           element: (
             <LayoutMain>
-              <Dashboard />
+              <Outlet />
             </LayoutMain>
-          )
+          ),
+          children: [
+            {
+              path: path.admin.dashboard,
+              element: <Dashboard />
+            },
+            {
+              path: path.admin._setting,
+              element: <Setting />,
+              children: [
+                {
+                  path: path.admin.setting.profile,
+                  element: <ProfileAdmin />
+                },
+                {
+                  path: path.admin.setting.system,
+                  element: <SystemSetting />
+                }
+              ]
+            },
+            {
+              path: path.admin._manage,
+              element: <Manage />,
+              children: [
+                {
+                  path: path.admin.manage.category,
+                  element: <Category />
+                },
+                {
+                  path: path.admin.manage.product,
+                  element: <Product />
+                },
+                {
+                  path: path.admin.manage.user,
+                  element: <User />
+                },
+                {
+                  path: path.admin.manage.sale,
+                  element: <Sale />
+                }
+              ]
+            }
+          ]
         }
       ]
     },
