@@ -38,27 +38,31 @@ import Slider from './Slider'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import WriteReview from './WriteReview'
-
+import { BookingRequest } from '@/models/interface/booking.interface'
+interface DataAPI {
+  dataAPI: BookingRequest
+  isLogin: boolean
+}
 export default function ProductDetail() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { pathname } = useLocation()
   const pathString = pathname.split('$d$')
-  const id = pathString[pathString.length - 1]
+  const id = Number(pathString[pathString.length - 1] || 1)
   const { profile } = useContext(AppContext)
   const { categories } = useContext(AppContext)
   const { data } = useQuery({
     queryKey: [path.product, id],
-    queryFn: () => productApi.getPrdDetail(Number(id) || 1),
-    staleTime: 60 * 1000 * 3
+    queryFn: () => productApi.getPrdDetail(id),
+    staleTime: 60 * 1000
   })
 
   // form
   const form = useForm<z.infer<typeof BookingSchema>>({
     resolver: zodResolver(BookingSchema),
     defaultValues: {
-      email: profile?.email || '',
+      guestEmail: '',
       address: profile?.address || '',
-      date: undefined,
+      startTime: undefined,
       name: profile?.name || '',
       note: '',
       phone: profile?.phone || '',
@@ -67,7 +71,10 @@ export default function ProductDetail() {
   })
   const mutationBooking = useMutation({
     mutationKey: mutationKeys.booking,
-    mutationFn: profile ? bookingApi.post : bookingApi.postUnlogin,
+    mutationFn: (data: DataAPI) => {
+      const { dataAPI, isLogin } = data
+      return bookingApi.post(dataAPI, isLogin)
+    },
     onSuccess: () => {
       Toast.success({
         title: 'Thành công',
@@ -85,11 +92,12 @@ export default function ProductDetail() {
     const dataAPI = {
       ...data,
       isPeriodic: isEqual(data.isPeriodic, isPeriodic.month) ? true : false,
-      date: data.date.toISOString(),
+      startTime: data.startTime.toISOString(),
       productIds: [Number(id)],
       phone: data.phone.toString()
     }
-    mutationBooking.mutate(dataAPI)
+    const isLogin = profile ? true : false
+    mutationBooking.mutate({ dataAPI, isLogin })
   }
 
   const product = data && data.data.data
@@ -170,7 +178,7 @@ export default function ProductDetail() {
                 />
                 <div className='text-head font-bold mb-2'>{product.ratingStar}</div>
                 <p className='text-lg text-gray'>{product.reviewDTOs && product.reviewDTOs.length} lượt đánh giá</p>
-                <WriteReview productId={Number(id)} />
+                <WriteReview productId={id} />
               </div>
               <div className='col-span-12 md:col-span-6 md:pb-5'>
                 {product.reviewDTOs && product.reviewDTOs.length > 0 ? (
@@ -195,7 +203,7 @@ export default function ProductDetail() {
                     {!profile && (
                       <FormField
                         control={form.control}
-                        name='email'
+                        name='guestEmail'
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Email</FormLabel>
@@ -258,7 +266,7 @@ export default function ProductDetail() {
                       />
                       <FormField
                         control={form.control}
-                        name='date'
+                        name='startTime'
                         render={({ field }) => (
                           <FormItem className='basis-1/2'>
                             <FormLabel>Thời gian</FormLabel>

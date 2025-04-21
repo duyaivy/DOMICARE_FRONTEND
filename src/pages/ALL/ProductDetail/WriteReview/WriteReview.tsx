@@ -3,20 +3,21 @@ import { Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { isEqual } from 'lodash'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { mutationKeys } from '@/core/helpers/key-tanstack'
 import { reviewApi } from '@/core/services/review.service'
 import { AppContext } from '@/core/contexts/app.context'
 import { Toast } from '@/utils/toastMessage'
 import { AxiosError } from 'axios'
+import { path } from '@/core/constants/path'
 interface WriteReviewProps {
   productId: number
 }
 export default function WriteReview({ productId }: WriteReviewProps) {
+  const queryClient = useQueryClient()
   const { profile } = useContext(AppContext)
   const [review, setReview] = useState<string>('')
   const [rating, setRating] = useState<number>(0)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const reviewMutation = useMutation({
     mutationKey: mutationKeys.review,
     mutationFn: profile ? reviewApi.post : reviewApi.postUnlogin
@@ -29,16 +30,16 @@ export default function WriteReview({ productId }: WriteReviewProps) {
         comment: review,
         productId: productId
       }
-      setIsLoading(true)
+
       const { data } = await reviewMutation.mutateAsync(dataApi)
       Toast.success({ title: 'Đánh giá thành công', description: data.message })
+      // refetch
+      queryClient.invalidateQueries({ queryKey: [path.product, productId] })
       setReview('')
       setRating(0)
     } catch (error) {
       const err = error as AxiosError<{ message: string }>
       Toast.error({ title: 'Lỗi', description: err.response?.data?.message || err.message })
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -66,7 +67,7 @@ export default function WriteReview({ productId }: WriteReviewProps) {
       </div>
       <Button
         type='submit'
-        loading={isLoading}
+        loading={reviewMutation.isPending}
         className=' text-white px-4 w-full rounded-md capitalize text-base cursor-pointer h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg'
         disabled={isEqual(rating, 0)}
       >

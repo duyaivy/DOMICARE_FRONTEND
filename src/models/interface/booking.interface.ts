@@ -3,7 +3,7 @@ export interface BookingRequest {
   phone: string
   isPeriodic: boolean
   productIds: number[]
-  date: string
+  startTime: string
   note?: string
-  email?: string
+  guestEmail?: string
 }

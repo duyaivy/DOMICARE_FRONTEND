@@ -3,15 +3,12 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import CommentItem from './CommentItem'
 import { Fragment } from 'react/jsx-runtime'
 import classNames from 'classnames'
-import { isEqual } from 'lodash'
-import { numberConstants } from '@/configs/consts'
 import { initialReviews } from '@/core/constants/initialValue.const'
 interface CommentProps {
   reviews?: Review[]
 }
 
 export default function Comment({ reviews = initialReviews }: CommentProps) {
-  const isOneItem = isEqual(reviews.length, numberConstants.ONE)
   return (
     <Fragment>
       {reviews && reviews.length > 0 && (
@@ -25,17 +22,14 @@ export default function Comment({ reviews = initialReviews }: CommentProps) {
         >
           <CarouselContent className='flex items-center py-2 '>
             {reviews.map((item) => (
-              <CarouselItem
-                key={item.id}
-                className={classNames(' flex items-center justify-center', { 'lg:basis-1/2': !isOneItem })}
-              >
+              <CarouselItem key={item.id} className={classNames(' flex items-center justify-center')}>
                 <CommentItem
                   address={item.userDTO?.address || ''}
                   avatar={item.userDTO?.avatar}
                   name={item.userDTO?.name}
                   gender={'MALE'}
                   comment={item.comment}
-                  className={isOneItem ? 'w-xl' : ''}
+                  className={'w-xl'}
                 />
               </CarouselItem>
             ))}
