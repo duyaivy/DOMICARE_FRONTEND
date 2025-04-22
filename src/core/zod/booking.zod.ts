@@ -1,15 +1,14 @@
 import { z } from 'zod'
-import { numberConstants } from '@/configs/consts'
 
 export const BookingSchema = z.object({
-  email: z
+  guestEmail: z
     .string()
-    .min(numberConstants.TWO, {
-      message: 'Email không được để trống.'
-    })
-    .email({
-      message: 'Email không đúng định dạng.'
-    }),
+    // .trim()
+    // .refine((val) => val === '' || z.string().email().safeParse(val).success, {
+    //   message: 'Email không đúng định dạng.'
+    // })
+    // .transform((val) => (val === '' ? undefined : val))
+    .optional(),
   phone: z
     .string()
     .min(10, { message: 'Số điện thoại không được để trống hoặc không hợp lệ.' })
@@ -19,8 +18,8 @@ export const BookingSchema = z.object({
 
   address: z.string().min(5, { message: 'Địa chỉ không được để trống.' }),
 
-  date: z.date({ message: 'Ngày không được để trống.' }),
+  startTime: z.date({ message: 'Ngày không được để trống.' }),
 
   note: z.string().optional(), // cho phép để trống
-  isOneTime: z.enum(['oneTime', 'month'])
+  isPeriodic: z.enum(['true', 'false'])
 })

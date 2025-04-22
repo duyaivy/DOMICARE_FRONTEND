@@ -4,6 +4,7 @@ import { Category, CategoryListConfig, CategoryResponse } from '@/models/interfa
 
 const API_CATEGORY_URL = '/api/categories'
 const API_CATEGORY_PUBLIC_URL = '/api/public/categories'
+
 export const categoryApi = {
   query: (params: CategoryListConfig) => {
     return axiosClient.get<SuccessResponse<CategoryResponse>>(API_CATEGORY_PUBLIC_URL, { params })

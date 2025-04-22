@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem } from '../ui/form'
 import { Input } from '../ui/input'
-import IconSeacrh from '@/assets/icons/icon-search'
+import IconSearch from '@/assets/icons/icon-search'
 import { Button } from '../ui/button'
 import { QueryConfig } from '@/hooks/usePrdQueryConfig'
 import { createSearchParams, useNavigate } from 'react-router-dom'
@@ -47,7 +47,7 @@ export default function Search({ queryString }: { queryString: QueryConfig }) {
                     classNameInput='pr-0 p-1.5 '
                     icon={
                       <Button type='submit' className='bg-main w-15 cursor-pointer  hover:bg-main/80 '>
-                        <IconSeacrh className='fill-white' />
+                        <IconSearch className='fill-white' />
                       </Button>
                     }
                   />

@@ -1,13 +1,12 @@
-import * as React from 'react'
 import { CalendarIcon } from 'lucide-react'
-
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/core/lib/utils'
 import { Calendar } from '../ui/calendar'
+import { useState } from 'react'
 
 export function DatePicker() {
-  const [date, setDate] = React.useState<Date>()
+  const [date, setDate] = useState<Date>()
 
   return (
     <Popover>

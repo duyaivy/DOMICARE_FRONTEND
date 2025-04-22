@@ -1,9 +1,10 @@
+import { GENDER_TYPE, ROLE_TYPE } from '../types/user.type'
+
 export interface User {
   id?: number
   name?: string
   email?: string
   password?: string
-  gender?: 'MALE' | 'FEMALE' | 'OTHER'
   phone?: string
   address?: string
   emailConfirmationToken?: string
@@ -16,6 +17,7 @@ export interface User {
   avatar?: string
   dateOfBirth?: string
   emailConfirmed?: boolean
+  gender: GENDER_TYPE
 }
 export interface UserUpdate {
   name?: string
@@ -23,7 +25,7 @@ export interface UserUpdate {
   imageId?: string
   addres?: string
   dateOfBirth?: Date
-  gender?: 'MALE' | 'FEMALE' | 'OTHER'
+  gender?: GENDER_TYPE
   newPassword?: string
   oldPassword?: string
 }
@@ -33,7 +35,7 @@ export interface UserUpdateAPI extends Omit<UserUpdate, 'dateOfBirth'> {
 }
 export type role = {
   id: number
-  name: 'ROLE_ADMIN' | 'ROLE_USER' | 'ROLE_SALE'
+  name: ROLE_TYPE
   active: boolean
   description?: string
   createBy?: string
