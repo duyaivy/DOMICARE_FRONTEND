@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 import { IconMail } from '@/assets/icons/icon-mail'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Button } from '@/components/ui/button'
-import { CalendarIcon, Loader, MapPinned, Phone, User } from 'lucide-react'
+import { Loader, MapPinned, Phone, User } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { UpdateUserSchema } from '@/core/zod/updateUser.zod'
@@ -20,14 +20,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { gender } from '@/core/constants/user.const'
 import { Label } from '@/components/ui/label'
 import hideEmail from '@/utils/hideEmail'
-import { Popover, PopoverTrigger } from '@/components/ui/popover'
-import { cn } from '@/core/lib/utils'
-import { formatDateTime } from '@/core/helpers/date-time'
-import dayjs from 'dayjs'
-import { STANDARD_DATE_FORMAT_INVERSE } from '@/configs/consts'
-import { PopoverContent } from '@radix-ui/react-popover'
-import { Calendar } from '@/components/ui/calendar'
+
 import { useAvatarMutation, useUserMutation } from '@/core/queries/user.query'
+import DateTimeSelect from '@/components/DateTimeSelect'
 
 export default function Profile() {
   const { profile } = useContext(AppContext)
@@ -38,7 +33,6 @@ export default function Profile() {
   }, [file])
 
   // call API
-
   const userUpdateMutation = useUserMutation()
   const updateAvatarMutation = useAvatarMutation()
   // form
@@ -110,7 +104,7 @@ export default function Profile() {
             >
               <div className='grid grid-cols-12 gap-4 my-4'>
                 <div className='col-span-12 md:col-span-7 order-2 md:order-1'>
-                  <div className=''>
+                  <div>
                     <Label>Email</Label>
                     <Input
                       disabled
@@ -175,72 +169,44 @@ export default function Profile() {
                       </FormItem>
                     )}
                   />
-                  <div className='flex gap-2'>
-                    <FormField
-                      control={form.control}
-                      name='phone'
-                      render={({ field }) => (
-                        <FormItem className='mb-4 basis-1/2'>
-                          <FormLabel>Số điện thoại</FormLabel>
-                          <FormControl>
-                            <Input
-                              autoComplete='off'
-                              placeholder='Nhập họ và tên'
-                              type='text'
-                              className='w-full focus:outline-0 mt-1'
-                              {...field}
-                              icon={<Phone />}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='dateOfBirth'
-                      render={({ field }) => (
-                        <FormItem className='basis-1/2'>
-                          <FormLabel>Ngày sinh</FormLabel>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <FormControl>
-                                <Button
-                                  variant={'secondary'}
-                                  className={cn(
-                                    'w-full text-left justify-start mt-1 h-9.5 relative',
-                                    !field.value && 'text-muted-foreground'
-                                  )}
-                                >
-                                  {field.value ? (
-                                    formatDateTime(dayjs(field.value), STANDARD_DATE_FORMAT_INVERSE)
-                                  ) : (
-                                    <span>Chọn thời gian</span>
-                                  )}
 
-                                  <CalendarIcon className='absolute right-2.5 ml-auto !h-6 !w-6' />
-                                </Button>
-                              </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent
-                              className='w-auto mt-1.5 bg-white z-10 rounded-lg border border-neutral-300'
-                              align='start'
-                            >
-                              <Calendar
-                                mode='single'
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                disabled={(date) => date < new Date('1900-01-01')}
-                                initialFocus
-                              />
-                            </PopoverContent>
-                          </Popover>
-
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name='phone'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Số điện thoại</FormLabel>
+                        <FormControl>
+                          <Input
+                            autoComplete='off'
+                            placeholder='Nhập họ và tên'
+                            type='text'
+                            className='w-full focus:outline-0 mt-1'
+                            {...field}
+                            icon={<Phone />}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='dateOfBirth'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Ngày sinh</FormLabel>
+                        <FormControl>
+                          <DateTimeSelect
+                            onChange={field.onChange}
+                            value={field.value}
+                            errorMessage={form.formState.errors.dateOfBirth?.message}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
                   <FormField
                     control={form.control}
