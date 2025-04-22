@@ -10,7 +10,3 @@ export interface File {
   createAt?: string
   updateAt?: string
 }
-export interface FilePostResponse {
-  id: number
-  name: string
-}

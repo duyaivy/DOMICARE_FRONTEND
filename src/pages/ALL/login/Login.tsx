@@ -1,20 +1,16 @@
 import { useForm } from 'react-hook-form'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
-
 import { LoginSchema } from '@/core/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import { AppContext } from '@/core/contexts/app.context'
+
 import { Button } from '@/components/ui/button'
 import LoginGoogle from './LoginGoogle'
-import { Toast } from '@/utils/toastMessage'
+
 import { PASSWORD_TYPE, TEXT_TYPE } from '@/configs/consts'
 import { EMAIL, REMEMBER_ME } from '@/core/configs/const'
 import { path } from '@/core/constants/path'
-import { mutationKeys } from '@/core/helpers/key-tanstack'
-import { authApi } from '@/core/services/auth.service'
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { IconEye, IconNonEye } from '@/assets/icons'
@@ -23,13 +19,11 @@ import { IconMail } from '@/assets/icons/icon-mail'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
-import { handleErrorAPI } from '@/utils/handleErrorAPI'
-import { User } from '@/models/interface/user.interface'
 import { isEqual } from 'lodash'
+import { useLoginMutation } from '@/core/queries/auth.query'
+import { authApi } from '@/core/services/auth.service'
+import { handleErrorAPI } from '@/utils/handleErrorAPI'
 export default function Login() {
-  const { setProfile, setIsAuthenticated } = useContext(AppContext)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const REMEMBER = localStorage.getItem(REMEMBER_ME)
   const [rememberMe, setRememberMe] = useState<boolean>(isEqual(REMEMBER, 'true') ? true : false)
@@ -42,29 +36,13 @@ export default function Login() {
     }
   })
 
-  const mutationLogin = useMutation({
-    mutationKey: mutationKeys.login,
-    mutationFn: (data: z.infer<typeof LoginSchema>) => authApi.login(data)
+  const mutationLogin = useLoginMutation({
+    mutationFn: authApi.login,
+    handleError: (error) => handleErrorAPI(error, form)
   })
-
   function onSubmit() {
-    setIsLoading(true)
     const loginData = form.getValues() as z.infer<typeof LoginSchema>
-    mutationLogin.mutate(loginData, {
-      onSuccess: ({ data }) => {
-        setAccessTokenToLS(data.data.accessToken as string)
-        setRefreshTokenToLS(data.data.refreshToken as string)
-        setUserToLS(data.data.user as User)
-        setIsAuthenticated(true)
-        setProfile(data.data.user as User)
-
-        Toast.success({ title: 'Thành công', description: 'Đăng nhập thành công 🚀🚀⚡⚡' })
-      },
-      onError: (error) => handleErrorAPI(error, form),
-      onSettled: () => {
-        setIsLoading(false)
-      }
-    })
+    mutationLogin.mutate(loginData)
   }
 
   const togglePasswordVisibility = () => setIsPasswordVisible(!isPasswordVisible)
@@ -76,7 +54,6 @@ export default function Login() {
 
   useEffect(() => {
     const email = form.getValues('email')
-
     if (rememberMe) {
       localStorage.setItem(EMAIL, email)
     }
@@ -170,7 +147,7 @@ export default function Login() {
               </div>
 
               <Button
-                loading={isLoading}
+                loading={mutationLogin.isPending}
                 className='w-full text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
                 type='submit'
               >

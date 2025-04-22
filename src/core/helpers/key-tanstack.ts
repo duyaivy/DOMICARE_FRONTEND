@@ -3,5 +3,6 @@ export const mutationKeys = {
   login: ['login'],
   updateProfile: ['updateProfile'],
   booking: ['booking'],
-  review: ['review']
+  review: ['review'],
+  postAvatar: ['postAvatar']
 }

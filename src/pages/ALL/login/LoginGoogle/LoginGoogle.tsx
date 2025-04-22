@@ -1,51 +1,24 @@
-import { ROLE_ADMIN } from '@/configs/consts'
-import { path } from '@/core/constants/path'
-import { AppContext } from '@/core/contexts/app.context'
-import { mutationKeys } from '@/core/helpers/key-tanstack'
+import { useLoginMutation } from '@/core/queries/auth.query'
 import { authApi } from '@/core/services/auth.service'
-import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '@/core/shared/storage'
 import { Toast } from '@/utils/toastMessage'
 import { useGoogleLogin } from '@react-oauth/google'
-import { useMutation } from '@tanstack/react-query'
-import { isEqual } from 'lodash'
-import { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 export default function LoginGoogle() {
-  const mutationLogin = useMutation({
-    mutationKey: mutationKeys.login,
-    mutationFn: (code: string) => authApi.loginWithGG({ code })
+  const mutationLogin = useLoginMutation({
+    mutationFn: authApi.loginWithGG,
+    handleError: () => {
+      Toast.error({ description: 'Đăng nhập với Google thất bại, vui lòng thử lại sau!' })
+    }
   })
-  const navigate = useNavigate()
-  const { setProfile, setIsAuthenticated } = useContext(AppContext)
   const loginGG = useGoogleLogin({
     flow: 'auth-code',
     onSuccess: (credentialResponse) => {
       console.log(credentialResponse)
       const code = credentialResponse.code
-      mutationLogin.mutate(code, {
-        onSuccess: ({ data }) => {
-          setAccessTokenToLS(data.data.accessToken)
-          setRefreshTokenToLS(data.data.refreshToken)
-          setUserToLS(data.data.user)
-          setIsAuthenticated(true)
-          setProfile(data.data.user)
-
-          const roles = data?.data?.user?.roles ?? []
-          navigate(isEqual(roles[0], ROLE_ADMIN) ? path.admin.dashboard : path.home)
-          Toast.success({ title: 'Thành công', description: 'Đăng nhập thành công 🚀🚀⚡⚡' })
-        }
-        // onError: (error) => handleErrorAPI(error, form),
-        // onSettled: () => {
-        //    setIsLoading(false)
-        // }
-      })
-    },
-    onError: () => {
-      Toast.error({ description: 'Đăng nhập với Google thất bại, vui lòng thử lại sau!' })
-      // console.log('Login Failed')
+      mutationLogin.mutate({ code })
     }
   })
+
   return (
     <div className='mt-6'>
       <button

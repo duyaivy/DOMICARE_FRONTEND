@@ -8,26 +8,18 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 import { PASSWORD_TYPE, TEXT_TYPE } from '@/configs/consts'
-
 import { path } from '@/core/constants/path'
-import { mutationKeys } from '@/core/helpers/key-tanstack'
-import { authApi } from '@/core/services/auth.service'
 import { RegisterSchema } from '@/core/zod'
 import { handleErrorAPI } from '@/utils/handleErrorAPI'
-import { Toast } from '@/utils/toastMessage'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import { omit } from 'lodash'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
-
+import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import SentEmail from './SentEmail'
+import { useRegisterMutation } from '@/core/queries/auth.query'
 
 export default function Register() {
-  const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isConfirm, setIsconfirm] = useState<boolean>(false)
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false)
@@ -40,24 +32,9 @@ export default function Register() {
       confirmPassword: ''
     }
   })
-  const mutationRegister = useMutation({
-    mutationKey: mutationKeys.register,
-    mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(omit(data, 'confirm_password')),
-    onSuccess: () => {
-      navigate(path.login)
-      Toast.success({
-        title: 'Thành công',
-        description: 'Đăng kí tài khoản thành công. Vui lòng kiểm tra Mail của bạn.'
-      })
-    },
-    onError: (error) => handleErrorAPI(error, form),
-    onSettled: () => {
-      setIsLoading(false)
-    }
-  })
+  const mutationRegister = useRegisterMutation({ handleError: (error) => handleErrorAPI(error, form) })
 
   const handleRegister = () => {
-    setIsLoading(true)
     mutationRegister.mutate(form.getValues())
   }
 
@@ -172,7 +149,7 @@ export default function Register() {
                 </div>
               </div>
               <Button
-                loading={isLoading}
+                loading={mutationRegister.isPending}
                 className='w-full text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
                 type='submit'
               >

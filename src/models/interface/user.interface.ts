@@ -22,7 +22,7 @@ export interface User {
 export interface UserUpdate {
   name?: string
   phone?: string
-  imageId?: string
+  imageId?: number
   addres?: string
   dateOfBirth?: Date
   gender?: GENDER_TYPE

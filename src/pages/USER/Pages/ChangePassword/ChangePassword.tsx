@@ -5,25 +5,38 @@ import { UpdatePassUserSchema } from '@/core/zod/updateUser.zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { UserUpdate } from '@/models/interface/user.interface'
-import { useUserMutation } from '@/hooks/useUserMutation'
-import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import InputPassword from '@/components/InputPassword/InputPassword'
+import { initialChangePW } from '@/core/constants/initialValue.const'
+import { isAxiosError } from 'axios'
+import { useUserMutation } from '@/core/queries/user.query'
 
 export default function ChangePassword() {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const form = useForm<z.infer<typeof UpdatePassUserSchema>>({
     resolver: zodResolver(UpdatePassUserSchema),
     defaultValues: {
-      oldPassword: '',
-      confirmPassword: '',
-      newPassword: ''
+      oldPassword: initialChangePW.oldPassword,
+      confirmPassword: initialChangePW.newPassword,
+      newPassword: initialChangePW.confirmPassword
     }
   })
-  const userUpdateMutation = useUserMutation({ setIsLoading })
+  const userUpdateMutation = useUserMutation()
 
   const handleSubmitForm = async (data: Pick<UserUpdate, 'oldPassword' | 'newPassword'>) => {
-    userUpdateMutation.mutate(data)
+    try {
+      await userUpdateMutation.mutateAsync(data)
+      form.setValue('oldPassword', initialChangePW.oldPassword)
+      form.setValue('newPassword', initialChangePW.newPassword)
+      form.setValue('confirmPassword', initialChangePW.confirmPassword)
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const message = error.response?.data?.message
+        form.setError('oldPassword', {
+          type: 'server',
+          message: message
+        })
+      }
+    }
   }
   return (
     <SectionUser title='Đổi mật khẩu' description='Thay đổi mật khẩu 6 tháng 1 lần để bảo vệ tài khoản của bạn.'>
@@ -75,7 +88,7 @@ export default function ChangePassword() {
                 />
                 <div className='flex justify-center items-center'>
                   <Button
-                    loading={isLoading}
+                    loading={userUpdateMutation.isPending}
                     className='w-full md:w-3/5 mt-10 text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
                     type='submit'
                   >

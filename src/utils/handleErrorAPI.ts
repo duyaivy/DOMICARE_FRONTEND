@@ -33,3 +33,12 @@ export const handleErrorAPI = <T extends FieldValues>(error: unknown, form?: Use
     }
   }
 }
+export const handleToastError = (error: unknown) => {
+  {
+    if (isAxiosError(error)) {
+      Toast.error({ description: error.response?.data.message })
+    } else {
+      Toast.error({ title: 'Có lỗi xảy ra', description: 'Lỗi không xác định.' })
+    }
+  }
+}

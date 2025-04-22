@@ -7,9 +7,8 @@ import {
 } from '../shared/storage'
 import { User } from '@/models/interface/user.interface'
 import { Category } from '@/models/interface/category.interface'
-import { categoryApi } from '../services/category.service'
-import { useQuery } from '@tanstack/react-query'
 import { initialSideBar, Sidebar } from '../constants/sidebar.const'
+import { useCategoryQuery } from '../queries/product.query'
 
 interface AppContextInterface {
   isAuthenticated: boolean
@@ -40,10 +39,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
   const [categories, setCategories] = useState<Category[] | null>(initialAppContext.categories)
   const [sidebar, setSidebar] = useState<Sidebar | null>(initialAppContext.sidebar)
-  const { data } = useQuery({
-    queryKey: ['categories'],
-    queryFn: () => categoryApi.get()
-  })
+  const { data } = useCategoryQuery()
   useEffect(() => {
     const dataCategory = (data && data.data.data.data) || []
     if (dataCategory.length > 0) {

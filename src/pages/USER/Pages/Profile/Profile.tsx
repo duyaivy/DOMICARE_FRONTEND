@@ -1,12 +1,10 @@
 import InputFile from '@/components/InputFile'
 import { path } from '@/core/constants/path'
 import { AppContext } from '@/core/contexts/app.context'
-import { mutationKeys } from '@/core/helpers/key-tanstack'
-import { fileApi } from '@/core/services/file.service'
 import { userApi } from '@/core/services/user.service'
 import { UserUpdate } from '@/models/interface/user.interface'
 import { Toast } from '@/utils/toastMessage'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Fragment, useContext, useEffect, useMemo, useState } from 'react'
 import SectionUser from '../../Layouts/SectionUser'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -22,7 +20,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { gender } from '@/core/constants/user.const'
 import { Label } from '@/components/ui/label'
 import hideEmail from '@/utils/hideEmail'
-import { useUserMutation } from '@/hooks/useUserMutation'
 import { Popover, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/core/lib/utils'
 import { formatDateTime } from '@/core/helpers/date-time'
@@ -30,9 +27,9 @@ import dayjs from 'dayjs'
 import { STANDARD_DATE_FORMAT_INVERSE } from '@/configs/consts'
 import { PopoverContent } from '@radix-ui/react-popover'
 import { Calendar } from '@/components/ui/calendar'
-export default function Profile() {
-  const [isLoadingForm, setIsLoadingForm] = useState<boolean>(false)
+import { useAvatarMutation, useUserMutation } from '@/core/queries/user.query'
 
+export default function Profile() {
   const { profile } = useContext(AppContext)
   const userId = profile?.id || 1
   const [file, setFile] = useState<File>()
@@ -41,6 +38,21 @@ export default function Profile() {
   }, [file])
 
   // call API
+
+  const userUpdateMutation = useUserMutation()
+  const updateAvatarMutation = useAvatarMutation()
+  // form
+  const form = useForm<z.infer<typeof UpdateUserSchema>>({
+    resolver: zodResolver(UpdateUserSchema),
+    defaultValues: {
+      address: '',
+      name: '',
+      gender: undefined,
+      phone: '',
+      imageId: undefined,
+      dateOfBirth: undefined
+    }
+  })
   const { data, isLoading, refetch } = useQuery({
     queryKey: [path.user.profile],
     queryFn: () => userApi.getById(userId),
@@ -48,37 +60,15 @@ export default function Profile() {
   })
   const user = data?.data.data
 
-  const userUpdateMutation = useUserMutation({ setIsLoading: setIsLoadingForm })
-  const updateAvatarMutation = useMutation({
-    mutationKey: mutationKeys.postAvatar,
-    mutationFn: fileApi.post,
-    onError: () => {
-      Toast.error({ title: 'Tải lên ảnh đại diện thất bại.' })
-    },
-    onSuccess: (data) => {
-      Toast.success({ title: data.data.message })
-    }
-  })
-  // form
-  const form = useForm<z.infer<typeof UpdateUserSchema>>({
-    resolver: zodResolver(UpdateUserSchema),
-    defaultValues: {
-      address: '',
-      name: '',
-      gender: 'OTHER',
-      phone: '',
-      imageId: '',
-      dateOfBirth: undefined
-    }
-  })
   useEffect(() => {
     if (user) {
+      form.setValue('gender', user.gender || gender.other)
       form.setValue('address', user.address || '')
       form.setValue('phone', user.phone || '')
-      form.setValue('gender', user.gender || 'OTHER')
       form.setValue('name', user.name || '')
       const dateOfBirth = new Date(user.dateOfBirth as string)
       form.setValue('dateOfBirth', dateOfBirth)
+      console.log('value', form.getValues())
     }
   }, [user, form])
 
@@ -88,7 +78,8 @@ export default function Profile() {
         const formData = new FormData()
         formData.append('file', file)
         const avatarRes = await updateAvatarMutation.mutateAsync(formData)
-        form.setValue('imageId', avatarRes.data.data.id.toString())
+        data.imageId = avatarRes.data.data.id
+        setFile(undefined)
       }
       // submit form
       const dataApi = {
@@ -98,7 +89,7 @@ export default function Profile() {
       await userUpdateMutation.mutateAsync(dataApi)
       refetch()
     } catch {
-      Toast.error({ title: 'Lỗi không xác định.' })
+      Toast.error({ description: 'Lỗi không xác định.' })
     }
     // upload avatar
   }
@@ -159,7 +150,7 @@ export default function Profile() {
                         <FormLabel>Giới tính:</FormLabel>
 
                         <FormControl>
-                          <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className='flex'>
+                          <RadioGroup onValueChange={field.onChange} value={field.value} className='flex'>
                             <FormItem className='flex items-center space-x-3 space-y-0'>
                               <FormControl>
                                 <RadioGroupItem value={gender.male} />
@@ -221,7 +212,6 @@ export default function Profile() {
                                     !field.value && 'text-muted-foreground'
                                   )}
                                 >
-                                  {/* {field.value ? format(field.value, 'PPP') : <span>Chọn thời gian</span>} */}
                                   {field.value ? (
                                     formatDateTime(dayjs(field.value), STANDARD_DATE_FORMAT_INVERSE)
                                   ) : (
@@ -273,7 +263,7 @@ export default function Profile() {
                   />
                   <div className='flex justify-center items-center'>
                     <Button
-                      loading={isLoadingForm}
+                      loading={userUpdateMutation.isPending || updateAvatarMutation.isPending}
                       className='w-full md:w-3/5 mt-10 text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
                       type='submit'
                     >

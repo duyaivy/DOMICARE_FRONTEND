@@ -6,6 +6,7 @@ import {
   removeRefreshTokenFromLS,
   setAccessTokenToLS
 } from '@/core/shared/storage'
+import { SuccessResponse } from '@/models/interface/response.interface'
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -80,13 +81,12 @@ axiosClient.interceptors.response.use(
             return Promise.reject(error)
           }
 
-          const response = await axios.post<TokenResponse>(`${config.baseUrl}/refresh-token`, {
+          const response = await axios.post<SuccessResponse<TokenResponse>>(`${config.baseUrl}/refresh-token`, {
             refreshToken: refreshToken
           })
 
           if (isEqual(response.status, HttpStatusCode.Ok)) {
-            console.log(response.data)
-            const { accessToken } = response.data
+            const { accessToken } = response.data.data
 
             setAccessTokenToLS(accessToken)
 

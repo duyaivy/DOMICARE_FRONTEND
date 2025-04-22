@@ -47,3 +47,9 @@ export const initialReviews: Review[] = [
     productId: 1001
   }
 ]
+
+export const initialChangePW = {
+  oldPassword: '',
+  confirmPassword: '',
+  newPassword: ''
+}

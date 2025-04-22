@@ -11,7 +11,7 @@ export const UpdateUserSchema = z.object({
     .string()
     .min(numberConstants.TEN, { message: 'Số điện thoại không được để trống.' })
     .regex(validator.number, { message: 'Số điện thoại chỉ được chứa số.' }),
-  imageId: z.string().optional(),
+  imageId: z.number().optional(),
   address: z.string().min(numberConstants.FIVE, {
     message: 'Địa chỉ không được để trống.'
   }),
