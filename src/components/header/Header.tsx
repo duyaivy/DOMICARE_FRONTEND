@@ -1,6 +1,6 @@
 import { logoSecond } from '@/assets/images'
 import { path } from '@/core/constants/path'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { animateScroll } from 'react-scroll'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
@@ -18,13 +18,15 @@ import { useContext, useEffect, useState } from 'react'
 import IconHeadphone from '@/assets/icons/icon-headphone'
 import IconChevronUp from '@/assets/icons/icon-chevron-up'
 import { AppContext } from '@/core/contexts/app.context'
-import { clearLS } from '@/core/shared/storage'
+import { getRefreshTokenFromLS } from '@/core/shared/storage'
 import { PhoneCallIcon } from 'lucide-react'
 import { ICON_SIZE_EXTRA } from '@/core/configs/icon-size'
+import IconBar from '@/assets/icons/icon-bar'
+import { useLogoutMutation } from '@/core/queries/auth.query'
 
 export default function Header() {
-  const { isAuthenticated, profile, setIsAuthenticated, setProfile, categories } = useContext(AppContext)
-  const navigate = useNavigate()
+  const { isAuthenticated, profile, categories } = useContext(AppContext)
+
   const [isShow, setIsShow] = useState<boolean>(false)
   const handleScrollUp = () => animateScroll.scrollTo(0, { smooth: true, duration: 500 })
   const [showUpBtn, setShowUpBtn] = useState<boolean>(false)
@@ -42,12 +44,12 @@ export default function Header() {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
+  const logoutMutation = useLogoutMutation()
   const handleLogout = () => {
-    setIsAuthenticated(false)
-    clearLS()
-    setProfile(null)
-    navigate(path.login)
+    const refreshToken = getRefreshTokenFromLS()
+    logoutMutation.mutate({ refreshToken })
   }
+
   return (
     <header className='w-full h-10 md:h-16 z-50 relative mb-[64px] md:mb-0'>
       <div className='bg-secondary w-full h-10 md:h-16'>
@@ -172,9 +174,7 @@ export default function Header() {
                 }}
                 className='h-full w-full flex justify-end items-center p-2 pr-0 cursor-pointer'
               >
-                <svg className='w-5 h-5 fill-black' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'>
-                  <path d='M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z' />
-                </svg>
+                <IconBar className='fill-black' />
               </button>
             </div>
           </div>

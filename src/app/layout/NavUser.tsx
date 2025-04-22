@@ -12,10 +12,18 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
 import { User } from '@/models/interface/user.interface'
+import { Link } from 'react-router-dom'
+import { path } from '@/core/constants/path'
+import { useLogoutMutation } from '@/core/queries/auth.query'
+import { getRefreshTokenFromLS } from '@/core/shared/storage'
 
 export function NavUser({ user }: { user?: User }) {
   const { isMobile } = useSidebar()
-
+  const logoutMutation = useLogoutMutation()
+  const handleLogout = () => {
+    const refreshToken = getRefreshTokenFromLS()
+    logoutMutation.mutate({ refreshToken })
+  }
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -56,27 +64,35 @@ export function NavUser({ user }: { user?: User }) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Nâng cấp hệ thống
-              </DropdownMenuItem>
+              <Link to={path.admin.dashboard}>
+                <DropdownMenuItem>
+                  <Sparkles />
+                  Nâng cấp hệ thống
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Tài khoản
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Thông báo
-              </DropdownMenuItem>
+              <Link to={path.admin.manage.user}>
+                <DropdownMenuItem>
+                  <BadgeCheck />
+                  Tài khoản
+                </DropdownMenuItem>
+              </Link>
+              <Link to={path.admin.dashboard}>
+                <DropdownMenuItem>
+                  <Bell />
+                  Thông báo
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Đăng xuất
-            </DropdownMenuItem>
+            <button onClick={handleLogout}>
+              <DropdownMenuItem>
+                <LogOut />
+                Đăng xuất
+              </DropdownMenuItem>
+            </button>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

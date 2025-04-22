@@ -4,5 +4,6 @@ export const mutationKeys = {
   updateProfile: ['updateProfile'],
   booking: ['booking'],
   review: ['review'],
-  postAvatar: ['postAvatar']
+  postAvatar: ['postAvatar'],
+  logout: ['logout']
 }

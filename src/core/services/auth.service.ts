@@ -22,7 +22,7 @@ export const authApi = {
     })
   },
   logout: (parasm: { refreshToken: string }) => {
-    return axiosClient.post<SuccessResponse<null>>(API_LOGOUT_URL, { parasm })
+    return axiosClient.post<SuccessResponse<null>>(API_LOGOUT_URL, parasm)
   },
   loginWithGG: (params: { code: string }) => {
     return axiosClient.get<SuccessResponse<LoginResponse>>(API_LOGIN_GOOGLE, { params })

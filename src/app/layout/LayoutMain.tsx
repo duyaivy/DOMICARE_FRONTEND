@@ -14,8 +14,7 @@ const LayoutMain = ({ children }: ILayoutMainProps) => {
       <SidebarInset>
         <main className='flex-1 overflow-auto '>
           <Header />
-
-          {children}
+          <div className='p-4'>{children}</div>
         </main>
       </SidebarInset>
     </SidebarProvider>

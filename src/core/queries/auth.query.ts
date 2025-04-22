@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { path } from '../constants/path'
 import { handleErrorAPI } from '@/utils/handleErrorAPI'
 import { Toast } from '@/utils/toastMessage'
-import { setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '../shared/storage'
+import { clearLS, setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '../shared/storage'
 import { User } from '@/models/interface/user.interface'
 import { useContext } from 'react'
 import { AppContext } from '../contexts/app.context'
@@ -74,5 +74,22 @@ export const useRegisterMutation = ({ handleError }: { handleError?: (error: Axi
       })
     },
     onError: handleError
+  })
+}
+//logout
+export const useLogoutMutation = () => {
+  const navigate = useNavigate()
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
+  return useMutation({
+    mutationKey: mutationKeys.logout,
+    mutationFn: authApi.logout,
+    onSuccess(data: any) {
+      console.log(data)
+      Toast.success({ description: data.response.data.message })
+      setIsAuthenticated(false)
+      clearLS()
+      setProfile(null)
+      navigate(path.login)
+    }
   })
 }

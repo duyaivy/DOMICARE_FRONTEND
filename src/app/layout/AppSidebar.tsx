@@ -10,7 +10,7 @@ import { ComponentProps, useContext } from 'react'
 export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
   const { profile, sidebar } = useContext(AppContext)
   const isAdmin = rolesCheck.isAdmin(profile?.roles || [])
-  const dataNav = isAdmin ? (sidebar as SidebarType).admin : (sidebar as SidebarType).sale
+  const dataNav = isAdmin ? (sidebar as SidebarType).ROLE_ADMIN : (sidebar as SidebarType).ROLE_SALE
   const { open } = useSidebar()
   return (
     <Sidebar collapsible='icon' {...props}>

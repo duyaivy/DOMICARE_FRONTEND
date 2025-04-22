@@ -1,3 +1,4 @@
+import { ROLE_TYPE } from '@/models/types/user.type'
 import dayjs from 'dayjs'
 
 /**
@@ -159,7 +160,7 @@ export const datePickerPopupClassName = {
 export const DATE_PLACEHOLDER = STANDARD_DATE_FORMAT_SLASH.toLowerCase()
 
 // config role
-export const ROLES = {
+export const ROLES: Record<string, ROLE_TYPE> = {
   ADMIN: 'ROLE_ADMIN',
   USER: 'ROLE_USER',
   SALE: 'ROLE_SALE'
