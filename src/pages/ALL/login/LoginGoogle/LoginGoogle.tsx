@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import { useLoginMutation } from '@/core/queries/auth.query'
 import { authApi } from '@/core/services/auth.service'
 import { Toast } from '@/utils/toastMessage'
@@ -21,15 +22,15 @@ export default function LoginGoogle() {
 
   return (
     <div className='mt-6'>
-      <button
-        onClick={(e) => {
-          e.preventDefault()
+      <Button
+        onClick={() => {
           loginGG()
         }}
-        className='flex w-full py-2.5 items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md  px-6  font-medium text-gray-800 hover:bg-slate-100/80 duration-300 cursor-pointer focus:outline-none  '
+        loading={mutationLogin.isPending}
+        className='flex w-full h-12 items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md  font-medium text-gray-800 hover:bg-slate-100/80 duration-300 cursor-pointer focus:outline-none text-base py-0 px-0'
       >
         <svg
-          className='h-6 w-6 mr-2'
+          className='!h-6 !w-6 mr-2'
           xmlns='http://www.w3.org/2000/svg'
           xmlnsXlink='http://www.w3.org/1999/xlink'
           viewBox='-0.5 0 48 48'
@@ -71,7 +72,7 @@ export default function LoginGoogle() {
           </g>
         </svg>
         <span>Đăng nhập với Google</span>
-      </button>
+      </Button>
     </div>
   )
 }
