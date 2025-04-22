@@ -17,7 +17,7 @@ export interface User {
   avatar?: string
   dateOfBirth?: string
   emailConfirmed?: boolean
-  gender: GENDER_TYPE
+  gender?: GENDER_TYPE
 }
 export interface UserUpdate {
   name?: string
