@@ -1,16 +1,16 @@
-import * as React from 'react'
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu'
 import { cva } from 'class-variance-authority'
 import { ChevronDownIcon } from 'lucide-react'
 
 import { cn } from '@/core/lib/utils'
 import { Link, To } from 'react-router-dom'
+import { ComponentProps, ForwardRefExoticComponent, ReactNode, RefAttributes } from 'react'
 
-interface ListItemProps
-  extends React.ComponentProps<React.ForwardRefExoticComponent<React.RefAttributes<HTMLLIElement>>> {
+interface ListItemProps extends ComponentProps<ForwardRefExoticComponent<RefAttributes<HTMLLIElement>>> {
   to: To
-  children: React.ReactNode
+  children: ReactNode
   className?: string
+  LinkClassName?: string
 }
 
 function NavigationMenu({
@@ -18,7 +18,7 @@ function NavigationMenu({
   children,
   viewport = true,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Root> & {
+}: ComponentProps<typeof NavigationMenuPrimitive.Root> & {
   viewport?: boolean
 }) {
   return (
@@ -34,7 +34,7 @@ function NavigationMenu({
   )
 }
 
-function NavigationMenuList({ className, ...props }: React.ComponentProps<typeof NavigationMenuPrimitive.List>) {
+function NavigationMenuList({ className, ...props }: ComponentProps<typeof NavigationMenuPrimitive.List>) {
   return (
     <NavigationMenuPrimitive.List
       data-slot='navigation-menu-list'
@@ -44,7 +44,7 @@ function NavigationMenuList({ className, ...props }: React.ComponentProps<typeof
   )
 }
 
-function NavigationMenuItem({ className, ...props }: React.ComponentProps<typeof NavigationMenuPrimitive.Item>) {
+function NavigationMenuItem({ className, ...props }: ComponentProps<typeof NavigationMenuPrimitive.Item>) {
   return (
     <NavigationMenuPrimitive.Item data-slot='navigation-menu-item' className={cn('relative', className)} {...props} />
   )
@@ -58,7 +58,7 @@ function NavigationMenuTrigger({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Trigger>) {
+}: ComponentProps<typeof NavigationMenuPrimitive.Trigger>) {
   return (
     <NavigationMenuPrimitive.Trigger
       data-slot='navigation-menu-trigger'
@@ -79,7 +79,7 @@ function NavigationMenuTrigger({
   )
 }
 
-function NavigationMenuContent({ className, ...props }: React.ComponentProps<typeof NavigationMenuPrimitive.Content>) {
+function NavigationMenuContent({ className, ...props }: ComponentProps<typeof NavigationMenuPrimitive.Content>) {
   return (
     <NavigationMenuPrimitive.Content
       data-slot='navigation-menu-content'
@@ -93,10 +93,7 @@ function NavigationMenuContent({ className, ...props }: React.ComponentProps<typ
   )
 }
 
-function NavigationMenuViewport({
-  className,
-  ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Viewport>) {
+function NavigationMenuViewport({ className, ...props }: ComponentProps<typeof NavigationMenuPrimitive.Viewport>) {
   return (
     <div className={cn('absolute top-full left-0 isolate z-50 flex justify-center')}>
       <NavigationMenuPrimitive.Viewport
@@ -111,7 +108,7 @@ function NavigationMenuViewport({
   )
 }
 
-function NavigationMenuLink({ className, ...props }: React.ComponentProps<typeof NavigationMenuPrimitive.Link>) {
+function NavigationMenuLink({ className, ...props }: ComponentProps<typeof NavigationMenuPrimitive.Link>) {
   return (
     <NavigationMenuPrimitive.Link
       data-slot='navigation-menu-link'
@@ -124,10 +121,7 @@ function NavigationMenuLink({ className, ...props }: React.ComponentProps<typeof
   )
 }
 
-function NavigationMenuIndicator({
-  className,
-  ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Indicator>) {
+function NavigationMenuIndicator({ className, ...props }: ComponentProps<typeof NavigationMenuPrimitive.Indicator>) {
   return (
     <NavigationMenuPrimitive.Indicator
       data-slot='navigation-menu-indicator'
@@ -141,7 +135,7 @@ function NavigationMenuIndicator({
     </NavigationMenuPrimitive.Indicator>
   )
 }
-function ListItem({ className, children, to, ...props }: ListItemProps) {
+function ListItem({ className, children, LinkClassName, to, ...props }: ListItemProps) {
   return (
     <li
       className={cn(
@@ -150,7 +144,9 @@ function ListItem({ className, children, to, ...props }: ListItemProps) {
       )}
       {...props}
     >
-      <Link to={to}>{children}</Link>
+      <Link className={LinkClassName} to={to}>
+        {children}
+      </Link>
     </li>
   )
 }

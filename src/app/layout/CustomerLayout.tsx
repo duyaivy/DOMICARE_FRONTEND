@@ -1,9 +1,9 @@
 import { Header } from '@/components'
 import Footer from '@/components/Footer'
-import React, { Fragment } from 'react'
+import { Fragment, ReactNode } from 'react'
 
 interface CustomerLayoutProps {
-  children?: React.ReactNode
+  children?: ReactNode
 }
 export default function CustomerLayout({ children }: CustomerLayoutProps) {
   return (

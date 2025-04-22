@@ -3,6 +3,7 @@ import { ICON_SIZE_MEDIUM } from '@/core/configs/icon-size'
 import { path } from '@/core/constants/path'
 import { AppContext } from '@/core/contexts/app.context'
 import { QueryConfig } from '@/hooks/usePrdQueryConfig'
+import { Category } from '@/models/interface/category.interface'
 import { isActive } from '@/utils/isActiveLocation'
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -14,7 +15,7 @@ export default function CategoryList({ queryString }: { queryString: QueryConfig
   const { categories } = useContext(AppContext)
   const [isShow, setIsShow] = useState<boolean>(false)
   const { search } = useLocation()
-  const isAllActive = categories?.some((cate) => isActive(`categoryid=${cate.id}`, search))
+  const isAllActive = categories?.some((cate) => isActive(`categoryId=${cate.id}`, search))
   return (
     <div className='bg-white rounded-sm md:rounded-2xl relative'>
       <ul className={'ml-2 flex flex-col items-start justify-start gap-1 p-2 '}>
@@ -55,7 +56,7 @@ export default function CategoryList({ queryString }: { queryString: QueryConfig
                     ...queryString,
                     page: '1'
                   },
-                  ['categoryid']
+                  ['categoryId', 'searchName']
                 )
               ).toString()
             }}
@@ -68,23 +69,28 @@ export default function CategoryList({ queryString }: { queryString: QueryConfig
         </li>
 
         {categories &&
-          categories.map((cate) => {
+          categories.map((cate: Category) => {
             return (
               <li
                 key={cate.id}
                 className={classNames(
                   'hidden md:block w-full  duration-300 hover:translate-x-[5px] hover:text-main rounded-md cursor-pointer py-2',
-                  { 'text-main': isActive(`categoryid=${cate.id}`, search) }
+                  { 'text-main': isActive(`categoryId=${cate.id}`, search) }
                 )}
               >
                 <Link
                   to={{
                     pathname: path.products,
-                    search: createSearchParams({
-                      ...queryString,
-                      page: '1',
-                      categoryid: cate.id.toString()
-                    }).toString()
+                    search: createSearchParams(
+                      omit(
+                        {
+                          ...queryString,
+                          page: '1',
+                          categoryId: cate.id.toString()
+                        },
+                        ['searchName']
+                      )
+                    ).toString()
                   }}
                   className='block w-full h-full md:text-sub1 lg:text-sub0 capitalize px-2 text-left'
                 >
@@ -104,7 +110,7 @@ export default function CategoryList({ queryString }: { queryString: QueryConfig
             className='absolute top-full left-0 right-0 bg-white/80 !z-99 overflow-hidden rounded-b-md '
           >
             {categories &&
-              categories.map((cate) => (
+              categories.map((cate: Category) => (
                 <li
                   key={cate.id}
                   className={classNames(
@@ -115,9 +121,16 @@ export default function CategoryList({ queryString }: { queryString: QueryConfig
                   <Link
                     to={{
                       pathname: path.products,
-                      search: createSearchParams({
-                        categoryid: cate.id.toString()
-                      }).toString()
+                      search: createSearchParams(
+                        omit(
+                          {
+                            ...queryString,
+                            page: '1',
+                            categoryId: cate.id.toString()
+                          },
+                          ['searchName']
+                        )
+                      ).toString()
                     }}
                     className='block w-full h-full md:text-sub1 lg:text-sub0 capitalize px-2 text-left'
                   >

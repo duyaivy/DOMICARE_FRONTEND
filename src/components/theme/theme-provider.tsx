@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 
 const THEME_DARK = 'dark'
 const THEME_LIGHT = 'light'
@@ -7,7 +7,7 @@ const THEME_SYSTEM = 'system'
 type Theme = 'dark' | 'light' | 'system'
 
 type ThemeProviderProps = {
-  children: React.ReactNode
+  children: ReactNode
   defaultTheme?: Theme
   storageKey?: string
 }

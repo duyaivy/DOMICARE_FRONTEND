@@ -1,10 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
 import CategoryList from './CategoryList'
 import Search from '@/components/Search'
 import { usePrdQueryConfig } from '@/hooks/usePrdQueryConfig'
 import { path } from '@/core/constants/path'
-import { productApi } from '@/core/services/products.service'
-import { ProductListConfig } from '@/models/interface/product.interface'
+
 import Product from '@/components/Product'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -12,17 +10,12 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Fragment } from 'react/jsx-runtime'
 import Pagination from '@/components/Pagination'
 import SortProduct from './SortProduct'
+import { useProductQuery } from '@/core/queries/product.query'
 
 export default function Products() {
   const queryString = usePrdQueryConfig()
 
-  const { data: productsData, isLoading } = useQuery({
-    queryKey: [path.products, queryString],
-    queryFn: () => productApi.get(queryString as ProductListConfig),
-    // keepPreviousData: true,
-    staleTime: 1000 * 60 * 3
-  })
-
+  const { data: productsData, isLoading } = useProductQuery({ queryString })
   const prdList = productsData?.data.data.data
   const pageController = productsData?.data.data.meta
 

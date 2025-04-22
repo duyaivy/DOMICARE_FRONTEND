@@ -1,14 +1,24 @@
+import { useLoginMutation } from '@/core/queries/auth.query'
+import { authApi } from '@/core/services/auth.service'
+import { Toast } from '@/utils/toastMessage'
 import { useGoogleLogin } from '@react-oauth/google'
 
 export default function LoginGoogle() {
-  const loginGG = useGoogleLogin({
-    onSuccess: (credentialResponse) => {
-      console.log(credentialResponse)
-    },
-    onError: () => {
-      console.log('Login Failed')
+  const mutationLogin = useLoginMutation({
+    mutationFn: authApi.loginWithGG,
+    handleError: () => {
+      Toast.error({ description: 'Đăng nhập với Google thất bại, vui lòng thử lại sau!' })
     }
   })
+  const loginGG = useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: (credentialResponse) => {
+      console.log(credentialResponse)
+      const code = credentialResponse.code
+      mutationLogin.mutate({ code })
+    }
+  })
+
   return (
     <div className='mt-6'>
       <button

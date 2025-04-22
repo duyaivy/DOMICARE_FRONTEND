@@ -7,7 +7,7 @@ export const path = {
   products: '/products',
   product: '/product',
   productDetail: '/product/:id',
-  profile: '/profile',
+
   blog: '/blog',
   buy: '/buy',
   recuitment: '/recuitment',
@@ -27,5 +27,11 @@ export const path = {
       profile: '/admin/setting/profile',
       system: '/admin/setting/system'
     }
+  },
+  _user: '/user',
+  user: {
+    profile: '/user/profile',
+    history: '/user/history',
+    change_password: '/user/change_password'
   }
 }

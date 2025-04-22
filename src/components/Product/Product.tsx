@@ -8,9 +8,9 @@ import { Link } from 'react-router-dom'
 
 export default function Product({ product }: { product: ProductType }) {
   return (
-    <div className='rouded-xs shadow w-full flex  flex-col gap-3  pt-0 group hover:shadow-xl hover:translate-y-[-5px] duration-300'>
+    <div className='rounded-xs shadow w-full flex  flex-col gap-3  pt-0 group hover:shadow-xl hover:translate-y-[-5px] duration-300'>
       <Link
-        to={`${path.product}/${urlSEO(product.id.toString(), product.name)}`}
+        to={`${path.product}/${urlSEO(product.id ? product.id.toString() : '', product.name as string)}`}
         className='w-full h-40 sm:h-55 group relative'
       >
         <img className='w-full h-full object-center object-cover' src={product.image} alt={product.name} />
@@ -22,7 +22,10 @@ export default function Product({ product }: { product: ProductType }) {
         <p className='text-red text-sub2 text-justify grow line-clamp-3 mt-1 '>Giảm giá {product.discount}%</p>
 
         <div className='flex justify-between items-center'>
-          <Link className='flex items-center gap-2' to={path.products}>
+          <Link
+            className='flex items-center gap-2'
+            to={`${path.product}/${urlSEO(product.id ? product.id.toString() : '', product.name as string)}`}
+          >
             <p className='text-left text-blue text-sub1 pt-0.5 cursor-pointer'>Tìm hiểu</p>
             <IconArrowRight className='fill-blue' />
           </Link>

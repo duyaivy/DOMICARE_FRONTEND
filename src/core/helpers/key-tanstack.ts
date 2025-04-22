@@ -2,5 +2,7 @@ export const mutationKeys = {
   register: ['register'],
   login: ['login'],
   updateProfile: ['updateProfile'],
-  booking: ['booking']
+  booking: ['booking'],
+  review: ['review'],
+  postAvatar: ['postAvatar']
 }

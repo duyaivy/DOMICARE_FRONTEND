@@ -159,6 +159,11 @@ export const datePickerPopupClassName = {
 export const DATE_PLACEHOLDER = STANDARD_DATE_FORMAT_SLASH.toLowerCase()
 
 // config role
+export const ROLES = {
+  ADMIN: 'ROLE_ADMIN',
+  USER: 'ROLE_USER',
+  SALE: 'ROLE_SALE'
+}
 export const ROLE_ADMIN = 'ROLE_ADMIN'
 export const ROLE_USER = 'ROLE_USER'
 export const ROLE_SALE = 'ROLE_SALE'
@@ -167,3 +172,10 @@ export const ROLE_SALE = 'ROLE_SALE'
 export const TEXT_TYPE = 'text'
 export const NUMBER_TYPE = 'number'
 export const PASSWORD_TYPE = 'password'
+
+//config gender
+export const GENDER = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+  OTHER: 'OTHER'
+}

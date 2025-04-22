@@ -1,4 +1,4 @@
-import SecctionInView from '@/components/SecctionInView'
+import SecctionInView from '@/components/SectionInView'
 
 import Company from '../home/Company'
 import { pic8 } from '@/assets/images'

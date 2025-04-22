@@ -1,10 +1,10 @@
-export const formatCurrentcy = (num: number) => {
-  return new Intl.NumberFormat('de-DE').format(Number(num.toFixed(2)))
+export const formatCurrentcy = (num?: number) => {
+  return new Intl.NumberFormat('de-DE').format(Number((num || 0).toFixed(2)))
 }
-export const formatNumberSold = (num: number) => {
+export const formatNumberSold = (num?: number) => {
   return new Intl.NumberFormat('en-US', {
     notation: 'compact',
     compactDisplay: 'short',
     maximumFractionDigits: 2
-  }).format(num)
+  }).format(num || 0)
 }

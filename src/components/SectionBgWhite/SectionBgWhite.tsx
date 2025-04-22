@@ -1,7 +1,8 @@
 import { cn } from '@/core/lib/utils'
-import React from 'react'
+import { ReactNode } from 'react'
+
 interface Props {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
 }
 export default function SectionBgWhite({ children, className }: Props) {

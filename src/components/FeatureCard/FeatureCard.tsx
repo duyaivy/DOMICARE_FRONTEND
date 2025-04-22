@@ -1,8 +1,8 @@
-import React from 'react'
-import SecctionInView from '../SecctionInView'
+import { ReactNode } from 'react'
+import SecctionInView from '../SectionInView'
 import { cn } from '@/core/lib/utils'
 interface FeatureCardProps {
-  icon: React.ReactNode
+  icon: ReactNode
   title: string
   description?: string
   classNameContainer?: string

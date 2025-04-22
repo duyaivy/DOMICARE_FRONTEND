@@ -1,25 +1,21 @@
-import { numberConstants } from '@/configs/consts'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem } from '../ui/form'
 import { Input } from '../ui/input'
-import IconSeacrh from '@/assets/icons/icon-search'
+import IconSearch from '@/assets/icons/icon-search'
 import { Button } from '../ui/button'
 import { QueryConfig } from '@/hooks/usePrdQueryConfig'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import { path } from '@/core/constants/path'
-
-const SearchChema = z.object({
-  name: z.string().min(numberConstants.TWO)
-})
+import { SearchChema } from '@/core/zod/productSearch.zod'
 
 export default function Search({ queryString }: { queryString: QueryConfig }) {
   const navigate = useNavigate()
   const form = useForm<z.infer<typeof SearchChema>>({
     resolver: zodResolver(SearchChema),
     defaultValues: {
-      name: ''
+      name: queryString.searchName || ''
     }
   })
   const onSubmit = () => {
@@ -27,7 +23,7 @@ export default function Search({ queryString }: { queryString: QueryConfig }) {
       pathname: path.products,
       search: createSearchParams({
         ...queryString,
-        filter: `name~~'*${form.getValues('name')}*'`
+        searchName: form.getValues('name')
       }).toString()
     })
   }
@@ -51,7 +47,7 @@ export default function Search({ queryString }: { queryString: QueryConfig }) {
                     classNameInput='pr-0 p-1.5 '
                     icon={
                       <Button type='submit' className='bg-main w-15 cursor-pointer  hover:bg-main/80 '>
-                        <IconSeacrh className='fill-white' />
+                        <IconSearch className='fill-white' />
                       </Button>
                     }
                   />
