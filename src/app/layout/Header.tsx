@@ -20,11 +20,11 @@ export default function Header() {
         >
           <Bell className='!w-5 h-auto' />
         </Link>
-        <Link className='duration-300 h-8  md:h-10  gap-2 flex justify-center items-center' to={path.admin.dashboard}>
+        <Link className='duration-300 h-8 md:h-12  gap-2 flex justify-center items-center' to={path.admin.dashboard}>
           <Avatar>
             <AvatarImage
               src={profile?.avatar ? profile.avatar : 'https://photo.znews.vn/w660/Uploaded/mfnuy/2022_09_01/s1_1.jpg'}
-              alt='@shadcn'
+              alt={profile?.name}
             />
             <AvatarFallback>CC</AvatarFallback>
           </Avatar>
