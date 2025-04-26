@@ -165,6 +165,7 @@ export default function useRoutesElements() {
                   path: path.admin.manage.category,
                   element: <Category />
                 },
+
                 {
                   path: path.admin.manage.product,
                   element: <Product />

@@ -21,7 +21,7 @@ import { gender } from '@/core/constants/user.const'
 import { Label } from '@/components/ui/label'
 import hideEmail from '@/utils/hideEmail'
 
-import { useAvatarMutation, useUserMutation } from '@/core/queries/user.query'
+import { useUploadFileMutation, useUserMutation } from '@/core/queries/user.query'
 import DateTimeSelect from '@/components/DateTimeSelect'
 
 export default function Profile() {
@@ -34,7 +34,7 @@ export default function Profile() {
 
   // call API
   const userUpdateMutation = useUserMutation()
-  const updateAvatarMutation = useAvatarMutation()
+  const updateAvatarMutation = useUploadFileMutation()
   // form
   const form = useForm<z.infer<typeof UpdateUserSchema>>({
     resolver: zodResolver(UpdateUserSchema),

@@ -3,7 +3,7 @@ import SectionBgGreen from '@/components/SectionBgGreen'
 import SectionBgWhite from '@/components/SectionBgWhite'
 import { AppContext } from '@/core/contexts/app.context'
 import { isEqual } from 'lodash'
-import { Fragment, useContext, useState } from 'react'
+import { Fragment, useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import SectionInView from '@/components/SectionInView'
 import { CalendarIcon, FlameIcon, MapPin, User } from 'lucide-react'
@@ -27,14 +27,13 @@ import { isPeriodic } from '@/core/constants/booking.const'
 import { formatDateTime } from '@/core/helpers/date-time'
 import { STANDARD_DATE_FORMAT_INVERSE } from '@/configs/consts'
 import dayjs from 'dayjs'
-import Slider from './Slider'
+import Slider from './components/Slider'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
-import WriteReview from './WriteReview'
+import WriteReview from './components/WriteReview'
 import { useBookingMutation, usePrdDetailQuery } from '@/core/queries/product.query'
 
 export default function ProductDetail() {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const { pathname } = useLocation()
   const pathString = pathname.split('$d$')
   const id = Number(pathString[pathString.length - 1] || 1)
@@ -57,7 +56,6 @@ export default function ProductDetail() {
   })
   const mutationBooking = useBookingMutation()
   const handleBooking = () => {
-    setIsLoading(true)
     const data = form.getValues()
     const dataAPI = {
       ...data,
@@ -337,7 +335,7 @@ export default function ProductDetail() {
                     />
 
                     <Button
-                      loading={isLoading}
+                      loading={mutationBooking.isPending}
                       className='w-full capitalize text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
                       type='submit'
                     >

@@ -12,9 +12,9 @@ const LayoutMain = ({ children }: ILayoutMainProps) => {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <main className='flex-1 overflow-auto '>
+        <main className='flex-1 overflow-auto bg-admin-bg'>
           <Header />
-          <div className='p-4'>{children}</div>
+          <div className='px-4'>{children}</div>
         </main>
       </SidebarInset>
     </SidebarProvider>

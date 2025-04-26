@@ -26,14 +26,11 @@ export const useUserMutation = () => {
   })
 }
 
-export const useAvatarMutation = () =>
+export const useUploadFileMutation = () =>
   useMutation({
-    mutationKey: mutationKeys.postAvatar,
+    mutationKey: mutationKeys.uploadFile,
     mutationFn: fileApi.post,
-    // any
-    onError: (error: any) => {
-      Toast.error({ description: error.response?.data.message })
-    },
+    onError: (error) => handleToastError(error),
     onSuccess: (data) => {
       Toast.success({ title: 'Thành công', description: data.data.message })
     }

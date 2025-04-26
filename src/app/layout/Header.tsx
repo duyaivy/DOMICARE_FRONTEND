@@ -11,7 +11,7 @@ export default function Header() {
   const { profile } = useContext(AppContext)
 
   return (
-    <div className='flex justify-between items-center w-full h-12 md:h-15 bg-[linear-gradient(to_left,_#A0F0DC,_#02cf96)]'>
+    <div className='flex justify-between items-center w-full h-12 md:h-15 '>
       <SidebarTrigger />
       <div className='flex justify-center items-center gap-3 mr-5'>
         <Link
@@ -22,10 +22,7 @@ export default function Header() {
         </Link>
         <Link className='duration-300 h-8 md:h-12  gap-2 flex justify-center items-center' to={path.admin.dashboard}>
           <Avatar>
-            <AvatarImage
-              src={profile?.avatar ? profile.avatar : 'https://photo.znews.vn/w660/Uploaded/mfnuy/2022_09_01/s1_1.jpg'}
-              alt={profile?.name}
-            />
+            <AvatarImage src={profile?.avatar} alt={profile?.name} />
             <AvatarFallback>CC</AvatarFallback>
           </Avatar>
 

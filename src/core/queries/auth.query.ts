@@ -35,7 +35,7 @@ export const useLoginMutation = <TVariables>({ mutationFn, handleError }: useLog
       setUserToLS(data.data.user as User)
       setIsAuthenticated(true)
       setProfile(data.data.user as User)
-      Toast.success({ title: 'Thành công', description: 'Đăng nhập thành công 🚀🚀⚡⚡' })
+      Toast.success({ title: 'Thành công', description: 'Đăng nhập thành công 🚀⚡' })
     },
     onError: handleError
   })

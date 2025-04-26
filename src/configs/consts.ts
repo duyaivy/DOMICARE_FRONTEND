@@ -180,3 +180,11 @@ export const GENDER = {
   FEMALE: 'FEMALE',
   OTHER: 'OTHER'
 }
+
+//config status
+export const ADMIN_STATUS = {
+  ADD: 'add',
+  EDIT: 'edit',
+  DELETE: 'delete'
+}
+export type CategoryDialogType = 'add' | 'edit' | 'delete'

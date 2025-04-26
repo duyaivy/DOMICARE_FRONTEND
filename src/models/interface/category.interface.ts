@@ -21,7 +21,11 @@ export interface CategoryResponse {
   }
   data: Category[]
 }
-
+export interface CategoryRequest {
+  name: string
+  description?: string
+  imageId?: number
+}
 export interface CategoryListConfig {
   page?: number
   size?: number

@@ -1,11 +1,5 @@
 import config from '@/configs'
-import {
-  getAccessTokenFromLS,
-  getRefreshTokenFromLS,
-  removeAccessTokenFromLS,
-  removeRefreshTokenFromLS,
-  setAccessTokenToLS
-} from '@/core/shared/storage'
+import { clearLS, getAccessTokenFromLS, getRefreshTokenFromLS, setAccessTokenToLS } from '@/core/shared/storage'
 import { SuccessResponse } from '@/models/interface/response.interface'
 import axios, {
   AxiosError,
@@ -124,8 +118,8 @@ axiosClient.interceptors.response.use(
 )
 
 const logout = (): void => {
-  removeAccessTokenFromLS()
-  removeRefreshTokenFromLS()
+  clearLS()
+  window.location.reload()
 }
 
 export default axiosClient
