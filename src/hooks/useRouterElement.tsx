@@ -1,9 +1,8 @@
 import { Navigate, Outlet, RouteObject, useLocation, useRoutes } from 'react-router-dom'
-import { ReactNode, useContext } from 'react'
+import { Fragment, ReactNode, useContext } from 'react'
 import LayoutMain from '@/app/layout/LayoutMain'
 
 import { path } from '@/core/constants/path'
-import { AnimatePresence, motion } from 'framer-motion'
 import CustomerLayout from '@/app/layout/CustomerLayout'
 
 import Login from '@/pages/ALL/login'
@@ -30,6 +29,7 @@ import Profile from '@/pages/USER/Pages/Profile'
 import UserLayout from '@/pages/USER/Layouts'
 import ChangePassword from '@/pages/USER/Pages/ChangePassword'
 import History from '@/pages/USER/Pages/History'
+import AnimatedOutlet from '@/components/AnimatedOutlet'
 
 interface RouteConfig {
   path: string
@@ -67,77 +67,86 @@ export default function useRoutesElements() {
 
   const routes: RouteConfig[] = [
     {
-      path: path.home,
-      element: (
-        <CustomerLayout>
-          <HomePage />
-        </CustomerLayout>
-      )
-    },
-    {
-      path: path.aboutUs,
-      element: (
-        <CustomerLayout>
-          <AboutUs />
-        </CustomerLayout>
-      )
-    },
-
-    {
-      path: path.products,
-      element: (
-        <CustomerLayout>
-          <Products />
-        </CustomerLayout>
-      )
-    },
-    {
-      path: path.productDetail,
-      element: (
-        <CustomerLayout>
-          <ProductDetail />
-        </CustomerLayout>
-      )
-    },
-    {
       path: '',
-      element: <ProtectedRouteUser />,
+      element: <AnimatedOutlet />,
       children: [
         {
-          path: path._user,
+          path: path.home,
           element: (
             <CustomerLayout>
-              <UserLayout />
+              <HomePage />
             </CustomerLayout>
-          ),
+          )
+        },
+        {
+          path: path.aboutUs,
+          element: (
+            <CustomerLayout>
+              <AboutUs />
+            </CustomerLayout>
+          )
+        },
+
+        {
+          path: path.products,
+          element: (
+            <CustomerLayout>
+              <Products />
+            </CustomerLayout>
+          )
+        },
+        {
+          path: path.productDetail,
+          element: (
+            <CustomerLayout>
+              <ProductDetail />
+            </CustomerLayout>
+          )
+        },
+        {
+          path: '',
+          element: <ProtectedRouteUser />,
           children: [
-            { path: path.user.profile, element: <Profile /> },
-            { path: path.user.history, element: <History /> },
-            { path: path.user.change_password, element: <ChangePassword /> }
+            {
+              path: path._user,
+              element: (
+                <CustomerLayout>
+                  <UserLayout />
+                </CustomerLayout>
+              ),
+              children: [
+                { path: path.user.profile, element: <Profile /> },
+                { path: path.user.history, element: <History /> },
+                { path: path.user.change_password, element: <ChangePassword /> }
+              ]
+            }
           ]
+        },
+        {
+          path: '',
+          element: <RejectedRoute />,
+          children: [
+            { path: path.login, element: <Login /> },
+            { path: path.register, element: <Register /> }
+          ]
+        },
+        {
+          path: '*',
+          element: (
+            <CustomerLayout>
+              <PageNotFound />
+            </CustomerLayout>
+          )
         }
       ]
     },
     {
-      path: '',
-      element: <RejectedRoute />,
-      children: [
-        { path: path.login, element: <Login /> },
-        { path: path.register, element: <Register /> }
-      ]
-    },
-
-    {
-      path: '',
+      path: path._admin,
       element: <ProtectedRouteAdmin />,
       children: [
         {
           path: path._admin,
-          element: (
-            <LayoutMain>
-              <Outlet />
-            </LayoutMain>
-          ),
+          element: <LayoutMain />,
           children: [
             {
               path: path.admin.dashboard,
@@ -183,32 +192,10 @@ export default function useRoutesElements() {
           ]
         }
       ]
-    },
-    {
-      path: '*',
-      element: (
-        <CustomerLayout>
-          <PageNotFound />
-        </CustomerLayout>
-      )
     }
   ]
 
   const routeElements = useRoutes(routes, location)
-  const isAuthPath = [path.login, path.register].includes(location.pathname)
 
-  return (
-    <AnimatePresence mode='wait'>
-      <motion.div
-        key={location.key}
-        initial={{ opacity: 0, x: isAuthPath ? 20 : 0 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: isAuthPath ? -20 : 0 }}
-        transition={{ duration: 0.3 }}
-        style={{ position: isAuthPath ? 'absolute' : 'relative', width: '100%' }}
-      >
-        {routeElements}
-      </motion.div>
-    </AnimatePresence>
-  )
+  return <Fragment>{routeElements}</Fragment>
 }
