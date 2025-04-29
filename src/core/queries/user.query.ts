@@ -35,3 +35,13 @@ export const useUploadFileMutation = () =>
       Toast.success({ title: 'Thành công', description: data.data.message })
     }
   })
+
+export const useUploadMutilFileMutation = () =>
+  useMutation({
+    mutationKey: mutationKeys.uploadFile,
+    mutationFn: fileApi.postMultiple,
+    onError: (error) => handleToastError(error),
+    onSuccess: (data) => {
+      Toast.success({ title: 'Thành công', description: data.data.message })
+    }
+  })

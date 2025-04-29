@@ -1,15 +1,15 @@
 import { Checkbox } from '@/components/ui/checkbox'
-import { Category } from '@/models/interface/category.interface'
 import { Product } from '@/models/interface/product.interface'
 import { ColumnDef } from '@tanstack/react-table'
-
 import { DataTableColumnHeader } from '@/components/DataTable/DataTableColumnHeader'
 import { DataTableRowActions } from '@/components/DataTable/DataTableRowAction'
+import { useProducts } from '@/core/contexts/product.context'
+import { CategoryMini } from '@/models/interface/category.interface'
+import { formatCurrentcy } from '@/utils/formatCurrentcy'
 import { cn } from '@/core/lib/utils'
-import { useCategories } from '@/core/contexts/category.context'
 
-export const useCategoryColumns = (): ColumnDef<Category>[] => {
-  const { setOpen, setCurrentRow } = useCategories()
+export const useProductColumns = (): ColumnDef<Product>[] => {
+  const { setOpen, setCurrentRow } = useProducts()
   return [
     {
       id: 'select',
@@ -38,8 +38,10 @@ export const useCategoryColumns = (): ColumnDef<Category>[] => {
     },
     {
       accessorKey: 'name',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Tên danh mục' />,
-      cell: ({ row }) => <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('name')}</div>,
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Tên dịch vụ' />,
+      cell: ({ row }) => (
+        <div className='w-fit  text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('name')}</div>
+      ),
       meta: {
         className: cn(
           'sticky lg:relative left-0 md:table-cell',
@@ -50,18 +52,49 @@ export const useCategoryColumns = (): ColumnDef<Category>[] => {
           'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)] lg:drop-shadow-none'
         )
       },
-      enableHiding: true,
       enableSorting: false
     },
     {
-      accessorKey: 'products',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Số sản phẩm' />,
+      accessorKey: 'categoryMini',
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Danh mục' />,
       cell: ({ row }) => {
-        const length = (row.getValue('products') as Product[]).length
-        return <div className=' text-center'>{length}</div>
+        const categoryMini: CategoryMini = row.getValue('categoryMini')
+
+        return <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{categoryMini?.name}</div>
       },
-      meta: {
-        className: cn('flex justify-center')
+      enableSorting: false
+    },
+    {
+      accessorKey: 'price',
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Giá gốc' />,
+      cell: ({ row }) => {
+        const price = row.getValue('price') as number
+        return <div>{price ? `${formatCurrentcy(price)} VND` : '--'}</div>
+      }
+    },
+    {
+      accessorKey: 'discount',
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Giảm giá (%)' />,
+      cell: ({ row }) => {
+        const discount = row.getValue('discount') as number
+        return <div className='text-center'>{discount != null ? `${discount}%` : '--'}</div>
+      },
+      enableSorting: false
+    },
+    {
+      accessorKey: 'priceAfterDiscount',
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Giá sau giảm' />,
+      cell: ({ row }) => {
+        const priceAfter = row.getValue('priceAfterDiscount') as number
+        return <div>{priceAfter ? `${formatCurrentcy(priceAfter)} VND` : '--'}</div>
+      }
+    },
+    {
+      accessorKey: 'ratingStar',
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Đánh giá' />,
+      cell: ({ row }) => {
+        const rating = row.getValue('ratingStar') as number
+        return <div className='text-center'>{rating != null ? rating : '--'}</div>
       }
     },
     {
@@ -97,7 +130,6 @@ export const useCategoryColumns = (): ColumnDef<Category>[] => {
           }}
         />
       ),
-
       enableHiding: false
     }
   ]

@@ -1,3 +1,4 @@
+import { CategoryMini } from './category.interface'
 import { Review } from './review.interface'
 
 export interface Product {
@@ -10,13 +11,15 @@ export interface Product {
   discount?: number
   priceAfterDiscount?: number
   landingImages?: string[]
-  categoryID?: number
+  categoryId?: number
+  categoryMini?: CategoryMini
   reviewDTOs?: Review[]
   createBy?: string
   updateBy?: string
   createAt?: string
   updateAt?: string
 }
+
 export interface ProductResponse {
   meta: {
     page?: number
@@ -36,16 +39,14 @@ export interface ProductListConfig {
   categoryId?: number
   searchName?: string
 }
-export interface ProductUpdateRequest {
-  oldProductId: number
-  oldCategoryId: number
-  updateProduct: {
-    name?: string
-    description?: string
-    price?: number
-    discount?: number
-    categoryID?: number
-    image?: string
-    landingImages?: string[]
-  }
+export interface ProductRequest {
+  categoryId: number
+  description?: string
+  mainImageId?: number
+  name: string
+  price: number
+  discount: number
+  landingImageIds?: number[]
+  oldCategoryId?: number
+  oldProductId?: number
 }

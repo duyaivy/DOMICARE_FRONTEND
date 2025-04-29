@@ -39,7 +39,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
   const [categories, setCategories] = useState<Category[] | null>(initialAppContext.categories)
   const [sidebar, setSidebar] = useState<Sidebar | null>(initialAppContext.sidebar)
-  const { data } = useCategoryQuery()
+  const { data } = useCategoryQuery({ queryString: undefined })
   useEffect(() => {
     const dataCategory = (data && data.data.data.data) || []
     if (dataCategory.length > 0) {

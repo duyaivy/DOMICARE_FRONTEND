@@ -11,3 +11,9 @@ export interface FailResponse<dataType> {
   message?: string
   data?: dataType
 }
+export interface PaginationResponse {
+  page?: number
+  size?: number
+  total?: number
+  totalPages?: number
+}

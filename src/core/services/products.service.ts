@@ -1,4 +1,4 @@
-import { Product, ProductListConfig, ProductResponse, ProductUpdateRequest } from '@/models/interface/product.interface'
+import { Product, ProductListConfig, ProductRequest, ProductResponse } from '@/models/interface/product.interface'
 import axiosClient from './axios-client'
 import { SuccessResponse } from '@/models/interface/response.interface'
 
@@ -15,7 +15,7 @@ export const productApi = {
   create: (prd: Product) => {
     return axiosClient.post<SuccessResponse<Product>>(API_PRODUCT_URL, prd)
   },
-  update: (prd: ProductUpdateRequest) => {
+  update: (prd: ProductRequest) => {
     return axiosClient.put<SuccessResponse<Product>>(API_PRODUCT_URL, prd)
   },
   getPrdDetail: (id: number) => {

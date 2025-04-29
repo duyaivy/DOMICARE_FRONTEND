@@ -1,4 +1,4 @@
-import { logoSecond } from '@/assets/images'
+import { logoWhite } from '@/assets/images'
 import { path } from '@/core/constants/path'
 
 import { Link } from 'react-router-dom'
@@ -12,7 +12,7 @@ export default function LogoSideNav() {
       className={'w-[90%] mx-auto py-2 px-3'}
     >
       <Link to={path.admin.dashboard}>
-        <img src={logoSecond} alt='DomiCare' />
+        <img src={logoWhite} className='w-full h-20' alt='DomiCare' />
       </Link>
     </div>
   )

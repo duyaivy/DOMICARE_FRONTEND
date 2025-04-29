@@ -6,5 +6,8 @@ export const mutationKeys = {
   review: ['review'],
   uploadFile: ['uploadFile'],
   logout: ['logout'],
-  delCategory: ['deleteCategory']
+  delCategory: ['deleteCategory'],
+  changeCategory: ['changeCategory'],
+  changePrd: ['changePrd'],
+  delPrd: ['deletePrd']
 }

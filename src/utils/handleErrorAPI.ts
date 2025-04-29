@@ -48,6 +48,8 @@ interface handleError422Prams<T extends FieldValues> {
   fieldName?: Path<T>
 }
 export const handleError422 = <T extends FieldValues>({ error, form, fieldName }: handleError422Prams<T>) => {
+  console.log(error)
+
   if (isAxiosError(error)) {
     if (isError422<FailResponse<null>>(error as AxiosError)) {
       const err: FailResponse<null> = error.response?.data

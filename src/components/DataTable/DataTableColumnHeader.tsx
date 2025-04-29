@@ -22,14 +22,14 @@ export function DataTableColumnHeader<TData, TValue>({
   className
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
-    return <div className={cn('text-lg', className)}>{title}</div>
+    return <div className={cn('text-sm', className)}>{title}</div>
   }
 
   return (
     <div className={cn('flex items-center space-x-2', className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant='ghost' size='sm' className='data-[state=open]:bg-accent -ml-3 h-8'>
+          <Button variant='ghost' size='sm' className='data-[state=open]:bg-accent -ml-3 h-8  w-full'>
             <span className='text-sm'>{title}</span>
             {column.getIsSorted() === 'desc' ? (
               <ArrowDown className='ml-2 h-4 w-4' />

@@ -48,7 +48,7 @@ export function DeleteDialog<T>({
       desc={
         <div className='space-y-4'>
           <p className='mb-2'>
-            Bạn có chắc chắn muốn xoá {titleLabel}
+            Bạn có chắc chắn muốn xoá&nbsp;{titleLabel}
             <span className='font-bold'>{String(currentItem[displayField])}</span>?
           </p>
 

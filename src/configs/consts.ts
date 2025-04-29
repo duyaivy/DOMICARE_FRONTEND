@@ -188,3 +188,7 @@ export const ADMIN_STATUS = {
   DELETE: 'delete'
 }
 export type CategoryDialogType = 'add' | 'edit' | 'delete'
+export type ProductDialogType = 'add' | 'edit' | 'delete'
+
+// config time
+export const STATE_TIME = 60 * 1000 * 3

@@ -3,6 +3,7 @@ import axiosClient from './axios-client'
 import { SuccessResponse } from '@/models/interface/response.interface'
 
 const API_FILE_URL = '/api/cloudinary/files'
+const API_FILE_URL_MULTIPLE = '/api/cloudinary/files/multiple'
 
 export const fileApi = {
   getAll: () => {
@@ -10,6 +11,11 @@ export const fileApi = {
   },
   post: (body: FormData) => {
     return axiosClient.post<SuccessResponse<File>>(API_FILE_URL, body, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+  },
+  postMultiple: (body: FormData) => {
+    return axiosClient.post<SuccessResponse<File[]>>(API_FILE_URL_MULTIPLE, body, {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
   },

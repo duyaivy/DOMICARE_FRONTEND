@@ -10,43 +10,36 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 
-import { useCategories } from '@/core/contexts/category.context'
-import { Category } from '@/models/interface/category.interface'
 import { Ellipsis, SquarePen, Trash2 } from 'lucide-react'
 
-interface DataTableRowActionsProps {
-  row: Row<Category>
+interface DataTableRowActionsProps<TData> {
+  row: Row<TData>
+  onEdit?: (row: TData) => void
+  onDelete?: (row: TData) => void
 }
 
-export function DataTableRowActions({ row }: DataTableRowActionsProps) {
-  const { setOpen, setCurrentRow } = useCategories()
+export function DataTableRowActions<TData>({ row, onEdit, onDelete }: DataTableRowActionsProps<TData>) {
   return (
-    <>
-      <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild>
-          <Button variant='ghost' className='data-[state=open]:bg-muted flex h-8 w-8 p-0'>
-            <Ellipsis className='h-4 w-4' />
-            <span className='sr-only'>Mở</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align='end' className='w-[160px]'>
-          <DropdownMenuItem
-            onClick={() => {
-              setCurrentRow(row.original)
-              setOpen('edit')
-            }}
-          >
+    <DropdownMenu modal={false}>
+      <DropdownMenuTrigger asChild>
+        <Button variant='ghost' className='data-[state=open]:bg-muted flex h-8 w-8 p-0'>
+          <Ellipsis className='h-4 w-4' />
+          <span className='sr-only'>Mở</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align='end' className='w-[160px]'>
+        {onEdit && (
+          <DropdownMenuItem onClick={() => onEdit(row.original)}>
             Chỉnh sửa
             <DropdownMenuShortcut>
               <SquarePen size={16} />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
+        )}
+        {onEdit && <DropdownMenuSeparator />}
+        {onDelete && (
           <DropdownMenuItem
-            onClick={() => {
-              setCurrentRow(row.original)
-              setOpen('delete')
-            }}
+            onClick={() => onDelete(row.original)}
             className='text-red-500! hover:text-white! hover:bg-red-500!'
           >
             Xoá
@@ -54,8 +47,8 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
               <Trash2 size={16} />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
