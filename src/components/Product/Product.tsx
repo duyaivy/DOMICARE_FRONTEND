@@ -22,7 +22,10 @@ export default function Product({ product }: { product: ProductType }) {
         <p className='text-red text-sub2 text-justify grow line-clamp-3 mt-1 '>Giảm giá {product.discount}%</p>
 
         <div className='flex justify-between items-center'>
-          <Link className='flex items-center gap-2' to={path.products}>
+          <Link
+            className='flex items-center gap-2'
+            to={`${path.product}/${urlSEO(product.id ? product.id.toString() : '', product.name as string)}`}
+          >
             <p className='text-left text-blue text-sub1 pt-0.5 cursor-pointer'>Tìm hiểu</p>
             <IconArrowRight className='fill-blue' />
           </Link>

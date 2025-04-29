@@ -8,7 +8,7 @@ const API_LOGIN_URL = '/login'
 const API_LOGOUT_URL = '/logout'
 const API_REGISTER_URL = '/register'
 const API_SENT_EMAIL_URL = '/email/verify'
-
+const API_LOGIN_GOOGLE = '/auth/callback'
 export const authApi = {
   login: (params: LoginType) => {
     return axiosClient.post<SuccessResponse<LoginResponse>>(API_LOGIN_URL, params)
@@ -22,6 +22,9 @@ export const authApi = {
     })
   },
   logout: (parasm: { refreshToken: string }) => {
-    return axiosClient.post<SuccessResponse<null>>(API_LOGOUT_URL, { parasm })
+    return axiosClient.post<SuccessResponse<null>>(API_LOGOUT_URL, parasm)
+  },
+  loginWithGG: (params: { code: string }) => {
+    return axiosClient.get<SuccessResponse<LoginResponse>>(API_LOGIN_GOOGLE, { params })
   }
 }

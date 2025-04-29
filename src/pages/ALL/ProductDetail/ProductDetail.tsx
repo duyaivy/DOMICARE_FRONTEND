@@ -1,12 +1,9 @@
 import { pic13 } from '@/assets/images'
 import SectionBgGreen from '@/components/SectionBgGreen'
 import SectionBgWhite from '@/components/SectionBgWhite'
-import { path } from '@/core/constants/path'
 import { AppContext } from '@/core/contexts/app.context'
-import { productApi } from '@/core/services/products.service'
-import { useMutation, useQuery } from '@tanstack/react-query'
 import { isEqual } from 'lodash'
-import { Fragment, useContext, useState } from 'react'
+import { Fragment, useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import SectionInView from '@/components/SectionInView'
 import { CalendarIcon, FlameIcon, MapPin, User } from 'lucide-react'
@@ -18,10 +15,6 @@ import { useForm } from 'react-hook-form'
 import { BookingSchema } from '@/core/zod/booking.zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { mutationKeys } from '@/core/helpers/key-tanstack'
-import { bookingApi } from '@/core/services/booking.service'
-import { Toast } from '@/utils/toastMessage'
-import { handleErrorAPI } from '@/utils/handleErrorAPI'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { IconMail } from '@/assets/icons/icon-mail'
@@ -34,27 +27,19 @@ import { isPeriodic } from '@/core/constants/booking.const'
 import { formatDateTime } from '@/core/helpers/date-time'
 import { STANDARD_DATE_FORMAT_INVERSE } from '@/configs/consts'
 import dayjs from 'dayjs'
-import Slider from './Slider'
+import Slider from './components/Slider'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
-import WriteReview from './WriteReview'
-import { BookingRequest } from '@/models/interface/booking.interface'
-interface DataAPI {
-  dataAPI: BookingRequest
-  isLogin: boolean
-}
+import WriteReview from './components/WriteReview'
+import { useBookingMutation, usePrdDetailQuery } from '@/core/queries/product.query'
+
 export default function ProductDetail() {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const { pathname } = useLocation()
   const pathString = pathname.split('$d$')
   const id = Number(pathString[pathString.length - 1] || 1)
   const { profile } = useContext(AppContext)
   const { categories } = useContext(AppContext)
-  const { data } = useQuery({
-    queryKey: [path.product, id],
-    queryFn: () => productApi.getPrdDetail(id),
-    staleTime: 60 * 1000
-  })
+  const { data } = usePrdDetailQuery({ id })
 
   // form
   const form = useForm<z.infer<typeof BookingSchema>>({
@@ -69,25 +54,8 @@ export default function ProductDetail() {
       isPeriodic: 'false'
     }
   })
-  const mutationBooking = useMutation({
-    mutationKey: mutationKeys.booking,
-    mutationFn: (data: DataAPI) => {
-      const { dataAPI, isLogin } = data
-      return bookingApi.post(dataAPI, isLogin)
-    },
-    onSuccess: () => {
-      Toast.success({
-        title: 'Thành công',
-        description: 'Đặt dịch vụ thành công. Chúng tôi sẽ tư vấn trong thời gian sớm nhất.'
-      })
-    },
-    onError: (error) => handleErrorAPI(error, form),
-    onSettled: () => {
-      setIsLoading(false)
-    }
-  })
+  const mutationBooking = useBookingMutation()
   const handleBooking = () => {
-    setIsLoading(true)
     const data = form.getValues()
     const dataAPI = {
       ...data,
@@ -367,7 +335,7 @@ export default function ProductDetail() {
                     />
 
                     <Button
-                      loading={isLoading}
+                      loading={mutationBooking.isPending}
                       className='w-full capitalize text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
                       type='submit'
                     >

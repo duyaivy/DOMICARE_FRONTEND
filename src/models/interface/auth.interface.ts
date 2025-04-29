@@ -2,9 +2,9 @@ import { role, User } from './user.interface'
 
 // define the Login interface
 export interface LoginResponse {
-  accessToken?: string
-  refreshToken?: string
-  user?: User
+  accessToken: string
+  refreshToken: string
+  user: User
 }
 export interface SentEmailResponse {
   email?: string

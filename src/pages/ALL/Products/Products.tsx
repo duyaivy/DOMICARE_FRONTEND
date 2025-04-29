@@ -1,28 +1,21 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import CategoryList from './CategoryList'
 import Search from '@/components/Search'
 import { usePrdQueryConfig } from '@/hooks/usePrdQueryConfig'
 import { path } from '@/core/constants/path'
-import { productApi } from '@/core/services/products.service'
-import { ProductListConfig } from '@/models/interface/product.interface'
+
 import Product from '@/components/Product'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
 import { Fragment } from 'react/jsx-runtime'
 import Pagination from '@/components/Pagination'
-import SortProduct from './SortProduct'
+import SortProduct from './components/SortProduct'
+import { useProductQuery } from '@/core/queries/product.query'
+import { noPrdImg } from '@/assets/images'
+import CategoryList from './components/CategoryList'
 
 export default function Products() {
   const queryString = usePrdQueryConfig()
-
-  const { data: productsData, isLoading } = useQuery({
-    queryKey: [path.products, queryString],
-    queryFn: () => productApi.get(queryString as ProductListConfig),
-    placeholderData: keepPreviousData,
-    staleTime: 1000 * 60 * 3
-  })
-
+  const { data: productsData, isLoading } = useProductQuery({ queryString })
   const prdList = productsData?.data.data.data
   const pageController = productsData?.data.data.meta
 
@@ -75,11 +68,7 @@ export default function Products() {
                   ) : (
                     <div className='h-[500px] col-span-12 flex justify-center items-center '>
                       <div className='flex flex-col justify-center items-center'>
-                        <img
-                          className='w-auto h-32'
-                          src='https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/orderlist/4751043c866ed52f9661.png'
-                          alt='no_product'
-                        />
+                        <img className='w-auto h-32' src={noPrdImg} alt='no_product' />
                         <p className='text-black text-center py-4'>Không có sản phẩm</p>
                       </div>
                     </div>

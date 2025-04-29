@@ -4,8 +4,9 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 
 import { Input } from '@/components/ui/input'
+import { useSentMailMutation } from '@/core/queries/auth.query'
 import { SentMailSchema } from '@/core/zod'
-import { useSentMailMutation } from '@/hooks/useSentMailMutation'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -41,7 +42,7 @@ export default function SentEmail() {
                   name={'email'}
                   render={({ field }) => (
                     <FormItem className=' w-full'>
-                      <FormLabel>Username</FormLabel>
+                      <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
                           autoComplete='off'

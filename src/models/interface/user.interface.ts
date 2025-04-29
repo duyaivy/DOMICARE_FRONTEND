@@ -15,12 +15,46 @@ export interface User {
   updateAt?: string
   roles?: role[]
   avatar?: string
+  dateOfBirth?: string
   emailConfirmed?: boolean
-  gender: GENDER_TYPE
+  gender?: GENDER_TYPE
+}
+export interface UserUpdate {
+  name?: string
+  phone?: string
+  imageId?: number
+  addres?: string
+  dateOfBirth?: Date
+  gender?: GENDER_TYPE
+  newPassword?: string
+  oldPassword?: string
 }
 
+export interface UserUpdateAPI extends Omit<UserUpdate, 'dateOfBirth'> {
+  dateOfBirth?: string
+}
 export type role = {
   id: number
   name: ROLE_TYPE
   active: boolean
+  description?: string
+  createBy?: string
+  updateBy?: string
+  createAt?: string
+  updateAt?: string
+}
+
+export interface UserResponse {
+  meta: {
+    page?: number
+    size?: number
+    total?: number
+    totalPages?: number
+  }
+  data: User[]
+}
+
+export interface UserListConfig {
+  page?: number
+  size?: number
 }

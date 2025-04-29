@@ -3,11 +3,11 @@ import { z } from 'zod'
 export const BookingSchema = z.object({
   guestEmail: z
     .string()
-    // .trim()
-    // .refine((val) => val === '' || z.string().email().safeParse(val).success, {
-    //   message: 'Email không đúng định dạng.'
-    // })
-    // .transform((val) => (val === '' ? undefined : val))
+    .trim()
+    .refine((val) => val === '' || z.string().email().safeParse(val).success, {
+      message: 'Email không đúng định dạng.'
+    })
+    .transform((val) => (val === '' ? undefined : val))
     .optional(),
   phone: z
     .string()

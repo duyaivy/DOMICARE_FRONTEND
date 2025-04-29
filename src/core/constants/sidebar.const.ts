@@ -1,6 +1,6 @@
 import { LucideProps } from 'lucide-react'
 import { path } from './path'
-import { ChartNoAxesCombined, House, Bot, Users, Settings2 } from 'lucide-react'
+import { ChartNoAxesCombined, House, Bot, Users, Settings } from 'lucide-react'
 
 export interface SidebarItem {
   title: string
@@ -15,12 +15,12 @@ export type ItemChild = {
 }
 
 export interface Sidebar {
-  admin: SidebarItem[]
-  sale: SidebarItem[]
+  ROLE_ADMIN: SidebarItem[]
+  ROLE_SALE: SidebarItem[]
 }
 
 export const initialSideBar: Sidebar = {
-  admin: [
+  ROLE_ADMIN: [
     {
       title: 'Trang chủ',
       url: path.admin.dashboard,
@@ -63,7 +63,7 @@ export const initialSideBar: Sidebar = {
         },
         {
           title: 'Bài viết',
-          url: '#'
+          url: path.admin._manage
         }
       ]
     },
@@ -72,7 +72,7 @@ export const initialSideBar: Sidebar = {
       title: 'Cài đặt',
       url: path.admin.setting.profile,
       isActive: true,
-      icon: Settings2,
+      icon: Settings,
       items: [
         {
           title: 'Cá nhân',
@@ -85,7 +85,7 @@ export const initialSideBar: Sidebar = {
       ]
     }
   ],
-  sale: [
+  ROLE_SALE: [
     {
       title: 'Trang chủ',
       url: '#',

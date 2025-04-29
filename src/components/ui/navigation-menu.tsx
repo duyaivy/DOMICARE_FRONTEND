@@ -10,6 +10,7 @@ interface ListItemProps extends ComponentProps<ForwardRefExoticComponent<RefAttr
   to: To
   children: ReactNode
   className?: string
+  LinkClassName?: string
 }
 
 function NavigationMenu({
@@ -134,7 +135,7 @@ function NavigationMenuIndicator({ className, ...props }: ComponentProps<typeof 
     </NavigationMenuPrimitive.Indicator>
   )
 }
-function ListItem({ className, children, to, ...props }: ListItemProps) {
+function ListItem({ className, children, LinkClassName, to, ...props }: ListItemProps) {
   return (
     <li
       className={cn(
@@ -143,7 +144,9 @@ function ListItem({ className, children, to, ...props }: ListItemProps) {
       )}
       {...props}
     >
-      <Link to={to}>{children}</Link>
+      <Link className={LinkClassName} to={to}>
+        {children}
+      </Link>
     </li>
   )
 }

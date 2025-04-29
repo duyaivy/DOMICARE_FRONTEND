@@ -7,3 +7,7 @@ export interface BookingRequest {
   note?: string
   guestEmail?: string
 }
+export interface DataBookingAPI {
+  dataAPI: BookingRequest
+  isLogin: boolean
+}

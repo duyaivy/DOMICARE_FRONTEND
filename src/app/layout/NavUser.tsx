@@ -12,10 +12,18 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
 import { User } from '@/models/interface/user.interface'
+import { Link } from 'react-router-dom'
+import { path } from '@/core/constants/path'
+import { useLogoutMutation } from '@/core/queries/auth.query'
+import { getRefreshTokenFromLS } from '@/core/shared/storage'
 
-export function NavUser({ user }: { user: User }) {
+export function NavUser({ user }: { user?: User }) {
   const { isMobile } = useSidebar()
-
+  const logoutMutation = useLogoutMutation()
+  const handleLogout = () => {
+    const refreshToken = getRefreshTokenFromLS()
+    logoutMutation.mutate({ refreshToken })
+  }
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -26,12 +34,12 @@ export function NavUser({ user }: { user: User }) {
               className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
             >
               <Avatar className='ml-1 h-8 w-8 rounded-lg'>
-                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarImage src={user?.avatar} alt={user?.name} />
                 <AvatarFallback className='rounded-lg'>CN</AvatarFallback>
               </Avatar>
               <div className='grid flex-1 text-left text-sm leading-tight'>
-                <span className='truncate font-semibold'>{user.name}</span>
-                <span className='truncate text-xs'>{user.email}</span>
+                <span className='truncate font-semibold'>{user?.name}</span>
+                <span className='truncate text-xs'>{user?.email}</span>
               </div>
               <ChevronsUpDown className='ml-auto size-4' />
             </SidebarMenuButton>
@@ -45,38 +53,46 @@ export function NavUser({ user }: { user: User }) {
             <DropdownMenuLabel className='p-0 font-normal'>
               <div className='flex items-center gap-2 px-1 py-1.5 text-left text-sm'>
                 <Avatar className='h-8 w-8 rounded-lg'>
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarImage src={user?.avatar} alt={user?.name} />
                   <AvatarFallback className='rounded-lg'>CN</AvatarFallback>
                 </Avatar>
                 <div className='grid flex-1 text-left text-sm leading-tight'>
-                  <span className='truncate font-semibold'>{user.name}</span>
-                  <span className='truncate text-xs'>{user.email}</span>
+                  <span className='truncate font-semibold'>{user?.name}</span>
+                  <span className='truncate text-xs'>{user?.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Nâng cấp hệ thống
-              </DropdownMenuItem>
+              <Link to={path.admin.dashboard}>
+                <DropdownMenuItem>
+                  <Sparkles />
+                  Nâng cấp hệ thống
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Tài khoản
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Thông báo
-              </DropdownMenuItem>
+              <Link to={path.admin.manage.user}>
+                <DropdownMenuItem>
+                  <BadgeCheck />
+                  Tài khoản
+                </DropdownMenuItem>
+              </Link>
+              <Link to={path.admin.dashboard}>
+                <DropdownMenuItem>
+                  <Bell />
+                  Thông báo
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Đăng xuất
-            </DropdownMenuItem>
+            <button onClick={handleLogout}>
+              <DropdownMenuItem>
+                <LogOut />
+                Đăng xuất
+              </DropdownMenuItem>
+            </button>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

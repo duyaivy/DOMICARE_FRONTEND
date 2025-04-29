@@ -7,7 +7,7 @@ const API_PRODUCT_PUBLIC_URL = '/api/public/products'
 
 export const productApi = {
   get: (params: ProductListConfig) => {
-    return axiosClient.get<SuccessResponse<ProductResponse>>(API_PRODUCT_URL, { params })
+    return axiosClient.get<SuccessResponse<ProductResponse>>(API_PRODUCT_PUBLIC_URL, { params })
   },
   delete: (id: number) => {
     return axiosClient.delete<SuccessResponse<null>>(`${API_PRODUCT_URL}/${id}`)

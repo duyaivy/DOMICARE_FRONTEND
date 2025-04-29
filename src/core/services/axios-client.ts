@@ -1,12 +1,6 @@
 import config from '@/configs'
-import {
-  getAccessTokenFromLS,
-  getRefreshTokenFromLS,
-  removeAccessTokenFromLS,
-  removeRefreshTokenFromLS,
-  setAccessTokenToLS,
-  setRefreshTokenToLS
-} from '@/core/shared/storage'
+import { clearLS, getAccessTokenFromLS, getRefreshTokenFromLS, setAccessTokenToLS } from '@/core/shared/storage'
+import { SuccessResponse } from '@/models/interface/response.interface'
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -18,8 +12,8 @@ import axios, {
 import { isEqual } from 'lodash'
 
 interface TokenResponse {
-  access_token: string
-  refresh_token: string
+  accessToken: string
+  email: string
 }
 
 interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
@@ -81,24 +75,22 @@ axiosClient.interceptors.response.use(
             return Promise.reject(error)
           }
 
-          const response = await axios.post<TokenResponse>(`${config.baseUrl}/refresh-token`, {
+          const response = await axios.post<SuccessResponse<TokenResponse>>(`${config.baseUrl}/refresh-token`, {
             refreshToken: refreshToken
           })
 
           if (isEqual(response.status, HttpStatusCode.Ok)) {
-            console.log(response.data)
-            const { access_token, refresh_token } = response.data
+            const { accessToken } = response.data.data
 
-            setAccessTokenToLS(access_token)
-            setRefreshTokenToLS(refresh_token)
+            setAccessTokenToLS(accessToken)
 
-            axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`
+            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
 
             if (originalRequest.headers) {
-              originalRequest.headers.Authorization = `Bearer ${access_token}`
+              originalRequest.headers.Authorization = `Bearer ${accessToken}`
             }
 
-            onRefreshed(access_token)
+            onRefreshed(accessToken)
 
             isRefreshing = false
             return axiosClient(originalRequest)
@@ -126,8 +118,8 @@ axiosClient.interceptors.response.use(
 )
 
 const logout = (): void => {
-  removeAccessTokenFromLS()
-  removeRefreshTokenFromLS()
+  clearLS()
+  window.location.reload()
 }
 
 export default axiosClient

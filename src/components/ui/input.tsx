@@ -3,14 +3,15 @@ import { forwardRef, ReactNode } from 'react'
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: ReactNode
-  classNameInput?: string
+  classNameIcon?: string
   iconOnClick?: () => void
+  classNameInput?: string
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, icon, iconOnClick, classNameInput, ...props }, ref) => {
+  ({ className, type, icon, iconOnClick, classNameInput, classNameIcon, ...props }, ref) => {
     return (
-      <div className='relative flex items-center'>
+      <div className={cn('relative flex items-center', classNameInput)}>
         <input
           type={type}
           className={cn(
@@ -22,7 +23,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         />
         {icon && (
           <div
-            className={cn('absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer', classNameInput)}
+            className={cn('absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer', classNameIcon)}
             onClick={iconOnClick}
           >
             {icon}
