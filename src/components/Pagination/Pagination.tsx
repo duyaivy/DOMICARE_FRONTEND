@@ -1,4 +1,4 @@
-import { QueryConfig } from '@/hooks/usePrdQueryConfig'
+import { QueryPrdConfig } from '@/hooks/usePrdQueryConfig'
 import { createSearchParams, Link } from 'react-router-dom'
 import {
   Pagination,
@@ -12,7 +12,7 @@ import {
 import { isEqual } from 'lodash'
 
 interface PaginationProps {
-  queryString: QueryConfig
+  queryString: QueryPrdConfig
   pageSize: number
   path: string
   currentPage: number

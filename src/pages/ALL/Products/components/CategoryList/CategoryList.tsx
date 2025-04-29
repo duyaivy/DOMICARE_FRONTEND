@@ -2,7 +2,7 @@ import IconChevronUp from '@/assets/icons/icon-chevron-up'
 import { ICON_SIZE_MEDIUM } from '@/core/configs/icon-size'
 import { path } from '@/core/constants/path'
 import { AppContext } from '@/core/contexts/app.context'
-import { QueryConfig } from '@/hooks/usePrdQueryConfig'
+import { QueryPrdConfig } from '@/hooks/usePrdQueryConfig'
 import { Category } from '@/models/interface/category.interface'
 import { isActive } from '@/utils/isActiveLocation'
 import classNames from 'classnames'
@@ -11,7 +11,7 @@ import { omit } from 'lodash'
 import { useContext, useState } from 'react'
 import { createSearchParams, Link, useLocation } from 'react-router-dom'
 
-export default function CategoryList({ queryString }: { queryString: QueryConfig }) {
+export default function CategoryList({ queryString }: { queryString: QueryPrdConfig }) {
   const { categories } = useContext(AppContext)
   const [isShow, setIsShow] = useState<boolean>(false)
   const { search } = useLocation()
