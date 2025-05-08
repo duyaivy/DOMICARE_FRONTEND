@@ -76,7 +76,7 @@ export default function AboutUs() {
       <section className='bg-bg min-h-80 md:min-h-96 flex items-center'>
         <div className='max-w-7xl mx-auto p-4'>
           <div className='flex flex-col justify-between items-center mx-8 '>
-            <h1 className='text-head text-black text-justify md:text-center py-8 font-bold  px-6 rounded-2xl border-[3px] md:border-[5px] border-[#000]'>
+            <h1 className='text-head text-black text-justify md:text-center py-8 font-bold  px-6 rounded-2xl border-3 md:border-5 border-[#000]'>
               Chúng tôi luôn cam kết đặt <span className='text-yellow '>khách hàng</span> lên hàng đầu trong việc cung
               cấp môi trường sạch sẽ, lành mạnh và thân thiện.
             </h1>

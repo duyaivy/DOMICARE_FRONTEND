@@ -30,7 +30,7 @@ export default function LoginGoogle() {
         className='flex w-full h-12 items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md  font-medium text-gray-800 hover:bg-slate-100/80 duration-300 cursor-pointer focus:outline-none text-base py-0 px-0'
       >
         <svg
-          className='!h-6 !w-6 mr-2'
+          className='!size-6 mr-2'
           xmlns='http://www.w3.org/2000/svg'
           xmlnsXlink='http://www.w3.org/1999/xlink'
           viewBox='-0.5 0 48 48'

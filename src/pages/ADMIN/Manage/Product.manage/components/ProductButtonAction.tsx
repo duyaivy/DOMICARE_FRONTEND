@@ -10,7 +10,7 @@ export function ProductButtonAction() {
         className='space-x-1 bg-neutral-700 hover:bg-main duration-300 cursor-pointer'
         onClick={() => setOpen('add')}
       >
-        <PlusCircle className='!w-5 !h-5' /> <span>Thêm</span>
+        <PlusCircle className='!size-5' /> <span>Thêm</span>
       </Button>
     </div>
   )

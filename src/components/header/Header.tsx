@@ -76,7 +76,7 @@ export default function Header() {
                   <NavigationMenuList>
                     <NavigationMenuItem>
                       <NavigationMenuTrigger>
-                        <NavigationMenuLink asChild className={'hover:bg-[transparent]'}>
+                        <NavigationMenuLink asChild className={'hover:bg-transparent'}>
                           <Link to={path.products}>Dịch vụ cung cấp</Link>
                         </NavigationMenuLink>
                       </NavigationMenuTrigger>
