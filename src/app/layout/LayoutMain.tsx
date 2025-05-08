@@ -1,20 +1,18 @@
-import { ReactNode } from 'react'
 import { AppSidebar } from './AppSidebar'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import Header from './Header'
+import AnimatedOutlet from '@/components/AnimatedOutlet'
 
-interface ILayoutMainProps {
-  children: ReactNode
-}
-
-const LayoutMain = ({ children }: ILayoutMainProps) => {
+const LayoutMain = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
         <main className='flex-1 overflow-auto bg-admin-bg'>
           <Header />
-          <div className='px-4'>{children}</div>
+          <div className='px-4'>
+            <AnimatedOutlet />
+          </div>
         </main>
       </SidebarInset>
     </SidebarProvider>
