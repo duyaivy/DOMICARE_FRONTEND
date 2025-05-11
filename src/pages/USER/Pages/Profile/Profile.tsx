@@ -2,7 +2,7 @@ import InputFile from '@/components/InputFile'
 import { path } from '@/core/constants/path'
 import { AppContext } from '@/core/contexts/app.context'
 import { userApi } from '@/core/services/user.service'
-import { UserUpdate } from '@/models/interface/user.interface'
+import { UserUpdate, UserUpdateRequest } from '@/models/interface/user.interface'
 import { Toast } from '@/utils/toastMessage'
 import { useQuery } from '@tanstack/react-query'
 import { Fragment, useContext, useEffect, useMemo, useState } from 'react'
@@ -72,7 +72,7 @@ export default function Profile() {
       if (file) {
         const formData = new FormData()
         formData.append('file', file)
-        const avatarRes = await updateAvatarMutation.mutateAsync(formData)
+        const avatarRes = await updateAvatarMutation.mutateAsync({ formData })
         data.imageId = avatarRes.data.data.id
         setFile(undefined)
       }
@@ -81,7 +81,7 @@ export default function Profile() {
         ...data,
         dateOfBirth: data.dateOfBirth?.toISOString()
       }
-      await userUpdateMutation.mutateAsync(dataApi as UserUpdate)
+      await userUpdateMutation.mutateAsync(dataApi as UserUpdateRequest)
       refetch()
     } catch {
       Toast.error({ description: 'Lỗi không xác định.' })

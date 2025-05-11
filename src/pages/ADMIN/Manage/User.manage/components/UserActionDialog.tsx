@@ -84,7 +84,7 @@ export function UserActionDialog({ currentRow, open, onOpenChange }: Props) {
       if (file) {
         const formFile = new FormData()
         formFile.append('file', file)
-        const uploadResponse = await uploadFileMutation.mutateAsync(formFile)
+        const uploadResponse = await uploadFileMutation.mutateAsync({ formData: formFile })
         formData.imageId = uploadResponse.data.data.id
       }
       const dataApi = {
