@@ -43,7 +43,7 @@ export default function CategoryList({ queryString }: { queryString: QueryPrdCon
 
         <li
           className={classNames(
-            'hidden md:block w-full  duration-300 hover:translate-x-[5px] hover:text-main rounded-md cursor-pointer py-2',
+            'hidden md:block w-full  duration-300 hover:translate-x-1.5 hover:text-main rounded-md cursor-pointer py-2',
             { 'text-main': isActive(`category=${2}`, search) }
           )}
         >
@@ -74,7 +74,7 @@ export default function CategoryList({ queryString }: { queryString: QueryPrdCon
               <li
                 key={cate.id}
                 className={classNames(
-                  'hidden md:block w-full  duration-300 hover:translate-x-[5px] hover:text-main rounded-md cursor-pointer py-2',
+                  'hidden md:block w-full  duration-300 hover:translate-x-1.5 hover:text-main rounded-md cursor-pointer py-2',
                   { 'text-main': isActive(`categoryId=${cate.id}`, search) }
                 )}
               >
@@ -114,7 +114,7 @@ export default function CategoryList({ queryString }: { queryString: QueryPrdCon
                 <li
                   key={cate.id}
                   className={classNames(
-                    ' w-full  duration-300 hover:translate-x-[5px] hover:text-main rounded-md cursor-pointer py-2',
+                    ' w-full  duration-300 hover:translate-x-1.5 hover:text-main rounded-md cursor-pointer py-2',
                     { 'text-main': isActive(`category%3D${cate.id}`, search) }
                   )}
                 >

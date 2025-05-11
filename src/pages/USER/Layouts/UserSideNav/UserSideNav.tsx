@@ -53,7 +53,7 @@ export default function UserSideNav() {
               <ListItem
                 to={path.user.profile}
                 LinkClassName='flex gap-4 py-2'
-                className='text-base text-black group hover:translate-x-[10px] duration-300 hover:bg-transparent'
+                className='text-base text-black group hover:translate-x-2.5 duration-300 hover:bg-transparent'
               >
                 <User className='!w-6 h-auto text-blue' />
                 <p
@@ -67,7 +67,7 @@ export default function UserSideNav() {
               <ListItem
                 to={path.user.history}
                 LinkClassName='flex gap-4 py-2'
-                className='text-black text-base group hover:translate-x-[10px] duration-300 hover:bg-transparent'
+                className='text-black text-base group hover:translate-x-2.5 duration-300 hover:bg-transparent'
               >
                 <ClipboardList className='!w-6 h-auto text-orange-400' />
                 <p
@@ -81,7 +81,7 @@ export default function UserSideNav() {
               <ListItem
                 to={path.user.change_password}
                 LinkClassName='flex gap-4 py-2'
-                className='text-black text-base group hover:translate-x-[10px] duration-300 hover:bg-transparent'
+                className='text-black text-base group hover:translate-x-2.5 duration-300 hover:bg-transparent'
               >
                 <KeyRound className='!w-6 h-auto text-yellow-600' />
                 <p
@@ -101,7 +101,7 @@ export default function UserSideNav() {
           <ListItem
             to={path.user.profile}
             LinkClassName='flex gap-4 py-2'
-            className=' group text-black hover:translate-x-[10px] duration-300 hover:bg-transparent'
+            className='group text-black hover:translate-x-2.5 duration-300 hover:bg-transparent'
           >
             <User className='!w-6 h-auto text-blue' />
             <p
@@ -115,7 +115,7 @@ export default function UserSideNav() {
           <ListItem
             to={path.user.history}
             LinkClassName='flex gap-4 py-2'
-            className='text-black group hover:translate-x-[10px] duration-300 hover:bg-transparent'
+            className='text-black text-base group hover:translate-x-2.5 duration-300 hover:bg-transparent'
           >
             <ClipboardList className='!w-6 h-auto text-orange-400' />
             <p
@@ -129,7 +129,7 @@ export default function UserSideNav() {
           <ListItem
             to={path.user.change_password}
             LinkClassName='flex gap-4 py-2'
-            className='text-black group hover:translate-x-[10px] duration-300 hover:bg-transparent'
+            className='text-black text-base group hover:translate-x-2.5 duration-300 hover:bg-transparent'
           >
             <KeyRound className='!w-6 h-auto text-yellow-600' />
             <p

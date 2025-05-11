@@ -85,10 +85,10 @@ export default function SlideShow({ images }: SlideShowProps) {
                 className={classNames(
                   'w-full cursor-pointer',
                   {
-                    'border-[2px] border-main ': isActive
+                    'border-2 border-main ': isActive
                   },
                   {
-                    'border-[2px] border-gray/10 ': !isActive
+                    'border-2 border-gray/10 ': !isActive
                   }
                 )}
               >

@@ -164,9 +164,9 @@ export default function Login() {
           <div className='w-[90%] md:w-full lg:w-3/4 xl:w-2/3 space-y-6 px-4 pt-4 mb-10'>
             <div className='flex justify-center'>
               <div className='text-black flex justify-center items-center gap-3 w-1/2'>
-                <hr className='h-[1px] w-full' />
+                <hr className='h-px w-full' />
                 Hoặc
-                <hr className='h-[1px] w-full' />
+                <hr className='h-px w-full' />
               </div>
             </div>
             <LoginGoogle />

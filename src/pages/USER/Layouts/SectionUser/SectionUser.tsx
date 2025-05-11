@@ -1,6 +1,6 @@
-import React from 'react'
+import { ReactNode } from 'react'
 interface Props {
-  children: React.ReactNode
+  children: ReactNode
   title: string
   description: string
 }

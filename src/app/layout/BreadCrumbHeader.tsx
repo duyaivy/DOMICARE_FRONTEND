@@ -1,5 +1,3 @@
-// components/BreadcrumbHeader.tsx
-
 import {
   Breadcrumb,
   BreadcrumbItem,
