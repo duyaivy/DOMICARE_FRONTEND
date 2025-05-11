@@ -23,9 +23,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { ReactNode, useState } from 'react'
+import { cloneElement, ReactElement, ReactNode, useState } from 'react'
 import { noPrdImg } from '@/assets/images'
-import { DataTablePagination } from './DataTablePagination'
+import { DataTablePaginationProps } from './DataTablePagination'
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,10 +37,11 @@ interface DataTableProps<T> {
   data: T[]
   columns: ColumnDef<T>[]
   filterColumn?: keyof T
-  buttonAction?: ReactNode
+  ButtonAction?: ReactNode
+  DataTablePagination?: ReactElement<DataTablePaginationProps<any, T>>
 }
 
-export function DataTable<T>({ data, columns, filterColumn, buttonAction }: DataTableProps<T>) {
+export function DataTable<T>({ data, columns, filterColumn, ButtonAction, DataTablePagination }: DataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -78,7 +79,7 @@ export function DataTable<T>({ data, columns, filterColumn, buttonAction }: Data
             icon={<Search />}
           />
           <div className='flex w-full justify-between'>
-            {buttonAction}
+            {ButtonAction}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -148,7 +149,7 @@ export function DataTable<T>({ data, columns, filterColumn, buttonAction }: Data
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      {DataTablePagination && cloneElement(DataTablePagination, { table })}
     </div>
   )
 }

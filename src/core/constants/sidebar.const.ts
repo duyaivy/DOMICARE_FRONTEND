@@ -58,7 +58,7 @@ export const initialSideBar: Sidebar = {
           url: path.admin.manage.category
         },
         {
-          title: 'Sản phẩm',
+          title: 'Dịch vụ',
           url: path.admin.manage.product
         },
         {

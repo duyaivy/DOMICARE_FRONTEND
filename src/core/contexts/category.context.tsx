@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react'
 
 import { Category } from '@/models/interface/category.interface'
 import useDialogState from '@/hooks/useDialogState'
@@ -8,13 +8,13 @@ interface CategoryContextType {
   open: CategoryDialogType | null
   setOpen: (str: CategoryDialogType | null) => void
   currentRow: Category | null
-  setCurrentRow: React.Dispatch<React.SetStateAction<Category | null>>
+  setCurrentRow: Dispatch<SetStateAction<Category | null>>
 }
 
 const CategoryContext = createContext<CategoryContextType | null>(null)
 
 interface Props {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export default function CategoryProvider({ children }: Props) {
@@ -27,9 +27,8 @@ export default function CategoryProvider({ children }: Props) {
 // eslint-disable-next-line react-refresh/only-export-components
 export const useCategories = () => {
   const CateContext = useContext(CategoryContext)
-
   if (!CateContext) {
-    throw new Error('something went wrong!')
+    throw new Error('Something went wrong!')
   }
 
   return CateContext

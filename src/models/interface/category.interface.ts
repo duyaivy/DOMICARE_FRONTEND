@@ -1,4 +1,5 @@
 import { Product } from './product.interface'
+import { PaginationResponse } from './response.interface'
 
 export interface Category {
   id: number
@@ -11,14 +12,12 @@ export interface Category {
   createAt?: string
   updateAt?: string
 }
-
+export interface CategoryMini {
+  id?: number
+  name: string
+}
 export interface CategoryResponse {
-  meta: {
-    page?: number
-    size?: number
-    total?: number
-    totalPages?: number
-  }
+  meta: PaginationResponse
   data: Category[]
 }
 export interface CategoryRequest {
@@ -29,8 +28,4 @@ export interface CategoryRequest {
 export interface CategoryListConfig {
   page?: number
   size?: number
-  sortBy?: 'id' | 'price' | 'name' | 'overalRating'
-  filter?: string
-  sortDirection?: 'asc' | 'desc'
-  searchName?: string
 }

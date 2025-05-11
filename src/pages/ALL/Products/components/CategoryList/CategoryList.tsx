@@ -2,7 +2,7 @@ import IconChevronUp from '@/assets/icons/icon-chevron-up'
 import { ICON_SIZE_MEDIUM } from '@/core/configs/icon-size'
 import { path } from '@/core/constants/path'
 import { AppContext } from '@/core/contexts/app.context'
-import { QueryConfig } from '@/hooks/usePrdQueryConfig'
+import { QueryPrdConfig } from '@/hooks/usePrdQueryConfig'
 import { Category } from '@/models/interface/category.interface'
 import { isActive } from '@/utils/isActiveLocation'
 import classNames from 'classnames'
@@ -11,7 +11,7 @@ import { omit } from 'lodash'
 import { useContext, useState } from 'react'
 import { createSearchParams, Link, useLocation } from 'react-router-dom'
 
-export default function CategoryList({ queryString }: { queryString: QueryConfig }) {
+export default function CategoryList({ queryString }: { queryString: QueryPrdConfig }) {
   const { categories } = useContext(AppContext)
   const [isShow, setIsShow] = useState<boolean>(false)
   const { search } = useLocation()
@@ -43,7 +43,7 @@ export default function CategoryList({ queryString }: { queryString: QueryConfig
 
         <li
           className={classNames(
-            'hidden md:block w-full  duration-300 hover:translate-x-[5px] hover:text-main rounded-md cursor-pointer py-2',
+            'hidden md:block w-full  duration-300 hover:translate-x-1.5 hover:text-main rounded-md cursor-pointer py-2',
             { 'text-main': isActive(`category=${2}`, search) }
           )}
         >
@@ -74,7 +74,7 @@ export default function CategoryList({ queryString }: { queryString: QueryConfig
               <li
                 key={cate.id}
                 className={classNames(
-                  'hidden md:block w-full  duration-300 hover:translate-x-[5px] hover:text-main rounded-md cursor-pointer py-2',
+                  'hidden md:block w-full  duration-300 hover:translate-x-1.5 hover:text-main rounded-md cursor-pointer py-2',
                   { 'text-main': isActive(`categoryId=${cate.id}`, search) }
                 )}
               >
@@ -114,7 +114,7 @@ export default function CategoryList({ queryString }: { queryString: QueryConfig
                 <li
                   key={cate.id}
                   className={classNames(
-                    ' w-full  duration-300 hover:translate-x-[5px] hover:text-main rounded-md cursor-pointer py-2',
+                    ' w-full  duration-300 hover:translate-x-1.5 hover:text-main rounded-md cursor-pointer py-2',
                     { 'text-main': isActive(`category%3D${cate.id}`, search) }
                   )}
                 >

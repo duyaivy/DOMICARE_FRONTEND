@@ -1,32 +1,67 @@
-import { Table } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeft, ChevronsRight } from 'lucide-react'
+import { createSearchParams, useNavigate } from 'react-router-dom'
+import { isEqual } from 'lodash'
+import { PaginationResponse } from '@/models/interface/response.interface'
+import { Table } from '@tanstack/react-table'
 
-interface DataTablePaginationProps<TData> {
-  table: Table<TData>
+export interface DataTablePaginationProps<TQuery extends Record<string, string>, TData> {
+  pageController?: PaginationResponse
+  path: string
+  queryString: TQuery
+  table?: Table<TData>
 }
 
-export function DataTablePagination<TData>({ table }: DataTablePaginationProps<TData>) {
+export function DataTablePagination<TQuery extends Record<string, string>, TData>({
+  pageController,
+  path,
+  queryString,
+  table
+}: DataTablePaginationProps<TQuery, TData>) {
+  const FIRST_INDEX_PAGE = 1
+  const { page = 1, size = 10, totalPages = 1 } = pageController || {}
+  const LAST_INDEX_PAGE = totalPages
+
+  const navigatePage = (value: string) =>
+    navigate({
+      pathname: path,
+      search: createSearchParams({
+        ...queryString,
+        page: value
+      }).toString()
+    })
+  const navigate = useNavigate()
   return (
-    <div className='flex items-center justify-between overflow-clip px-2 mt-2' style={{ overflowClipMargin: 1 }}>
+    <div
+      className='flex items-center justify-end md:justify-between  overflow-clip px-2 mt-2'
+      style={{ overflowClipMargin: 1 }}
+    >
       <div className='text-muted-foreground hidden flex-1 text-sm sm:block'>
-        {table.getFilteredSelectedRowModel().rows.length} / {table.getFilteredRowModel().rows.length} hàng được chọn.
+        {table && table.getFilteredSelectedRowModel().rows.length} / {table && table.getFilteredRowModel().rows.length}
+        &nbsp; hàng được chọn.
       </div>
       <div className='flex items-center sm:space-x-6 lg:space-x-8'>
         <div className='flex items-center space-x-2'>
           <p className='hidden text-sm font-medium sm:block'>Số hàng mỗi trang</p>
           <Select
-            value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value))
-            }}
+            value={`${size}`}
+            onValueChange={(value) =>
+              navigate({
+                pathname: path,
+                search: createSearchParams({
+                  ...queryString,
+                  size: value,
+                  page: 1
+                }).toString()
+              })
+            }
           >
             <SelectTrigger className='h-8 w-[70px]'>
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
+              <SelectValue placeholder={size} />
             </SelectTrigger>
             <SelectContent side='top'>
-              {[10, 20, 30, 40, 50].map((pageSize) => (
+              {[10, 15, 20].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>
@@ -35,14 +70,14 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
           </Select>
         </div>
         <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
-          Trang {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
+          Trang {page} / {totalPages}
         </div>
         <div className='flex items-center space-x-2'>
           <Button
             variant='outline'
             className='hidden h-8 w-8 p-0 lg:flex'
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => navigatePage(FIRST_INDEX_PAGE.toString())}
+            disabled={isEqual(page, FIRST_INDEX_PAGE)}
           >
             <span className='sr-only'>Trang đầu tiên</span>
             <ChevronsLeft className='h-4 w-4' />
@@ -50,8 +85,8 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
           <Button
             variant='outline'
             className='h-8 w-8 p-0'
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => navigatePage((page ? page - 1 : FIRST_INDEX_PAGE).toString())}
+            disabled={isEqual(page, FIRST_INDEX_PAGE)}
           >
             <span className='sr-only'>Trước</span>
             <ChevronLeftIcon className='h-4 w-4' />
@@ -59,8 +94,8 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
           <Button
             variant='outline'
             className='h-8 w-8 p-0'
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() => navigatePage((page ? page + 1 : LAST_INDEX_PAGE).toString())}
+            disabled={isEqual(page, LAST_INDEX_PAGE)}
           >
             <span className='sr-only'>Sau</span>
             <ChevronRightIcon className='h-4 w-4' />
@@ -68,8 +103,8 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
           <Button
             variant='outline'
             className='hidden h-8 w-8 p-0 lg:flex'
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
+            onClick={() => navigatePage(LAST_INDEX_PAGE.toString())}
+            disabled={isEqual(page, LAST_INDEX_PAGE)}
           >
             <span className='sr-only'>Trang cuối</span>
             <ChevronsRight className='h-4 w-4' />

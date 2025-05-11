@@ -27,10 +27,21 @@ export function NavMain({ data }: NavMainProps) {
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip={item.title}>
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                    {item.items && (
-                      <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
+                    {item.icon && (
+                      <Link to={item.url}>
+                        <item.icon className='!w-6 !h-6' />
+                      </Link>
+                    )}
+
+                    {item.items ? (
+                      <>
+                        <span>{item.title}</span>
+                        <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
+                      </>
+                    ) : (
+                      <Link to={item.url}>
+                        <span>{item.title}</span>
+                      </Link>
                     )}
                   </SidebarMenuButton>
                 </CollapsibleTrigger>

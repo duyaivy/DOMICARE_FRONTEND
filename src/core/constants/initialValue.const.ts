@@ -1,3 +1,4 @@
+import { QueryCateConfig } from '@/hooks/useCateQueryConfig'
 import { Review } from '@/models/interface/review.interface'
 
 export const initialComment = {
@@ -52,4 +53,25 @@ export const initialChangePW = {
   oldPassword: '',
   confirmPassword: '',
   newPassword: ''
+}
+export const initialParams: QueryCateConfig = {
+  page: '1',
+  size: '10'
+}
+export const discountValues = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 99, 100]
+
+export const tableLoadingData = {
+  product: [
+    'ID',
+    'Tên dịch vụ',
+    'Danh mục',
+    'Giá gốc',
+    'Giảm giá (%)',
+    'Giá sau giảm',
+    'Đánh giá',
+    'Ngày Tạo',
+    'Cập Nhật Lần Cuối',
+    ''
+  ],
+  category: ['ID', 'Tên danh mục', 'Số sản phẩm', 'Ngày Tạo', 'Cập Nhật Lần Cuối']
 }

@@ -1,6 +1,12 @@
 import axiosClient from './axios-client'
 import { SuccessResponse } from '@/models/interface/response.interface'
-import { User, UserListConfig, UserResponse, UserUpdateAPI } from '@/models/interface/user.interface'
+import {
+  roleAddRequest,
+  User,
+  UserListConfig,
+  UserResponse,
+  UserUpdateRequest
+} from '@/models/interface/user.interface'
 
 const API_USER_URL = '/users'
 
@@ -11,10 +17,13 @@ export const userApi = {
   delete: (id: number) => {
     return axiosClient.delete<SuccessResponse<null>>(`${API_USER_URL}/${id}`)
   },
-  update: (user: UserUpdateAPI) => {
+  update: (user: UserUpdateRequest) => {
     return axiosClient.put<SuccessResponse<User>>(API_USER_URL, user)
   },
   getById: (id: number) => {
     return axiosClient.get<SuccessResponse<User>>(`${API_USER_URL}/${id}`)
+  },
+  addRole: (params: roleAddRequest) => {
+    return axiosClient.put<SuccessResponse<any>>(`${API_USER_URL}/roles`, params)
   }
 }

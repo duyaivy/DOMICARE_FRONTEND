@@ -3,9 +3,8 @@ import { LoginResponse, RegisterReponse, SentEmailResponse } from '@/models/inte
 import { SuccessResponse } from '@/models/interface/response.interface'
 import { LoginType } from '@/models/types/login.type'
 import { RegisterType } from '@/models/types/register.type'
-
 const API_LOGIN_URL = '/login'
-const API_LOGOUT_URL = '/logout'
+const API_LOGOUT_URL = '/out'
 const API_REGISTER_URL = '/register'
 const API_SENT_EMAIL_URL = '/email/verify'
 const API_LOGIN_GOOGLE = '/auth/callback'
@@ -13,7 +12,7 @@ export const authApi = {
   login: (params: LoginType) => {
     return axiosClient.post<SuccessResponse<LoginResponse>>(API_LOGIN_URL, params)
   },
-  register: (params: Omit<RegisterType, 'confirm_password'>) => {
+  register: (params: RegisterType) => {
     return axiosClient.post<SuccessResponse<RegisterReponse>>(API_REGISTER_URL, params)
   },
   sentEmailAuth: (params: { email: string }) => {

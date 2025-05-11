@@ -188,3 +188,17 @@ export const ADMIN_STATUS = {
   DELETE: 'delete'
 }
 export type CategoryDialogType = 'add' | 'edit' | 'delete'
+export type ProductDialogType = 'add' | 'edit' | 'delete'
+export type UserDialogType = 'add' | 'edit' | 'delete'
+
+// config time
+export const STATE_TIME = 60 * 1000 * 3
+
+export const DEFAULT_DATE_OF_BIRTH = '2000-01-01'
+
+// config role id
+export const ROLE_ID = {
+  ADMIN: 2,
+  USER: 1,
+  SALE: 3
+}

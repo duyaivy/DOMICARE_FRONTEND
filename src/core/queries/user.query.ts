@@ -1,37 +1,61 @@
-import { AppContext } from '@/core/contexts/app.context'
 import { mutationKeys } from '@/core/helpers/key-tanstack'
 import { userApi } from '@/core/services/user.service'
-import { setUserToLS } from '@/core/shared/storage'
-import { UserUpdateAPI } from '@/models/interface/user.interface'
 import { handleToastError } from '@/utils/handleErrorAPI'
 import { Toast } from '@/utils/toastMessage'
-import { useMutation } from '@tanstack/react-query'
-import { useContext } from 'react'
-import { fileApi } from '../services/file.service'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-export const useUserMutation = () => {
-  const { setProfile } = useContext(AppContext)
+import { keepPreviousData } from '@tanstack/react-query'
+import { path } from '../constants/path'
+import { UserListConfig } from '@/models/interface/user.interface'
+import { QueryUserConfig } from '@/hooks/useUserQueryConfig'
+import { STATE_TIME } from '@/configs/consts'
+import { AxiosError } from 'axios'
+
+export const useUserQuery = ({ queryString }: { queryString: QueryUserConfig }) => {
+  return useQuery({
+    queryKey: [path.admin.manage.user, queryString],
+    queryFn: () => userApi.get(queryString as UserListConfig),
+    placeholderData: keepPreviousData,
+    staleTime: STATE_TIME
+  })
+}
+interface UpdateUserMutationProps {
+  handleError?: (error: AxiosError) => void
+}
+export const useUpdateUserMutation = ({ handleError }: UpdateUserMutationProps) => {
+  const queryClient = useQueryClient()
   return useMutation({
-    mutationKey: [mutationKeys.updateProfile],
-    mutationFn: (data: UserUpdateAPI) => userApi.update(data),
-
-    onSuccess(data) {
-      Toast.success({ description: data.data.message })
-      const newUser = data.data.data
-      setProfile(newUser)
-      setUserToLS(newUser)
+    mutationKey: mutationKeys.updateProfile,
+    mutationFn: userApi.update,
+    onSuccess: () => {
+      Toast.success({ description: 'Cập nhật thông tin thành công.' })
+      queryClient.invalidateQueries({ queryKey: [path.admin.manage.user] })
     },
-
-    onError: (error) => handleToastError(error)
+    onError: handleError
+  })
+}
+export const useAddRoleMutation = ({ handleError }: UpdateUserMutationProps) => {
+  return useMutation({
+    mutationKey: mutationKeys.updateProfile,
+    mutationFn: userApi.addRole,
+    onSuccess: () => {
+      Toast.success({ description: 'Thêm vai trò người dùng thành công.' })
+    },
+    onError: handleError
   })
 }
 
-export const useUploadFileMutation = () =>
-  useMutation({
-    mutationKey: mutationKeys.uploadFile,
-    mutationFn: fileApi.post,
-    onError: (error) => handleToastError(error),
-    onSuccess: (data) => {
-      Toast.success({ title: 'Thành công', description: data.data.message })
+export const useUserDelete = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: number) => userApi.delete(id),
+    onSuccess: () => {
+      Toast.success({ description: 'Xóa người dùng thành công' })
+      queryClient.invalidateQueries({ queryKey: [path.admin.manage.user] })
+    },
+    onError: (error) => {
+      handleToastError(error)
     }
   })
+}

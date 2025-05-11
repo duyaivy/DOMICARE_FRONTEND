@@ -1,14 +1,14 @@
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import { omit } from 'lodash'
 import classNames from 'classnames'
-import { QueryConfig } from '@/hooks/usePrdQueryConfig'
+import { QueryPrdConfig } from '@/hooks/usePrdQueryConfig'
 import { ProductListConfig } from '@/models/interface/product.interface'
 import { path } from '@/core/constants/path'
 import { sortDirection as direction, sortBy as sort_by } from '@/core/constants/product.const'
 import { isActive } from '@/utils/isActiveLocation'
 
 interface SortProductProps {
-  queryString: QueryConfig
+  queryString: QueryPrdConfig
   pageSize: number
 }
 

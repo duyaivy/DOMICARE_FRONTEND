@@ -7,18 +7,20 @@ export interface User {
   password?: string
   phone?: string
   address?: string
-  emailConfirmationToken?: string
+  avatar?: string
   googleId?: string
+  isActive?: boolean
+  dateOfBirth?: string
+  emailConfirmationToken?: string
   createBy?: string
   updateBy?: string
   createAt?: string
   updateAt?: string
   roles?: role[]
-  avatar?: string
-  dateOfBirth?: string
   emailConfirmed?: boolean
   gender?: GENDER_TYPE
 }
+
 export interface UserUpdate {
   name?: string
   phone?: string
@@ -29,15 +31,15 @@ export interface UserUpdate {
   newPassword?: string
   oldPassword?: string
 }
-
-export interface UserUpdateAPI extends Omit<UserUpdate, 'dateOfBirth'> {
+export interface UserUpdateRequest extends Omit<UserUpdate, 'dateOfBirth'> {
   dateOfBirth?: string
 }
+
 export type role = {
-  id: number
-  name: ROLE_TYPE
-  active: boolean
+  id?: number
+  name?: ROLE_TYPE
   description?: string
+  active?: boolean
   createBy?: string
   updateBy?: string
   createAt?: string
@@ -57,4 +59,8 @@ export interface UserResponse {
 export interface UserListConfig {
   page?: number
   size?: number
+}
+export interface roleAddRequest {
+  userId: number
+  roleIds: number[]
 }

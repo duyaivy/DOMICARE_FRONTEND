@@ -32,9 +32,10 @@ export default function InputImage({ setFile, value }: InputImageProps) {
       />
       <Label
         htmlFor='inputFile'
-        className=' absolute group !z-10 top-0 left-0 duration-300 cursor-pointer w-full h-full hover:bg-[rgba(0,0,0,0.2)] flex justify-center items-center '
+        className=' absolute group !z-10 top-0 left-0 duration-300 cursor-pointer w-full h-full hover:bg-[rgba(0,0,0,0.2)] flex justify-center items-center flex-col'
       >
-        <ImagePlus className='group-hover:opacity-100 duration-300 opacity-0 !w-8 h-8 text-gray-400' />
+        <ImagePlus className=' duration-300 opacity-100  !w-8 h-8 text-gray-400' />
+        <span className='text-sm text-gray-500 duration-300 opacity-100 '>Chọn ảnh chính (tối đa 2MB/ảnh)</span>
       </Label>
       {value && <img className='w-full h-full object-cover ' alt='Hinh_anh' src={value} />}
     </>

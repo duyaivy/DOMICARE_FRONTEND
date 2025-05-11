@@ -7,9 +7,13 @@ interface DateSelectProps {
   value?: Date
   errorMessage?: string
 }
-
+interface DateTime {
+  day: number
+  month: number
+  year: number
+}
 export default function DateTimeSelect({ onChange, value, errorMessage }: DateSelectProps) {
-  const [date, setDate] = useState<{ day: number; month: number; year: number }>({
+  const [date, setDate] = useState<DateTime>({
     day: 1,
     month: 0,
     year: 2000

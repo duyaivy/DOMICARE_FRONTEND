@@ -69,7 +69,7 @@ export default function ProductDetail() {
   }
 
   const product = data && data.data.data
-  const category = categories?.find((item) => isEqual(item.id, product?.categoryID))
+  const category = categories?.find((item) => isEqual(item.id, Number(product?.categoryId)))
   const isSale = product && !isEqual(product?.discount, 0)
 
   return (

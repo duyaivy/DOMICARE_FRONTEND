@@ -5,12 +5,12 @@ import { Form, FormControl, FormField, FormItem } from '../ui/form'
 import { Input } from '../ui/input'
 import IconSearch from '@/assets/icons/icon-search'
 import { Button } from '../ui/button'
-import { QueryConfig } from '@/hooks/usePrdQueryConfig'
+import { QueryPrdConfig } from '@/hooks/usePrdQueryConfig'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import { path } from '@/core/constants/path'
 import { SearchChema } from '@/core/zod/productSearch.zod'
 
-export default function Search({ queryString }: { queryString: QueryConfig }) {
+export default function Search({ queryString }: { queryString: QueryPrdConfig }) {
   const navigate = useNavigate()
   const form = useForm<z.infer<typeof SearchChema>>({
     resolver: zodResolver(SearchChema),
