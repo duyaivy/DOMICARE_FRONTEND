@@ -8,7 +8,6 @@ import { Banknote, FolderPen } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
 import InputImage from '@/components/InputImage'
 import { useMemo, useState } from 'react'
-import { useUploadFileMutation, useUploadMutilFileMutation } from '@/core/queries/user.query'
 import { handleError422 } from '@/utils/handleErrorAPI'
 import { Product, ProductRequest } from '@/models/interface/product.interface'
 import { ProductForm, productSchema } from '@/core/zod/productSearch.zod'
@@ -23,6 +22,7 @@ import { Label } from '@/components/ui/label'
 import InputImages from '@/components/InputImages'
 import { discountValues, initialParams } from '@/core/constants/initialValue.const'
 import CategoryPagination from '@/components/CategoryPagination'
+import { useUploadFileMutation, useUploadMutilFileMutation } from '@/core/queries/file.query'
 
 interface Props {
   currentRow?: Product
@@ -82,7 +82,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       if (file) {
         const formData = new FormData()
         formData.append('file', file)
-        const avatarRes = await uploadFileMutation.mutateAsync(formData)
+        const avatarRes = await uploadFileMutation.mutateAsync({ formData })
         data.mainImageId = avatarRes?.data?.data?.id
         setFile(undefined)
       }

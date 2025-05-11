@@ -14,9 +14,6 @@ import { AppContext } from '../contexts/app.context'
 import { SuccessResponse } from '@/models/interface/response.interface'
 import { LoginResponse } from '@/models/interface/auth.interface'
 import { AxiosError, AxiosResponse } from 'axios'
-import { RegisterSchema } from '../zod'
-import { omit } from 'lodash'
-import { z } from 'zod'
 
 // login
 interface useLoginProps<TVariables> {
@@ -61,13 +58,10 @@ export const useSentMailMutation = (form: UseFormReturn<any>) => {
 // register
 
 export const useRegisterMutation = ({ handleError }: { handleError?: (error: AxiosError) => void }) => {
-  const navigate = useNavigate()
-
   return useMutation({
     mutationKey: mutationKeys.register,
-    mutationFn: (data: z.infer<typeof RegisterSchema>) => authApi.register(omit(data, 'confirm_password')),
+    mutationFn: authApi.register,
     onSuccess: () => {
-      navigate(path.login)
       Toast.success({
         title: 'Thành công',
         description: 'Đăng kí tài khoản thành công. Vui lòng kiểm tra Mail của bạn.'

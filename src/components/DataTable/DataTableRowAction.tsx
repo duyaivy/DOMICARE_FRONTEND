@@ -10,15 +10,24 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 
-import { Ellipsis, SquarePen, Trash2 } from 'lucide-react'
+import { Ellipsis, Eye, Key, SquarePen, Trash2 } from 'lucide-react'
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
   onEdit?: (row: TData) => void
   onDelete?: (row: TData) => void
+  onView?: (row: TData) => void
+  onReset?: (row: TData) => void
 }
 
-export function DataTableRowActions<TData>({ row, onEdit, onDelete }: DataTableRowActionsProps<TData>) {
+export function DataTableRowActions<TData>({
+  row,
+  onEdit,
+  onDelete,
+  onReset,
+  onView
+}: DataTableRowActionsProps<TData>) {
+  const isView = onView || onReset || onReset
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
@@ -28,6 +37,14 @@ export function DataTableRowActions<TData>({ row, onEdit, onDelete }: DataTableR
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
+        {onView && (
+          <DropdownMenuItem onClick={() => onView(row.original)}>
+            Xem chi tiết
+            <DropdownMenuShortcut>
+              <Eye size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+        )}
         {onEdit && (
           <DropdownMenuItem onClick={() => onEdit(row.original)}>
             Chỉnh sửa
@@ -36,7 +53,15 @@ export function DataTableRowActions<TData>({ row, onEdit, onDelete }: DataTableR
             </DropdownMenuShortcut>
           </DropdownMenuItem>
         )}
-        {onEdit && <DropdownMenuSeparator />}
+        {onReset && (
+          <DropdownMenuItem onClick={() => onReset(row.original)}>
+            Đặt lại mật khẩu
+            <DropdownMenuShortcut>
+              <Key size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+        )}
+        {isView && <DropdownMenuSeparator />}
         {onDelete && (
           <DropdownMenuItem
             onClick={() => onDelete(row.original)}

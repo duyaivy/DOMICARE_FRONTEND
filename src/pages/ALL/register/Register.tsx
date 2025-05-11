@@ -1,4 +1,3 @@
-import { IconEye, IconNonEye } from '@/assets/icons'
 import { IconMail } from '@/assets/icons/icon-mail'
 import { pic6, logoSecond } from '@/assets/images'
 import { Button } from '@/components/ui/button'
@@ -6,8 +5,6 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
-import { PASSWORD_TYPE, TEXT_TYPE } from '@/configs/consts'
 import { path } from '@/core/constants/path'
 import { RegisterSchema } from '@/core/zod'
 import { handleErrorAPI } from '@/utils/handleErrorAPI'
@@ -18,12 +15,12 @@ import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import SentEmail from './SentEmail'
 import { useRegisterMutation } from '@/core/queries/auth.query'
+import InputPassword from '@/components/InputPassword/InputPassword'
+import { useNavigate } from 'react-router-dom'
 
 export default function Register() {
+  const navigate = useNavigate()
   const [isConfirm, setIsconfirm] = useState<boolean>(false)
-  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false)
-
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -34,12 +31,10 @@ export default function Register() {
   })
   const mutationRegister = useRegisterMutation({ handleError: (error) => handleErrorAPI(error, form) })
 
-  const handleRegister = () => {
-    mutationRegister.mutate(form.getValues())
+  const handleRegister = async () => {
+    await mutationRegister.mutateAsync(form.getValues())
+    navigate(path.login)
   }
-
-  const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev)
-  const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible((prev) => !prev)
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-12 gap-6 h-screen'>
@@ -86,19 +81,16 @@ export default function Register() {
 
               <FormField
                 control={form.control}
-                name={PASSWORD_TYPE}
+                name={'password'}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Mật khẩu</FormLabel>
                     <FormControl>
-                      <Input
+                      <InputPassword
                         autoComplete='off'
                         placeholder='Nhập mật khẩu'
                         className='w-full focus:outline-0 mt-1'
-                        type={isPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
                         {...field}
-                        icon={isPasswordVisible ? <IconNonEye /> : <IconEye />}
-                        iconOnClick={togglePasswordVisibility}
                       />
                     </FormControl>
                     <FormMessage />
@@ -120,14 +112,11 @@ export default function Register() {
                   <FormItem>
                     <FormLabel>Nhập lại mật khẩu</FormLabel>
                     <FormControl>
-                      <Input
+                      <InputPassword
                         placeholder='Nhập lại mật khẩu'
                         autoComplete='off'
                         className='w-full focus:outline-0 mt-1'
-                        type={isConfirmPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
                         {...field}
-                        icon={isConfirmPasswordVisible ? <IconNonEye /> : <IconEye />}
-                        iconOnClick={toggleConfirmPasswordVisibility}
                       />
                     </FormControl>
                     <FormMessage />

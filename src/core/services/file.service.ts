@@ -9,9 +9,10 @@ export const fileApi = {
   getAll: () => {
     return axiosClient.get<SuccessResponse<File[]>>(`${API_FILE_URL}/all`)
   },
-  post: (body: FormData) => {
+  post: (body: FormData, config = {}) => {
     return axiosClient.post<SuccessResponse<File>>(API_FILE_URL, body, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' },
+      ...config
     })
   },
   postMultiple: (body: FormData) => {

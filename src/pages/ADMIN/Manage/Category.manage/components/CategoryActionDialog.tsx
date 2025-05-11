@@ -18,10 +18,10 @@ import { FolderPen } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
 import InputImage from '@/components/InputImage'
 import { useMemo, useState } from 'react'
-import { useUploadFileMutation } from '@/core/queries/user.query'
 import { categoryApi } from '@/core/services/category.service'
 import { useCategoryMutation } from '@/core/queries/product.query'
 import { handleError422 } from '@/utils/handleErrorAPI'
+import { useUploadFileMutation } from '@/core/queries/file.query'
 
 interface Props {
   currentRow?: Category
@@ -50,12 +50,13 @@ export function CategoryActionDialog({ currentRow, open, onOpenChange }: Props) 
   const uploadFileMutation = useUploadFileMutation()
   const mutationFn = isEdit ? categoryApi.edit : categoryApi.add
   const categoryMutation = useCategoryMutation({ mutationFn })
+
   const onSubmit = async (data: CategoryForm) => {
     try {
       if (file) {
         const formData = new FormData()
         formData.append('file', file)
-        const avatarRes = await uploadFileMutation.mutateAsync(formData)
+        const avatarRes = await uploadFileMutation.mutateAsync({ formData })
         data.imageId = avatarRes?.data?.data?.id
         setFile(undefined)
       }
@@ -142,6 +143,9 @@ export function CategoryActionDialog({ currentRow, open, onOpenChange }: Props) 
           </Form>
         </div>
         <DialogFooter>
+          <Button variant='outline' onClick={() => onOpenChange(false)}>
+            Hủy
+          </Button>
           <Button
             type='submit'
             loading={categoryMutation.isPending || uploadFileMutation.isPending}

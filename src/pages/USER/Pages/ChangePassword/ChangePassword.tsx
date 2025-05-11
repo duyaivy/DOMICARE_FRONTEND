@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import InputPassword from '@/components/InputPassword/InputPassword'
 import { initialChangePW } from '@/core/constants/initialValue.const'
 import { isAxiosError } from 'axios'
-import { useUserMutation } from '@/core/queries/user.query'
+import { useUpdateUserMutation } from '@/core/queries/user.query'
 
 export default function ChangePassword() {
   const form = useForm<z.infer<typeof UpdatePassUserSchema>>({
@@ -20,7 +20,7 @@ export default function ChangePassword() {
       newPassword: initialChangePW.confirmPassword
     }
   })
-  const userUpdateMutation = useUserMutation()
+  const userUpdateMutation = useUpdateUserMutation({})
 
   const handleSubmitForm = async (data: Pick<UserUpdate, 'oldPassword' | 'newPassword'>) => {
     try {

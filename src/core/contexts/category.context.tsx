@@ -27,7 +27,6 @@ export default function CategoryProvider({ children }: Props) {
 // eslint-disable-next-line react-refresh/only-export-components
 export const useCategories = () => {
   const CateContext = useContext(CategoryContext)
-
   if (!CateContext) {
     throw new Error('Something went wrong!')
   }

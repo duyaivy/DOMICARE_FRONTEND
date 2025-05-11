@@ -21,8 +21,9 @@ import { gender } from '@/core/constants/user.const'
 import { Label } from '@/components/ui/label'
 import hideEmail from '@/utils/hideEmail'
 
-import { useUploadFileMutation, useUserMutation } from '@/core/queries/user.query'
 import DateTimeSelect from '@/components/DateTimeSelect'
+import { useUploadFileMutation } from '@/core/queries/file.query'
+import { useUpdateUserMutation } from '@/core/queries/user.query'
 
 export default function Profile() {
   const { profile } = useContext(AppContext)
@@ -33,7 +34,7 @@ export default function Profile() {
   }, [file])
 
   // call API
-  const userUpdateMutation = useUserMutation()
+  const userUpdateMutation = useUpdateUserMutation({})
   const updateAvatarMutation = useUploadFileMutation()
   // form
   const form = useForm<z.infer<typeof UpdateUserSchema>>({
@@ -80,7 +81,7 @@ export default function Profile() {
         ...data,
         dateOfBirth: data.dateOfBirth?.toISOString()
       }
-      await userUpdateMutation.mutateAsync(dataApi)
+      await userUpdateMutation.mutateAsync(dataApi as UserUpdate)
       refetch()
     } catch {
       Toast.error({ description: 'Lỗi không xác định.' })

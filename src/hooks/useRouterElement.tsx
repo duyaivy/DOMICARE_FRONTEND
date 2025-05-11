@@ -1,17 +1,13 @@
 import { Navigate, Outlet, RouteObject, useLocation, useRoutes } from 'react-router-dom'
 import { Fragment, ReactNode, useContext } from 'react'
 import LayoutMain from '@/app/layout/LayoutMain'
-
 import { path } from '@/core/constants/path'
 import CustomerLayout from '@/app/layout/CustomerLayout'
-
 import Login from '@/pages/ALL/login'
 import Register from '@/pages/ALL/register'
 import Dashboard from '@/pages/ADMIN/dashboard/Dashboard'
 import PageNotFound from '@/pages/ALL/404/PageNotFound'
-
 import { AppContext } from '@/core/contexts/app.context'
-
 import Products from '@/pages/ALL/Products'
 import { rolesCheck } from '@/utils/rolesCheck'
 import ProfileAdmin from '@/pages/ADMIN/Settings/Profile.setting'
@@ -30,6 +26,7 @@ import UserLayout from '@/pages/USER/Layouts'
 import ChangePassword from '@/pages/USER/Pages/ChangePassword'
 import History from '@/pages/USER/Pages/History'
 import AnimatedOutlet from '@/components/AnimatedOutlet'
+import Report from '@/pages/ADMIN/Report'
 
 interface RouteConfig {
   path: string
@@ -151,6 +148,10 @@ export default function useRoutesElements() {
             {
               path: path.admin.dashboard,
               element: <Dashboard />
+            },
+            {
+              path: path.admin.report,
+              element: <Report />
             },
             {
               path: path.admin._setting,
