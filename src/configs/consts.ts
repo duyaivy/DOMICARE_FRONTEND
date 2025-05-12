@@ -120,34 +120,6 @@ export const numberConstants = {
 }
 
 export const TIME_FORMAT = 'HH:mm'
-
-export const TABLE_ROW_KEY = 'id'
-export const WIDTH_400 = 400
-export const WIDTH_600 = 600
-export const WIDTH_800 = 800
-export const WIDTH_1000 = 1000
-export const WIDTH_1100 = 1100
-export const MAX_LENGTH_20 = 20
-export const MAX_LENGTH_255 = 255
-export const MAX_LENGTH_500 = 500
-export const MAX_LENGTH_1000 = 1000
-export const MAX_LENGTH_2000 = 2000
-export const API_DOWNLOAD_FILE = 'share/file/download'
-export const MAX_LENGTH_TEXT_AREA = 500
-export const MAX_LENGTH_REASON = MAX_LENGTH_TEXT_AREA
-
-// type input number
-export const NUMBER_TYPE_INPUT = 'DECIMAL'
-
-// Vietnam dong unit
-export const VND_CURRENCY_UNIT = 'VND'
-
-// Japanese Yen (JPY) currency unit
-export const JPY_CURRENCY_UNIT = 'JPY'
-
-// type error
-export const ERROR_TYPE = 'error'
-
 // type day
 export const DAY_TYPE = 'day'
 
@@ -202,3 +174,17 @@ export const ROLE_ID = {
   USER: 1,
   SALE: 3
 }
+
+export const UPLOAD_STATUS = {
+  COLOR: {
+    PROCESS: 'bg-blue-500',
+    DONE: 'bg-green-500',
+    ERROR: 'bg-red-500'
+  }
+}
+
+export const ACTIVE_STATUS_USER = {
+  ACTIVE: 'Hoạt động',
+  INACTIVE: 'Chưa kích hoạt'
+}
+export const VND_CURRENCY_UNIT = 'VND'

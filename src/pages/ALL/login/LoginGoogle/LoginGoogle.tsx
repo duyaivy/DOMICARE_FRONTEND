@@ -14,7 +14,6 @@ export default function LoginGoogle() {
   const loginGG = useGoogleLogin({
     flow: 'auth-code',
     onSuccess: (credentialResponse) => {
-      console.log(credentialResponse)
       const code = credentialResponse.code
       mutationLogin.mutate({ code })
     }

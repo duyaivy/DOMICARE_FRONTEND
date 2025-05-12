@@ -57,8 +57,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setProfile,
         categories,
         setCategories
-        // setSidebar,
-        // sidebar
       }}
     >
       {children}

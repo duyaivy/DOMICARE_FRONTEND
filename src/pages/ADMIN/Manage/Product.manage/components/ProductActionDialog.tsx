@@ -6,8 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { Banknote, FolderPen } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
-import InputImage from '@/components/InputImage'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { handleError422 } from '@/utils/handleErrorAPI'
 import { Product, ProductRequest } from '@/models/interface/product.interface'
 import { ProductForm, productSchema } from '@/core/zod/productSearch.zod'
@@ -22,7 +21,7 @@ import { Label } from '@/components/ui/label'
 import InputImages from '@/components/InputImages'
 import { discountValues, initialParams } from '@/core/constants/initialValue.const'
 import CategoryPagination from '@/components/CategoryPagination'
-import { useUploadFileMutation, useUploadMutilFileMutation } from '@/core/queries/file.query'
+import InputImage from '@/components/InputImage'
 
 interface Props {
   currentRow?: Product
@@ -49,7 +48,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           discount: currentRow.discount,
           oldProductId: currentRow.id,
           oldCategoryId: currentRow.categoryMini?.id || undefined,
-          landingImageIds: undefined,
           categoryId: currentRow.categoryMini?.id || undefined
         }
       : {
@@ -61,17 +59,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         }
   })
 
-  const [file, setFile] = useState<File>()
-  const [files, setFiles] = useState<(string | File)[]>(currentRow?.landingImages || [])
-  const fileLocal = useMemo(() => {
-    return file ? URL.createObjectURL(file) : ''
-  }, [file])
-  const fileLocalImages = useMemo(() => {
-    return files ? files.map((file) => (typeof file === 'string' ? file : URL.createObjectURL(file))) : undefined
-  }, [files])
+  const [file, setFile] = useState<string>(currentRow?.image || '')
 
-  const uploadFileMutation = useUploadFileMutation()
-  const uploadMutilFileMutation = useUploadMutilFileMutation()
+  const [files, setFiles] = useState<string[]>(currentRow?.landingImages || [])
   const productMutation = usePrdMutation({
     mutationFn: (data: ProductRequest) => (isEdit ? productApi.update : productApi.create)(data),
     handleError: (error) => handleError422({ error, form, fieldName: 'mainImageId' })
@@ -79,28 +69,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
   const onSubmit = async (data: ProductForm) => {
     try {
-      if (file) {
-        const formData = new FormData()
-        formData.append('file', file)
-        const avatarRes = await uploadFileMutation.mutateAsync({ formData })
-        data.mainImageId = avatarRes?.data?.data?.id
-        setFile(undefined)
+      const dataAPI = {
+        ...data,
+        mainImageId: file.toString(),
+        landingImages: files
       }
-      if (files && files.length > 0) {
-        const formData = new FormData()
-        files.forEach((file) => {
-          if (file instanceof File) {
-            formData.append('files', file)
-          }
-        })
-        const avatarRes = await uploadMutilFileMutation.mutateAsync(formData)
-        data.landingImageIds = avatarRes?.data?.data?.map((item) => item.id)
-        setFiles([])
-      } else {
-        //xu ly khi xoa anh luc cap nhat
-        data.landingImageIds = []
-      }
-      await productMutation.mutateAsync(data)
+      await productMutation.mutateAsync(dataAPI)
       form.reset()
       onOpenChange(false)
       queryClient.invalidateQueries({ queryKey: [path.products, queryString] })
@@ -244,7 +218,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                 <div className='md:col-span-3 '>
                   <Label>Ảnh sản phẩm</Label>
                   <div className='w-full min-h-55 border border-gray-200 shadow rounded-sm overflow-hidden bg-bg relative '>
-                    <InputImages values={fileLocalImages || []} setFiles={setFiles} />
+                    <InputImages values={files} setValues={setFiles} />
                   </div>{' '}
                 </div>
               </div>
@@ -254,18 +228,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                 <FormField
                   control={form.control}
                   name='mainImageId'
-                  render={({ field }) => (
+                  render={() => (
                     <FormItem>
                       <FormLabel>Ảnh chính</FormLabel>
                       <FormControl>
                         <div className='col-span-4 h-55 border border-gray-200 shadow rounded-sm overflow-hidden bg-bg relative '>
-                          <InputImage
-                            value={fileLocal || currentRow?.image || ''}
-                            setFile={(file) => {
-                              setFile(file)
-                              field.onChange(undefined)
-                            }}
-                          />
+                          <InputImage value={file} setValues={setFile} />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -282,7 +250,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           </Button>
           <Button
             type='submit'
-            loading={productMutation.isPending || uploadFileMutation.isPending || uploadMutilFileMutation.isPending}
+            // loading={productMutation.isPending || uploadFileMutation.isPending || uploadMutilFileMutation.isPending}
+            loading={false}
             className='hover:bg-main bg-neutral-700 cursor-pointer'
             form='product-form'
           >

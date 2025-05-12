@@ -16,12 +16,12 @@ import { Category } from '@/models/interface/category.interface'
 import { CategoryForm, categorySchema } from '@/core/zod/category.zod'
 import { FolderPen } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
-import InputImage from '@/components/InputImage'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { categoryApi } from '@/core/services/category.service'
 import { useCategoryMutation } from '@/core/queries/product.query'
 import { handleError422 } from '@/utils/handleErrorAPI'
 import { useUploadFileMutation } from '@/core/queries/file.query'
+import InputImage from '@/components/InputImage'
 
 interface Props {
   currentRow?: Category
@@ -43,26 +43,18 @@ export function CategoryActionDialog({ currentRow, open, onOpenChange }: Props) 
         }
   })
 
-  const [file, setFile] = useState<File>()
-  const fileLocal = useMemo(() => {
-    return file ? URL.createObjectURL(file) : ''
-  }, [file])
+  const [file, setFile] = useState<string>(currentRow?.image || '')
+
   const uploadFileMutation = useUploadFileMutation()
   const mutationFn = isEdit ? categoryApi.edit : categoryApi.add
   const categoryMutation = useCategoryMutation({ mutationFn })
 
   const onSubmit = async (data: CategoryForm) => {
     try {
-      if (file) {
-        const formData = new FormData()
-        formData.append('file', file)
-        const avatarRes = await uploadFileMutation.mutateAsync({ formData })
-        data.imageId = avatarRes?.data?.data?.id
-        setFile(undefined)
-      }
       // submit form
       const dataAPI = {
         ...data,
+        imageId: file,
         categoryId: isEdit ? currentRow.id : null
       }
       await categoryMutation.mutateAsync(dataAPI)
@@ -132,7 +124,7 @@ export function CategoryActionDialog({ currentRow, open, onOpenChange }: Props) 
                   <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
                     <FormLabel className='col-span-2 text-right'>Hình ảnh</FormLabel>
                     <div className='col-span-4 h-45 border border-gray-200 shadow rounded-sm overflow-hidden bg-bg relative '>
-                      <InputImage value={fileLocal || (currentRow?.image as string)} setFile={setFile} />
+                      <InputImage value={file} setValues={setFile} />
                     </div>
                     <div> {form.formState.errors.imageId?.message}</div>
                     <FormMessage className='col-span-4 col-start-3' />

@@ -6,6 +6,9 @@ import { DataTableRowActions } from '@/components/DataTable/DataTableRowAction'
 import { useUsers } from '@/core/contexts/user.context'
 import { cn } from '@/core/lib/utils'
 import { Badge } from '@/components/ui/badge'
+import { ACTIVE_STATUS_USER } from '@/configs/consts'
+import React from 'react'
+import { Slot } from '@radix-ui/react-slot'
 
 export const useUserColumns = (): ColumnDef<User>[] => {
   const { setOpen, setCurrentRow } = useUsers()
@@ -88,12 +91,14 @@ export const useUserColumns = (): ColumnDef<User>[] => {
     },
     {
       accessorKey: 'emailConfirmed',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Trạng thái' />,
+      header: () => <div className='text-center capitalize w-full'>Trạng thái</div>,
       cell: ({ row }) => {
         const isActive = row.getValue('emailConfirmed') as boolean
         return (
           <div className='text-center'>
-            <Badge variant={isActive ? 'default' : 'destructive'}>{isActive ? 'Hoạt động' : 'Chưa kích hoạt'}</Badge>
+            <Badge variant={isActive ? 'default' : 'destructive'}>
+              {isActive ? ACTIVE_STATUS_USER.ACTIVE : ACTIVE_STATUS_USER.INACTIVE}
+            </Badge>
           </div>
         )
       },
@@ -140,3 +145,12 @@ export const useUserColumns = (): ColumnDef<User>[] => {
     }
   ]
 }
+
+const SidebarMenuButton = React.forwardRef<
+  HTMLButtonElement,
+  { asChild?: boolean } & React.ButtonHTMLAttributes<HTMLButtonElement>
+>(({ asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'button'
+  return <Comp ref={ref} {...props} />
+})
+SidebarMenuButton.displayName = 'SidebarMenuButton'

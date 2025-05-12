@@ -21,7 +21,9 @@ export default function ProductProvider({ children }: Props) {
   const [open, setOpen] = useDialogState<ProductDialogType>(null)
   const [currentRow, setCurrentRow] = useState<Product | null>(null)
 
-  return <ProductContext value={{ open, setOpen, currentRow, setCurrentRow }}>{children}</ProductContext>
+  return (
+    <ProductContext.Provider value={{ open, setOpen, currentRow, setCurrentRow }}>{children}</ProductContext.Provider>
+  )
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
