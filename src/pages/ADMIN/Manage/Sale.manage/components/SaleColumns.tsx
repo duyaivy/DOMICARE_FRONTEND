@@ -88,7 +88,7 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     },
     {
       accessorKey: 'emailConfirmed',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Trạng thái' />,
+      header: () => <div className='text-center capitalize w-full'>Trạng thái</div>,
       cell: ({ row }) => {
         const isActive = row.getValue('emailConfirmed') as boolean
         return (

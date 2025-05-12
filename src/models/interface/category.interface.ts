@@ -23,7 +23,7 @@ export interface CategoryResponse {
 export interface CategoryRequest {
   name: string
   description?: string
-  imageId?: number
+  imageId?: string
 }
 export interface CategoryListConfig {
   page?: number

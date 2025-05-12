@@ -21,7 +21,9 @@ export default function CategoryProvider({ children }: Props) {
   const [open, setOpen] = useDialogState<CategoryDialogType>(null)
   const [currentRow, setCurrentRow] = useState<Category | null>(null)
 
-  return <CategoryContext value={{ open, setOpen, currentRow, setCurrentRow }}>{children}</CategoryContext>
+  return (
+    <CategoryContext.Provider value={{ open, setOpen, currentRow, setCurrentRow }}>{children}</CategoryContext.Provider>
+  )
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

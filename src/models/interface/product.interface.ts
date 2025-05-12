@@ -42,7 +42,7 @@ export interface ProductListConfig {
 export interface ProductRequest {
   categoryId: number
   description?: string
-  mainImageId?: number
+  mainImageId?: string
   name: string
   price: number
   discount: number

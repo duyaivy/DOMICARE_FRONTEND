@@ -3,22 +3,6 @@ import { UserDialogType } from '@/configs/consts'
 import { User } from '@/models/interface/user.interface'
 import useDialogState from '@/hooks/useDialogState'
 
-// interface CategoryContextType {
-//   open: CategoryDialogType | null
-//   setOpen: (str: CategoryDialogType | null) => void
-//   currentRow: Category | null
-//   setCurrentRow: Dispatch<SetStateAction<Category | null>>
-// }
-
-// const CategoryContext = createContext<CategoryContextType | null>(null)
-
-// export default function CategoryProvider({ children }: Props) {
-//   const [open, setOpen] = useDialogState<CategoryDialogType>(null)
-//   const [currentRow, setCurrentRow] = useState<Category | null>(null)
-
-//   return <CategoryContext value={{ open, setOpen, currentRow, setCurrentRow }}>{children}</CategoryContext>
-// }
-
 interface UserContextType {
   open: UserDialogType | null
   setOpen: (str: UserDialogType | null) => void
@@ -34,7 +18,7 @@ export function UserProvider({ children }: Props) {
   const [open, setOpen] = useDialogState<UserDialogType>(null)
   const [currentRow, setCurrentRow] = useState<User | null>(null)
 
-  return <UserContext value={{ open, setOpen, currentRow, setCurrentRow }}>{children}</UserContext>
+  return <UserContext.Provider value={{ open, setOpen, currentRow, setCurrentRow }}>{children}</UserContext.Provider>
 }
 // eslint-disable-next-line react-refresh/only-export-components
 export function useUsers() {
