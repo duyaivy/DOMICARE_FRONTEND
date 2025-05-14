@@ -59,6 +59,7 @@ export interface UserResponse {
 export interface UserListConfig {
   page?: number
   size?: number
+  searchRoleName?: ROLE_TYPE
 }
 export interface roleAddRequest {
   userId: number

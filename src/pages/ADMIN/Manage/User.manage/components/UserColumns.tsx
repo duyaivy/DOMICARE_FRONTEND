@@ -40,7 +40,7 @@ export const useUserColumns = (): ColumnDef<User>[] => {
     },
     {
       accessorKey: 'name',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Tên' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Họ tên' />,
       cell: ({ row }) => (
         <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('name') || '--'}</div>
       ),
@@ -54,7 +54,7 @@ export const useUserColumns = (): ColumnDef<User>[] => {
           'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)] lg:drop-shadow-none'
         )
       },
-      enableSorting: false
+      enableSorting: true
     },
     {
       accessorKey: 'email',
@@ -87,7 +87,7 @@ export const useUserColumns = (): ColumnDef<User>[] => {
         const gender = row.getValue('gender') as string
         return <div className='text-center'>{gender || '--'}</div>
       },
-      enableSorting: false
+      enableSorting: true
     },
     {
       accessorKey: 'emailConfirmed',

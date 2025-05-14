@@ -6,7 +6,8 @@ import { useUserQuery } from '@/core/queries/user.query'
 import { DataTablePagination } from '@/components/DataTable/DataTablePagination'
 import { Skeleton } from '@/components/ui/skeleton'
 import { UserDialog } from './components/UserDialog'
-import useUserQueryConfig from '@/hooks/useUserQueryConfig'
+import { useUserQueryConfig } from '@/hooks/useUserQueryConfig'
+import { ROLE_USER } from '@/configs/consts'
 
 export default function User() {
   return (
@@ -17,7 +18,7 @@ export default function User() {
 }
 
 function UserContent() {
-  const queryString = useUserQueryConfig()
+  const queryString = useUserQueryConfig(ROLE_USER)
   const { data: usersData, isLoading } = useUserQuery({ queryString })
   const userList = usersData?.data?.data.data
   console.log(userList)

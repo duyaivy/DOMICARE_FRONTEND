@@ -51,7 +51,7 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
           'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)] lg:drop-shadow-none'
         )
       },
-      enableSorting: false
+      enableSorting: true
     },
     {
       accessorKey: 'email',
@@ -84,7 +84,7 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
         const gender = row.getValue('gender') as string
         return <div className='text-center'>{gender || '--'}</div>
       },
-      enableSorting: false
+      enableSorting: true
     },
     {
       accessorKey: 'emailConfirmed',

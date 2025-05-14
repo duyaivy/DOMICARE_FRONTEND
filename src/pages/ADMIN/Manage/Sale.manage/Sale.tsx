@@ -4,10 +4,12 @@ import { UserProvider } from '@/core/contexts/user.context'
 import { useUserQuery } from '@/core/queries/user.query'
 import { DataTablePagination } from '@/components/DataTable/DataTablePagination'
 import { Skeleton } from '@/components/ui/skeleton'
-import useUserQueryConfig from '@/hooks/useUserQueryConfig'
+
 import { UserButtonAction } from '../User.manage/components/UserButtonAction'
 import { useSaleColumns } from './components/SaleColumns'
 import { UserDialog } from '../User.manage/components/UserDialog'
+import { useUserQueryConfig } from '@/hooks/useUserQueryConfig'
+import { ROLE_SALE } from '@/configs/consts'
 
 export default function Sale() {
   return (
@@ -17,7 +19,7 @@ export default function Sale() {
   )
 }
 function SaleContent() {
-  const queryString = useUserQueryConfig()
+  const queryString = useUserQueryConfig(ROLE_SALE)
   const { data: usersData, isLoading } = useUserQuery({ queryString })
   const userList = usersData?.data?.data.data
   const pageController = usersData?.data?.data.meta

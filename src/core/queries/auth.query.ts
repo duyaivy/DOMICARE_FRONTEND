@@ -77,9 +77,8 @@ export const useLogoutMutation = () => {
   return useMutation({
     mutationKey: mutationKeys.logout,
     mutationFn: authApi.logout,
-    onSuccess(data: any) {
-      console.log(data)
-      Toast.success({ description: data.response.data.message })
+    onSuccess(data: AxiosResponse<SuccessResponse<null>>) {
+      Toast.success({ description: data.data.message })
       setIsAuthenticated(false)
       clearLS()
       setProfile(null)

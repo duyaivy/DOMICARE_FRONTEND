@@ -15,7 +15,6 @@ export const setRefreshTokenToLS = (refresh_token: string) => {
 export const clearLS = () => {
   localStorage.removeItem('access_token')
   localStorage.removeItem('refresh_token')
-  localStorage.removeItem('sidebar')
   localStorage.removeItem('category')
   localStorage.removeItem('user')
   const clearLSEvent = new Event('clearLS')
