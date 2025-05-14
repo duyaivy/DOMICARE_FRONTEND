@@ -18,7 +18,6 @@ import { useContext, useEffect, useState } from 'react'
 import IconHeadphone from '@/assets/icons/icon-headphone'
 import IconChevronUp from '@/assets/icons/icon-chevron-up'
 import { AppContext } from '@/core/contexts/app.context'
-import { getRefreshTokenFromLS } from '@/core/shared/storage'
 import { PhoneCallIcon } from 'lucide-react'
 import { ICON_SIZE_EXTRA } from '@/core/configs/icon-size'
 import IconBar from '@/assets/icons/icon-bar'
@@ -46,8 +45,7 @@ export default function Header() {
   }, [])
   const logoutMutation = useLogoutMutation()
   const handleLogout = () => {
-    const refreshToken = getRefreshTokenFromLS()
-    logoutMutation.mutate({ refreshToken })
+    logoutMutation.mutate()
   }
 
   return (

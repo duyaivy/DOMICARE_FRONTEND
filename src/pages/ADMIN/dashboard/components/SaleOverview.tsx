@@ -56,7 +56,7 @@ export function SaleOverview() {
               </div>
               <div className='ml-auto font-medium'>
                 <p className='text-sm font-medium text-right'>{formatCurrentcy(item.amount)} VND</p>
-                <p className='text-sm text-muted-foreground text-right'>Tỉ lệ thành công: {item.ratio}%</p>
+                <p className='text-sm text-muted-foreground text-right'>Tỉ lệ: {item.ratio}%</p>
               </div>
             </div>
           ))}
