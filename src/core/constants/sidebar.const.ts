@@ -22,7 +22,7 @@ export interface Sidebar {
 export const initialSideBar: Sidebar = {
   ROLE_ADMIN: [
     {
-      title: 'Trang chủ',
+      title: 'Bảng điều khiển',
       url: path.admin.dashboard,
       icon: House
     },
@@ -63,7 +63,7 @@ export const initialSideBar: Sidebar = {
         },
         {
           title: 'Bài viết',
-          url: path.admin._manage
+          url: path.admin.manage.post
         }
       ]
     },
@@ -87,7 +87,7 @@ export const initialSideBar: Sidebar = {
   ],
   ROLE_SALE: [
     {
-      title: 'Trang chủ',
+      title: 'Bảng điều khiển',
       url: '#',
       icon: House
     },

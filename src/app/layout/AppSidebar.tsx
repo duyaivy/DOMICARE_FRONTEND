@@ -19,7 +19,7 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
         <NavMain data={sidebar} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={profile || {}} />
+        <NavUser user={profile || undefined} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -32,6 +32,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import WriteReview from './components/WriteReview'
 import { useBookingMutation, usePrdDetailQuery } from '@/core/queries/product.query'
+import { format } from 'date-fns'
 
 export default function ProductDetail() {
   const { pathname } = useLocation()
@@ -265,6 +266,9 @@ export default function ProductDetail() {
                                   onSelect={field.onChange}
                                   disabled={(date) => date < new Date('1900-01-01')}
                                   initialFocus
+                                  formatters={{
+                                    formatCaption: (date) => format(date, 'MM - yyyy')
+                                  }}
                                 />
                               </PopoverContent>
                             </Popover>

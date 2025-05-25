@@ -1,5 +1,7 @@
 import { QueryCateConfig } from '@/hooks/useCateQueryConfig'
 import { Review } from '@/models/interface/review.interface'
+import { Activity, ShoppingCart, Users } from 'lucide-react'
+import { DollarSign } from 'lucide-react'
 
 export const initialComment = {
   comment:
@@ -75,3 +77,79 @@ export const tableLoadingData = {
   ],
   category: ['ID', 'Tên danh mục', 'Số sản phẩm', 'Ngày Tạo', 'Cập Nhật Lần Cuối']
 }
+
+export const initialSaleOverview = [
+  {
+    id: 1,
+    name: 'Olivia Martin',
+    email: 'olivia.martin@example.com',
+    avatar: '/avatars/01.png',
+    ratio: 78,
+    amount: 12063450
+  },
+  {
+    id: 2,
+    name: 'Jackson Lee',
+    email: 'jackson.lee@example.com',
+    avatar: '/avatars/02.png',
+    amount: 12063450,
+    ratio: 98
+  },
+  {
+    id: 3,
+    name: 'Isabella Nguyen',
+    email: 'isabella.nguyen@example.com',
+    avatar: '/avatars/03.png',
+    amount: 1934900,
+    ratio: 98
+  },
+  {
+    id: 4,
+    name: 'William Kim',
+    email: 'william.kim@example.com',
+    avatar: '/avatars/04.png',
+    amount: 1278600,
+    ratio: 98
+  }
+]
+
+export const initialRevenueOverviewChart = [
+  { month: 'Th 1', revenue: 4000 },
+  { month: 'Th 2', revenue: 3000 },
+  { month: 'Th 3', revenue: 5000 },
+  { month: 'Th 4', revenue: 4000 },
+  { month: 'Th 5', revenue: 7000 },
+  { month: 'Th 6', revenue: 6000 },
+  { month: 'Th 7', revenue: 4000 },
+  { month: 'Th 8', revenue: 4000 },
+  { month: 'Th 9', revenue: 12000 },
+  { month: 'Th 10', revenue: 9560 },
+  { month: 'Th 11', revenue: 8000 },
+  { month: 'Th 12', revenue: 6000 }
+]
+export const initialMetricsOverview = [
+  {
+    title: 'Doanh Thu',
+    value: '4523189',
+    change: '+20.1%',
+    icon: DollarSign
+  },
+  {
+    title: 'Đơn Đặt Hàng',
+    value: '2350',
+    change: '+15.1%',
+    icon: ShoppingCart
+  },
+  {
+    title: 'Khách Hàng Mới',
+    value: '573',
+    change: '+201 từ tháng trước',
+    icon: Users
+  },
+  {
+    title: 'Lượt Đánh Giá',
+    value: '-4.67',
+    change: '-5.4% so với tháng trước',
+    icon: Activity
+  }
+]

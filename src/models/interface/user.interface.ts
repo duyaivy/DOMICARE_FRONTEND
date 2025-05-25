@@ -19,8 +19,11 @@ export interface User {
   roles?: role[]
   emailConfirmed?: boolean
   gender?: GENDER_TYPE
+  user_totalSuccessBookings: number
+  user_totalFailedBookings: number
+  sale_totalBookings?: number
+  sale_successPercent?: number
 }
-
 export interface UserUpdate {
   name?: string
   phone?: string
@@ -59,6 +62,7 @@ export interface UserResponse {
 export interface UserListConfig {
   page?: number
   size?: number
+  searchRoleName?: ROLE_TYPE
 }
 export interface roleAddRequest {
   userId: number

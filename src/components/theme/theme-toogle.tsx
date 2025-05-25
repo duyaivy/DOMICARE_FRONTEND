@@ -1,25 +1,78 @@
-import { Moon, Sun } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card'
 import { useTheme } from '@/components/theme/theme-provider'
+import classNames from 'classnames'
+import { isEqual } from 'lodash'
 
 export function ThemeToggle() {
-  const { setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant='outline' size='icon' className='rounded-md'>
-          <Sun className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
-          <Moon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
-          <span className='sr-only'>Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align='end'>
-        <DropdownMenuItem onClick={() => setTheme('light')}>Light</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>Dark</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>System</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div>
+      <CardTitle className='mb-1 text-lg text-mainStrong'>Chế độ hiển thị</CardTitle>
+      <CardDescription className='mb-4 text-gray-500 dark:text-gray-400'>
+        Chọn chế độ hiển thị cho trang web của bạn.
+      </CardDescription>
+      <div className='flex gap-6'>
+        {/* Light Theme Card */}
+        <Card
+          onClick={() => setTheme('light')}
+          className={classNames(
+            'w-60 cursor-pointer transition-all border-2',
+            {
+              'border-primary shadow-lg': isEqual(theme, 'light'),
+              'border-muted': !isEqual(theme, 'light')
+            },
+            'hover:border-primary'
+          )}
+        >
+          <CardContent className='flex flex-col items-center p-4'>
+            {/* Preview */}
+            <div className='w-full h-20 rounded-md bg-gray-100 flex flex-col gap-2 p-3 mb-2'>
+              <div className='h-3 w-1/2 bg-gray-300 rounded' />
+              <div className='h-3 w-1/3 bg-gray-200 rounded' />
+              <div className='flex gap-2'>
+                <div className='h-3 w-3 bg-gray-300 rounded-full' />
+                <div className='h-3 w-2/3 bg-gray-200 rounded' />
+              </div>
+              <div className='flex gap-2'>
+                <div className='h-3 w-3 bg-gray-300 rounded-full' />
+                <div className='h-3 w-2/3 bg-gray-200 rounded' />
+              </div>
+            </div>
+            <span className={`font-medium ${theme === 'light' ? 'text-primary' : ''}`}>Sáng</span>
+          </CardContent>
+        </Card>
+
+        {/* Dark Theme Card */}
+        <Card
+          onClick={() => setTheme('dark')}
+          className={classNames(
+            'w-60 cursor-pointer transition-all border-2',
+            {
+              'border-primary shadow-lg': isEqual(theme, 'dark'),
+              'border-muted': !isEqual(theme, 'dark')
+            },
+            'hover:border-primary bg-[#151a23]'
+          )}
+        >
+          <CardContent className='flex flex-col items-center p-4'>
+            {/* Preview */}
+            <div className='w-full h-20 rounded-md bg-[#232b3a] flex flex-col gap-2 p-3 mb-2'>
+              <div className='h-3 w-1/2 bg-[#4b5a6a] rounded' />
+              <div className='h-3 w-1/3 bg-[#3a4656] rounded' />
+              <div className='flex gap-2'>
+                <div className='h-3 w-3 bg-[#4b5a6a] rounded-full' />
+                <div className='h-3 w-2/3 bg-[#3a4656] rounded' />
+              </div>
+              <div className='flex gap-2'>
+                <div className='h-3 w-3 bg-[#4b5a6a] rounded-full' />
+                <div className='h-3 w-2/3 bg-[#3a4656] rounded' />
+              </div>
+            </div>
+            <span className={`font-medium ${theme === 'dark' ? 'text-primary' : 'text-white'}`}>Tối</span>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   )
 }

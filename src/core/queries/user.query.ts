@@ -10,11 +10,18 @@ import { UserListConfig } from '@/models/interface/user.interface'
 import { QueryUserConfig } from '@/hooks/useUserQueryConfig'
 import { STATE_TIME } from '@/configs/consts'
 import { AxiosError } from 'axios'
+import { ROLE_TYPE } from '@/models/types/user.type'
+import { useContext } from 'react'
+import { AppContext } from '../contexts/app.context'
 
-export const useUserQuery = ({ queryString }: { queryString: QueryUserConfig }) => {
+interface UserQueryProps {
+  queryString: QueryUserConfig
+  role?: ROLE_TYPE
+}
+export const useUserQuery = ({ queryString, role }: UserQueryProps) => {
   return useQuery({
     queryKey: [path.admin.manage.user, queryString],
-    queryFn: () => userApi.get(queryString as UserListConfig),
+    queryFn: () => userApi.get(queryString as UserListConfig, role),
     placeholderData: keepPreviousData,
     staleTime: STATE_TIME
   })
@@ -24,12 +31,14 @@ interface UpdateUserMutationProps {
 }
 export const useUpdateUserMutation = ({ handleError }: UpdateUserMutationProps) => {
   const queryClient = useQueryClient()
+  const { setProfile } = useContext(AppContext)
   return useMutation({
     mutationKey: mutationKeys.updateProfile,
     mutationFn: userApi.update,
-    onSuccess: () => {
+    onSuccess: (data) => {
       Toast.success({ description: 'Cập nhật thông tin thành công.' })
       queryClient.invalidateQueries({ queryKey: [path.admin.manage.user] })
+      setProfile(data?.data?.data)
     },
     onError: handleError
   })

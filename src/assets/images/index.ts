@@ -16,8 +16,10 @@ import pic13 from './pic12.png'
 import pic11 from './qnh 11.png'
 import Person from './Persion.png'
 import logoWhite from './LogoWhite.svg'
+import devlopment from './devlopment.png'
 export const noPrdImg = 'https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/orderlist/4751043c866ed52f9661.png'
 export {
+  devlopment,
   logo,
   loginPic,
   logoSecond,

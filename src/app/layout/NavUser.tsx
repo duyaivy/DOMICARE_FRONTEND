@@ -15,14 +15,12 @@ import { User } from '@/models/interface/user.interface'
 import { Link } from 'react-router-dom'
 import { path } from '@/core/constants/path'
 import { useLogoutMutation } from '@/core/queries/auth.query'
-import { getRefreshTokenFromLS } from '@/core/shared/storage'
 
 export function NavUser({ user }: { user?: User }) {
   const { isMobile } = useSidebar()
   const logoutMutation = useLogoutMutation()
   const handleLogout = () => {
-    const refreshToken = getRefreshTokenFromLS()
-    logoutMutation.mutate({ refreshToken })
+    logoutMutation.mutate()
   }
   return (
     <SidebarMenu>
