@@ -10,14 +10,14 @@ import PageNotFound from '@/pages/ALL/404/PageNotFound'
 import { AppContext } from '@/core/contexts/app.context'
 import Products from '@/pages/ALL/Products'
 import { rolesCheck } from '@/utils/rolesCheck'
-import ProfileAdmin from '@/pages/ADMIN/Settings/Profile.setting'
+import ProfileAdmin from '@/pages/ADMIN/Settings/components/Profile.setting'
 import Category from '@/pages/ADMIN/Manage/Category.manage'
 import Product from '@/pages/ADMIN/Manage/Product.manage'
 import Sale from '@/pages/ADMIN/Manage/Sale.manage'
 import User from '@/pages/ADMIN/Manage/User.manage'
 import ProductDetail from '@/pages/ALL/ProductDetail'
 import Setting from '@/pages/ADMIN/Settings'
-import SystemSetting from '@/pages/ADMIN/Settings/System.setting'
+import SystemSetting from '@/pages/ADMIN/Settings/components/System.setting'
 import Manage from '@/pages/ADMIN/Manage'
 import HomePage from '@/pages/ALL/home'
 import AboutUs from '@/pages/ALL/AboutUs'
@@ -27,6 +27,7 @@ import ChangePassword from '@/pages/USER/Pages/ChangePassword'
 import History from '@/pages/USER/Pages/History'
 import AnimatedOutlet from '@/components/AnimatedOutlet'
 import Report from '@/pages/ADMIN/Report'
+import Post from '@/pages/ADMIN/Manage/Post.manage/Post'
 
 interface RouteConfig {
   path: string
@@ -187,6 +188,10 @@ export default function useRoutesElements() {
                 {
                   path: path.admin.manage.sale,
                   element: <Sale />
+                },
+                {
+                  path: path.admin.manage.post,
+                  element: <Post />
                 }
               ]
             }

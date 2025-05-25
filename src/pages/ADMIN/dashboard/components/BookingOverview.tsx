@@ -2,23 +2,18 @@ import * as React from 'react'
 import { TrendingUp } from 'lucide-react'
 import { Label, Pie, PieChart } from 'recharts'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent
-} from '@/components/ui/chart'
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
+
 const chartData = [
-  { browser: 'Tư vấn thành công ', visitors: 200, fill: 'var(--color-safari)' },
-  { browser: 'Bị từ chối', visitors: 800, fill: 'var(--color-firefox)' },
-  { browser: 'Thành công ', visitors: 100, fill: 'var(--color-edge)' },
-  { browser: 'Thất bại ', visitors: 200, fill: 'var(--color-other)' }
+  { status: 'Tư vấn thành công', count: 200, fill: '#42A5F5' }, // Blue - sáng hơn và chuyên nghiệp hơn
+  { status: 'Bị từ chối', count: 800, fill: '#FFA726' }, // Orange - tông cam rõ ràng hơn
+  { status: 'Thành công', count: 100, fill: '#66BB6A' }, // Green - dễ chịu hơn
+  { status: 'Thất bại', count: 200, fill: '#EF5350' } // Red - nổi bật nhưng không quá gắt
 ]
+
 const chartConfig = {
-  visitors: {
-    label: 'Visitors'
+  count: {
+    label: 'count'
   },
   chrome: {
     label: 'Chrome',
@@ -42,8 +37,8 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 export function BookingOverview() {
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
+  const totalcount = React.useMemo(() => {
+    return chartData.reduce((acc, curr) => acc + curr.count, 0)
   }, [])
   return (
     <Card className='flex flex-col h-full'>
@@ -54,19 +49,15 @@ export function BookingOverview() {
       <CardContent className='flex-1 pb-0'>
         <ChartContainer config={chartConfig} className='mx-auto aspect-square max-h-[500px]'>
           <PieChart>
-            <ChartLegend
-              content={<ChartLegendContent nameKey='browser' />}
-              className='-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center'
-            />
             <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-            <Pie data={chartData} dataKey='visitors' nameKey='browser' innerRadius={100} strokeWidth={5}>
+            <Pie data={chartData} dataKey='count' nameKey='status' innerRadius={100} strokeWidth={5}>
               <Label
                 content={({ viewBox }) => {
                   if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
                     return (
                       <text x={viewBox.cx} y={viewBox.cy} textAnchor='middle' dominantBaseline='middle'>
                         <tspan x={viewBox.cx} y={viewBox.cy} className='fill-foreground text-3xl font-bold'>
-                          {totalVisitors.toLocaleString()}
+                          {totalcount.toLocaleString()}
                         </tspan>
                         <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className='fill-muted-foreground text-base'>
                           Tổng số đơn
@@ -80,6 +71,15 @@ export function BookingOverview() {
           </PieChart>
         </ChartContainer>
       </CardContent>
+      {/* Legend thủ công */}
+      <div className='flex justify-center gap-6 mt-4'>
+        {chartData.map((item) => (
+          <div key={item.status} className='flex items-center gap-2'>
+            <span className='inline-block w-4 h-4' style={{ backgroundColor: item.fill }} />
+            <span className='text-sm'>{item.status}</span>
+          </div>
+        ))}
+      </div>
       <CardFooter className='flex-col gap-2 text-sm'>
         <div className='flex items-center gap-2 font-medium leading-none text-center'>
           Tỉ lệ tư vấn thành công tăng 5.2% trong tháng này <TrendingUp className='h-4 w-4' />

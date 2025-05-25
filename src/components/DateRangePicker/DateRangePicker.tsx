@@ -12,8 +12,8 @@ import dayjs from 'dayjs'
 import { formatDateTime } from '@/core/helpers/date-time'
 
 const initialDateRange: DateRange = {
-  to: addDays(new Date(), -30),
-  from: new Date()
+  to: new Date(),
+  from: addDays(new Date(), -30)
 }
 export function DateRangePicker({ className }: HTMLAttributes<HTMLDivElement>) {
   const [date, setDate] = useState<DateRange | undefined>(initialDateRange)

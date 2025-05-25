@@ -63,7 +63,7 @@ export const initialSideBar: Sidebar = {
         },
         {
           title: 'Bài viết',
-          url: path.admin._manage
+          url: path.admin.manage.post
         }
       ]
     },

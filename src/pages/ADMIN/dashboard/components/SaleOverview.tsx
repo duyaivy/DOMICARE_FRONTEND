@@ -1,40 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { initialSaleOverview } from '@/core/constants/initialValue.const'
 import { formatCurrentcy } from '@/utils/formatCurrentcy'
-const initialSaleOverview = [
-  {
-    id: 1,
-    name: 'Olivia Martin',
-    email: 'olivia.martin@example.com',
-    avatar: '/avatars/01.png',
-    ratio: 78,
-    amount: 12063450
-  },
-  {
-    id: 2,
-    name: 'Jackson Lee',
-    email: 'jackson.lee@example.com',
-    avatar: '/avatars/02.png',
-    amount: 12063450,
-    ratio: 98
-  },
-  {
-    id: 3,
-    name: 'Isabella Nguyen',
-    email: 'isabella.nguyen@example.com',
-    avatar: '/avatars/03.png',
-    amount: 1934900,
-    ratio: 98
-  },
-  {
-    id: 4,
-    name: 'William Kim',
-    email: 'william.kim@example.com',
-    avatar: '/avatars/04.png',
-    amount: 1278600,
-    ratio: 98
-  }
-]
+
 export function SaleOverview() {
   return (
     <Card className='flex flex-col '>
@@ -63,9 +31,6 @@ export function SaleOverview() {
         </div>
       </CardContent>
       <CardFooter className='flex-col justify-start gap-2 text-sm'>
-        {/* <div className='flex items-center gap-2 font-medium leading-none text-center'>
-          Tỉ lệ tư vấn thành công tăng 5.2% trong tháng này <TrendingUp className='h-4 w-4' />
-        </div> */}
         <div className='leading-none text-left text-muted-foreground w-full mt-3'>
           Dữ liệu doanh thu được tính toán từ quý gần nhất
         </div>

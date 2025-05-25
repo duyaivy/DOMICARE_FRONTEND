@@ -20,7 +20,8 @@ export const path = {
       user: '/admin/manage/user',
       sale: '/admin/manage/sale',
       category: '/admin/manage/category',
-      product: '/admin/manage/product'
+      product: '/admin/manage/product',
+      post: '/admin/manage/post'
     },
     _setting: '/admin/setting',
     setting: {

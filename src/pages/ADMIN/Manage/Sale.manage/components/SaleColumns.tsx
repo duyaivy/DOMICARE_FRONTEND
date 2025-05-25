@@ -6,6 +6,7 @@ import { DataTableRowActions } from '@/components/DataTable/DataTableRowAction'
 import { useUsers } from '@/core/contexts/user.context'
 import { cn } from '@/core/lib/utils'
 import { Badge } from '@/components/ui/badge'
+import { toFixedNumber } from '@/core/helpers/calculator'
 
 export const useSaleColumns = (): ColumnDef<User>[] => {
   const { setOpen, setCurrentRow } = useUsers()
@@ -87,10 +88,10 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
       enableSorting: true
     },
     {
-      accessorKey: 'emailConfirmed',
+      accessorKey: 'isActive',
       header: () => <div className='text-center capitalize w-full'>Trạng thái</div>,
       cell: ({ row }) => {
-        const isActive = row.getValue('emailConfirmed') as boolean
+        const isActive = row.getValue('isActive') as boolean
         return (
           <div className='text-center'>
             <Badge variant={isActive ? 'default' : 'destructive'}>{isActive ? 'Hoạt động' : 'Chưa kích hoạt'}</Badge>
@@ -100,11 +101,20 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
       enableSorting: false
     },
     {
-      accessorKey: 'createAt',
-      header: () => <div className='text-center capitalize'>Ngày tạo</div>,
+      accessorKey: 'sale_totalBookings',
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Tổng tư vấn' />,
       cell: ({ row }) => {
-        const date = row.getValue('createAt') as string
-        return <div className='text-center'>{date ? new Date(date).toLocaleDateString() : '--'}</div>
+        return <div className='text-center'>{row.getValue('sale_totalBookings')}</div>
+      },
+      enableSorting: true
+    },
+
+    {
+      accessorKey: 'sale_successPercent',
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Tỷ lệ thành công' />,
+      cell: ({ row }) => {
+        const rate = row.getValue('sale_successPercent') as number
+        return <div className='text-center'>{rate ? `${toFixedNumber(rate)}%` : '--'}</div>
       },
       enableHiding: false
     },

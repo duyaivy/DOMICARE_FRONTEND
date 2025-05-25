@@ -19,8 +19,11 @@ export interface User {
   roles?: role[]
   emailConfirmed?: boolean
   gender?: GENDER_TYPE
+  user_totalSuccessBookings: number
+  user_totalFailedBookings: number
+  sale_totalBookings?: number
+  sale_successPercent?: number
 }
-
 export interface UserUpdate {
   name?: string
   phone?: string

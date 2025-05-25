@@ -90,10 +90,10 @@ export const useUserColumns = (): ColumnDef<User>[] => {
       enableSorting: true
     },
     {
-      accessorKey: 'emailConfirmed',
+      accessorKey: 'isActive',
       header: () => <div className='text-center capitalize w-full'>Trạng thái</div>,
       cell: ({ row }) => {
-        const isActive = row.getValue('emailConfirmed') as boolean
+        const isActive = row.getValue('isActive') as boolean
         return (
           <div className='text-center'>
             <Badge variant={isActive ? 'default' : 'destructive'}>
@@ -103,6 +103,22 @@ export const useUserColumns = (): ColumnDef<User>[] => {
         )
       },
       enableSorting: false
+    },
+    {
+      accessorKey: 'user_totalSuccessBookings',
+      header: () => <div className='text-center capitalize w-full'>Đặt thành công</div>,
+      cell: ({ row }) => {
+        return <div className='text-center'>{row.getValue('user_totalSuccessBookings')}</div>
+      },
+      enableSorting: true
+    },
+    {
+      accessorKey: 'user_totalFailedBookings',
+      header: () => <div className='text-center capitalize w-full'>Đặt thất bại</div>,
+      cell: ({ row }) => {
+        return <div className='text-center'>{row.getValue('user_totalFailedBookings')}</div>
+      },
+      enableSorting: true
     },
     {
       accessorKey: 'createAt',
