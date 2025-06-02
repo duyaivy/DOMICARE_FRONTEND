@@ -20,7 +20,8 @@ export default function Sale() {
 }
 function SaleContent() {
   const queryString = useUserQueryConfig(ROLE_SALE)
-  const { data: usersData, isLoading } = useUserQuery({ queryString, role: ROLE_SALE })
+
+  const { data: usersData, isLoading } = useUserQuery({ queryString })
   const userList = usersData?.data?.data.data
   const pageController = usersData?.data?.data.meta
   const columns = useSaleColumns()

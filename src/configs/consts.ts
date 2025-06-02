@@ -162,7 +162,7 @@ export const ADMIN_STATUS = {
 export type CategoryDialogType = 'add' | 'edit' | 'delete'
 export type ProductDialogType = 'add' | 'edit' | 'delete'
 export type UserDialogType = 'add' | 'edit' | 'delete'
-
+export type BookingDialogType = 'add' | 'edit' | 'delete'
 // config time
 export const STATE_TIME = 60 * 1000 * 3
 

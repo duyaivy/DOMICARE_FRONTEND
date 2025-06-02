@@ -19,7 +19,7 @@ export default function User() {
 
 function UserContent() {
   const queryString = useUserQueryConfig(ROLE_USER)
-  const { data: usersData, isLoading } = useUserQuery({ queryString, role: ROLE_USER })
+  const { data: usersData, isLoading } = useUserQuery({ queryString })
   const userList = usersData?.data?.data.data
   const pageController = usersData?.data?.data.meta
   const columns = useUserColumns()

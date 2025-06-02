@@ -10,18 +10,16 @@ import { UserListConfig } from '@/models/interface/user.interface'
 import { QueryUserConfig } from '@/hooks/useUserQueryConfig'
 import { STATE_TIME } from '@/configs/consts'
 import { AxiosError } from 'axios'
-import { ROLE_TYPE } from '@/models/types/user.type'
 import { useContext } from 'react'
 import { AppContext } from '../contexts/app.context'
 
 interface UserQueryProps {
   queryString: QueryUserConfig
-  role?: ROLE_TYPE
 }
-export const useUserQuery = ({ queryString, role }: UserQueryProps) => {
+export const useUserQuery = ({ queryString }: UserQueryProps) => {
   return useQuery({
     queryKey: [path.admin.manage.user, queryString],
-    queryFn: () => userApi.get(queryString as UserListConfig, role),
+    queryFn: () => userApi.get(queryString as UserListConfig),
     placeholderData: keepPreviousData,
     staleTime: STATE_TIME
   })

@@ -1,15 +1,19 @@
 import { Checkbox } from '@/components/ui/checkbox'
-import { User } from '@/models/interface/user.interface'
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTableColumnHeader } from '@/components/DataTable/DataTableColumnHeader'
 import { DataTableRowActions } from '@/components/DataTable/DataTableRowAction'
-import { useUsers } from '@/core/contexts/user.context'
+import { useBookings } from '@/core/contexts/booking.context'
 import { cn } from '@/core/lib/utils'
-import { Badge } from '@/components/ui/badge'
-import { toFixedNumber } from '@/core/helpers/calculator'
+import React from 'react'
+import { Slot } from '@radix-ui/react-slot'
+import { Booking, BookingStatus } from '@/models/interface/booking.interface'
+import { User } from '@/models/interface/user.interface'
+import { formatCurrentcy } from '@/utils/formatCurrentcy'
+import { Product } from '@/models/interface/product.interface'
+import { StatusBadge } from '@/components/StatusBadge'
 
-export const useSaleColumns = (): ColumnDef<User>[] => {
-  const { setOpen, setCurrentRow } = useUsers()
+export const useBookingColumns = (): ColumnDef<Booking>[] => {
+  const { setOpen, setCurrentRow } = useBookings()
   return [
     {
       id: 'select',
@@ -37,11 +41,14 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
       enableHiding: false
     },
     {
-      accessorKey: 'name',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Tên' />,
-      cell: ({ row }) => (
-        <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('name') || '--'}</div>
-      ),
+      accessorKey: 'userDTO',
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Khách Hàng' />,
+      cell: ({ row }) => {
+        const name = (row.getValue('userDTO') as User).name
+          ? (row.getValue('userDTO') as User).name
+          : (row.getValue('userDTO') as User).email
+        return <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{name}</div>
+      },
       meta: {
         className: cn(
           'sticky lg:relative left-0 md:table-cell',
@@ -54,22 +61,14 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
       },
       enableSorting: true
     },
-    {
-      accessorKey: 'email',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Email' />,
-      cell: ({ row }) => (
-        <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('email')}</div>
-      ),
-      enableSorting: false
-    },
-    {
-      accessorKey: 'phone',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Số điện thoại' />,
-      cell: ({ row }) => (
-        <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('phone') || '--'}</div>
-      ),
-      enableSorting: false
-    },
+    // {
+    //   accessorKey: 'userDTO',
+    //   header: ({ column }) => <DataTableColumnHeader column={column} title='Số điện thoại' />,
+    //   cell: ({ row }) => {
+    //     return <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('phone') || '--'}</div>
+    //   },
+    //   enableSorting: false
+    // },
     {
       accessorKey: 'address',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Địa chỉ' />,
@@ -79,53 +78,39 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
       enableSorting: false
     },
     {
-      accessorKey: 'gender',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Giới tính' />,
+      accessorKey: 'totalPrice',
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Tổng tiền' />,
       cell: ({ row }) => {
-        const gender = row.getValue('gender') as string
-        return <div className='text-center'>{gender || '--'}</div>
+        const totalPrice = row.getValue('totalPrice') as number
+        return <div className='text-center'>{formatCurrentcy(totalPrice) || '--'}</div>
       },
       enableSorting: true
     },
     {
-      accessorKey: 'isActive',
+      accessorKey: 'bookingStatus',
       header: () => <div className='text-center capitalize w-full'>Trạng thái</div>,
       cell: ({ row }) => {
-        const isActive = row.getValue('isActive') as boolean
+        const status = row.getValue('bookingStatus') as BookingStatus
         return (
           <div className='text-center'>
-            <Badge variant={isActive ? 'default' : 'destructive'}>{isActive ? 'Hoạt động' : 'Chưa kích hoạt'}</Badge>
+            <StatusBadge status={status} />
           </div>
         )
       },
-      enableSorting: false
+      enableSorting: true,
+      filterFn: (row, id, filterValue) => {
+        const status = row.getValue(id) as string
+        return filterValue.includes(status)
+      }
     },
     {
-      accessorKey: 'saleTotalBookings',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Tổng tư vấn' />,
+      accessorKey: 'products',
+      header: () => <div className='text-center capitalize w-full'>Dịch vụ</div>,
       cell: ({ row }) => {
-        return <div className='text-center'>{row.getValue('saleTotalBookings')}</div>
+        const product = (row.getValue('products') as Product[])[0]
+        return <div className='text-center'>{product.name || '--'}</div>
       },
       enableSorting: true
-    },
-
-    {
-      accessorKey: 'saleSuccessPercent',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Tỷ lệ thành công' />,
-      cell: ({ row }) => {
-        const rate = row.getValue('saleSuccessPercent') as number
-        return <div className='text-center'>{rate ? `${toFixedNumber(rate)}%` : '--'}</div>
-      },
-      enableHiding: false
-    },
-    {
-      accessorKey: 'updateAt',
-      header: () => <div className='text-center capitalize'>Cập nhật lần cuối</div>,
-      cell: ({ row }) => {
-        const date = row.getValue('updateAt') as string
-        return <div className='text-center'>{date ? new Date(date).toLocaleDateString() : '--'}</div>
-      },
-      enableHiding: false
     },
     {
       id: 'actions',
@@ -140,6 +125,10 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
             setCurrentRow(row)
             console.log('reset pass')
           }}
+          onEdit={(row) => {
+            setCurrentRow(row)
+            setOpen('edit')
+          }}
           onDelete={(row) => {
             setCurrentRow(row)
             setOpen('delete')
@@ -150,3 +139,12 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     }
   ]
 }
+
+const SidebarMenuButton = React.forwardRef<
+  HTMLButtonElement,
+  { asChild?: boolean } & React.ButtonHTMLAttributes<HTMLButtonElement>
+>(({ asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'button'
+  return <Comp ref={ref} {...props} />
+})
+SidebarMenuButton.displayName = 'SidebarMenuButton'

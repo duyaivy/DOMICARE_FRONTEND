@@ -7,12 +7,11 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table'
 
-import { ChevronDown, Search } from 'lucide-react'
+import { ChevronDown, Search, XCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 import {
@@ -26,6 +25,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { cloneElement, ReactElement, ReactNode, useState } from 'react'
 import { noPrdImg } from '@/assets/images'
 import { DataTablePaginationProps } from './DataTablePagination'
+import { DataTableFacetedFilter } from './DataTableFacetedFiler'
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,11 +37,21 @@ interface DataTableProps<T> {
   data: T[]
   columns: ColumnDef<T>[]
   filterColumn?: keyof T
+  fillterName?: string
+  isBooking?: boolean
   ButtonAction?: ReactNode
   DataTablePagination?: ReactElement<DataTablePaginationProps<any, T>>
 }
 
-export function DataTable<T>({ data, columns, filterColumn, ButtonAction, DataTablePagination }: DataTableProps<T>) {
+export function DataTable<T>({
+  data,
+  columns,
+  filterColumn,
+  fillterName,
+  isBooking,
+  ButtonAction,
+  DataTablePagination
+}: DataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -53,7 +63,6 @@ export function DataTable<T>({ data, columns, filterColumn, ButtonAction, DataTa
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
@@ -63,15 +72,18 @@ export function DataTable<T>({ data, columns, filterColumn, ButtonAction, DataTa
       columnFilters,
       columnVisibility,
       rowSelection
-    }
+    },
+    enableMultiSort: true,
+    enableFilters: true
   })
 
+  const isFiltered = table.getState().columnFilters.length > 0
   return (
     <div className='w-full'>
       {filterColumn && (
         <div className='flex items-center py-3 gap-2 flex-col md:flex-row'>
           <Input
-            placeholder={`Tìm kiếm ${String(filterColumn)}...`}
+            placeholder={`Tìm kiếm ${fillterName || String(filterColumn)}...`}
             value={(table.getColumn(filterColumn as string)?.getFilterValue() as string) ?? ''}
             onChange={(event) => table.getColumn(filterColumn as string)?.setFilterValue(event.target.value)}
             className='w-full md:w-auto block'
@@ -80,6 +92,29 @@ export function DataTable<T>({ data, columns, filterColumn, ButtonAction, DataTa
           />
           <div className='flex w-full justify-between'>
             {ButtonAction}
+            {isBooking && (
+              <div className='flex items-center gap-2'>
+                {table.getColumn('bookingStatus') && (
+                  <DataTableFacetedFilter
+                    column={table.getColumn('bookingStatus')}
+                    title='Trạng thái'
+                    options={[
+                      { label: 'Chờ xác nhận', value: 'PENDING' },
+                      { label: 'Đang tư vấn', value: 'ACCEPTED' },
+                      { label: 'Thành công', value: 'SUCCESS' },
+                      { label: 'Thất bại', value: 'FAILED' },
+                      { label: 'Bị từ chối', value: 'REJECTED' }
+                    ]}
+                  />
+                )}
+                {isFiltered && (
+                  <Button variant='ghost' onClick={() => table.resetColumnFilters()} className='h-8 px-2 lg:px-3'>
+                    Xóa bộ lọc
+                    <XCircle className='ml-2 h-4 w-4' />
+                  </Button>
+                )}
+              </div>
+            )}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -126,8 +161,8 @@ export function DataTable<T>({ data, columns, filterColumn, ButtonAction, DataTa
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+            {table.getCoreRowModel().rows?.length ? (
+              table.getCoreRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className='group/row'>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className={cell.column.columnDef.meta?.className ?? ''}>

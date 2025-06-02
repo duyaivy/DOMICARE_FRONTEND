@@ -105,18 +105,18 @@ export const useUserColumns = (): ColumnDef<User>[] => {
       enableSorting: false
     },
     {
-      accessorKey: 'user_totalSuccessBookings',
+      accessorKey: 'userTotalSuccessBookings',
       header: () => <div className='text-center capitalize w-full'>Đặt thành công</div>,
       cell: ({ row }) => {
-        return <div className='text-center'>{row.getValue('user_totalSuccessBookings')}</div>
+        return <div className='text-center'>{row.getValue('userTotalSuccessBookings')}</div>
       },
       enableSorting: true
     },
     {
-      accessorKey: 'user_totalFailedBookings',
+      accessorKey: 'userTotalFailedBookings',
       header: () => <div className='text-center capitalize w-full'>Đặt thất bại</div>,
       cell: ({ row }) => {
-        return <div className='text-center'>{row.getValue('user_totalFailedBookings')}</div>
+        return <div className='text-center'>{row.getValue('userTotalFailedBookings')}</div>
       },
       enableSorting: true
     },

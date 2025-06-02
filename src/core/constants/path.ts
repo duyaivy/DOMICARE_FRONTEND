@@ -14,7 +14,7 @@ export const path = {
   _admin: '/admin',
   admin: {
     dashboard: '/admin/dashboard',
-    report: 'admin/report',
+    report: '/admin/report',
     _manage: '/admin/manage',
     manage: {
       user: '/admin/manage/user',

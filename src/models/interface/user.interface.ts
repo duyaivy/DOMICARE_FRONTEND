@@ -1,4 +1,5 @@
 import { GENDER_TYPE, ROLE_TYPE } from '../types/user.type'
+import { PaginationResponse } from './response.interface'
 
 export interface User {
   id?: number
@@ -19,10 +20,10 @@ export interface User {
   roles?: role[]
   emailConfirmed?: boolean
   gender?: GENDER_TYPE
-  user_totalSuccessBookings: number
-  user_totalFailedBookings: number
-  sale_totalBookings?: number
-  sale_successPercent?: number
+  userTotalSuccessBookings?: number
+  userTotalFailedBookings?: number
+  saleTotalBookings?: number
+  saleSuccessPercent?: number
 }
 export interface UserUpdate {
   name?: string
@@ -50,12 +51,7 @@ export type role = {
 }
 
 export interface UserResponse {
-  meta: {
-    page?: number
-    size?: number
-    total?: number
-    totalPages?: number
-  }
+  meta: PaginationResponse
   data: User[]
 }
 
@@ -63,6 +59,9 @@ export interface UserListConfig {
   page?: number
   size?: number
   searchRoleName?: ROLE_TYPE
+  searchName?: string
+  sortBy?: 'userTotalSuccessBookings' | 'userTotalFailedBookings' | 'saleTotalBookings' | 'saleSuccessPercent'
+  sortDirection?: 'asc' | 'desc'
 }
 export interface roleAddRequest {
   userId: number
