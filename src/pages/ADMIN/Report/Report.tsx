@@ -2,7 +2,6 @@
 
 import { path } from '@/core/constants/path'
 import DataTable from '@/components/DataTable'
-import { useBookingQuery } from '@/core/queries/booking.query'
 import { DataTablePagination } from '@/components/DataTable/DataTablePagination'
 import { Skeleton } from '@/components/ui/skeleton'
 import { BookingDialog } from './components/BookingDialog'
@@ -10,6 +9,7 @@ import { BookingDialog } from './components/BookingDialog'
 import { useBookingColumns } from './components/BookingColumns'
 import { useBookingQueryConfig } from '@/hooks/useBookingQueryConfig'
 import { BookingProvider } from '@/core/contexts/booking.context'
+import { useBookingQuery } from '@/core/queries/product.query'
 
 export default function Report() {
   return (
@@ -25,8 +25,6 @@ function ReportContent() {
   const bookingList = bookingsData?.data?.data.data
   const pageController = bookingsData?.data?.data.meta
   const columns = useBookingColumns()
-  console.log(bookingList)
-
   return (
     <>
       <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>

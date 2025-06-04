@@ -20,6 +20,16 @@ export const BookingSchema = z.object({
 
   startTime: z.date({ message: 'Ngày không được để trống.' }),
 
-  note: z.string().optional(), // cho phép để trống
+  note: z.string().optional(),
   isPeriodic: z.enum(['true', 'false'])
 })
+
+// ke thua tu phia tren
+export const ActionBookingSchema = BookingSchema.extend({
+  status: z.enum(['PENDING', 'ACCEPTED', 'FAILED', 'SUCCESS', 'REJECTED', 'CANCELLED']),
+  productId: z.number()
+})
+
+// Export type từ schema
+export type BookingForm = z.infer<typeof BookingSchema>
+export type ActionBookingForm = z.infer<typeof ActionBookingSchema>

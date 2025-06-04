@@ -11,7 +11,9 @@ export const useBookingQueryConfig = () => {
   const queryConfig: BookingQueryConfig = omitBy(
     {
       page: queryString.page || '1',
-      size: queryString.size || '10'
+      size: queryString.size || '10',
+      sortBy: queryString.sortBy,
+      sortDirection: queryString.sortDirection
     },
     isUndefined
   )

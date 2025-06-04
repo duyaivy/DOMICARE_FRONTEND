@@ -71,8 +71,8 @@ export function BookingOverview() {
           </PieChart>
         </ChartContainer>
       </CardContent>
-      {/* Legend thủ công */}
-      <div className='flex justify-center gap-6 mt-4'>
+
+      <div className='flex justify-center gap-6 mt-4 px-4'>
         {chartData.map((item) => (
           <div key={item.status} className='flex items-center gap-2'>
             <span className='inline-block w-4 h-4' style={{ backgroundColor: item.fill }} />

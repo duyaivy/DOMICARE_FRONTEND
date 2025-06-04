@@ -94,7 +94,6 @@ export function UserActionDialog({ currentRow, open, onOpenChange }: Props) {
       if (isEdit) {
         await userUpdateMutation.mutateAsync(dataApi as UserUpdateRequest)
       } else {
-        console.log(dataApi)
         const registerResponse = await registerMutation.mutateAsync(dataApi as RegisterType)
         const id = registerResponse.data.data.id
         const roleAddRequest: roleAddRequest = {
@@ -102,10 +101,12 @@ export function UserActionDialog({ currentRow, open, onOpenChange }: Props) {
           roleIds: [ROLE_ID.SALE]
         }
         await userAddRoleMutation.mutateAsync(roleAddRequest)
+        form.reset()
+        onOpenChange(false)
       }
-      // form.reset()
     } catch (error) {
       console.error(error)
+      onOpenChange(false)
     }
   }
 

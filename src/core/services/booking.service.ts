@@ -1,5 +1,10 @@
 import axiosClient from '@/core/services/axios-client'
-import { BookingListConfig, BookingRequest, BookingResponse } from '@/models/interface/booking.interface'
+import {
+  BookingListConfig,
+  BookingRequest,
+  BookingResponse,
+  BookingUpdateRequest
+} from '@/models/interface/booking.interface'
 import { SuccessResponse } from '@/models/interface/response.interface'
 
 const API_BOOKING_URL = '/api/bookings'
@@ -25,8 +30,8 @@ export const bookingApi = {
   },
   delete: (id: number) => {
     return axiosClient.delete<SuccessResponse<null>>(`${API_BOOKING_URL}/${id}`)
+  },
+  edit: (data: BookingUpdateRequest) => {
+    return axiosClient.put<SuccessResponse<BookingResponse>>(API_BOOKING_URL, data)
   }
-  // edit: (data: CategoryRequest) => {
-  //   return axiosClient.put<SuccessResponse<Category>>(API_BOOKING_URL, data)
-  // }
 }

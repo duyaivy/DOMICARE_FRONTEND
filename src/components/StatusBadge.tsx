@@ -12,7 +12,8 @@ const statusColors = {
   [BookingStatus.REJECTED]: '#F57C00',
   [BookingStatus.SUCCESS]: '#2E7D32',
   [BookingStatus.FAILED]: '#C62828',
-  [BookingStatus.ACCEPTED]: '#1565C0'
+  [BookingStatus.ACCEPTED]: '#1565C0',
+  [BookingStatus.CANCELLED]: '#C62828'
 }
 
 const statusLabels = {
@@ -20,7 +21,8 @@ const statusLabels = {
   [BookingStatus.REJECTED]: 'Bị từ chối',
   [BookingStatus.SUCCESS]: 'Thành công',
   [BookingStatus.FAILED]: 'Thất bại',
-  [BookingStatus.ACCEPTED]: 'Đang tư vấn'
+  [BookingStatus.ACCEPTED]: 'Đang tư vấn',
+  [BookingStatus.CANCELLED]: 'Đã hủy'
 }
 
 export function StatusBadge({ status, className }: StatusBadgeProps) {

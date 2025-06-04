@@ -26,6 +26,7 @@ import { cloneElement, ReactElement, ReactNode, useState } from 'react'
 import { noPrdImg } from '@/assets/images'
 import { DataTablePaginationProps } from './DataTablePagination'
 import { DataTableFacetedFilter } from './DataTableFacetedFiler'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -57,10 +58,29 @@ export function DataTable<T>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const handleSortingChange = (updater: SortingState | ((prev: SortingState) => SortingState)) => {
+    const newSortingState = typeof updater === 'function' ? updater(sorting) : updater
+    setSorting(newSortingState)
+
+    const searchParams = new URLSearchParams(location.search)
+    if (newSortingState.length > 0) {
+      const sort = newSortingState[0]
+      searchParams.set('sortBy', sort.id)
+      searchParams.set('sortDirection', sort.desc ? 'desc' : 'asc')
+    } else {
+      searchParams.delete('sortBy')
+      searchParams.delete('sortDirection')
+    }
+    navigate({ search: searchParams.toString() })
+  }
+
   const table = useReactTable({
     data,
     columns,
-    onSortingChange: setSorting,
+    onSortingChange: handleSortingChange,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),

@@ -11,6 +11,8 @@ import { User } from '@/models/interface/user.interface'
 import { formatCurrentcy } from '@/utils/formatCurrentcy'
 import { Product } from '@/models/interface/product.interface'
 import { StatusBadge } from '@/components/StatusBadge'
+import { isEqual } from 'lodash'
+import { Toast } from '@/utils/toastMessage'
 
 export const useBookingColumns = (): ColumnDef<Booking>[] => {
   const { setOpen, setCurrentRow } = useBookings()
@@ -61,14 +63,6 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
       },
       enableSorting: true
     },
-    // {
-    //   accessorKey: 'userDTO',
-    //   header: ({ column }) => <DataTableColumnHeader column={column} title='Số điện thoại' />,
-    //   cell: ({ row }) => {
-    //     return <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('phone') || '--'}</div>
-    //   },
-    //   enableSorting: false
-    // },
     {
       accessorKey: 'address',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Địa chỉ' />,
@@ -98,6 +92,19 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
         )
       },
       enableSorting: true,
+      sortingFn: (rowA, rowB, columnId) => {
+        const statusOrder: Record<BookingStatus, number> = {
+          [BookingStatus.PENDING]: 1,
+          [BookingStatus.ACCEPTED]: 2,
+          [BookingStatus.SUCCESS]: 3,
+          [BookingStatus.FAILED]: 4,
+          [BookingStatus.CANCELLED]: 5,
+          [BookingStatus.REJECTED]: 6
+        }
+        const statusA = rowA.getValue(columnId) as BookingStatus
+        const statusB = rowB.getValue(columnId) as BookingStatus
+        return statusOrder[statusA] - statusOrder[statusB]
+      },
       filterFn: (row, id, filterValue) => {
         const status = row.getValue(id) as string
         return filterValue.includes(status)
@@ -121,17 +128,16 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
             setCurrentRow(row)
             console.log('view')
           }}
-          onReset={(row) => {
-            setCurrentRow(row)
-            console.log('reset pass')
-          }}
           onEdit={(row) => {
-            setCurrentRow(row)
-            setOpen('edit')
-          }}
-          onDelete={(row) => {
-            setCurrentRow(row)
-            setOpen('delete')
+            if (
+              !isEqual(row.bookingStatus, BookingStatus.PENDING) &&
+              !isEqual(row.bookingStatus, BookingStatus.ACCEPTED)
+            ) {
+              Toast.error({ description: 'Không thể chỉnh sửa đơn dịch vụ đã hoàn thành.' })
+            } else {
+              setCurrentRow(row)
+              setOpen('edit')
+            }
           }}
         />
       ),
