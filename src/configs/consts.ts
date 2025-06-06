@@ -1,3 +1,4 @@
+import { BookingStatus } from '@/models/interface/booking.interface'
 import { ROLE_TYPE } from '@/models/types/user.type'
 import dayjs from 'dayjs'
 
@@ -137,6 +138,7 @@ export const ROLES: Record<string, ROLE_TYPE> = {
   USER: 'ROLE_USER',
   SALE: 'ROLE_SALE'
 }
+export const ROLE_SALE_CODE = 3
 export const ROLE_ADMIN = 'ROLE_ADMIN'
 export const ROLE_USER = 'ROLE_USER'
 export const ROLE_SALE = 'ROLE_SALE'
@@ -162,7 +164,7 @@ export const ADMIN_STATUS = {
 export type CategoryDialogType = 'add' | 'edit' | 'delete'
 export type ProductDialogType = 'add' | 'edit' | 'delete'
 export type UserDialogType = 'add' | 'edit' | 'delete'
-
+export type BookingDialogType = 'add' | 'edit' | 'delete'
 // config time
 export const STATE_TIME = 60 * 1000 * 3
 
@@ -188,3 +190,20 @@ export const ACTIVE_STATUS_USER = {
   INACTIVE: 'Chưa kích hoạt'
 }
 export const VND_CURRENCY_UNIT = 'VND'
+
+export const statusLabels = {
+  [BookingStatus.PENDING]: 'Chờ xác nhận',
+  [BookingStatus.REJECTED]: 'Bị từ chối',
+  [BookingStatus.SUCCESS]: 'Thành công',
+  [BookingStatus.FAILED]: 'Thất bại',
+  [BookingStatus.ACCEPTED]: 'Đang tư vấn',
+  [BookingStatus.CANCELLED]: 'Đã hủy'
+}
+export const statusColors = {
+  [BookingStatus.PENDING]: '#FFA000',
+  [BookingStatus.REJECTED]: '#F57C00',
+  [BookingStatus.SUCCESS]: '#2E7D32',
+  [BookingStatus.FAILED]: '#C62828',
+  [BookingStatus.ACCEPTED]: '#1565C0',
+  [BookingStatus.CANCELLED]: '#C62828'
+}

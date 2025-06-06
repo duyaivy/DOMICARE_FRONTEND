@@ -20,8 +20,8 @@ import { usePrdQueryConfig } from '@/hooks/usePrdQueryConfig'
 import { Label } from '@/components/ui/label'
 import InputImages from '@/components/InputImages'
 import { discountValues, initialParams } from '@/core/constants/initialValue.const'
-import CategoryPagination from '@/components/CategoryPagination'
 import InputImage from '@/components/InputImage'
+import Pagination from '@/components/Pagination'
 
 interface Props {
   currentRow?: Product
@@ -76,10 +76,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       }
       await productMutation.mutateAsync(dataAPI)
       form.reset()
-      onOpenChange(false)
+      setFile('')
+      setFiles([])
       queryClient.invalidateQueries({ queryKey: [path.products, queryString] })
     } finally {
-      // nothing
+      onOpenChange(false)
     }
   }
 
@@ -157,7 +158,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                   {cate.name}
                                 </SelectItem>
                               ))}
-                            <CategoryPagination pageController={pageController} setParams={setParams} params={params} />
+                            <Pagination<QueryCateConfig>
+                              pageController={pageController}
+                              setParams={setParams}
+                              params={params}
+                            />
                           </SelectContent>
                         </Select>
 
@@ -250,8 +255,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           </Button>
           <Button
             type='submit'
-            // loading={productMutation.isPending || uploadFileMutation.isPending || uploadMutilFileMutation.isPending}
-            loading={false}
+            loading={productMutation.isPending}
             className='hover:bg-main bg-neutral-700 cursor-pointer'
             form='product-form'
           >

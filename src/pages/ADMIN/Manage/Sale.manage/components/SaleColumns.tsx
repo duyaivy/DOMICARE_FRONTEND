@@ -101,19 +101,19 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
       enableSorting: false
     },
     {
-      accessorKey: 'sale_totalBookings',
+      accessorKey: 'saleTotalBookings',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Tổng tư vấn' />,
       cell: ({ row }) => {
-        return <div className='text-center'>{row.getValue('sale_totalBookings')}</div>
+        return <div className='text-center'>{row.getValue('saleTotalBookings')}</div>
       },
       enableSorting: true
     },
 
     {
-      accessorKey: 'sale_successPercent',
+      accessorKey: 'saleSuccessPercent',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Tỷ lệ thành công' />,
       cell: ({ row }) => {
-        const rate = row.getValue('sale_successPercent') as number
+        const rate = row.getValue('saleSuccessPercent') as number
         return <div className='text-center'>{rate ? `${toFixedNumber(rate)}%` : '--'}</div>
       },
       enableHiding: false

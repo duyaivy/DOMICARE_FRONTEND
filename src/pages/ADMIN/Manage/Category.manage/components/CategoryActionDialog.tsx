@@ -59,6 +59,7 @@ export function CategoryActionDialog({ currentRow, open, onOpenChange }: Props) 
       }
       await categoryMutation.mutateAsync(dataAPI)
       form.reset()
+      setFile('')
       onOpenChange(false)
     } catch (error) {
       handleError422({ error, form, fieldName: 'imageId' })

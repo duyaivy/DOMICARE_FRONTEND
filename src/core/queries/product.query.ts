@@ -1,6 +1,6 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { mutationKeys } from '../helpers/key-tanstack'
-import { DataBookingAPI } from '@/models/interface/booking.interface'
+import { BookingListConfig, BookingUpdateRequest, DataBookingAPI } from '@/models/interface/booking.interface'
 import { bookingApi } from '../services/booking.service'
 
 import { Toast } from '@/utils/toastMessage'
@@ -15,6 +15,7 @@ import { SuccessResponse } from '@/models/interface/response.interface'
 import { AxiosResponse } from 'axios'
 import { QueryCateConfig } from '@/hooks/useCateQueryConfig'
 import { STATE_TIME } from '@/configs/consts'
+import { BookingQueryConfig } from '@/hooks/useBookingQueryConfig'
 
 //product
 export const useProductQuery = ({ queryString }: { queryString: QueryPrdConfig }) => {
@@ -109,6 +110,16 @@ export const useCategoryMutation = <TVariables>({ mutationFn, handleError }: use
 // review
 
 // booking
+
+export const useBookingQuery = ({ queryString }: { queryString: BookingQueryConfig }) => {
+  return useQuery({
+    queryKey: [path.admin.report, queryString],
+    queryFn: () => bookingApi.query(queryString as BookingListConfig),
+    placeholderData: keepPreviousData,
+    staleTime: STATE_TIME
+  })
+}
+
 export const useBookingMutation = () => {
   return useMutation({
     mutationKey: mutationKeys.booking,
@@ -120,6 +131,39 @@ export const useBookingMutation = () => {
       Toast.success({
         title: 'Thành công',
         description: 'Đặt dịch vụ thành công. Chúng tôi sẽ tư vấn trong thời gian sớm nhất.'
+      })
+    },
+    onError: (error) => handleToastError(error)
+  })
+}
+export const useUpdateBookingMutation = () => {
+  return useMutation({
+    mutationKey: mutationKeys.booking,
+    mutationFn: (data: BookingUpdateRequest) => {
+      return bookingApi.edit(data)
+    },
+    onSuccess: () => {
+      Toast.success({
+        title: 'Thành công',
+        description: 'Cập nhật đơn đặt hàng thành công.'
+      })
+    },
+    onError: (error) => handleToastError(error)
+  })
+}
+interface UpdateSttBookingProps {
+  successMessage?: string
+}
+export const useUpdateSttBookingMutation = ({ successMessage }: UpdateSttBookingProps) => {
+  return useMutation({
+    mutationKey: mutationKeys.booking,
+    mutationFn: (data: BookingUpdateRequest) => {
+      return bookingApi.updateStatus(data)
+    },
+    onSuccess: () => {
+      Toast.success({
+        title: 'Thành công',
+        description: successMessage
       })
     },
     onError: (error) => handleToastError(error)

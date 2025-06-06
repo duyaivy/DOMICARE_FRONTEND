@@ -1,5 +1,5 @@
 import { Fragment, useMemo, useState } from 'react'
-import { roleAddRequest, User, UserUpdateRequest } from '@/models/interface/user.interface'
+import { User, UserRequest, UserUpdateRequest } from '@/models/interface/user.interface'
 import { GENDER_TYPE } from '@/models/types/user.type'
 import InputFile from '@/components/InputFile'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -8,7 +8,7 @@ import { IconMail } from '@/assets/icons/icon-mail'
 import hideEmail from '@/utils/hideEmail'
 import { Label } from '@/components/ui/label'
 import DateTimeSelect from '@/components/DateTimeSelect'
-import { DEFAULT_DATE_OF_BIRTH, GENDER, ROLE_ID } from '@/configs/consts'
+import { DEFAULT_DATE_OF_BIRTH, GENDER, ROLE_SALE, ROLE_SALE_CODE } from '@/configs/consts'
 import { AddUserSchema, UpdateUserSchema } from '@/core/zod/updateUser.zod'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -25,12 +25,13 @@ import { Input } from '@/components/ui/input'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { MapPinned, Phone, User as UserIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useAddRoleMutation, useUpdateUserMutation } from '@/core/queries/user.query'
-import { handleError422, handleToastError } from '@/utils/handleErrorAPI'
-import { RegisterType } from '@/models/types/register.type'
-import { useRegisterMutation } from '@/core/queries/auth.query'
+import { useAddSaleMutation, useUpdateUserMutation } from '@/core/queries/user.query'
+import { handleError422 } from '@/utils/handleErrorAPI'
 import { useUploadFileMutation } from '@/core/queries/file.query'
 import InputPassword from '@/components/InputPassword/InputPassword'
+import { useUserQueryConfig } from '@/hooks/useUserQueryConfig'
+import { useQueryClient } from '@tanstack/react-query'
+import { path } from '@/core/constants/path'
 
 interface Props {
   currentRow?: User
@@ -61,6 +62,8 @@ export function UserActionDialog({ currentRow, open, onOpenChange }: Props) {
           confirmPassword: ''
         }
   })
+  const queryString = useUserQueryConfig(ROLE_SALE)
+  const queryClient = useQueryClient()
 
   const [file, setFile] = useState<File>()
   const fileLocal = useMemo(() => {
@@ -69,13 +72,10 @@ export function UserActionDialog({ currentRow, open, onOpenChange }: Props) {
   const user = currentRow
   const uploadFileMutation = useUploadFileMutation()
   const userUpdateMutation = useUpdateUserMutation({
-    // tam thoi
     handleError: (error: unknown) => handleError422({ error, form, fieldName: 'email' })
   })
-  const userAddRoleMutation = useAddRoleMutation({
-    handleError: (error: unknown) => handleToastError({ error })
-  })
-  const registerMutation = useRegisterMutation({
+
+  const addSaleMutation = useAddSaleMutation({
     handleError: (error: unknown) => handleError422({ error, form, fieldName: 'email' })
   })
 
@@ -94,18 +94,19 @@ export function UserActionDialog({ currentRow, open, onOpenChange }: Props) {
       if (isEdit) {
         await userUpdateMutation.mutateAsync(dataApi as UserUpdateRequest)
       } else {
-        console.log(dataApi)
-        const registerResponse = await registerMutation.mutateAsync(dataApi as RegisterType)
-        const id = registerResponse.data.data.id
-        const roleAddRequest: roleAddRequest = {
-          userId: Number(id),
-          roleIds: [ROLE_ID.SALE]
+        const dataCreateSale = {
+          ...dataApi,
+          roleId: ROLE_SALE_CODE
         }
-        await userAddRoleMutation.mutateAsync(roleAddRequest)
+        await addSaleMutation.mutateAsync(dataCreateSale as UserRequest)
+        queryClient.invalidateQueries({ queryKey: [path.admin.manage.user, queryString] })
+        form.reset()
+        onOpenChange(false)
       }
-      // form.reset()
     } catch (error) {
       console.error(error)
+      // form.reset()
+      // onOpenChange(false)
     }
   }
 
@@ -233,7 +234,7 @@ export function UserActionDialog({ currentRow, open, onOpenChange }: Props) {
                           <FormControl>
                             <Input
                               autoComplete='off'
-                              placeholder='Nhập họ và tên'
+                              placeholder='Nhập số điện thoại'
                               type='text'
                               className='w-full focus:outline-0 mt-1'
                               {...field}

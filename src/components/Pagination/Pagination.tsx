@@ -1,138 +1,51 @@
-import { QueryPrdConfig } from '@/hooks/usePrdQueryConfig'
-import { createSearchParams, Link } from 'react-router-dom'
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationLink,
-  PaginationNext,
-  PaginationEllipsis
-} from '@/components/ui/pagination'
 import { isEqual } from 'lodash'
+import { Button } from '../ui/button'
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
+import { PaginationResponse } from '@/models/interface/response.interface'
 
-interface PaginationProps {
-  queryString: QueryPrdConfig
-  pageSize: number
-  path: string
-  currentPage: number
+interface PaginationProps<T extends { page?: string }> {
+  pageController?: PaginationResponse
+  setParams: (params: T) => void
+  params: T
+  className?: string
 }
 
-const RANGE = 2
+export default function Pagination<T extends { page?: string }>({
+  pageController,
+  setParams,
+  params,
+  className = ''
+}: PaginationProps<T>) {
+  const FIRST_INDEX_PAGE = 1
+  const LAST_INDEX_PAGE = pageController?.totalPages || 1
 
-export default function ProductPagination({ queryString, pageSize, path, currentPage }: PaginationProps) {
-  const page = Number(currentPage)
-  const renderPagination = () => {
-    let dotAfter = false
-    let dotBefore = false
-    const renderDotBefore = (index: number) => {
-      if (!dotBefore) {
-        dotBefore = true
-        return (
-          <PaginationItem key={index}>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )
-      }
-      return null
-    }
-    const renderDotAfter = (index: number) => {
-      if (!dotAfter) {
-        dotAfter = true
-        return (
-          <PaginationItem key={index}>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )
-      }
-      return null
-    }
-
-    return Array(pageSize)
-      .fill(0)
-      .map((_, index) => {
-        const pageNumber = index + 1
-
-        // Conditions for showing dots
-        const isInFirstRange = page <= RANGE * 2 + 1
-        const isInMiddleRange = page > RANGE * 2 + 1 && page < pageSize - RANGE * 2
-        const isInLastRange = page >= pageSize - RANGE * 2
-
-        const isAfterCurrentPage = pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1
-        const isBeforeCurrentPage = pageNumber < page - RANGE && pageNumber > RANGE
-        const isBeforePage = pageNumber > RANGE && pageNumber < page - RANGE
-
-        if (isInFirstRange && isAfterCurrentPage) {
-          return renderDotAfter(index)
-        } else if (isInMiddleRange) {
-          if (isBeforeCurrentPage) {
-            return renderDotBefore(index)
-          } else if (isAfterCurrentPage) {
-            return renderDotAfter(index)
-          }
-        } else if (isInLastRange && isBeforePage) {
-          return renderDotBefore(index)
-        }
-
-        return (
-          <PaginationItem key={index}>
-            <Link
-              to={{
-                pathname: path,
-                search: createSearchParams({
-                  ...queryString,
-                  page: pageNumber.toString()
-                }).toString()
-              }}
-            >
-              <PaginationLink isActive={isEqual(pageNumber, page)}>{pageNumber}</PaginationLink>
-            </Link>
-          </PaginationItem>
-        )
-      })
+  const handleChangePage = (page: number) => {
+    setParams({ ...params, page: page.toString() })
   }
 
   return (
-    <Pagination className='col-span-12'>
-      <PaginationContent>
-        <PaginationItem>
-          {isEqual(page, 1) ? (
-            <PaginationPrevious isActive={false} />
-          ) : (
-            <Link
-              to={{
-                pathname: path,
-                search: createSearchParams({
-                  ...queryString,
-                  page: (page - 1).toString()
-                }).toString()
-              }}
-            >
-              <PaginationPrevious />
-            </Link>
-          )}
-        </PaginationItem>
-
-        {renderPagination()}
-
-        <PaginationItem>
-          {isEqual(page, pageSize) ? (
-            <PaginationNext isActive={false} />
-          ) : (
-            <Link
-              to={{
-                pathname: path,
-                search: createSearchParams({
-                  ...queryString,
-                  page: (page + 1).toString()
-                }).toString()
-              }}
-            >
-              <PaginationNext />
-            </Link>
-          )}
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+    <div className={`flex items-center justify-between space-x-2 px-2 ${className}`}>
+      <Button
+        variant='outline'
+        className='h-8 w-8 p-0'
+        onClick={() => handleChangePage((pageController?.page as number) - 1)}
+        disabled={isEqual(pageController?.page || 1, FIRST_INDEX_PAGE)}
+      >
+        <span className='sr-only'>Trước</span>
+        <ChevronLeftIcon className='h-4 w-4' />
+      </Button>
+      <p className='text-sm text-gray'>
+        {pageController?.page} / {pageController?.totalPages}
+      </p>
+      <Button
+        variant='outline'
+        className='h-8 w-8 p-0'
+        onClick={() => handleChangePage((pageController?.page as number) + 1)}
+        disabled={isEqual(pageController?.page || 1, LAST_INDEX_PAGE)}
+      >
+        <span className='sr-only'>Sau</span>
+        <ChevronRightIcon className='h-4 w-4' />
+      </Button>
+    </div>
   )
 }

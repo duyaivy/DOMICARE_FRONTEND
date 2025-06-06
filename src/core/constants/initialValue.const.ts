@@ -1,4 +1,3 @@
-import { QueryCateConfig } from '@/hooks/useCateQueryConfig'
 import { Review } from '@/models/interface/review.interface'
 import { Activity, ShoppingCart, Users } from 'lucide-react'
 import { DollarSign } from 'lucide-react'
@@ -56,7 +55,7 @@ export const initialChangePW = {
   confirmPassword: '',
   newPassword: ''
 }
-export const initialParams: QueryCateConfig = {
+export const initialParams = {
   page: '1',
   size: '10'
 }

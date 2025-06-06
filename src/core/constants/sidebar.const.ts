@@ -1,6 +1,13 @@
-import { LucideProps } from 'lucide-react'
+import { Archive, LayoutDashboard, LucideProps } from 'lucide-react'
 import { path } from './path'
-import { ChartNoAxesCombined, House, Bot, Users, Settings } from 'lucide-react'
+import { ChartNoAxesCombined, Bot, Users, Settings } from 'lucide-react'
+import { getUserFromLocalStorage } from '../shared/storage'
+
+// Helper function to create URL with saleId
+const createSaleOrderUrl = () => {
+  const saleId = getUserFromLocalStorage()?.id
+  return `${path.admin.report}?saleId=${saleId}`
+}
 
 export interface SidebarItem {
   title: string
@@ -22,14 +29,14 @@ export interface Sidebar {
 export const initialSideBar: Sidebar = {
   ROLE_ADMIN: [
     {
-      title: 'Bảng điều khiển',
+      title: 'Báo cáo & Thống kê',
       url: path.admin.dashboard,
-      icon: House
+      icon: ChartNoAxesCombined
     },
     {
-      title: 'Báo cáo & Thống kê',
+      title: 'Quản lý đơn hàng',
       url: path.admin.report,
-      icon: ChartNoAxesCombined
+      icon: LayoutDashboard
     },
     {
       title: 'Quản lý người dùng',
@@ -87,28 +94,33 @@ export const initialSideBar: Sidebar = {
   ],
   ROLE_SALE: [
     {
-      title: 'Bảng điều khiển',
-      url: '#',
-      icon: House
-    },
-    {
       title: 'Báo cáo & Thống kê',
-      url: '#',
+      url: path.admin.dashboard,
       icon: ChartNoAxesCombined
     },
     {
-      title: 'Quản lý người dùng',
-      url: '#',
-      icon: Users,
+      title: 'Tất cả đơn hàng',
+      url: path.admin.report,
+      icon: LayoutDashboard
+    },
+    {
+      title: 'Đơn hàng của tôi',
+      url: createSaleOrderUrl(),
+      icon: Archive
+    },
+    {
+      title: 'Cài đặt',
+      url: path.admin.setting.profile,
       isActive: true,
+      icon: Settings,
       items: [
         {
-          title: 'Nhân viên',
-          url: path.admin.manage.sale
+          title: 'Cá nhân',
+          url: path.admin.setting.profile
         },
         {
-          title: 'Khách hàng',
-          url: path.admin.manage.user
+          title: 'Hệ thống',
+          url: path.admin.setting.system
         }
       ]
     }

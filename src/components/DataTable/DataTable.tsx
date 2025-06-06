@@ -7,12 +7,11 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table'
 
-import { ChevronDown, Search } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 import {
@@ -21,11 +20,12 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { cloneElement, ReactElement, ReactNode, useState } from 'react'
 import { noPrdImg } from '@/assets/images'
 import { DataTablePaginationProps } from './DataTablePagination'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -37,6 +37,8 @@ interface DataTableProps<T> {
   data: T[]
   columns: ColumnDef<T>[]
   filterColumn?: keyof T
+  fillterName?: string
+  isBooking?: boolean
   ButtonAction?: ReactNode
   DataTablePagination?: ReactElement<DataTablePaginationProps<any, T>>
 }
@@ -47,13 +49,31 @@ export function DataTable<T>({ data, columns, filterColumn, ButtonAction, DataTa
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const handleSortingChange = (updater: SortingState | ((prev: SortingState) => SortingState)) => {
+    const newSortingState = typeof updater === 'function' ? updater(sorting) : updater
+    setSorting(newSortingState)
+
+    const searchParams = new URLSearchParams(location.search)
+    if (newSortingState.length > 0) {
+      const sort = newSortingState[0]
+      searchParams.set('sortBy', sort.id)
+      searchParams.set('sortDirection', sort.desc ? 'desc' : 'asc')
+    } else {
+      searchParams.delete('sortBy')
+      searchParams.delete('sortDirection')
+    }
+    navigate({ search: searchParams.toString() })
+  }
+
   const table = useReactTable({
     data,
     columns,
-    onSortingChange: setSorting,
+    onSortingChange: handleSortingChange,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
@@ -63,24 +83,18 @@ export function DataTable<T>({ data, columns, filterColumn, ButtonAction, DataTa
       columnFilters,
       columnVisibility,
       rowSelection
-    }
+    },
+    enableMultiSort: true,
+    enableFilters: true
   })
 
+  // const isFiltered = table.getState().columnFilters.length > 0
   return (
     <div className='w-full'>
       {filterColumn && (
         <div className='flex items-center py-3 gap-2 flex-col md:flex-row'>
-          <Input
-            placeholder={`Tìm kiếm ${String(filterColumn)}...`}
-            value={(table.getColumn(filterColumn as string)?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn(filterColumn as string)?.setFilterValue(event.target.value)}
-            className='w-full md:w-auto block'
-            classNameInput={'w-full md:w-auto '}
-            icon={<Search />}
-          />
           <div className='flex w-full justify-between'>
             {ButtonAction}
-
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant='outline' className='ml-auto'>
@@ -126,8 +140,8 @@ export function DataTable<T>({ data, columns, filterColumn, ButtonAction, DataTa
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+            {table.getCoreRowModel().rows?.length ? (
+              table.getCoreRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className='group/row'>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className={cell.column.columnDef.meta?.className ?? ''}>
