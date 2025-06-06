@@ -207,3 +207,17 @@ export const statusColors = {
   [BookingStatus.ACCEPTED]: '#1565C0',
   [BookingStatus.CANCELLED]: '#C62828'
 }
+
+export const languagesDefault = [
+  { code: 'vi', label: 'Tiếng Việt' },
+  { code: 'en', label: 'English' }
+]
+export const bookingStatusList = [
+  { label: 'Chờ xác nhận', value: 'PENDING' },
+  { label: 'Đang tư vấn', value: 'ACCEPTED' },
+  { label: 'Thành công', value: 'SUCCESS' },
+  { label: 'Thất bại', value: 'FAILED' },
+  { label: 'Bị từ chối', value: 'REJECTED' }
+]
+
+export const BookingStatusExtra = [{ label: 'Tất cả', value: 'ALL' }, ...bookingStatusList]

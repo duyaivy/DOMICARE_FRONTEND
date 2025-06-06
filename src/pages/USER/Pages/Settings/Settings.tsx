@@ -1,20 +1,14 @@
-import { useState } from 'react'
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
+import SectionUser from '../../Layouts/SectionUser'
 import { Label } from '@/components/ui/label'
-import { ThemeToggle } from '@/components/theme/theme-toogle'
-import HeaderSettings from '../HeaderSettings'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useState } from 'react'
 import { languagesDefault } from '@/configs/consts'
-
-export default function SystemSetting() {
+import { ThemeToggle } from '@/components/theme/theme-toogle'
+export default function Settings() {
   const [language, setLanguage] = useState(languagesDefault[0].code)
-
   return (
-    <HeaderSettings
-      title='Cài đặt hệ thống'
-      description='Tùy chỉnh giao diện của ứng dụng và các cài đặt khác có liên quan.'
-    >
-      {/* Language */}
-      <div className='mb-6 max-w-xs'>
+    <SectionUser title='Cài đặt' description='Cài đặt ngôn ngữ và chế độ hiển thị cho trang web của bạn.'>
+      <div className='mb-6 max-w-xs mt-5'>
         <Label htmlFor='lang-select' className='mb-2 block text-lg text-mainStrong'>
           Ngôn ngữ
         </Label>
@@ -32,11 +26,10 @@ export default function SystemSetting() {
         </Select>
         <p className='text-sm text-gray-500 mt-1'>Lựa chọn ngôn ngữ cho ứng dụng.</p>
       </div>
-
       {/* Theme */}
       <div className='mb-6'>
         <ThemeToggle />
       </div>
-    </HeaderSettings>
+    </SectionUser>
   )
 }

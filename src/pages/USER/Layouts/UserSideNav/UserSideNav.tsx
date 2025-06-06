@@ -4,7 +4,7 @@ import { AppContext } from '@/core/contexts/app.context'
 import { isActive } from '@/utils/isActiveLocation'
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronUp, ClipboardList, KeyRound, SquarePen, User } from 'lucide-react'
+import { ChevronUp, ClipboardList, KeyRound, Settings, SquarePen, User } from 'lucide-react'
 import { useContext, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -53,7 +53,7 @@ export default function UserSideNav() {
               <ListItem
                 to={path.user.profile}
                 LinkClassName='flex gap-4 py-2'
-                className='text-base text-black group hover:translate-x-2.5 duration-300 hover:bg-transparent'
+                className='text-black text-base group hover:translate-x-2.5 duration-300 hover:bg-transparent'
               >
                 <User className='!w-6 h-auto text-blue' />
                 <p
@@ -61,7 +61,7 @@ export default function UserSideNav() {
                     'text-main font-semibold': isActive(path.user.profile, pathname)
                   })}
                 >
-                  Tài khoản của tôi
+                  Tài khoản
                 </p>
               </ListItem>
               <ListItem
@@ -92,16 +92,30 @@ export default function UserSideNav() {
                   Đổi mật khẩu
                 </p>
               </ListItem>
+              <ListItem
+                to={path.user.settings}
+                LinkClassName='flex gap-4 py-2'
+                className='text-black text-base group hover:translate-x-2.5 duration-300 hover:bg-transparent'
+              >
+                <Settings className='!w-6 h-auto text-gray-600' />
+                <p
+                  className={classNames('capitalize group-hover:text-main duration-300', {
+                    'text-main font-semibold': isActive(path.user.settings, pathname)
+                  })}
+                >
+                  Cài đặt
+                </p>
+              </ListItem>
             </motion.ul>
           )}
         </AnimatePresence>
       </div>
       <div className='mt-6 hidden md:block'>
-        <ul className='text-sm '>
+        <ul className=' '>
           <ListItem
             to={path.user.profile}
             LinkClassName='flex gap-4 py-2'
-            className='group text-black hover:translate-x-2.5 duration-300 hover:bg-transparent'
+            className='group text-base text-black hover:translate-x-2.5 duration-300 hover:bg-transparent'
           >
             <User className='!w-6 h-auto text-blue' />
             <p
@@ -109,7 +123,7 @@ export default function UserSideNav() {
                 'text-main font-semibold': isActive(path.user.profile, pathname)
               })}
             >
-              Tài khoản của tôi
+              Tài khoản
             </p>
           </ListItem>
           <ListItem
@@ -138,6 +152,20 @@ export default function UserSideNav() {
               })}
             >
               Đổi mật khẩu
+            </p>
+          </ListItem>
+          <ListItem
+            to={path.user.settings}
+            LinkClassName='flex gap-4 py-2'
+            className='text-black text-base group hover:translate-x-2.5 duration-300 hover:bg-transparent'
+          >
+            <Settings className='!w-6 h-auto text-gray-600' />
+            <p
+              className={classNames('capitalize group-hover:text-main duration-300', {
+                'text-main font-semibold': isActive(path.user.settings, pathname)
+              })}
+            >
+              Cài đặt
             </p>
           </ListItem>
         </ul>

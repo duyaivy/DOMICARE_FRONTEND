@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
+import { bookingStatusList } from '@/configs/consts'
 import { path } from '@/core/constants/path'
 import { cn } from '@/core/lib/utils'
 import { useBookingQueryConfig } from '@/hooks/useBookingQueryConfig'
@@ -21,15 +22,9 @@ import { isEqual, omit } from 'lodash'
 import { CheckIcon, PlusCircle, Search, XCircle } from 'lucide-react'
 import { useState } from 'react'
 import { createSearchParams, useNavigate } from 'react-router-dom'
-const options = [
-  { label: 'Chờ xác nhận', value: 'PENDING' },
-  { label: 'Đang tư vấn', value: 'ACCEPTED' },
-  { label: 'Thành công', value: 'SUCCESS' },
-  { label: 'Thất bại', value: 'FAILED' },
-  { label: 'Bị từ chối', value: 'REJECTED' }
-]
+
 export function BookingButtonAction() {
-  const queryString = useBookingQueryConfig()
+  const queryString = useBookingQueryConfig({})
   const { bookingStatus, searchName } = queryString
   const [values, setValue] = useState<string>(searchName || '')
 
@@ -94,7 +89,7 @@ export function BookingButtonAction() {
                     <Separator orientation='vertical' className='mx-2 h-4' />
                     <div className='hidden space-x-1 lg:flex'>
                       <Badge variant='secondary' key={'1'} className='rounded-sm  px-1 font-normal'>
-                        {options.find((e) => isEqual(e.value, bookingStatus))?.label}
+                        {bookingStatusList.find((e) => isEqual(e.value, bookingStatus))?.label}
                       </Badge>
                     </div>
                   </>
@@ -107,7 +102,7 @@ export function BookingButtonAction() {
                 <CommandList>
                   <CommandEmpty>Không tìm thấy kết quả</CommandEmpty>
                   <CommandGroup>
-                    {options.map((option) => {
+                    {bookingStatusList.map((option) => {
                       const isSelected = isEqual(option.value, bookingStatus)
                       return (
                         <CommandItem

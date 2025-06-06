@@ -28,6 +28,7 @@ import History from '@/pages/USER/Pages/History'
 import AnimatedOutlet from '@/components/AnimatedOutlet'
 import Report from '@/pages/ADMIN/Report'
 import Post from '@/pages/ADMIN/Manage/Post.manage/Post'
+import Settings from '@/pages/USER/Pages/Settings'
 
 interface RouteConfig {
   path: string
@@ -115,7 +116,8 @@ export default function useRoutesElements() {
               children: [
                 { path: path.user.profile, element: <Profile /> },
                 { path: path.user.history, element: <History /> },
-                { path: path.user.change_password, element: <ChangePassword /> }
+                { path: path.user.change_password, element: <ChangePassword /> },
+                { path: path.user.settings, element: <Settings /> }
               ]
             }
           ]

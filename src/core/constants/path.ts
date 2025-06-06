@@ -33,6 +33,7 @@ export const path = {
   user: {
     profile: '/user/profile',
     history: '/user/history',
-    change_password: '/user/change_password'
+    change_password: '/user/change_password',
+    settings: '/user/settings'
   }
 }
