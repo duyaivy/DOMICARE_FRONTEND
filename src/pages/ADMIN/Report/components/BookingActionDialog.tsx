@@ -48,7 +48,7 @@ interface Props {
 }
 
 export function BookingActionDialog({ currentRow, open, onOpenChange }: Props) {
-  const queryString = useBookingQueryConfig()
+  const queryString = useBookingQueryConfig({})
   const queryClient = useQueryClient()
   // load product
   const [params, setParams] = useState<QueryPrdConfig>(initialParams)
