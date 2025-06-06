@@ -51,7 +51,19 @@ export const useAddRoleMutation = ({ handleError }: UpdateUserMutationProps) => 
     onError: handleError
   })
 }
-
+export const useAddSaleMutation = ({ handleError }: { handleError?: (error: AxiosError) => void }) => {
+  return useMutation({
+    mutationKey: mutationKeys.register,
+    mutationFn: userApi.add,
+    onSuccess: () => {
+      Toast.success({
+        title: 'Thành công',
+        description: 'Đăng kí tài khoản cho nhân viên thành công.'
+      })
+    },
+    onError: handleError
+  })
+}
 export const useUserDelete = () => {
   const queryClient = useQueryClient()
 

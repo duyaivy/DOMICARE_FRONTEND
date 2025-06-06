@@ -1,28 +1,11 @@
 import { Badge } from '@/components/ui/badge'
 import { BookingStatus } from '@/models/interface/booking.interface'
 import { cn } from '@/core/lib/utils'
+import { statusColors, statusLabels } from '@/configs/consts'
 
 interface StatusBadgeProps {
   status: BookingStatus
   className?: string
-}
-
-const statusColors = {
-  [BookingStatus.PENDING]: '#FFA000',
-  [BookingStatus.REJECTED]: '#F57C00',
-  [BookingStatus.SUCCESS]: '#2E7D32',
-  [BookingStatus.FAILED]: '#C62828',
-  [BookingStatus.ACCEPTED]: '#1565C0',
-  [BookingStatus.CANCELLED]: '#C62828'
-}
-
-const statusLabels = {
-  [BookingStatus.PENDING]: 'Chờ xác nhận',
-  [BookingStatus.REJECTED]: 'Bị từ chối',
-  [BookingStatus.SUCCESS]: 'Thành công',
-  [BookingStatus.FAILED]: 'Thất bại',
-  [BookingStatus.ACCEPTED]: 'Đang tư vấn',
-  [BookingStatus.CANCELLED]: 'Đã hủy'
 }
 
 export function StatusBadge({ status, className }: StatusBadgeProps) {

@@ -10,6 +10,7 @@ import { useBookingColumns } from './components/BookingColumns'
 import { useBookingQueryConfig } from '@/hooks/useBookingQueryConfig'
 import { BookingProvider } from '@/core/contexts/booking.context'
 import { useBookingQuery } from '@/core/queries/product.query'
+import { BookingButtonAction } from './components/BookingButtonAction'
 
 export default function Report() {
   return (
@@ -63,7 +64,7 @@ function ReportContent() {
             DataTablePagination={
               <DataTablePagination pageController={pageController} path={path.admin.report} queryString={queryString} />
             }
-            isBooking={true}
+            ButtonAction={<BookingButtonAction />}
           />
         )}
       </div>

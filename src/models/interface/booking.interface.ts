@@ -9,6 +9,7 @@ export interface Booking {
   startTime?: string
   products?: Product[]
   userDTO?: User
+  saleDTO?: User | null
   isPeriodic?: boolean
   bookingStatus?: string
   createBy?: string
@@ -17,10 +18,10 @@ export interface Booking {
   updateAt?: string
 }
 interface BookingAPI {
-  address: string
-  phone: string
-  isPeriodic: boolean
-  startTime: string
+  address?: string
+  phone?: string
+  isPeriodic?: boolean
+  startTime?: string
   note?: string
   name?: string
 }
@@ -33,7 +34,6 @@ export interface BookingUpdateRequest extends BookingAPI {
   status?: BookingStatus
   bookingId?: number
 }
-
 export interface DataBookingAPI {
   dataAPI: BookingRequest
   isLogin: boolean
@@ -52,6 +52,9 @@ export interface BookingListConfig {
   searchName?: string
   sortBy?: 'totalPrice' | 'startTime' | 'bookingStatus'
   sortDirection?: 'asc' | 'desc'
+  bookingStatus?: BookingStatus
+  userId?: number
+  saleId?: number
 }
 export interface BookingResponse {
   meta: PaginationResponse

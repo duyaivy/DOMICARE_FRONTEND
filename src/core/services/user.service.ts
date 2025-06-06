@@ -4,6 +4,7 @@ import {
   roleAddRequest,
   User,
   UserListConfig,
+  UserRequest,
   UserResponse,
   UserUpdateRequest
 } from '@/models/interface/user.interface'
@@ -25,5 +26,8 @@ export const userApi = {
   },
   addRole: (params: roleAddRequest) => {
     return axiosClient.put<SuccessResponse<any>>(`${API_USER_URL}/roles`, params)
+  },
+  add: (user: UserRequest) => {
+    return axiosClient.post<SuccessResponse<UserResponse>>(API_USER_URL, user)
   }
 }

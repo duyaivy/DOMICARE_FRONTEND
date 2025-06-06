@@ -13,9 +13,13 @@ import { Product } from '@/models/interface/product.interface'
 import { StatusBadge } from '@/components/StatusBadge'
 import { isEqual } from 'lodash'
 import { Toast } from '@/utils/toastMessage'
+import { useUpdateSttBookingMutation } from '@/core/queries/product.query'
 
 export const useBookingColumns = (): ColumnDef<Booking>[] => {
   const { setOpen, setCurrentRow } = useBookings()
+  const handleAddSaleBooking = useUpdateSttBookingMutation({
+    successMessage: 'Nhận tư vấn đơn đặt hàng thành công.'
+  })
   return [
     {
       id: 'select',
@@ -91,24 +95,7 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
           </div>
         )
       },
-      enableSorting: true,
-      sortingFn: (rowA, rowB, columnId) => {
-        const statusOrder: Record<BookingStatus, number> = {
-          [BookingStatus.PENDING]: 1,
-          [BookingStatus.ACCEPTED]: 2,
-          [BookingStatus.SUCCESS]: 3,
-          [BookingStatus.FAILED]: 4,
-          [BookingStatus.CANCELLED]: 5,
-          [BookingStatus.REJECTED]: 6
-        }
-        const statusA = rowA.getValue(columnId) as BookingStatus
-        const statusB = rowB.getValue(columnId) as BookingStatus
-        return statusOrder[statusA] - statusOrder[statusB]
-      },
-      filterFn: (row, id, filterValue) => {
-        const status = row.getValue(id) as string
-        return filterValue.includes(status)
-      }
+      enableSorting: true
     },
     {
       accessorKey: 'products',
@@ -124,6 +111,22 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
       cell: ({ row }) => (
         <DataTableRowActions
           row={row}
+          onAccepted={(row: Booking) => {
+            if (!row.saleDTO) {
+              // call API
+              handleAddSaleBooking.mutate({ bookingId: row.id, status: BookingStatus.ACCEPTED })
+            } else {
+              Toast.error({ description: 'Đơn hàng này đã có người tư vấn.' })
+            }
+          }}
+          onRejected={(row) => {
+            if (!row.saleDTO && isEqual(row.bookingStatus, BookingStatus.PENDING)) {
+              // call API
+              handleAddSaleBooking.mutate({ bookingId: row.id, status: BookingStatus.REJECTED })
+            } else {
+              Toast.error({ description: 'Chỉ được từ chối đơn hàng có trạng thái chờ tư vấn.' })
+            }
+          }}
           onView={(row) => {
             setCurrentRow(row)
             console.log('view')

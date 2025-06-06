@@ -76,7 +76,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       }
       await productMutation.mutateAsync(dataAPI)
       form.reset()
-
+      setFile('')
+      setFiles([])
       queryClient.invalidateQueries({ queryKey: [path.products, queryString] })
     } finally {
       onOpenChange(false)

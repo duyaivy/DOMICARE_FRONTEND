@@ -35,6 +35,17 @@ export interface UserUpdate {
   newPassword?: string
   oldPassword?: string
 }
+export interface UserRequest {
+  email: string
+  password: string
+  name: string
+  phone: string
+  address: string
+  avatar: string
+  gender: GENDER_TYPE
+  dateOfBirth: string
+  roleId: number
+}
 export interface UserUpdateRequest extends Omit<UserUpdate, 'dateOfBirth'> {
   dateOfBirth?: string
 }

@@ -151,3 +151,21 @@ export const useUpdateBookingMutation = () => {
     onError: (error) => handleToastError(error)
   })
 }
+interface UpdateSttBookingProps {
+  successMessage?: string
+}
+export const useUpdateSttBookingMutation = ({ successMessage }: UpdateSttBookingProps) => {
+  return useMutation({
+    mutationKey: mutationKeys.booking,
+    mutationFn: (data: BookingUpdateRequest) => {
+      return bookingApi.updateStatus(data)
+    },
+    onSuccess: () => {
+      Toast.success({
+        title: 'Thành công',
+        description: successMessage
+      })
+    },
+    onError: (error) => handleToastError(error)
+  })
+}

@@ -13,7 +13,11 @@ export const useBookingQueryConfig = () => {
       page: queryString.page || '1',
       size: queryString.size || '10',
       sortBy: queryString.sortBy,
-      sortDirection: queryString.sortDirection
+      sortDirection: queryString.sortDirection,
+      userId: queryString.userId,
+      searchName: queryString.searchName,
+      bookingStatus: queryString.bookingStatus,
+      saleId: queryString.saleId
     },
     isUndefined
   )

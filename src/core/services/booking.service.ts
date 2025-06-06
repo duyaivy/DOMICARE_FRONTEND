@@ -8,7 +8,7 @@ import {
 import { SuccessResponse } from '@/models/interface/response.interface'
 
 const API_BOOKING_URL = '/api/bookings'
-
+const API_BOOKING_STATUS_URL = '/api/bookings/status'
 export const bookingApi = {
   post: (params: BookingRequest, isLogin?: boolean) => {
     const headers = !isLogin
@@ -33,5 +33,8 @@ export const bookingApi = {
   },
   edit: (data: BookingUpdateRequest) => {
     return axiosClient.put<SuccessResponse<BookingResponse>>(API_BOOKING_URL, data)
+  },
+  updateStatus: (data: BookingUpdateRequest) => {
+    return axiosClient.put<SuccessResponse<BookingResponse>>(API_BOOKING_STATUS_URL, data)
   }
 }

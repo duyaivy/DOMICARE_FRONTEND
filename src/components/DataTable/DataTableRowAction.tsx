@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 
-import { Ellipsis, Eye, Key, SquarePen, Trash2 } from 'lucide-react'
+import { Ellipsis, Eye, Headset, Key, MessageCircleX, SquarePen, Trash2 } from 'lucide-react'
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -18,6 +18,8 @@ interface DataTableRowActionsProps<TData> {
   onDelete?: (row: TData) => void
   onView?: (row: TData) => void
   onReset?: (row: TData) => void
+  onAccepted?: (row: TData) => void
+  onRejected?: (row: TData) => void
 }
 
 export function DataTableRowActions<TData>({
@@ -25,9 +27,10 @@ export function DataTableRowActions<TData>({
   onEdit,
   onDelete,
   onReset,
-  onView
+  onView,
+  onAccepted,
+  onRejected
 }: DataTableRowActionsProps<TData>) {
-  const isView = onView || onReset || onReset
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
@@ -45,6 +48,23 @@ export function DataTableRowActions<TData>({
             </DropdownMenuShortcut>
           </DropdownMenuItem>
         )}
+        {onAccepted && (
+          <DropdownMenuItem onClick={() => onAccepted(row.original)}>
+            Tư vấn
+            <DropdownMenuShortcut>
+              <Headset size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+        )}
+        {onRejected && (
+          <DropdownMenuItem onClick={() => onRejected(row.original)}>
+            Từ chối
+            <DropdownMenuShortcut>
+              <MessageCircleX size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+        )}
+
         {onEdit && (
           <DropdownMenuItem onClick={() => onEdit(row.original)}>
             Chỉnh sửa
@@ -53,6 +73,7 @@ export function DataTableRowActions<TData>({
             </DropdownMenuShortcut>
           </DropdownMenuItem>
         )}
+
         {onReset && (
           <DropdownMenuItem onClick={() => onReset(row.original)}>
             Đặt lại mật khẩu
@@ -61,17 +82,20 @@ export function DataTableRowActions<TData>({
             </DropdownMenuShortcut>
           </DropdownMenuItem>
         )}
-        {isView && <DropdownMenuSeparator />}
+
         {onDelete && (
-          <DropdownMenuItem
-            onClick={() => onDelete(row.original)}
-            className='text-red-500! hover:text-white! hover:bg-red-500!'
-          >
-            Xoá
-            <DropdownMenuShortcut>
-              <Trash2 size={16} />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => onDelete(row.original)}
+              className='text-red-500! hover:text-white! hover:bg-red-500!'
+            >
+              Xoá
+              <DropdownMenuShortcut>
+                <Trash2 size={16} />
+              </DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </>
         )}
       </DropdownMenuContent>
     </DropdownMenu>

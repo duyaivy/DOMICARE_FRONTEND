@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
 import { Fragment } from 'react/jsx-runtime'
-import Pagination from '@/components/Pagination'
+import PaginationPage from '@/components/PaginationPage'
 import SortProduct from './components/SortProduct'
 import { useProductQuery } from '@/core/queries/product.query'
 import { noPrdImg } from '@/assets/images'
@@ -58,7 +58,7 @@ export default function Products() {
                           </div>
                         )
                       })}
-                      <Pagination
+                      <PaginationPage
                         currentPage={pageController?.page || 1}
                         pageSize={pageController?.totalPages || 10}
                         path={path.products}
