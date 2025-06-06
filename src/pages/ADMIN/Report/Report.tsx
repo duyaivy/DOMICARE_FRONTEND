@@ -21,7 +21,7 @@ export default function Report() {
 }
 
 function ReportContent() {
-  const queryString = useBookingQueryConfig()
+  const queryString = useBookingQueryConfig({})
   const { data: bookingsData, isLoading } = useBookingQuery({ queryString })
   const bookingList = bookingsData?.data?.data.data
   const pageController = bookingsData?.data?.data.meta

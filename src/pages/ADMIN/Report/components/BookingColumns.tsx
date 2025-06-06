@@ -20,6 +20,9 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
   const handleAddSaleBooking = useUpdateSttBookingMutation({
     successMessage: 'Nhận tư vấn đơn đặt hàng thành công.'
   })
+  const handleRejectBooking = useUpdateSttBookingMutation({
+    successMessage: 'Từ chối tư vấn đơn đặt hàng thành công.'
+  })
   return [
     {
       id: 'select',
@@ -122,7 +125,7 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
           onRejected={(row) => {
             if (!row.saleDTO && isEqual(row.bookingStatus, BookingStatus.PENDING)) {
               // call API
-              handleAddSaleBooking.mutate({ bookingId: row.id, status: BookingStatus.REJECTED })
+              handleRejectBooking.mutate({ bookingId: row.id, status: BookingStatus.REJECTED })
             } else {
               Toast.error({ description: 'Chỉ được từ chối đơn hàng có trạng thái chờ tư vấn.' })
             }

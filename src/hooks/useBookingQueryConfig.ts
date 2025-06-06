@@ -1,12 +1,13 @@
 import { isUndefined, omitBy } from 'lodash'
 import { useParamsString } from './usePrdQueryConfig'
 import { BookingListConfig } from '@/models/interface/booking.interface'
-
 export type BookingQueryConfig = {
   [key in keyof BookingListConfig]: string
 }
-
-export const useBookingQueryConfig = () => {
+interface BookingListConfigProps {
+  userId?: number
+}
+export const useBookingQueryConfig = ({ userId }: BookingListConfigProps) => {
   const queryString: BookingQueryConfig = useParamsString()
   const queryConfig: BookingQueryConfig = omitBy(
     {
@@ -14,7 +15,7 @@ export const useBookingQueryConfig = () => {
       size: queryString.size || '10',
       sortBy: queryString.sortBy,
       sortDirection: queryString.sortDirection,
-      userId: queryString.userId,
+      userId: queryString.userId || userId,
       searchName: queryString.searchName,
       bookingStatus: queryString.bookingStatus,
       saleId: queryString.saleId
