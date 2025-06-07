@@ -11,6 +11,7 @@ import { useBookingQueryConfig } from '@/hooks/useBookingQueryConfig'
 import { BookingProvider } from '@/core/contexts/booking.context'
 import { useBookingQuery } from '@/core/queries/product.query'
 import { BookingButtonAction } from './components/BookingButtonAction'
+import { useBookingWebSocket } from '@/hooks/useBookingWebSocket'
 
 export default function Report() {
   return (
@@ -26,6 +27,11 @@ function ReportContent() {
   const bookingList = bookingsData?.data?.data.data
   const pageController = bookingsData?.data?.data.meta
   const columns = useBookingColumns()
+
+  // realtime webSocket
+  const memoizedQueryKey = [path.admin.report, queryString]
+  useBookingWebSocket({ queryKey: memoizedQueryKey })
+
   return (
     <>
       <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>

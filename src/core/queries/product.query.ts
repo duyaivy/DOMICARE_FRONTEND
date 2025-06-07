@@ -120,7 +120,7 @@ export const useBookingQuery = ({ queryString }: { queryString: BookingQueryConf
 }
 export const useUserBookingQuery = ({ queryString }: { queryString: BookingQueryConfig }) => {
   return useQuery({
-    queryKey: [path.user.settings, queryString],
+    queryKey: [path.user.history, queryString],
     queryFn: () => bookingApi.query(queryString as BookingListConfig),
     placeholderData: keepPreviousData,
     staleTime: STATE_TIME

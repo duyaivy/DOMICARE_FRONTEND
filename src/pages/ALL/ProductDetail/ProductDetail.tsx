@@ -46,7 +46,7 @@ export default function ProductDetail() {
   const form = useForm<z.infer<typeof BookingSchema>>({
     resolver: zodResolver(BookingSchema),
     defaultValues: {
-      guestEmail: '',
+      guestEmail: profile?.email || '',
       address: profile?.address || '',
       startTime: undefined,
       name: profile?.name || '',
@@ -66,6 +66,9 @@ export default function ProductDetail() {
       phone: data.phone.toString()
     }
     const isLogin = profile ? true : false
+    if (isLogin) {
+      delete dataAPI.guestEmail
+    }
     mutationBooking.mutate({ dataAPI, isLogin })
   }
 
