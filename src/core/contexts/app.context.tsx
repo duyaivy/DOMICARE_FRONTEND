@@ -16,10 +16,7 @@ interface AppContextInterface {
   profile: User | null
   setProfile: Dispatch<SetStateAction<User | null>>
   categories: Category[] | null
-
   setCategories: React.Dispatch<React.SetStateAction<Category[] | null>>
-  // sidebar: Sidebar | null
-  // setSidebar: React.Dispatch<React.SetStateAction<Sidebar | null>>
 }
 
 const initialAppContext: AppContextInterface = {
@@ -29,8 +26,6 @@ const initialAppContext: AppContextInterface = {
   setProfile: () => null,
   categories: getCategoriesFromLocalStorage(),
   setCategories: () => null
-  // sidebar: initialSideBar,
-  // setSidebar: () => null
 }
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
 

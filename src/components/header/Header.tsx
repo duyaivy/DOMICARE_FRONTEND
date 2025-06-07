@@ -220,9 +220,11 @@ export default function Header() {
             <IconChevronUp className='fill-white w-10 h-10 text-center ml-1' />
           </button>
         )}
-        <div className='flex rounded-full mt-6 shadow-sm m-2 items-center justify-center w-18 h-18 cursor-pointer animate-bounce text-white bg-emerald-400'>
-          <PhoneCallIcon width={ICON_SIZE_EXTRA} height={ICON_SIZE_EXTRA} />
-        </div>
+        <a href='tel:0987654321'>
+          <div className='flex rounded-full mt-6 shadow-sm m-2 items-center justify-center w-18 h-18 cursor-pointer animate-bounce text-white bg-emerald-400'>
+            <PhoneCallIcon width={ICON_SIZE_EXTRA} height={ICON_SIZE_EXTRA} />
+          </div>
+        </a>
       </div>
     </header>
   )

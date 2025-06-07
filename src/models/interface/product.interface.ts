@@ -11,7 +11,7 @@ export interface Product {
   discount?: number
   priceAfterDiscount?: number
   landingImages?: string[]
-  categoryId?: number
+  categoryID?: number
   categoryMini?: CategoryMini
   reviewDTOs?: Review[]
   createBy?: string
