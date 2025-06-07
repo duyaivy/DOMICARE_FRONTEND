@@ -9,7 +9,7 @@ export default defineConfig({
     open: true
   },
   define: {
-    global: 'globalThis' 
+    global: 'globalThis'
   },
   esbuild: {
     banner: globalShim
