@@ -220,4 +220,8 @@ export const bookingStatusList = [
   { label: 'Bị từ chối', value: 'REJECTED' }
 ]
 
-export const BookingStatusExtra = [{ label: 'Tất cả', value: 'ALL' }, ...bookingStatusList]
+export const BookingStatusExtra = [
+  { label: 'Tất cả', value: 'ALL' },
+  ...bookingStatusList,
+  { label: 'Đã huỷ', value: 'CANCELLED' }
+]
