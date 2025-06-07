@@ -39,7 +39,7 @@ export function NavMain({ data }: NavMainProps) {
                         <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
                       </>
                     ) : (
-                      <Link to={item.url}>
+                      <Link className='w-full' to={item.url}>
                         <span>{item.title}</span>
                       </Link>
                     )}

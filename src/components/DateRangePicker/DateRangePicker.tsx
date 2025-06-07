@@ -5,24 +5,51 @@ import { DateRange } from 'react-day-picker'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { HTMLAttributes, useState } from 'react'
+import { HTMLAttributes, useEffect, useState } from 'react'
 import { cn } from '@/core/lib/utils'
 import { STANDARD_DATE_FORMAT_INVERSE } from '@/configs/consts'
 import dayjs from 'dayjs'
 import { formatDateTime } from '@/core/helpers/date-time'
+import { createSearchParams, useNavigate } from 'react-router-dom'
+import { path } from '@/core/constants/path'
+import { OverviewQueryConfig } from '@/hooks/useOverviewQueryConfig'
 
 const initialDateRange: DateRange = {
   to: new Date(),
   from: addDays(new Date(), -30)
 }
-export function DateRangePicker({ className }: HTMLAttributes<HTMLDivElement>) {
+interface DateRangePickerProps {
+  queryString: OverviewQueryConfig
+  className?: HTMLAttributes<HTMLDivElement>
+}
+export function DateRangePicker({ className, queryString }: DateRangePickerProps) {
   const [date, setDate] = useState<DateRange | undefined>(initialDateRange)
+  const navigate = useNavigate()
   const handleChangeDate = (range: DateRange) => {
     setDate(range)
-    console.log('call API')
+  }
+  useEffect(() => {
+    const date = {
+      to: new Date(queryString.endDate ?? new Date()),
+      from: new Date(queryString.startDate ?? addDays(new Date(), -30))
+    }
+    setDate(date)
+  }, [queryString])
+  const handleQuery = () => {
+    navigate({
+      pathname: path.admin.dashboard,
+      search: createSearchParams({
+        ...queryString,
+        endDate: date?.to ? date.to.toISOString() : new Date().toISOString(),
+        startDate: date?.from ? date.from.toISOString() : addDays(new Date(), -30).toISOString()
+      }).toString()
+    })
   }
   return (
-    <div className={cn('grid gap-2', className)}>
+    <div className={cn('flex gap-2', className)}>
+      <Button onClick={handleQuery} variant={'default'} className='cursor-pointer'>
+        Truy vấn
+      </Button>
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -44,7 +71,7 @@ export function DateRangePicker({ className }: HTMLAttributes<HTMLDivElement>) {
                 format(date.from, 'LLL dd, y')
               )
             ) : (
-              <span>Pick a date</span>
+              <span>Chọn thời gian</span>
             )}
           </Button>
         </PopoverTrigger>

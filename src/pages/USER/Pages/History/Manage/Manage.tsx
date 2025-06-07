@@ -24,7 +24,7 @@ export default function Manage({ booking, queryString }: ManaegeProps) {
   }
   const handleBookingAgain = () => {
     navigate({
-      pathname: `${path.product}${urlSEO(booking.products?.[0].id?.toString() || ' ', booking.products?.[0]?.name as string)}`
+      pathname: `${path.product}/${urlSEO(booking.products?.[0].id?.toString() || ' ', booking.products?.[0]?.name as string)}`
     })
   }
   return (
