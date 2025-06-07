@@ -3,6 +3,7 @@ import { useWebSocket } from './useWebSocket'
 import { useQueryClient } from '@tanstack/react-query'
 import { Toast } from '@/utils/toastMessage'
 import { Booking } from '@/models/interface/booking.interface'
+import config from '@/configs'
 
 interface BookingWebSocketProps {
   queryKey: (string | object)[]
@@ -50,7 +51,7 @@ export const useBookingWebSocket = ({ queryKey, isUser = false, userId }: Bookin
 
   const webSocketConfig = useMemo(
     () => ({
-      url: 'http://localhost:8080/ws',
+      url: `${config.baseUrl}/ws`,
       topics: isUser ? register.user : register.admin,
       onError: (error: any) => console.error('useBookingWebSocket: WebSocket error', error)
     }),
