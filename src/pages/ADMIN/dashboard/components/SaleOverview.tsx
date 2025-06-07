@@ -2,8 +2,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { initialSaleOverview } from '@/core/constants/initialValue.const'
 import { formatCurrentcy } from '@/utils/formatCurrentcy'
+interface SaleOverviewProps {
+  queryString?: any
+}
+export function SaleOverview({ queryString }: SaleOverviewProps) {
+  console.log(queryString)
 
-export function SaleOverview() {
   return (
     <Card className='flex flex-col '>
       <CardHeader className='items-center pb-0'>
