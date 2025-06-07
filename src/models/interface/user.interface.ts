@@ -78,3 +78,11 @@ export interface roleAddRequest {
   userId: number
   roleIds: number[]
 }
+export interface MiniSale {
+  id?: number
+  name?: string
+  avatar?: string
+  email?: string
+  totalSalePrice?: number
+  totalSuccessBookingPercent?: number
+}

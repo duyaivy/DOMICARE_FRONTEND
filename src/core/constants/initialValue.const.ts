@@ -126,6 +126,7 @@ export const initialRevenueOverviewChart = [
   { month: 'Th 11', revenue: 8000 },
   { month: 'Th 12', revenue: 6000 }
 ]
+
 export const initialMetricsOverview = [
   {
     title: 'Doanh Thu',
