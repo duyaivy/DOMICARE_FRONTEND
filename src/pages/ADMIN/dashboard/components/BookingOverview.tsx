@@ -11,7 +11,6 @@ interface BookingOverviewProps {
   value?: BookingOverviewInterface
   isLoading?: boolean
 }
-
 export function BookingOverview({ value, isLoading }: BookingOverviewProps) {
   const chartData = React.useMemo(
     () => [
