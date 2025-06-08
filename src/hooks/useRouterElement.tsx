@@ -29,7 +29,7 @@ import Booking from '@/pages/ADMIN/Booking'
 import Post from '@/pages/ADMIN/Manage/Post.manage/Post'
 import Settings from '@/pages/USER/Pages/Settings'
 import ComingSoon from '@/pages/ADMIN/CommingSoon/CommingSoon'
-import Dashboard from '@/pages/ADMIN/dashboard/Dashboard'
+import Dashboard from '@/pages/ADMIN/Dashboard/Dashboard'
 
 interface RouteConfig {
   path: string
