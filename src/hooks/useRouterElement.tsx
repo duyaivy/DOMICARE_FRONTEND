@@ -5,7 +5,6 @@ import { path } from '@/core/constants/path'
 import CustomerLayout from '@/app/layout/CustomerLayout'
 import Login from '@/pages/ALL/login'
 import Register from '@/pages/ALL/register'
-
 import PageNotFound from '@/pages/ALL/404/PageNotFound'
 import { AppContext } from '@/core/contexts/app.context'
 import Products from '@/pages/ALL/Products'
@@ -30,7 +29,7 @@ import Booking from '@/pages/ADMIN/Booking'
 import Post from '@/pages/ADMIN/Manage/Post.manage/Post'
 import Settings from '@/pages/USER/Pages/Settings'
 import ComingSoon from '@/pages/ADMIN/CommingSoon/CommingSoon'
-import Dashboard from '@/pages/ADMIN/Dashboard/Dashboard'
+import Dashboard from '@/pages/ADMIN/dashboard/Dashboard'
 
 interface RouteConfig {
   path: string
