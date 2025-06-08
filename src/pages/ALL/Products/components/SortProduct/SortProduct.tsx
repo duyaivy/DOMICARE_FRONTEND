@@ -95,14 +95,14 @@ export default function SortProduct({ queryString }: SortProductProps) {
               handleOrder(event.target.value as ProductListConfig['sortDirection'])
             }}
             className={classNames(
-              'col-span-6 md:col-span-3 mo:!col-span-2  cursor-pointer focus:outline-0 capitalize rounded-[2px] py-2.5  hover:opacity-90 text-sm  lg:text-sm duration-200 bg-bg shadow flex justify-center items-center'
+              'col-span-6 md:col-span-3 mo:!col-span-2 text-center cursor-pointer focus:outline-0 capitalize rounded-[2px] py-2.5  hover:opacity-90 text-sm  lg:text-sm duration-200 bg-bg shadow flex justify-center items-center'
             )}
           >
             <option
               value={direction.desc}
               className='text-sm text-center  text-black  shadow lg:text-sm  my-1 px-2 capitalize'
             >
-              cao đến thấp
+              Cao đến thấp
             </option>
             <option
               value={direction.asc}
