@@ -1,12 +1,12 @@
 import DateRangePicker from '@/components/DateRangePicker'
-import { MetricsOverview } from './components/MetricsOverview'
-import { SaleOverview } from './components/SaleOverview'
-import { RevenueOverviewChart } from './components/RevenueOverviewChart'
-import { BookingOverview } from './components/BookingOverview'
 import { useOverviewQueryConfig } from '@/hooks/useOverviewQueryConfig'
 import { useOverviewQuery } from '@/core/queries/overview.query'
 import { overviewApi } from '@/core/services/overview.service'
 import { BookingOverview as BookingOverviewProps, DashboardData } from '@/models/interface/dashboard.interface'
+import { MetricsOverview } from './components/MetricsOverview'
+import { RevenueOverviewChart } from './components/RevenueOverviewChart'
+import { BookingOverview } from './components/BookingOverview'
+import { SaleOverview } from './components/SaleOverview'
 
 export default function Dashboard() {
   const queryString = useOverviewQueryConfig()

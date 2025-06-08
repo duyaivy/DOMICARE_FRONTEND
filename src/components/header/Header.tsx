@@ -213,17 +213,17 @@ export default function Header() {
         </div>
       </div>
 
-      <div className='fixed bottom-20 right-2 md:bottom-30   overflow-hidden z-50'>
+      <div className='fixed bottom-20 right-2 md:bottom-30 overflow-hidden z-50'>
         {showUpBtn && (
           <button
             onClick={handleScrollUp}
-            className='flex rounded-full shadow-sm m-2 items-center justify-center w-18 h-18 cursor-pointer  bg-emerald-400'
+            className='flex rounded-full shadow-sm m-2 items-center justify-center size-16 cursor-pointer  bg-emerald-400'
           >
             <IconChevronUp className='fill-white w-10 h-10 text-center ml-1' />
           </button>
         )}
         <a href='tel:0987654321'>
-          <div className='flex rounded-full mt-6 shadow-sm m-2 items-center justify-center w-18 h-18 cursor-pointer animate-bounce text-white bg-emerald-400'>
+          <div className='flex rounded-full mt-6 shadow-sm m-2 items-center justify-center size-16 cursor-pointer animate-bounce text-white bg-emerald-400'>
             <PhoneCallIcon width={ICON_SIZE_EXTRA} height={ICON_SIZE_EXTRA} />
           </div>
         </a>

@@ -14,6 +14,7 @@ import pic10 from './pic10.png'
 import pic12 from './anh 12.png'
 import pic13 from './pic12.png'
 import pic11 from './qnh 11.png'
+import logoDomicare from './Logo domicare.png'
 import Person from './Persion.png'
 import logoWhite from './LogoWhite.svg'
 import devlopment from './devlopment.png'
@@ -37,5 +38,6 @@ export {
   pic12,
   Person,
   logoWhite,
-  pic13
+  pic13,
+  logoDomicare
 }

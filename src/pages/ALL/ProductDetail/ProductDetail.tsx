@@ -3,7 +3,7 @@ import SectionBgGreen from '@/components/SectionBgGreen'
 import SectionBgWhite from '@/components/SectionBgWhite'
 import { AppContext } from '@/core/contexts/app.context'
 import { isEqual } from 'lodash'
-import { Fragment, useContext } from 'react'
+import { Fragment, useContext, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import SectionInView from '@/components/SectionInView'
 import { CalendarIcon, FlameIcon, MapPin, User } from 'lucide-react'
@@ -33,6 +33,8 @@ import { Textarea } from '@/components/ui/textarea'
 import WriteReview from './components/WriteReview'
 import { useBookingMutation, usePrdDetailQuery } from '@/core/queries/product.query'
 import { format } from 'date-fns'
+import { scroller } from 'react-scroll'
+import Helmet from '@/components/Helmet/Helmet'
 
 export default function ProductDetail() {
   const { pathname } = useLocation()
@@ -41,7 +43,8 @@ export default function ProductDetail() {
   const { profile } = useContext(AppContext)
   const { categories } = useContext(AppContext)
   const { data } = usePrdDetailQuery({ id })
-
+  const path = useLocation()
+  const location = path.state?.location
   // form
   const form = useForm<z.infer<typeof BookingSchema>>({
     resolver: zodResolver(BookingSchema),
@@ -75,11 +78,16 @@ export default function ProductDetail() {
   const product = data && data.data.data
   const category = categories?.find((item) => isEqual(item.id, Number(product?.categoryID)))
   const isSale = product && !isEqual(product?.discount, 0)
-
+  useEffect(() => {
+    if (location && product) {
+      scroller.scrollTo(location, { smooth: true, duration: 1000 })
+    }
+  }, [location, product])
   return (
     <div className='md:pt-25 '>
       {product ? (
         <Fragment>
+          <Helmet title={`${product?.name} | Dịch vụ DomiCare`} />
           <section className='bg-linear-to-br from-gray-100 to-slate-50 '>
             <div className='max-w-6xl mx-auto py-10 flex items-center px-4'>
               <h1 className='text-head font-semibold md:mr-12 w-full md:w-1/2 lg:w-2/3 text-center md:text-left'>
@@ -139,7 +147,7 @@ export default function ProductDetail() {
             />
           </SectionBgGreen>
 
-          <SectionBgWhite>
+          <SectionBgWhite id='rating'>
             <h2 className='text-head font-semibold text-center py-10'>Nhận xét và đánh giá</h2>
             <div className='grid grid-cols-12 gap-6 w-full md:w-2xl lg:w-4xl  xl:w-6xl'>
               <div className='col-span-12 md:col-span-6 flex flex-col items-center md:py-10'>
@@ -162,7 +170,7 @@ export default function ProductDetail() {
               <div className='col-span-12 py-4'></div>
             </div>
           </SectionBgWhite>
-          <SectionBgGreen>
+          <SectionBgGreen id='booking'>
             <h2 className='text-head font-semibold text-center py-5 md:py-10'>Đặt dịch vụ</h2>
             <div className='grid grid-cols-12 gap-4'>
               <div className='order-2 md:order-0 col-span-12 md:col-span-6 flex justify-end'>

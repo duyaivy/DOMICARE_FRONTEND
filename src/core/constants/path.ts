@@ -10,6 +10,7 @@ export const path = {
   blog: '/blog',
   coming_soon: '/coming_soon',
   recuitment: '/recuitment',
+  notFound: '/404',
   _admin: '/admin',
   admin: {
     dashboard: '/admin/dashboard',

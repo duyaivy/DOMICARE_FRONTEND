@@ -5,7 +5,6 @@ import { path } from '@/core/constants/path'
 import CustomerLayout from '@/app/layout/CustomerLayout'
 import Login from '@/pages/ALL/login'
 import Register from '@/pages/ALL/register'
-
 import PageNotFound from '@/pages/ALL/404/PageNotFound'
 import { AppContext } from '@/core/contexts/app.context'
 import Products from '@/pages/ALL/Products'

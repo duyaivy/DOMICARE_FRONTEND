@@ -12,7 +12,7 @@ import { AppProvider } from './core/contexts/app.context.tsx'
 import ScrollToTop from './app/layout/ScrollToTop.tsx'
 import config from './configs/index.ts'
 import { ThemeProvider } from './components/theme/theme-provider.tsx'
-
+import { HelmetProvider } from 'react-helmet-async'
 const clientAPI = config.googleId
 // '1028525044202-qvt3p190o3l7sisveqgcemltuva0es04.apps.googleusercontent.com'
 const queryClient = new QueryClient({
@@ -31,13 +31,15 @@ createRoot(document.getElementById('root')!).render(
       <ToastContainer />
       <GoogleOAuthProvider clientId={clientAPI}>
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-            <ScrollToTop>
-              <AppProvider>
-                <App />
-              </AppProvider>
-            </ScrollToTop>
-          </ThemeProvider>
+          <HelmetProvider>
+            <ThemeProvider>
+              <ScrollToTop>
+                <AppProvider>
+                  <App />
+                </AppProvider>
+              </ScrollToTop>
+            </ThemeProvider>
+          </HelmetProvider>
           <Toaster richColors closeButton />
         </QueryClientProvider>
       </GoogleOAuthProvider>

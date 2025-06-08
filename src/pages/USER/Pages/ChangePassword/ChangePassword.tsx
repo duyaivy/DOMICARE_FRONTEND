@@ -89,7 +89,7 @@ export default function ChangePassword() {
                 <div className='flex justify-center items-center'>
                   <Button
                     loading={userUpdateMutation.isPending}
-                    className='w-full md:w-3/5 mt-10 text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
+                    className='w-full  mt-10 text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
                     type='submit'
                   >
                     Đổi mật khẩu

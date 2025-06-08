@@ -40,12 +40,12 @@ export default function History() {
                           />
                         </div>
                         <div className=''>
-                          <p className='text-sm text-black line-clamp-2'>{item.products?.[0].name}</p>
+                          <p className=' text-black line-clamp-2 text-xl'>{item.products?.[0].name}</p>
                           <div className='flex justify-start items-center  cursor-default gap-1'>
                             <span className='text-gray text-sm line-through'>
                               đ{formatCurrentcy(item.products?.[0].price)}
                             </span>
-                            <span className='text-black text-sm '>đ{formatCurrentcy(item.totalPrice)}</span>
+                            <span className='text-sm text-mainStrong'>đ{formatCurrentcy(item.totalPrice)}</span>
                           </div>
                           <p className='text-sm text-black line-clamp-2'>
                             Loại dịch vụ: {item.isPeriodic ? 'Định kỳ' : 'Một lần'}

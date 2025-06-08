@@ -22,10 +22,30 @@ export default function Manage({ booking, queryString }: ManaegeProps) {
     await handleCancleBooking.mutateAsync({ bookingId: booking.id, status: BookingStatus.CANCELLED })
     queryClient.invalidateQueries({ queryKey: [path.user.history, queryString] })
   }
+
+  const handleRating = () => {
+    navigate(
+      {
+        pathname: `${path.product}/${urlSEO(booking.products?.[0].id?.toString() || ' ', booking.products?.[0]?.name as string)}`
+      },
+      {
+        state: {
+          location: 'rating'
+        }
+      }
+    )
+  }
   const handleBookingAgain = () => {
-    navigate({
-      pathname: `${path.product}/${urlSEO(booking.products?.[0].id?.toString() || ' ', booking.products?.[0]?.name as string)}`
-    })
+    navigate(
+      {
+        pathname: `${path.product}/${urlSEO(booking.products?.[0].id?.toString() || ' ', booking.products?.[0]?.name as string)}`
+      },
+      {
+        state: {
+          location: 'booking'
+        }
+      }
+    )
   }
   return (
     <div className='flex justify-end items-center pt-1.5 gap-2'>
@@ -41,7 +61,7 @@ export default function Manage({ booking, queryString }: ManaegeProps) {
       )}
       {isEqual(booking.bookingStatus, BookingStatus.SUCCESS) && (
         <>
-          <Button variant={'outline'} className='cursor-pointer'>
+          <Button onClick={handleRating} variant={'outline'} className='cursor-pointer'>
             Đánh giá
           </Button>
           <Button onClick={handleBookingAgain} variant={'default'} className='text-white bg-main cursor-pointer'>

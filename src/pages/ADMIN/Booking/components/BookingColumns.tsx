@@ -10,10 +10,10 @@ import { Booking, BookingStatus } from '@/models/interface/booking.interface'
 import { User } from '@/models/interface/user.interface'
 import { formatCurrentcy } from '@/utils/formatCurrentcy'
 import { Product } from '@/models/interface/product.interface'
-import { StatusBadge } from '@/components/StatusBadge'
 import { isEqual } from 'lodash'
 import { Toast } from '@/utils/toastMessage'
 import { useUpdateSttBookingMutation } from '@/core/queries/product.query'
+import StatusBadge from '@/components/StatusBadge'
 
 export const useBookingColumns = (): ColumnDef<Booking>[] => {
   const { setOpen, setCurrentRow } = useBookings()

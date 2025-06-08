@@ -2,7 +2,7 @@ import IconFb from '@/assets/icons/icon-fb'
 import IconInstagram from '@/assets/icons/icon-instargram'
 import IconTwitter from '@/assets/icons/icon-twitter'
 import IconYtb from '@/assets/icons/icon-ytb'
-import { logoSecond } from '@/assets/images'
+import { logoDomicare } from '@/assets/images'
 import { path } from '@/core/constants/path'
 
 import { Link } from 'react-router-dom'
@@ -16,7 +16,7 @@ export default function Footer() {
             <div className='col-span-12 md:col-span-4 lg:col-span-6 w-full'>
               <div className='flex flex-col items-start justify-center gap-3 shrink-0'>
                 <Link to={path.home} className='flex justify-between items-center '>
-                  <img className='w-[300px] h-auto ' src={logoSecond} alt='logoDomicare' />
+                  <img className='w-72 h-auto ' src={logoDomicare} alt='logoDomicare' />
                 </Link>
                 <p className='text-sub2 capitalize'>© 2025 Domicare. All rights Reserved.</p>
               </div>
@@ -28,17 +28,17 @@ export default function Footer() {
                     <h3 className='text-sub1 font-semibold md:pb-3 pb-1 cursor-pointer text-end'>Dịch vụ</h3>
                   </li>
                   <li>
-                    <Link to={'/'}>
+                    <Link to={path.products}>
                       <p className='hover:text-gray-300 duration-300 text-end '>Khử trùng</p>
                     </Link>
                   </li>
                   <li>
-                    <Link to={'/'}>
+                    <Link to={path.products}>
                       <p className='hover:text-gray-300 duration-300 text-end'>Vệ sinh</p>
                     </Link>
                   </li>
                   <li>
-                    <Link to={'/'}>
+                    <Link to={path.products}>
                       <p className='hover:text-gray-300 duration-300 text-end'>Thuê giúp việc</p>
                     </Link>
                   </li>
@@ -53,17 +53,17 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <Link to={'/'}>
+                    <Link to={path.coming_soon}>
                       <p className='hover:text-gray-300 duration-300 text-end'>FAQ</p>
                     </Link>
                   </li>
                   <li>
-                    <Link to={'/'}>
+                    <Link to={path.coming_soon}>
                       <p className='hover:text-gray-300 duration-300 text-end'>Tuyển dụng</p>
                     </Link>
                   </li>
                   <li>
-                    <Link to={'/'}>
+                    <Link to={path.coming_soon}>
                       <p className='hover:text-gray-300 duration-300 text-end'>Bài viết</p>
                     </Link>
                   </li>
@@ -75,22 +75,22 @@ export default function Footer() {
                   <li>
                     <ul className='flex justify-start items-center md:flex-col gap-2 md:gap-1'>
                       <li>
-                        <Link className='flex justify-end items-center' to={'/'}>
+                        <Link className='flex justify-end items-center' to={path.coming_soon}>
                           <IconYtb className='fill-white hover:fill-gray-300 mr-1' />
                         </Link>
                       </li>
                       <li>
-                        <Link to={'/'}>
+                        <Link to={path.coming_soon}>
                           <IconFb className='fill-white hover:fill-gray-300' />
                         </Link>
                       </li>
                       <li>
-                        <Link to={'/'}>
+                        <Link to={path.coming_soon}>
                           <IconTwitter className='fill-white hover:fill-gray-300' />
                         </Link>
                       </li>
                       <li>
-                        <Link to={'/'}>
+                        <Link to={path.coming_soon}>
                           <IconInstagram className='fill-white hover:fill-gray-300' />
                         </Link>
                       </li>
