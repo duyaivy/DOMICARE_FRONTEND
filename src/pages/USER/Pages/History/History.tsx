@@ -24,15 +24,15 @@ export default function History() {
     <SectionUser title='Lịch sử dịch vụ' description='Xem lịch sử dịch vụ và trạng thái các dịch vụ tài khoản của bạn.'>
       <div className='md:mx-2 pb-5 pt-1 overflow-hidden'>
         <StatusList queryString={queryString} />
-        <div className='mt-4 md:mt-10 rounded-xs py-3  bg-white '>
+        <div className=' rounded-xs py-3  bg-white '>
           {bookingList && bookingList.length > 0 ? (
             bookingList.map((item) => {
               return (
                 <div key={item.id} className='my-2 p-4 bg-white max-w-7xl mx-auto border-b border-gray-200'>
                   <div className='grid grid-cols-12 '>
-                    <div className='col-span-12 mo:col-span-9 flex items-center justify-start gap-4'>
+                    <div className='col-span-12 mo:col-span-8 flex items-center justify-start gap-4'>
                       <div className=' grow flex justify-start items-center gap-4 '>
-                        <div className='flex justify-center items-center shrink-0 h-20 w-20 shadow overflow-hidden'>
+                        <div className='flex justify-center items-center shrink-0 size-24 shadow overflow-hidden'>
                           <img
                             className='object-cover w-full h-full'
                             src={item.products?.[0].image}
@@ -53,7 +53,7 @@ export default function History() {
                         </div>
                       </div>
                     </div>
-                    <div className='col-span-12 mo:col-span-3 flex justify-end items-center'>
+                    <div className='col-span-12 mo:col-span-4 flex justify-end items-center'>
                       <div className=' mt-2 mo:mt-0 w-full'>
                         <div className='text-base text-right uppercase text-mainStrong'>
                           {statusLabels[(item?.bookingStatus as keyof typeof statusLabels) || BookingStatus.PENDING]}
