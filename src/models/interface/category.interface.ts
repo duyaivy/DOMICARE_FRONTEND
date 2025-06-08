@@ -28,4 +28,7 @@ export interface CategoryRequest {
 export interface CategoryListConfig {
   page?: number
   size?: number
+  searchName?: string
+  sortBy?: string
+  sortDirection?: 'asc' | 'desc'
 }

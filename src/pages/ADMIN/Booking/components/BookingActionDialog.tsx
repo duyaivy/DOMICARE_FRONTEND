@@ -80,7 +80,7 @@ export function BookingActionDialog({ currentRow, open, onOpenChange }: Props) {
         isPeriodic: isEqual(currentRow.isPeriodic, 'true') ? true : false
       }
       await updateBookingMutation.mutateAsync(dataApi as BookingUpdateRequest)
-      queryClient.invalidateQueries({ queryKey: [path.admin.report, queryString] })
+      queryClient.invalidateQueries({ queryKey: [path.admin.booking, queryString] })
     } catch (error) {
       console.error(error)
     } finally {
@@ -251,13 +251,7 @@ export function BookingActionDialog({ currentRow, open, onOpenChange }: Props) {
                     render={({ field }) => (
                       <FormItem className='w-1/2'>
                         <FormLabel>Trạng thái</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          disabled={
-                            isEqual(field.value, BookingStatus.SUCCESS) || isEqual(field.value, BookingStatus.FAILED)
-                          }
-                        >
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder='Chọn trạng thái' />

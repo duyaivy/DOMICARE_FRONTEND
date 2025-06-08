@@ -23,6 +23,7 @@ import { isEqual } from 'lodash'
 import { useLoginMutation } from '@/core/queries/auth.query'
 import { authApi } from '@/core/services/auth.service'
 import { handleErrorAPI } from '@/utils/handleErrorAPI'
+import SentEmail from '../register/SentEmail'
 export default function Login() {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const REMEMBER = localStorage.getItem(REMEMBER_ME)
@@ -51,7 +52,6 @@ export default function Login() {
     setRememberMe(event)
     localStorage.setItem(REMEMBER_ME, JSON.stringify(event))
   }
-
   useEffect(() => {
     const email = form.getValues('email')
     if (rememberMe) {
@@ -137,13 +137,11 @@ export default function Login() {
                     className='accent-[green] w-4 h-4'
                   />
 
-                  <Label htmlFor='terms' className=' text-sub2  text-gray-500 cursor-pointer'>
+                  <Label htmlFor='terms' className=' text-sub2 text-base text-gray-500 cursor-pointer'>
                     Lưu thông tin
                   </Label>
                 </div>
-                <Link to={path.forgotPassword} className='text-main text-sub2 hover:underline'>
-                  Quên mật khẩu
-                </Link>
+                <SentEmail type='reset-password' />
               </div>
 
               <Button

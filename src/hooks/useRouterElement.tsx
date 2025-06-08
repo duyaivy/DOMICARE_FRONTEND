@@ -5,7 +5,7 @@ import { path } from '@/core/constants/path'
 import CustomerLayout from '@/app/layout/CustomerLayout'
 import Login from '@/pages/ALL/login'
 import Register from '@/pages/ALL/register'
-import Dashboard from '@/pages/ADMIN/dashboard/Dashboard'
+import Dashboard from '@/pages/ADMIN/Dashboard/Dashboard'
 import PageNotFound from '@/pages/ALL/404/PageNotFound'
 import { AppContext } from '@/core/contexts/app.context'
 import Products from '@/pages/ALL/Products'
@@ -26,9 +26,10 @@ import UserLayout from '@/pages/USER/Layouts'
 import ChangePassword from '@/pages/USER/Pages/ChangePassword'
 import History from '@/pages/USER/Pages/History'
 import AnimatedOutlet from '@/components/AnimatedOutlet'
-import Report from '@/pages/ADMIN/Report'
+import Booking from '@/pages/ADMIN/Booking'
 import Post from '@/pages/ADMIN/Manage/Post.manage/Post'
 import Settings from '@/pages/USER/Pages/Settings'
+import ComingSoon from '@/pages/ADMIN/CommingSoon/CommingSoon'
 
 interface RouteConfig {
   path: string
@@ -85,7 +86,14 @@ export default function useRoutesElements() {
             </CustomerLayout>
           )
         },
-
+        {
+          path: path.coming_soon,
+          element: (
+            <CustomerLayout>
+              <ComingSoon />
+            </CustomerLayout>
+          )
+        },
         {
           path: path.products,
           element: (
@@ -153,8 +161,12 @@ export default function useRoutesElements() {
               element: <Dashboard />
             },
             {
-              path: path.admin.report,
-              element: <Report />
+              path: path.admin.coming_soon,
+              element: <ComingSoon />
+            },
+            {
+              path: path.admin.booking,
+              element: <Booking />
             },
             {
               path: path.admin._setting,

@@ -33,16 +33,17 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     {
       accessorKey: 'id',
       header: 'ID',
+      meta: {
+        displayName: 'Mã dịch vụ'
+      },
       cell: ({ row }) => <div>#{row.getValue('id')}</div>,
       enableHiding: false
     },
     {
       accessorKey: 'name',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Tên dịch vụ' />,
-      cell: ({ row }) => (
-        <div className='w-fit  text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('name')}</div>
-      ),
       meta: {
+        displayName: 'Tên dịch vụ',
         className: cn(
           'sticky lg:relative left-0 md:table-cell',
           'bg-white lg:bg-inherit',
@@ -52,14 +53,20 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
           'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)] lg:drop-shadow-none'
         )
       },
-      enableSorting: false
+      cell: ({ row }) => (
+        <div className='w-fit  text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('name')}</div>
+      ),
+      enableSorting: true,
+      enableGlobalFilter: true
     },
     {
       accessorKey: 'categoryMini',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Danh mục' />,
+      meta: {
+        displayName: 'Danh mục'
+      },
       cell: ({ row }) => {
         const categoryMini: CategoryMini = row.getValue('categoryMini')
-
         return <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{categoryMini?.name}</div>
       },
       enableSorting: false
@@ -67,6 +74,9 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     {
       accessorKey: 'price',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Giá gốc' />,
+      meta: {
+        displayName: 'Giá gốc'
+      },
       cell: ({ row }) => {
         const price = row.getValue('price') as number
         return <div>{price ? `${formatCurrentcy(price)} VND` : '--'}</div>
@@ -75,6 +85,9 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     {
       accessorKey: 'discount',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Giảm giá (%)' />,
+      meta: {
+        displayName: 'Giảm giá'
+      },
       cell: ({ row }) => {
         const discount = row.getValue('discount') as number
         return <div className='text-center'>{discount != null ? `${discount}%` : '--'}</div>
@@ -84,6 +97,9 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     {
       accessorKey: 'priceAfterDiscount',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Giá sau giảm' />,
+      meta: {
+        displayName: 'Giá sau giảm'
+      },
       cell: ({ row }) => {
         const priceAfter = row.getValue('priceAfterDiscount') as number
         return <div>{priceAfter ? `${formatCurrentcy(priceAfter)} VND` : '--'}</div>
@@ -92,6 +108,10 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     {
       accessorKey: 'ratingStar',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Đánh giá' />,
+      meta: {
+        displayName: 'Đánh giá',
+        sortKey: 'overalRating'
+      },
       cell: ({ row }) => {
         const rating = row.getValue('ratingStar') as number
         return <div className='text-center'>{rating != null ? rating : '--'}</div>
@@ -100,6 +120,9 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     {
       accessorKey: 'createAt',
       header: () => <div className='text-center capitalize'>Ngày tạo</div>,
+      meta: {
+        displayName: 'Ngày tạo'
+      },
       cell: ({ row }) => {
         const date = row.getValue('createAt') as string
         return <div className='text-center'>{date ? new Date(date).toLocaleDateString() : '--'}</div>
@@ -109,6 +132,9 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     {
       accessorKey: 'updateAt',
       header: () => <div className='text-center capitalize'>Cập nhật lần cuối</div>,
+      meta: {
+        displayName: 'Cập nhật lần cuối'
+      },
       cell: ({ row }) => {
         const date = row.getValue('updateAt') as string
         return <div className='text-center'>{date ? new Date(date).toLocaleDateString() : '-'}</div>

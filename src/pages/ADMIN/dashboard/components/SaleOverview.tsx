@@ -31,7 +31,6 @@ export function SaleOverview({ queryString }: SaleOverviewProps) {
             <>
               {[1, 2, 3, 4].map((index) => (
                 <div className='flex items-center' key={index}>
-                  <Skeleton className='!size-8 rounded-full' />
                   <div className='ml-4 w-full space-y-2'>
                     <Skeleton className='h-5 w-full' />
                     <Skeleton className='h-5 w-1/2' />
@@ -55,13 +54,15 @@ export function SaleOverview({ queryString }: SaleOverviewProps) {
                   <AvatarImage src={sale?.avatar} alt='Avatar' />
                   <AvatarFallback>{sale?.name?.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <div className='ml-4 space-y-1'>
-                  <p className='text-sm font-medium leading-none'>{sale.name}</p>
-                  <p className='text-sm text-muted-foreground'>{sale.email}</p>
+                <div className='ml-4 space-y-1 min-w-0 flex-1'>
+                  <p className='text-sm font-medium leading-none truncate'>{sale.name}</p>
+                  <p className='text-sm text-muted-foreground truncate'>{sale.email}</p>
                 </div>
-                <div className='ml-auto font-medium'>
-                  <p className='text-sm font-medium text-right'>{formatCurrentcy(sale?.totalSalePrice || 0)} VND</p>
-                  <p className='text-sm text-muted-foreground text-right'>
+                <div className='ml-4 font-medium shrink-0'>
+                  <p className='text-sm font-medium text-right whitespace-nowrap'>
+                    {formatCurrentcy(sale?.totalSalePrice || 0)} VND
+                  </p>
+                  <p className='text-sm text-muted-foreground text-right whitespace-nowrap'>
                     Tỉ lệ: {sale?.totalSuccessBookingPercent ? Number(sale.totalSuccessBookingPercent).toFixed(2) : 0}%
                   </p>
                 </div>

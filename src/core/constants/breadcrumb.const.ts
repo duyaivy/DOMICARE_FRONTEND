@@ -5,12 +5,12 @@ export const BreadcrumbConfig = {
     label: 'Quản lý',
     href: path.admin.dashboard
   },
-  report: {
-    label: 'Báo cáo & thống kê',
-    href: path.admin.report
+  booking: {
+    label: 'Quản lý đơn đặt hàng',
+    href: path.admin.booking
   },
   dashboard: {
-    label: 'Bảng điều khiển',
+    label: 'Báo cáo & thống kê',
     href: path.admin.dashboard
   },
   user: {

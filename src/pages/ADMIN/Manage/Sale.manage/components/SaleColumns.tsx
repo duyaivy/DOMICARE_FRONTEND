@@ -33,16 +33,18 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     {
       accessorKey: 'id',
       header: 'ID',
+      meta: {
+        displayName: 'Mã nhân viên'
+      },
       cell: ({ row }) => <div>#{row.getValue('id')}</div>,
       enableHiding: false
     },
     {
       accessorKey: 'name',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Tên' />,
-      cell: ({ row }) => (
-        <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('name') || '--'}</div>
-      ),
       meta: {
+        displayName: 'Tên',
+        sortKey: 'name',
         className: cn(
           'sticky lg:relative left-0 md:table-cell',
           'bg-white lg:bg-inherit',
@@ -52,19 +54,31 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
           'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)] lg:drop-shadow-none'
         )
       },
-      enableSorting: true
+      cell: ({ row }) => (
+        <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('name') || '--'}</div>
+      ),
+      enableSorting: true,
+      enableGlobalFilter: true
     },
     {
       accessorKey: 'email',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Email' />,
+      meta: {
+        displayName: 'Email',
+        sortKey: 'email'
+      },
       cell: ({ row }) => (
         <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('email')}</div>
       ),
-      enableSorting: false
+      enableSorting: true,
+      enableGlobalFilter: true
     },
     {
       accessorKey: 'phone',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Số điện thoại' />,
+      meta: {
+        displayName: 'Số điện thoại'
+      },
       cell: ({ row }) => (
         <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('phone') || '--'}</div>
       ),
@@ -73,6 +87,9 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     {
       accessorKey: 'address',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Địa chỉ' />,
+      meta: {
+        displayName: 'Địa chỉ'
+      },
       cell: ({ row }) => (
         <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('address') || '--'}</div>
       ),
@@ -81,6 +98,9 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     {
       accessorKey: 'gender',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Giới tính' />,
+      meta: {
+        displayName: 'Giới tính'
+      },
       cell: ({ row }) => {
         const gender = row.getValue('gender') as string
         return <div className='text-center'>{gender || '--'}</div>
@@ -90,6 +110,9 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     {
       accessorKey: 'isActive',
       header: () => <div className='text-center capitalize w-full'>Trạng thái</div>,
+      meta: {
+        displayName: 'Trạng thái'
+      },
       cell: ({ row }) => {
         const isActive = row.getValue('isActive') as boolean
         return (
@@ -103,15 +126,20 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     {
       accessorKey: 'saleTotalBookings',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Tổng tư vấn' />,
+      meta: {
+        displayName: 'Tổng tư vấn'
+      },
       cell: ({ row }) => {
         return <div className='text-center'>{row.getValue('saleTotalBookings')}</div>
       },
       enableSorting: true
     },
-
     {
       accessorKey: 'saleSuccessPercent',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Tỷ lệ thành công' />,
+      meta: {
+        displayName: 'Tỷ lệ thành công'
+      },
       cell: ({ row }) => {
         const rate = row.getValue('saleSuccessPercent') as number
         return <div className='text-center'>{rate ? `${toFixedNumber(rate)}%` : '--'}</div>
@@ -121,6 +149,9 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     {
       accessorKey: 'updateAt',
       header: () => <div className='text-center capitalize'>Cập nhật lần cuối</div>,
+      meta: {
+        displayName: 'Cập nhật lần cuối'
+      },
       cell: ({ row }) => {
         const date = row.getValue('updateAt') as string
         return <div className='text-center'>{date ? new Date(date).toLocaleDateString() : '--'}</div>

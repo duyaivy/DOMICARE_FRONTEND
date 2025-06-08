@@ -35,7 +35,8 @@ function CategoryContent() {
             ButtonAction={<CategoryButtonAction />}
             columns={columns}
             data={categoryList || []}
-            filterColumn='name'
+            searchKey='searchName'
+            searchPlaceholder='Tìm kiếm theo tên danh mục'
             DataTablePagination={
               <DataTablePagination
                 pageController={pageController}

@@ -33,14 +33,17 @@ export const useCategoryColumns = (): ColumnDef<Category>[] => {
     {
       accessorKey: 'id',
       header: 'ID',
+      meta: {
+        displayName: 'Mã danh mục'
+      },
       cell: ({ row }) => <div>#{row.getValue('id')}</div>,
       enableHiding: false
     },
     {
       accessorKey: 'name',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Tên danh mục' />,
-      cell: ({ row }) => <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('name')}</div>,
       meta: {
+        displayName: 'Tên danh mục',
         className: cn(
           'sticky lg:relative left-0 md:table-cell',
           'bg-white lg:bg-inherit',
@@ -50,23 +53,28 @@ export const useCategoryColumns = (): ColumnDef<Category>[] => {
           'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)] lg:drop-shadow-none'
         )
       },
+      cell: ({ row }) => <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('name')}</div>,
       enableHiding: true,
       enableSorting: false
     },
     {
       accessorKey: 'products',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Số sản phẩm' />,
+      meta: {
+        displayName: 'Số sản phẩm',
+        className: cn('flex justify-center')
+      },
       cell: ({ row }) => {
         const length = (row.getValue('products') as Product[]).length
         return <div className=' text-center'>{length}</div>
-      },
-      meta: {
-        className: cn('flex justify-center')
       }
     },
     {
       accessorKey: 'createAt',
       header: () => <div className='text-center capitalize'>Ngày tạo</div>,
+      meta: {
+        displayName: 'Ngày tạo'
+      },
       cell: ({ row }) => {
         const date = row.getValue('createAt') as string
         return <div className='text-center'>{date ? new Date(date).toLocaleDateString() : '--'}</div>
@@ -76,6 +84,9 @@ export const useCategoryColumns = (): ColumnDef<Category>[] => {
     {
       accessorKey: 'updateAt',
       header: () => <div className='text-center capitalize'>Cập nhật lần cuối</div>,
+      meta: {
+        displayName: 'Cập nhật lần cuối'
+      },
       cell: ({ row }) => {
         const date = row.getValue('updateAt') as string
         return <div className='text-center'>{date ? new Date(date).toLocaleDateString() : '-'}</div>

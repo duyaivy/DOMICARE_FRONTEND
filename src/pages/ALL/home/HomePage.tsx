@@ -1,6 +1,3 @@
-import IconFace from '@/assets/icons/icon-face'
-import IconPeople from '@/assets/icons/icon-people'
-import IconSave from '@/assets/icons/icon-save'
 import { Person, pic7 } from '@/assets/images'
 import CardItem from '@/components/CardItem'
 import Company from './Company'
@@ -10,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { IconGood } from '@/assets/icons/icon-good'
 import { IconQuickly } from '@/assets/icons/icon-quickly'
 import { IconStaff } from '@/assets/icons/icon-staff'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { path } from '@/core/constants/path'
 
 import Comment from '@/components/Comment'
@@ -20,9 +17,15 @@ import { useContext } from 'react'
 import { AppContext } from '@/core/contexts/app.context'
 import SectionBgGreen from '@/components/SectionBgGreen/SectionBgGreen'
 import SectionBgWhite from '@/components/SectionBgWhite/SectionBgWhite'
+import CountUp from 'react-countup'
+import { Clock, Smile, Users } from 'lucide-react'
 
 const HomePage = () => {
   const { categories } = useContext(AppContext)
+  const navigate = useNavigate()
+  const handleBooking = () => {
+    navigate({ pathname: path.products })
+  }
   return (
     <div className='w-full min-h-96 bg-secondary'>
       <div
@@ -46,9 +49,15 @@ const HomePage = () => {
           </p>
 
           <div className='w-full mo:w-auto flex flex-col mo:flex-row justify-between items-center gap-3 mt-10 mb-3 mo:gap-10'>
-            <CardItem icon={<IconSave />} sub='Giờ làm / năm' title='600+' />{' '}
-            <CardItem icon={<IconPeople />} sub='Người theo dõi' title='11K+' />
-            <CardItem icon={<IconFace />} sub='Khách hàng hài lòng' title='95%' />
+            <CardItem icon={<Clock />} sub='Giờ làm / năm'>
+              <CountUp end={600} start={0} suffix={'+'} duration={6} />
+            </CardItem>
+            <CardItem icon={<Users />} sub='Người theo dõi'>
+              <CountUp end={11} start={0} suffix={'K'} prefix='+' duration={6} />
+            </CardItem>
+            <CardItem icon={<Smile />} sub='Khách hàng hài lòng'>
+              <CountUp end={99} start={0} suffix='%' duration={6} />
+            </CardItem>
           </div>
         </div>
       </SectionBgWhite>
@@ -71,7 +80,10 @@ const HomePage = () => {
           />
         </div>
         <div className='flex justify-center my-5'>
-          <Button className=' text-white text-xl  px-8 rounded-md py-6 bg-main hover:bg-main/80 transition duration-300 cursor-pointer'>
+          <Button
+            onClick={handleBooking}
+            className=' text-white text-xl  px-8 rounded-md py-6 bg-main hover:bg-main/80 transition duration-300 cursor-pointer'
+          >
             Đặt dịch vụ ngay
           </Button>
         </div>
