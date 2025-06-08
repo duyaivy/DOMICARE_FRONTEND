@@ -14,7 +14,10 @@ export function useUserQueryConfig(role: ROLE_TYPE) {
     {
       page: queryString.page || 1,
       size: queryString.size || 10,
-      searchRoleName: queryString.searchRoleName || role
+      searchRoleName: queryString.searchRoleName || role,
+      sortBy: queryString.sortBy,
+      searchName: queryString.searchName,
+      sortDirection: queryString.sortDirection
     },
     isUndefined
   )

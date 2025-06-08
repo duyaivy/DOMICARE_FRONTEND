@@ -29,7 +29,7 @@ export function RevenueOverviewChart() {
         {isLoading ? (
           <div className='space-y-4'>
             <div className='px-5'>
-              <Skeleton className='h-72 md:h-[500px] w-full ' />
+              <Skeleton className='h-80  w-full ' />
             </div>
 
             <div className='flex justify-between items-center px-6'>

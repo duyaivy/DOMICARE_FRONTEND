@@ -35,7 +35,7 @@ function ProductContent() {
             ButtonAction={<ProductButtonAction />}
             columns={columns}
             data={prdList || []}
-            filterColumn='name'
+            searchKey='searchName'
             DataTablePagination={
               <DataTablePagination
                 pageController={pageController}

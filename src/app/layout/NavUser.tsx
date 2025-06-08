@@ -62,7 +62,7 @@ export function NavUser({ user }: { user?: User }) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <Link to={path.admin.dashboard}>
+              <Link to={path.admin.coming_soon}>
                 <DropdownMenuItem>
                   <Sparkles />
                   Nâng cấp hệ thống
@@ -71,13 +71,13 @@ export function NavUser({ user }: { user?: User }) {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <Link to={path.admin.manage.user}>
+              <Link to={path.admin.setting.profile}>
                 <DropdownMenuItem>
                   <BadgeCheck />
-                  Tài khoản
+                  Cá nhân
                 </DropdownMenuItem>
               </Link>
-              <Link to={path.admin.dashboard}>
+              <Link to={path.admin.coming_soon}>
                 <DropdownMenuItem>
                   <Bell />
                   Thông báo
@@ -85,12 +85,10 @@ export function NavUser({ user }: { user?: User }) {
               </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <button onClick={handleLogout}>
-              <DropdownMenuItem>
-                <LogOut />
-                Đăng xuất
-              </DropdownMenuItem>
-            </button>
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut />
+              Đăng xuất
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

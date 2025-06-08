@@ -5,7 +5,7 @@ import { UseFormReturn } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
 import { path } from '../constants/path'
-import { handleErrorAPI } from '@/utils/handleErrorAPI'
+import { handleErrorAPI, handleToastError } from '@/utils/handleErrorAPI'
 import { Toast } from '@/utils/toastMessage'
 import { clearLS, setAccessTokenToLS, setRefreshTokenToLS, setUserToLS } from '../shared/storage'
 import { User } from '@/models/interface/user.interface'
@@ -41,17 +41,37 @@ export const useLoginMutation = <TVariables>({ mutationFn, handleError }: useLog
 //re-sent email
 export const useSentMailMutation = (form: UseFormReturn<any>) => {
   const navigate = useNavigate()
+  const email = form.getValues('email')
   return useMutation({
     mutationKey: ['sentEmail'],
-    mutationFn: () => authApi.sentEmailAuth({ email: form.getValues('email') }),
+    mutationFn: () => authApi.sentEmailAuth({ email: email }),
     onSuccess: () => {
       Toast.success({
         title: 'Thành công vui lòng xác thực email.',
-        description: `Email xác nhận đã được gửi tới ${form.getValues('email')}, vui lòng kiểm tra Spam hoặc Thư rác.`
+        description: `Email xác nhận đã được gửi tới ${email}, vui lòng kiểm tra Spam hoặc Thư rác.`
       })
       navigate(path.login)
     },
     onError: (error) => handleErrorAPI(error, form)
+  })
+}
+// reset pass
+
+//re-sent email
+export const useResetPWMutation = (form: UseFormReturn<any>) => {
+  const navigate = useNavigate()
+  const email = form.getValues('email')
+  return useMutation({
+    mutationKey: ['resetPass'],
+    mutationFn: () => authApi.resetPassword({ email: email }),
+    onSuccess: () => {
+      Toast.success({
+        title: 'Thành công',
+        description: `Email yêu cầu đăt lại mật khẩu đã được gửi tới ${email}, vui long kiểm tra hòm thư của bạn.`
+      })
+      navigate(path.login)
+    },
+    onError: (error) => handleToastError(error)
   })
 }
 
@@ -65,6 +85,19 @@ export const useRegisterMutation = ({ handleError }: { handleError?: (error: Axi
       Toast.success({
         title: 'Thành công',
         description: 'Đăng kí tài khoản thành công. Vui lòng kiểm tra Mail của bạn.'
+      })
+    },
+    onError: handleError
+  })
+}
+export const useResetPassWMutation = ({ handleError }: { handleError?: (error: AxiosError) => void }) => {
+  return useMutation({
+    mutationKey: mutationKeys.register,
+    mutationFn: authApi.register,
+    onSuccess: () => {
+      Toast.success({
+        title: 'Thành công',
+        description: 'Yêu cầu đặt lại mật khẩu thành công. Vui lòng kiểm tra Mail của bạn.'
       })
     },
     onError: handleError

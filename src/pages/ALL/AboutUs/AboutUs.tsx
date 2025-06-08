@@ -7,8 +7,9 @@ import { path } from '@/core/constants/path'
 import Comment from '@/components/Comment'
 import FeatureCard from '@/components/FeatureCard'
 
-import { IconRedTick } from '@/assets/icons/icon-redTick'
-import { IconClear, IconClear2, IconClear3, IconClear4, IconClear5, IconClear6 } from '@/assets/icons/icon-clears'
+import SectionBgGreen from '@/components/SectionBgGreen'
+
+import { services, features } from '@/core/constants/UI.const'
 
 export default function AboutUs() {
   return (
@@ -45,30 +46,15 @@ export default function AboutUs() {
             </p>
           </div>
           <div className='grid grid-cols-12 gap-5 mx-10 md:mx-4 mt-4 md:mt-8'>
-            <FeatureCard
-              classNameContainer='col-span-12 md:col-span-3 '
-              icon={<IconRedTick />}
-              title='Dịch vụ đáng tin cậy'
-              description='Chúng tôi tự hào về dịch vụ toàn diện, đáng tin cậy 1 kèm 1 mà chúng tôi làm cho tất cả khách hàng của mình.'
-            />
-            <FeatureCard
-              classNameContainer='col-span-12 md:col-span-3 '
-              icon={<IconRedTick />}
-              title='Đảm bảo chất lượng'
-              description='Hệ thống của chúng tôi theo dõi các hoạt động làm sạch với một đầu mối liên hệ để duy trì các tiêu chuẩn của bạn.'
-            />
-            <FeatureCard
-              classNameContainer='col-span-12 md:col-span-3 '
-              icon={<IconRedTick />}
-              title='Đối tác đáng tin cậy'
-              description='Chúng tôi cam kết xây dựng mối quan hệ lâu dài.'
-            />
-            <FeatureCard
-              classNameContainer='col-span-12 md:col-span-3 '
-              icon={<IconRedTick />}
-              title='Giải pháp đáng tin cậy'
-              description='Các chương trình linh hoạt được thiết kế để đáp ứng nhu cầu của một số ngành và doanh nghiệp lớn hoặc nhỏ.'
-            />
+            {features.map((feature, index) => (
+              <FeatureCard
+                key={index}
+                classNameContainer='col-span-12 md:col-span-3'
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -91,73 +77,37 @@ export default function AboutUs() {
               <p className='text-main font-semibold'>Chuyên gia</p> vệ sinh
             </h2>
             <div className='grid  grid-cols-12 grid-rows-2 gap-6'>
-              <div className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'>
-                <FeatureCard
-                  classNameContainer='pt-4'
-                  textClassname=' text-greenStrong font-bold '
-                  icon={<IconClear />}
-                  title='Các chương trình làm sạch phù hợp'
-                />
-              </div>
-
-              <div className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'>
-                <FeatureCard
-                  textClassname=' text-greenStrong font-bold'
-                  classNameContainer='pt-4'
-                  icon={<IconClear2 />}
-                  title='Thiết bị hiện đại'
-                />
-              </div>
-              <div className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'>
-                <FeatureCard
-                  classNameContainer='pt-4'
-                  textClassname=' text-greenStrong font-bold'
-                  icon={<IconClear3 />}
-                  title='Dịch vụ khách hàng & Hệ thống báo cáo'
-                />
-              </div>
-              <div className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'>
-                <FeatureCard
-                  textClassname=' text-greenStrong font-bold'
-                  classNameContainer='pt-4'
-                  icon={<IconClear4 />}
-                  title='Được cấp phép'
-                />
-              </div>
-              <div className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'>
-                <FeatureCard
-                  textClassname=' text-greenStrong font-bold'
-                  classNameContainer='pt-4'
-                  icon={<IconClear5 />}
-                  title='Nhân viên được đào tạo chuyên nghiệp'
-                />
-              </div>
-              <div className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'>
-                <FeatureCard
-                  textClassname=' text-greenStrong font-bold'
-                  classNameContainer='pt-4'
-                  icon={<IconClear6 />}
-                  title='Chương trình khử trùng toàn diện'
-                />
-              </div>
+              {services.map((service, index) => (
+                <div
+                  key={index}
+                  className='col-span-6 md:col-span-4 rounded-sm shadow bg-yellowBg hover:translate-y-[-5px] duration-300 cursor-default'
+                >
+                  <FeatureCard
+                    classNameContainer='pt-4'
+                    textClassname=' text-greenStrong font-bold'
+                    icon={service.icon}
+                    title={service.title}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
       {/* comments */}
-      <section className='bg-bg md:min-h-[600px] min-h-[300px] flex items-center'>
-        <div className='max-w-7xl mx-auto p-4'>
-          <div className='flex flex-col justify-between items-center '>
-            <h2 className='text-head text-black text-center py-5 my-4 font-semibold'>
-              Phản hồi của khách hàng về Chúng tôi
-            </h2>
 
-            <SecctionInView>
-              <Comment />
-            </SecctionInView>
-          </div>
+      <SectionBgGreen className='my-5'>
+        <div className='flex flex-col justify-between items-center '>
+          <h2 className='text-head text-black text-center py-5 font-semibold flex flex-col sm:flex-row gap-2 cursor-default mb-4 md:mb-10'>
+            Phản hồi của khách hàng về Chúng tôi
+          </h2>
         </div>
-      </section>
+        <SecctionInView>
+          <div className='w-full flex justify-center'>
+            <Comment />
+          </div>
+        </SecctionInView>
+      </SectionBgGreen>
       <section className='bg-white min-h-80 flex items-center'>
         <div className='max-w-7xl mx-auto p-4'>
           <h2 className='text-head text-black text-center py-5 font-semibold flex-wrap flex justify-center gap-2 cursor-default mb-4 md:mb-10'>
@@ -178,7 +128,7 @@ export default function AboutUs() {
                   Còn chần chờ gì nữa hãy sử dụng dịch vụ của chúng tôi ngay đi nào !
                 </h2>
                 <Link
-                  to={path.buy}
+                  to={path.products}
                   className='bg-main font-semibold rounded-sm text-center border duration-300 hover:bg-main/80 capitalize text-white text-lg cursor-pointer w-[60%] mo:w-[40%] py-2.5 md:py-4'
                 >
                   Đặt dịch vụ ngay

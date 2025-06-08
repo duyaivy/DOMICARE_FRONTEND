@@ -12,7 +12,10 @@ export const useCateQueryConfig = () => {
   const queryConfig: QueryCateConfig = omitBy(
     {
       page: queryString.page || 1,
-      size: queryString.size || 10
+      size: queryString.size || 10,
+      sortBy: queryString.sortBy,
+      searchName: queryString.searchName,
+      sortDirection: queryString.sortDirection
     },
     isUndefined
   )

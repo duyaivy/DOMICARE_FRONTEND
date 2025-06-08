@@ -9,7 +9,6 @@ import {
   CommandList,
   CommandSeparator
 } from '@/components/ui/command'
-import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
 import { bookingStatusList } from '@/configs/consts'
@@ -19,33 +18,19 @@ import { useBookingQueryConfig } from '@/hooks/useBookingQueryConfig'
 import { BookingStatus } from '@/models/interface/booking.interface'
 import { isEqual, omit } from 'lodash'
 
-import { CheckIcon, PlusCircle, Search, XCircle } from 'lucide-react'
-import { useState } from 'react'
+import { CheckIcon, PlusCircle, XCircle } from 'lucide-react'
+
 import { createSearchParams, useNavigate } from 'react-router-dom'
 
 export function BookingButtonAction() {
   const queryString = useBookingQueryConfig({})
-  const { bookingStatus, searchName } = queryString
-  const [values, setValue] = useState<string>(searchName || '')
+  const { bookingStatus } = queryString
 
   const navigate = useNavigate()
-  const onSearch = () => {
-    navigate({
-      pathname: path.admin.report,
-      search: createSearchParams(
-        omit(
-          {
-            ...queryString,
-            searchName: values
-          },
-          ['bookingStatus']
-        )
-      ).toString()
-    })
-  }
+
   const handleRemoveSearch = () =>
     navigate({
-      pathname: path.admin.report,
+      pathname: path.admin.booking,
       search: createSearchParams(
         omit(
           {
@@ -57,7 +42,7 @@ export function BookingButtonAction() {
     })
   const handleSearchStatus = (status: BookingStatus) => {
     navigate({
-      pathname: path.admin.report,
+      pathname: path.admin.booking,
       search: createSearchParams({
         ...queryString,
         bookingStatus: status
@@ -65,17 +50,7 @@ export function BookingButtonAction() {
     })
   }
   return (
-    <div className='flex items-center py-3 gap-2 flex-col md:flex-row'>
-      <Input
-        placeholder={`Tìm kiếm khách hàng`}
-        type='text'
-        value={values}
-        onChange={(event) => setValue(event.target.value)}
-        className='w-full md:w-auto block'
-        classNameInput={'w-full md:w-auto '}
-        icon={<Search />}
-        iconOnClick={onSearch}
-      />
+    <div className='flex items-cente gap-2 flex-col md:flex-row'>
       <div className='flex w-full justify-between'>
         <div className='flex items-center gap-2'>
           <Popover>

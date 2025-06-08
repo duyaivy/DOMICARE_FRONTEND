@@ -26,24 +26,36 @@ import { cloneElement, ReactElement, ReactNode, useState } from 'react'
 import { noPrdImg } from '@/assets/images'
 import { DataTablePaginationProps } from './DataTablePagination'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { DataTableSearch } from './DataTableSearch'
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
-    className: string
+    className?: string
+    displayName?: string
+    sortKey?: string
   }
 }
-interface DataTableProps<T> {
-  data: T[]
-  columns: ColumnDef<T>[]
-  filterColumn?: keyof T
-  fillterName?: string
+
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
+  name?: string
+  searchKey?: string
+  searchPlaceholder?: string
   isBooking?: boolean
   ButtonAction?: ReactNode
-  DataTablePagination?: ReactElement<DataTablePaginationProps<any, T>>
+  DataTablePagination?: ReactElement<DataTablePaginationProps<any, TData>>
 }
 
-export function DataTable<T>({ data, columns, filterColumn, ButtonAction, DataTablePagination }: DataTableProps<T>) {
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  searchKey,
+  searchPlaceholder,
+  ButtonAction,
+  DataTablePagination
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -59,7 +71,9 @@ export function DataTable<T>({ data, columns, filterColumn, ButtonAction, DataTa
     const searchParams = new URLSearchParams(location.search)
     if (newSortingState.length > 0) {
       const sort = newSortingState[0]
-      searchParams.set('sortBy', sort.id)
+      const column = table.getColumn(sort.id)
+      const sortKey = column?.columnDef.meta?.sortKey || sort.id
+      searchParams.set('sortBy', sortKey)
       searchParams.set('sortDirection', sort.desc ? 'desc' : 'asc')
     } else {
       searchParams.delete('sortBy')
@@ -88,38 +102,42 @@ export function DataTable<T>({ data, columns, filterColumn, ButtonAction, DataTa
     enableFilters: true
   })
 
-  // const isFiltered = table.getState().columnFilters.length > 0
   return (
     <div className='w-full'>
-      {filterColumn && (
-        <div className='flex items-center py-3 gap-2 flex-col md:flex-row'>
-          <div className='flex w-full justify-between'>
-            {ButtonAction}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant='outline' className='ml-auto'>
-                  Hiển thị <ChevronDown />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align='end'>
-                {table
-                  .getAllColumns()
-                  .filter((column) => column.getCanHide())
-                  .map((column) => (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className='capitalize'
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>{' '}
-        </div>
-      )}
+      <div className='flex items-center justify-between py-2'>
+        {searchKey && (
+          <DataTableSearch
+            searchKey={searchKey}
+            placeholder={searchPlaceholder}
+            currentParams={Object.fromEntries(new URLSearchParams(location.search))}
+            pathname={location.pathname}
+          />
+        )}
+        {ButtonAction}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='outline' className='ml-auto'>
+              Hiển thị <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end'>
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  className='capitalize'
+                  checked={column.getIsVisible()}
+                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                >
+                  {column.columnDef.meta?.displayName || column.id}
+                </DropdownMenuCheckboxItem>
+              ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
       <div className='rounded-md overflow-hidden border border-neutral-900'>
         <Table>
           <TableHeader>

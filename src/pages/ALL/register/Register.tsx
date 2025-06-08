@@ -30,7 +30,6 @@ export default function Register() {
     }
   })
   const mutationRegister = useRegisterMutation({ handleError: (error) => handleErrorAPI(error, form) })
-
   const handleRegister = async () => {
     await mutationRegister.mutateAsync(form.getValues())
     navigate(path.login)
@@ -141,10 +140,11 @@ export default function Register() {
                 loading={mutationRegister.isPending}
                 className='w-full text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
                 type='submit'
+                disabled={!isConfirm}
               >
                 Tạo tài khoản
               </Button>
-              <SentEmail />
+              <SentEmail type='verification' />
               <p className='flex items-center justify-center '>
                 Đã có tài khoản?&nbsp;
                 <Link to='/login' className='cursor-pointer  text-main hover:underline '>

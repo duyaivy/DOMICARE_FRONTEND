@@ -1,4 +1,4 @@
-import ComingSoon from '@/components/ComingSoon/ComingSoon'
+import ComingSoon from '@/components/CommingSoon/ComingSoon'
 export default function Post() {
   return (
     <div className=' w-full justify-center items-center'>

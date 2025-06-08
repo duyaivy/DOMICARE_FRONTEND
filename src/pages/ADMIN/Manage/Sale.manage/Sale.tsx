@@ -71,7 +71,7 @@ function SaleContent() {
             ButtonAction={<UserButtonAction />}
             columns={columns}
             data={userList || []}
-            filterColumn='name'
+            searchKey='searchName'
             DataTablePagination={
               <DataTablePagination
                 pageController={pageController}

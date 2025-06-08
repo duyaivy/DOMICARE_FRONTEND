@@ -46,19 +46,17 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
     {
       accessorKey: 'id',
       header: 'ID',
+      meta: {
+        displayName: 'Mã đơn hàng'
+      },
       cell: ({ row }) => <div>#{row.getValue('id')}</div>,
       enableHiding: false
     },
     {
       accessorKey: 'userDTO',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Khách Hàng' />,
-      cell: ({ row }) => {
-        const name = (row.getValue('userDTO') as User).name
-          ? (row.getValue('userDTO') as User).name
-          : (row.getValue('userDTO') as User).email
-        return <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{name}</div>
-      },
       meta: {
+        displayName: 'Khách hàng',
         className: cn(
           'sticky lg:relative left-0 md:table-cell',
           'bg-white lg:bg-inherit',
@@ -68,11 +66,20 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
           'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)] lg:drop-shadow-none'
         )
       },
-      enableSorting: true
+      cell: ({ row }) => {
+        const name = (row.getValue('userDTO') as User).name
+          ? (row.getValue('userDTO') as User).name
+          : (row.getValue('userDTO') as User).email
+        return <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{name}</div>
+      },
+      enableSorting: false
     },
     {
       accessorKey: 'address',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Địa chỉ' />,
+      meta: {
+        displayName: 'Địa chỉ'
+      },
       cell: ({ row }) => (
         <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('address') || '--'}</div>
       ),
@@ -81,6 +88,9 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
     {
       accessorKey: 'totalPrice',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Tổng tiền' />,
+      meta: {
+        displayName: 'Tổng tiền'
+      },
       cell: ({ row }) => {
         const totalPrice = row.getValue('totalPrice') as number
         return <div className='text-center'>{formatCurrentcy(totalPrice) || '--'}</div>
@@ -90,6 +100,9 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
     {
       accessorKey: 'bookingStatus',
       header: () => <div className='text-center capitalize w-full'>Trạng thái</div>,
+      meta: {
+        displayName: 'Trạng thái'
+      },
       cell: ({ row }) => {
         const status = row.getValue('bookingStatus') as BookingStatus
         return (
@@ -102,10 +115,13 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
     },
     {
       accessorKey: 'products',
-      header: () => <div className='text-center capitalize w-full'>Dịch vụ</div>,
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Dịch vụ' />,
+      meta: {
+        displayName: 'Dịch vụ'
+      },
       cell: ({ row }) => {
         const product = (row.getValue('products') as Product[])[0]
-        return <div className='text-center'>{product.name || '--'}</div>
+        return <div className='text-left'>{product.name || '--'}</div>
       },
       enableSorting: true
     },

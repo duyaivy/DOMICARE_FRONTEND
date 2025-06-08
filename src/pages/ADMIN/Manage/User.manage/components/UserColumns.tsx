@@ -35,16 +35,17 @@ export const useUserColumns = (): ColumnDef<User>[] => {
     {
       accessorKey: 'id',
       header: 'ID',
+      meta: {
+        displayName: 'Mã người dùng'
+      },
       cell: ({ row }) => <div>#{row.getValue('id')}</div>,
       enableHiding: false
     },
     {
       accessorKey: 'name',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Họ tên' />,
-      cell: ({ row }) => (
-        <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('name') || '--'}</div>
-      ),
       meta: {
+        displayName: 'Họ tên',
         className: cn(
           'sticky lg:relative left-0 md:table-cell',
           'bg-white lg:bg-inherit',
@@ -54,19 +55,31 @@ export const useUserColumns = (): ColumnDef<User>[] => {
           'drop-shadow-[0_1px_2px_rgb(0_0_0_/_0.1)] dark:drop-shadow-[0_1px_2px_rgb(255_255_255_/_0.1)] lg:drop-shadow-none'
         )
       },
-      enableSorting: true
+      cell: ({ row }) => (
+        <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('name') || '--'}</div>
+      ),
+      enableSorting: true,
+      enableGlobalFilter: true
     },
     {
       accessorKey: 'email',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Email' />,
+      meta: {
+        displayName: 'Email',
+        sortKey: 'email'
+      },
       cell: ({ row }) => (
         <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('email')}</div>
       ),
-      enableSorting: false
+      enableSorting: true,
+      enableGlobalFilter: true
     },
     {
       accessorKey: 'phone',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Số điện thoại' />,
+      meta: {
+        displayName: 'Số điện thoại'
+      },
       cell: ({ row }) => (
         <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('phone') || '--'}</div>
       ),
@@ -75,6 +88,9 @@ export const useUserColumns = (): ColumnDef<User>[] => {
     {
       accessorKey: 'address',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Địa chỉ' />,
+      meta: {
+        displayName: 'Địa chỉ'
+      },
       cell: ({ row }) => (
         <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('address') || '--'}</div>
       ),
@@ -83,15 +99,21 @@ export const useUserColumns = (): ColumnDef<User>[] => {
     {
       accessorKey: 'gender',
       header: ({ column }) => <DataTableColumnHeader column={column} title='Giới tính' />,
+      meta: {
+        displayName: 'Giới tính'
+      },
       cell: ({ row }) => {
         const gender = row.getValue('gender') as string
-        return <div className='text-center'>{gender || '--'}</div>
+        return <div className='text-center'>{gender || 'OTHER'}</div>
       },
       enableSorting: true
     },
     {
       accessorKey: 'isActive',
       header: () => <div className='text-center capitalize w-full'>Trạng thái</div>,
+      meta: {
+        displayName: 'Trạng thái'
+      },
       cell: ({ row }) => {
         const isActive = row.getValue('isActive') as boolean
         return (
@@ -106,7 +128,10 @@ export const useUserColumns = (): ColumnDef<User>[] => {
     },
     {
       accessorKey: 'userTotalSuccessBookings',
-      header: () => <div className='text-center capitalize w-full'>Đặt thành công</div>,
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Đặt thành công' />,
+      meta: {
+        displayName: 'Đặt thành công'
+      },
       cell: ({ row }) => {
         return <div className='text-center'>{row.getValue('userTotalSuccessBookings')}</div>
       },
@@ -114,7 +139,10 @@ export const useUserColumns = (): ColumnDef<User>[] => {
     },
     {
       accessorKey: 'userTotalFailedBookings',
-      header: () => <div className='text-center capitalize w-full'>Đặt thất bại</div>,
+      header: ({ column }) => <DataTableColumnHeader column={column} title='Đặt thất bại' />,
+      meta: {
+        displayName: 'Đặt thất bại'
+      },
       cell: ({ row }) => {
         return <div className='text-center'>{row.getValue('userTotalFailedBookings')}</div>
       },
@@ -123,6 +151,9 @@ export const useUserColumns = (): ColumnDef<User>[] => {
     {
       accessorKey: 'createAt',
       header: () => <div className='text-center capitalize'>Ngày tạo</div>,
+      meta: {
+        displayName: 'Ngày tạo'
+      },
       cell: ({ row }) => {
         const date = row.getValue('createAt') as string
         return <div className='text-center'>{date ? new Date(date).toLocaleDateString() : '--'}</div>
@@ -132,6 +163,9 @@ export const useUserColumns = (): ColumnDef<User>[] => {
     {
       accessorKey: 'updateAt',
       header: () => <div className='text-center capitalize'>Cập nhật lần cuối</div>,
+      meta: {
+        displayName: 'Cập nhật lần cuối'
+      },
       cell: ({ row }) => {
         const date = row.getValue('updateAt') as string
         return <div className='text-center'>{date ? new Date(date).toLocaleDateString() : '--'}</div>

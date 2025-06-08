@@ -112,7 +112,7 @@ export const useCategoryMutation = <TVariables>({ mutationFn, handleError }: use
 // booking
 export const useBookingQuery = ({ queryString }: { queryString: BookingQueryConfig }) => {
   return useQuery({
-    queryKey: [path.admin.report, queryString],
+    queryKey: [path.admin.booking, queryString],
     queryFn: () => bookingApi.query(queryString as BookingListConfig),
     placeholderData: keepPreviousData,
     staleTime: STATE_TIME

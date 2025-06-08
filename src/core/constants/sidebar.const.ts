@@ -24,9 +24,9 @@ export const getSidebarItems = (): Sidebar => {
   const createSaleOrderUrl = () => {
     const user = getUserFromLocalStorage()
     if (!user?.id) {
-      return path.admin.report
+      return path.admin.booking
     }
-    return `${path.admin.report}?saleId=${user.id}`
+    return `${path.admin.booking}?saleId=${user.id}`
   }
 
   return {
@@ -38,7 +38,7 @@ export const getSidebarItems = (): Sidebar => {
       },
       {
         title: 'Quản lý đơn hàng',
-        url: path.admin.report,
+        url: path.admin.booking,
         icon: LayoutDashboard
       },
       {
@@ -102,7 +102,7 @@ export const getSidebarItems = (): Sidebar => {
       },
       {
         title: 'Tất cả đơn hàng',
-        url: path.admin.report,
+        url: path.admin.booking,
         icon: LayoutDashboard
       },
       {

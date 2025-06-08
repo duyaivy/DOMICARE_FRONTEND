@@ -13,15 +13,15 @@ import { useBookingQuery } from '@/core/queries/product.query'
 import { BookingButtonAction } from './components/BookingButtonAction'
 import { useBookingWebSocket } from '@/hooks/useBookingWebSocket'
 
-export default function Report() {
+export default function Booking() {
   return (
     <BookingProvider>
-      <ReportContent />
+      <BookingContent />
     </BookingProvider>
   )
 }
 
-function ReportContent() {
+function BookingContent() {
   const queryString = useBookingQueryConfig({})
   const { data: bookingsData, isLoading } = useBookingQuery({ queryString })
   const bookingList = bookingsData?.data?.data.data
@@ -29,7 +29,7 @@ function ReportContent() {
   const columns = useBookingColumns()
 
   // realtime webSocket
-  const memoizedQueryKey = [path.admin.report, queryString]
+  const memoizedQueryKey = [path.admin.booking, queryString]
   useBookingWebSocket({ queryKey: memoizedQueryKey })
 
   return (
@@ -66,9 +66,13 @@ function ReportContent() {
           <DataTable
             columns={columns}
             data={bookingList || []}
-            filterColumn='address'
+            searchKey='searchName'
             DataTablePagination={
-              <DataTablePagination pageController={pageController} path={path.admin.report} queryString={queryString} />
+              <DataTablePagination
+                pageController={pageController}
+                path={path.admin.booking}
+                queryString={queryString}
+              />
             }
             ButtonAction={<BookingButtonAction />}
           />

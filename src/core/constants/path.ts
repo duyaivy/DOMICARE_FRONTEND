@@ -7,14 +7,14 @@ export const path = {
   products: '/products',
   product: '/product',
   productDetail: '/product/:id',
-
   blog: '/blog',
-  buy: '/buy',
+  coming_soon: '/coming_soon',
   recuitment: '/recuitment',
   _admin: '/admin',
   admin: {
     dashboard: '/admin/dashboard',
-    report: '/admin/report',
+    coming_soon: '/admin/coming_soon',
+    booking: '/admin/booking',
     _manage: '/admin/manage',
     manage: {
       user: '/admin/manage/user',

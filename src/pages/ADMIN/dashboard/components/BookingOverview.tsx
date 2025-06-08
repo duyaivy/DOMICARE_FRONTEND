@@ -36,7 +36,7 @@ export function BookingOverview({ value, isLoading }: BookingOverviewProps) {
       </CardHeader>
       <CardContent className='flex-1 pb-0'>
         {isLoading ? (
-          <div className='w-auto h-[350px] mo:w-full mo:h-full flex justify-center items-center'>
+          <div className='w-auto h-80 mo:w-full mo:h-full flex justify-center items-center'>
             <Skeleton className='h-full aspect-square max-h-[500px] rounded-full' />
           </div>
         ) : (
