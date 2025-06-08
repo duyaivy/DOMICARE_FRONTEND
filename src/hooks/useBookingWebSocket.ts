@@ -28,11 +28,9 @@ export const useBookingWebSocket = ({ queryKey, isUser = false, userId }: Bookin
       console.log(message)
       const prdName = message.products?.[0]?.name
       queryClient.invalidateQueries({ queryKey: queryKey })
-      queryClient.invalidateQueries({ queryKey: queryKey })
-      // if (refetch) refetch()
       Toast.info({
         title: 'Thông báo',
-        description: `Có sự thay đổi trạng thái cho đơn hàng ${prdName} , vui lòng kiểm tra thông tin của bạn.`
+        description: `Có sự thay đổi trạng thái cho đơn đặt hàng ${prdName} , vui lòng kiểm tra thông tin của bạn.`
       })
     },
     [queryClient, queryKey]
