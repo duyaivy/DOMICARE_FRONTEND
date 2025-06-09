@@ -28,7 +28,6 @@ export const useWebSocket = (config: WebSocketConfig) => {
 
     const client = new Client({
       webSocketFactory: () => new SockJS(config.url),
-      debug: (str) => console.log('[STOMP]', str),
       reconnectDelay: 5000,
       onConnect: () => {
         setIsConnected(true)
