@@ -9,9 +9,11 @@ import { Badge } from '@/components/ui/badge'
 import { ACTIVE_STATUS_USER } from '@/configs/consts'
 import React from 'react'
 import { Slot } from '@radix-ui/react-slot'
+import { useResetPWSaleMutation } from '@/core/queries/auth.query'
 
 export const useUserColumns = (): ColumnDef<User>[] => {
   const { setOpen, setCurrentRow } = useUsers()
+  const resetPasswordMutation = useResetPWSaleMutation()
   return [
     {
       id: 'select',
@@ -183,7 +185,7 @@ export const useUserColumns = (): ColumnDef<User>[] => {
           }}
           onReset={(row) => {
             setCurrentRow(row)
-            console.log('reset pass')
+            resetPasswordMutation.mutate({ email: row?.email })
           }}
           onDelete={(row) => {
             setCurrentRow(row)

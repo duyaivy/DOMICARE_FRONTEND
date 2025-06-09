@@ -17,7 +17,7 @@ export const authApi = {
   register: (params: RegisterType) => {
     return axiosClient.post<SuccessResponse<RegisterReponse>>(API_REGISTER_URL, params)
   },
-  resetPassword: (params: { email: string }) => {
+  resetPassword: (params: { email?: string }) => {
     return axiosClient.get<SuccessResponse<SentEmailResponse>>(API_RESET_PASS_URL, {
       params
     })

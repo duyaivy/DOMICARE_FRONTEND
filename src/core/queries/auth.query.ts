@@ -14,6 +14,7 @@ import { AppContext } from '../contexts/app.context'
 import { SuccessResponse } from '@/models/interface/response.interface'
 import { LoginResponse } from '@/models/interface/auth.interface'
 import { AxiosError, AxiosResponse } from 'axios'
+import { toast } from 'sonner'
 
 // login
 interface useLoginProps<TVariables> {
@@ -55,9 +56,8 @@ export const useSentMailMutation = (form: UseFormReturn<any>) => {
     onError: (error) => handleErrorAPI(error, form)
   })
 }
-// reset pass
 
-//re-sent email
+// reset pass
 export const useResetPWMutation = (form: UseFormReturn<any>) => {
   const navigate = useNavigate()
   const email = form.getValues('email')
@@ -72,6 +72,19 @@ export const useResetPWMutation = (form: UseFormReturn<any>) => {
       navigate(path.login)
     },
     onError: (error) => handleToastError(error)
+  })
+}
+
+export const useResetPWSaleMutation = () => {
+  return useMutation({
+    mutationKey: ['resetPassSale'],
+    mutationFn: async ({ email }: { email?: string }) => {
+      return await toast.promise(authApi.resetPassword({ email }), {
+        loading: 'Đang gửi email đặt lại mật khẩu.',
+        success: (data) => `Email đã được gửi đến ${data.data.data.email}`,
+        error: 'Có lỗi trong quá trình gửi email.'
+      })
+    }
   })
 }
 

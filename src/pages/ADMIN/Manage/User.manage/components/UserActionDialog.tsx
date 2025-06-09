@@ -76,7 +76,7 @@ export function UserActionDialog({ currentRow, open, onOpenChange }: Props) {
   })
 
   const addSaleMutation = useAddSaleMutation({
-    handleError: (error: unknown) => handleError422({ error, form, fieldName: 'email' })
+    handleError: (error: unknown) => handleError422({ error, form, fieldName: 'phone' })
   })
 
   const onSubmit = async (formData: UserForm) => {

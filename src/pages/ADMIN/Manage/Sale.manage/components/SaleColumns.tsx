@@ -7,9 +7,11 @@ import { useUsers } from '@/core/contexts/user.context'
 import { cn } from '@/core/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { toFixedNumber } from '@/core/helpers/calculator'
+import { useResetPWSaleMutation } from '@/core/queries/auth.query'
 
 export const useSaleColumns = (): ColumnDef<User>[] => {
   const { setOpen, setCurrentRow } = useUsers()
+  const resetPasswordMutation = useResetPWSaleMutation()
   return [
     {
       id: 'select',
@@ -96,18 +98,6 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
       enableSorting: false
     },
     {
-      accessorKey: 'gender',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Giới tính' />,
-      meta: {
-        displayName: 'Giới tính'
-      },
-      cell: ({ row }) => {
-        const gender = row.getValue('gender') as string
-        return <div className='text-center'>{gender || '--'}</div>
-      },
-      enableSorting: true
-    },
-    {
       accessorKey: 'isActive',
       header: () => <div className='text-center capitalize w-full'>Trạng thái</div>,
       meta: {
@@ -169,7 +159,7 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
           }}
           onReset={(row) => {
             setCurrentRow(row)
-            console.log('reset pass')
+            resetPasswordMutation.mutate({ email: row?.email })
           }}
           onDelete={(row) => {
             setCurrentRow(row)
