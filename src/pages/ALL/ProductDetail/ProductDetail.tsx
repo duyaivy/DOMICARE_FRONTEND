@@ -35,8 +35,10 @@ import { useBookingMutation, usePrdDetailQuery } from '@/core/queries/product.qu
 import { format } from 'date-fns'
 import { scroller } from 'react-scroll'
 import Helmet from '@/components/Helmet/Helmet'
+import { useTranslation } from 'react-i18next'
 
 export default function ProductDetail() {
+  const { t } = useTranslation(['product', 'common', 'auth'])
   const { pathname } = useLocation()
   const pathString = pathname.split('$d$')
   const id = Number(pathString[pathString.length - 1] || 1)
@@ -83,6 +85,7 @@ export default function ProductDetail() {
       scroller.scrollTo(location, { smooth: true, duration: 1000 })
     }
   }, [location, product])
+
   return (
     <div className='md:pt-25 '>
       {product ? (
@@ -91,7 +94,7 @@ export default function ProductDetail() {
           <section className='bg-linear-to-br from-gray-100 to-slate-50 '>
             <div className='max-w-6xl mx-auto py-10 flex items-center px-4'>
               <h1 className='text-head font-semibold md:mr-12 w-full md:w-1/2 lg:w-2/3 text-center md:text-left'>
-                <span className='text-main font-bold text-justify'>Danh mục:</span> {category?.name}
+                <span className='text-main font-bold text-justify'>{t('common:catalog')}:</span> {category?.name}
               </h1>
               <div className='lg:w-1/3 md:w-1/2 md:block rounded-sm hidden'>
                 <img src={category?.image} alt={category?.name} className='w-full h-auto object-cover' />
@@ -106,7 +109,7 @@ export default function ProductDetail() {
               <div className='col-span-1 md:col-span-8'>
                 <SectionInView className='w-full h-full flex-col flex justify-center md:px-20'>
                   <h2 className='text-head font-semibold self-center text-center  md:text-left py-4'>
-                    <span className='text-main font-bold text-justify mr-2'>Dịch vụ:</span>
+                    <span className='text-main font-bold text-justify mr-2'>{t('common:service')}:</span>
                     {product?.name}
                   </h2>
                   <p className='text-gray text-base text-justify'>{product?.description}</p>
@@ -117,7 +120,7 @@ export default function ProductDetail() {
 
           <SectionBgGreen className='p-4 min-h-[300px] md:min-h-[600px] relative mt-8 w-6xl'>
             <h3 className='w-full text-center text-head font-semibold md:pb-10'>
-              Gói dịch vụ của <span className='text-main text-head ml-2 z-10 font-bold'>DomiCare</span>
+              {t('service_package')} <span className='text-main text-head ml-2 z-10 font-bold'>DomiCare</span>
             </h3>
             <div className='grid h-full grid-cols-12 gap-4  '>
               <div className=' md:col-span-8 col-span-12 z-20 '>
@@ -126,15 +129,19 @@ export default function ProductDetail() {
                     <div className='flex flex-col items-center py-30 border-2 border-dashed rounded-lg border-gray px-10 '>
                       <span className='text-red-600 font-semibold px-4 py-2 rounded-3xl bg-orange-300 flex justify-center items-center'>
                         <FlameIcon />
-                        Giảm giá {product?.discount}%
+                        {t('common:discount')} {product?.discount}%
                       </span>
-                      <p className='text-head text-gray font-bold line-through'>{formatCurrentcy(product?.price)}VND</p>
-                      <p className='text-head text-main font-bold'>{formatCurrentcy(product?.priceAfterDiscount)}VND</p>
+                      <p className='text-head text-gray font-bold line-through'>
+                        {formatCurrentcy(product?.price)} {t('common:currency')}
+                      </p>
+                      <p className='text-head text-main font-bold'>
+                        {formatCurrentcy(product?.priceAfterDiscount)} {t('common:currency')}
+                      </p>
                     </div>
                   ) : (
                     <div className='flex flex-col items-center py-30 border-2 border-dashed rounded-lg border-gray px-10'>
                       <p className='text-head text-gray  font-bold'>
-                        {formatCurrentcy(product?.priceAfterDiscount)}VND
+                        {formatCurrentcy(product?.priceAfterDiscount)} {t('common:currency')}
                       </p>
                     </div>
                   )}
@@ -148,7 +155,7 @@ export default function ProductDetail() {
           </SectionBgGreen>
 
           <SectionBgWhite id='rating'>
-            <h2 className='text-head font-semibold text-center py-10'>Nhận xét và đánh giá</h2>
+            <h2 className='text-head font-semibold text-center py-10'>{t('rating_and_comment')}</h2>
             <div className='grid grid-cols-12 gap-6 w-full md:w-2xl lg:w-4xl  xl:w-6xl'>
               <div className='col-span-12 md:col-span-6 flex flex-col items-center md:py-10'>
                 <RatingStars
@@ -157,21 +164,23 @@ export default function ProductDetail() {
                   rating={product.ratingStar || 0}
                 />
                 <div className='text-head font-bold mb-2'>{product.ratingStar}</div>
-                <p className='text-lg text-gray'>{product.reviewDTOs && product.reviewDTOs.length} lượt đánh giá</p>
+                <p className='text-lg text-gray'>
+                  {product.reviewDTOs && product.reviewDTOs.length} {t('rating_count')}
+                </p>
                 <WriteReview productId={id} />
               </div>
               <div className='col-span-12 md:col-span-6 md:pb-5'>
                 {product.reviewDTOs && product.reviewDTOs.length > 0 ? (
                   <Comment reviews={product.reviewDTOs} />
                 ) : (
-                  <h3 className='text-head font-semibold text-center py-5 px-8'>Dịch vụ này chưa có đánh giá</h3>
+                  <h3 className='text-head font-semibold text-center py-5 px-8'>{t('service_no_rating')}</h3>
                 )}
               </div>
               <div className='col-span-12 py-4'></div>
             </div>
           </SectionBgWhite>
           <SectionBgGreen id='booking'>
-            <h2 className='text-head font-semibold text-center py-5 md:py-10'>Đặt dịch vụ</h2>
+            <h2 className='text-head font-semibold text-center py-5 md:py-10'>{t('common:book_service')}</h2>
             <div className='grid grid-cols-12 gap-4'>
               <div className='order-2 md:order-0 col-span-12 md:col-span-6 flex justify-end'>
                 <Form {...form}>
@@ -186,11 +195,11 @@ export default function ProductDetail() {
                         name='guestEmail'
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel>{t('auth:email')}</FormLabel>
                             <FormControl>
                               <Input
                                 autoComplete='off'
-                                placeholder='Nhập email'
+                                placeholder={t('auth:email_placeholder')}
                                 type='email'
                                 className='w-full focus:outline-0 mt-1'
                                 {...field}
@@ -208,11 +217,11 @@ export default function ProductDetail() {
                       name='name'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Họ và tên</FormLabel>
+                          <FormLabel>{t('common:full_name')}</FormLabel>
                           <FormControl>
                             <Input
                               autoComplete='off'
-                              placeholder='Nhập họ và tên'
+                              placeholder={t('auth:full_name_placeholder')}
                               type='text'
                               className='w-full focus:outline-0 mt-1'
                               {...field}
@@ -229,11 +238,11 @@ export default function ProductDetail() {
                         name='phone'
                         render={({ field }) => (
                           <FormItem className='basis-1/2'>
-                            <FormLabel>Số điện thoại</FormLabel>
+                            <FormLabel>{t('auth:phone')}</FormLabel>
                             <FormControl>
                               <Input
                                 autoComplete='off'
-                                placeholder='Nhập số điện thoại'
+                                placeholder={t('auth:phone_placeholder')}
                                 type='text'
                                 className='w-full focus:outline-0 mt-1'
                                 {...field}
@@ -249,7 +258,7 @@ export default function ProductDetail() {
                         name='startTime'
                         render={({ field }) => (
                           <FormItem className='basis-1/2'>
-                            <FormLabel>Thời gian</FormLabel>
+                            <FormLabel>{t('auth:time')}</FormLabel>
                             <Popover>
                               <PopoverTrigger asChild>
                                 <FormControl>
@@ -263,7 +272,7 @@ export default function ProductDetail() {
                                     {field.value ? (
                                       formatDateTime(dayjs(field.value), STANDARD_DATE_FORMAT_INVERSE)
                                     ) : (
-                                      <span>Chọn thời gian</span>
+                                      <span>{t('auth:select_time')}</span>
                                     )}
 
                                     <CalendarIcon className='absolute right-2.5 ml-auto !h-6 !w-6' />
@@ -295,10 +304,10 @@ export default function ProductDetail() {
                       name='address'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Địa chỉ</FormLabel>
+                          <FormLabel>{t('auth:address')}</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder='Nhập địa chỉ'
+                              placeholder={t('auth:address_placeholder')}
                               autoComplete='off'
                               className='w-full focus:outline-0 mt-1'
                               {...field}
@@ -314,20 +323,20 @@ export default function ProductDetail() {
                       name='isPeriodic'
                       render={({ field }) => (
                         <FormItem className='flex items-center gap-4'>
-                          <FormLabel className='mt-2'>Loại dịch vụ bạn chọn:</FormLabel>
+                          <FormLabel className='mt-2'>{t('common:service_type')}</FormLabel>
                           <FormControl>
                             <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className='flex'>
                               <FormItem className='flex items-center space-x-3 space-y-0'>
                                 <FormControl>
                                   <RadioGroupItem value={isPeriodic.oneTime} />
                                 </FormControl>
-                                <FormLabel className=' cursor-pointer'>Một lần</FormLabel>
+                                <FormLabel className=' cursor-pointer'>{t('common:one_time')}</FormLabel>
                               </FormItem>
                               <FormItem className='flex items-center space-x-3 space-y-0'>
                                 <FormControl>
                                   <RadioGroupItem value={isPeriodic.month} />
                                 </FormControl>
-                                <FormLabel className=' cursor-pointer'>Định kỳ</FormLabel>
+                                <FormLabel className=' cursor-pointer'>{t('common:periodic')}</FormLabel>
                               </FormItem>
                             </RadioGroup>
                           </FormControl>
@@ -340,7 +349,7 @@ export default function ProductDetail() {
                       name='note'
                       render={({ field }) => (
                         <FormItem className='mb-4'>
-                          <FormLabel>Ghi chú</FormLabel>
+                          <FormLabel>{t('common:note')}</FormLabel>
                           <FormControl>
                             <Textarea className='bg-white border-gray-200 h-20' id='note' {...field}></Textarea>
                           </FormControl>
@@ -354,23 +363,21 @@ export default function ProductDetail() {
                       className='w-full capitalize text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
                       type='submit'
                     >
-                      Để lại thông tin
+                      {t('common:leave_info')}
                     </Button>
                   </form>
                 </Form>
               </div>
               <div className='order-1 col-span-12 md:col-span-6 h-full flex justify-start items-center'>
                 <p className='text-base md:text-xl text-justify md:pb-10 pb-5 px-5 mo:pr-20 '>
-                  <span className='text-main mr-2 font-semibold'>Domicare Company</span>Công ty chúng tôi chuyên cung
-                  cấp các dịch vụ vệ sinh công nghiệp, dân dụng và khử khuẩn với đội ngũ nhân viên giàu kinh nghiệm,
-                  trang thiết bị hiện đại và quy trình chuyên nghiệp
+                  <span className='text-main mr-2 font-semibold'>Domicare Company</span> {t('company_infor')}
                 </p>
               </div>
             </div>
           </SectionBgGreen>
 
           <SectionBgWhite>
-            <h2 className='text-head font-semibold text-center py-10 '>Tìm hiểu thêm các dịch vụ khác của chúng tôi</h2>
+            <h2 className='text-head font-semibold text-center py-10 '>{t('learn_more_our_services')}</h2>
             <div className='grid grid-cols-12 gap-4 mb-10'>
               {category?.products &&
                 category?.products.map((prd) => {

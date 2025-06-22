@@ -1,14 +1,15 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react'
+
+import { User } from '@/models/interface/user.interface'
+import { Category } from '@/models/interface/category.interface'
+// import { initialSideBar, Sidebar } from '../constants/sidebar.const'
+import { useCategoryQuery } from '../queries/product.query'
 import {
   getAccessTokenFromLS,
   getCategoriesFromLocalStorage,
   getUserFromLocalStorage,
   setCateToLS
-} from '../shared/storage'
-import { User } from '@/models/interface/user.interface'
-import { Category } from '@/models/interface/category.interface'
-// import { initialSideBar, Sidebar } from '../constants/sidebar.const'
-import { useCategoryQuery } from '../queries/product.query'
+} from '@/utils/storage'
 
 interface AppContextInterface {
   isAuthenticated: boolean

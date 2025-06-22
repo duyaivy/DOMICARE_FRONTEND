@@ -3,8 +3,10 @@ import { path } from '@/core/constants/path'
 import { Product as ProductType } from '@/models/interface/product.interface'
 import { urlSEO } from '@/utils/urlSEO'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export default function Product({ product }: { product: ProductType }) {
+  const { t } = useTranslation(['common'])
   const isDiscount = Boolean(product?.discount && product.discount > 0)
   return (
     <div className='rounded-xs shadow w-full flex flex-col gap-3 pt-0 group hover:shadow-xl hover:-translate-y-1.5 duration-300 bg-white overflow-hidden'>
@@ -35,7 +37,9 @@ export default function Product({ product }: { product: ProductType }) {
           VNĐ
         </p>
         {isDiscount ? (
-          <p className='text-red text-sub2 text-justify  line-clamp-3 '> Giảm giá {product.discount}%</p>
+          <p className='text-red text-sub2 text-justify  line-clamp-3 '>
+            {t('common:discount')} {product.discount}%
+          </p>
         ) : (
           <p className='min-h-5 py-1'> </p>
         )}
@@ -44,7 +48,7 @@ export default function Product({ product }: { product: ProductType }) {
             className='flex items-center gap-2'
             to={`${path.product}/${urlSEO(product.id ? product.id.toString() : '', product.name as string)}`}
           >
-            <p className='text-left text-blue text-sub1 pt-0.5 cursor-pointer'>Tìm hiểu</p>
+            <p className='text-left text-blue text-sub1 pt-0.5 cursor-pointer'>{t('common:detail')}</p>
           </Link>
           <div className='flex items-center gap-1'>
             <p className='text-lg'>{product.ratingStar}</p>

@@ -1,6 +1,7 @@
 import { BookingStatus } from '@/models/interface/booking.interface'
 import { ROLE_TYPE } from '@/models/types/user.type'
 import dayjs from 'dayjs'
+import i18next from 'i18next'
 
 /**
  * Date-time constants
@@ -212,16 +213,22 @@ export const languagesDefault = [
   { code: 'vi', label: 'Tiếng Việt' },
   { code: 'en', label: 'English' }
 ]
-export const bookingStatusList = [
-  { label: 'Chờ xác nhận', value: 'PENDING' },
-  { label: 'Đang tư vấn', value: 'ACCEPTED' },
-  { label: 'Thành công', value: 'SUCCESS' },
-  { label: 'Thất bại', value: 'FAILED' },
-  { label: 'Bị từ chối', value: 'REJECTED' }
+
+export const getBookingStatusList = () => [
+  { label: i18next.t('product:booking_status.pending'), value: BookingStatus.PENDING },
+  { label: i18next.t('product:booking_status.accepted'), value: BookingStatus.ACCEPTED },
+  { label: i18next.t('product:booking_status.success'), value: BookingStatus.SUCCESS },
+  { label: i18next.t('product:booking_status.failed'), value: BookingStatus.FAILED },
+  { label: i18next.t('product:booking_status.rejected'), value: BookingStatus.REJECTED }
 ]
 
-export const BookingStatusExtra = [
-  { label: 'Tất cả', value: 'ALL' },
-  ...bookingStatusList,
-  { label: 'Đã huỷ', value: 'CANCELLED' }
+export const getBookingStatusExtra = () => [
+  { label: i18next.t('product:booking_status.all'), value: BookingStatus.ALL },
+  ...getBookingStatusList(),
+  { label: i18next.t('product:booking_status.cancelled'), value: BookingStatus.CANCELLED }
 ]
+
+// Helper function để lấy label từ value
+export const getBookingStatusLabel = (status: BookingStatus) => {
+  return i18next.t(`product:booking_status.${status.toLowerCase()}`)
+}

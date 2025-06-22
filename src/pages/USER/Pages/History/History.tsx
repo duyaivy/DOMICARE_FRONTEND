@@ -11,17 +11,18 @@ import { formatCurrentcy } from '@/utils/formatCurrentcy'
 import { statusLabels } from '@/configs/consts'
 import { BookingStatus } from '@/models/interface/booking.interface'
 import Manage from './Manage'
+import { useTranslation } from 'react-i18next'
 
 export default function History() {
   const { profile } = useContext(AppContext)
   const queryString = useBookingQueryConfig({ userId: profile?.id })
-
+  const { t } = useTranslation(['history', 'common'])
   const { data } = useUserBookingQuery({ queryString })
   const bookingList = data?.data?.data.data
   const pageController = data?.data?.data.meta
 
   return (
-    <SectionUser title='Lịch sử dịch vụ' description='Xem lịch sử dịch vụ và trạng thái các dịch vụ tài khoản của bạn.'>
+    <SectionUser title={t('history_title')} description={t('history_description')}>
       <div className='md:mx-2 pb-5 pt-1 overflow-hidden'>
         <StatusList queryString={queryString} />
         <div className=' rounded-xs py-3  bg-white '>
@@ -43,12 +44,16 @@ export default function History() {
                           <p className=' text-black line-clamp-2 text-xl'>{item.products?.[0].name}</p>
                           <div className='flex justify-start items-center  cursor-default gap-1'>
                             <span className='text-gray text-sm line-through'>
-                              đ{formatCurrentcy(item.products?.[0].price)}
+                              {t('common:currency')}
+                              {formatCurrentcy(item.products?.[0].price)}
                             </span>
-                            <span className='text-sm text-mainStrong'>đ{formatCurrentcy(item.totalPrice)}</span>
+                            <span className='text-sm text-mainStrong'>
+                              {t('common:currency')}
+                              {formatCurrentcy(item.totalPrice)}
+                            </span>
                           </div>
                           <p className='text-sm text-black line-clamp-2'>
-                            Loại dịch vụ: {item.isPeriodic ? 'Định kỳ' : 'Một lần'}
+                            {t('service_type')}: {item.isPeriodic ? t('periodic') : t('one_time')}
                           </p>
                         </div>
                       </div>
@@ -59,8 +64,11 @@ export default function History() {
                           {statusLabels[(item?.bookingStatus as keyof typeof statusLabels) || BookingStatus.PENDING]}
                         </div>
                         <div className='flex justify-end mo:col-span-2 cursor-default gap-1 items-end'>
-                          <p className='text-gray'>Thành tiền:</p>
-                          <p className='text-mainStrong text-2xl line-clamp-1'>đ{formatCurrentcy(item.totalPrice)}</p>
+                          <p className='text-gray'>{t('total_price')}:</p>
+                          <p className='text-mainStrong text-2xl line-clamp-1'>
+                            {t('common:currency')}
+                            {formatCurrentcy(item.totalPrice)}
+                          </p>
                         </div>
                         <Manage queryString={queryString} booking={item} />
                       </div>
@@ -72,7 +80,7 @@ export default function History() {
           ) : (
             <div className='flex flex-col justify-center items-center pt-5'>
               <img className='w-auto h-32' src={noPrdImg} alt='no_product' />
-              <p className='text-black text-center py-4'>Danh mục trống</p>
+              <p className='text-black text-center py-4'>{t('common:empty_category')}</p>
             </div>
           )}
           <PaginationPage

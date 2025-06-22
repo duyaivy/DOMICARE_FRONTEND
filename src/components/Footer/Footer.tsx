@@ -4,10 +4,11 @@ import IconTwitter from '@/assets/icons/icon-twitter'
 import IconYtb from '@/assets/icons/icon-ytb'
 import { logoDomicare } from '@/assets/images'
 import { path } from '@/core/constants/path'
-
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 export default function Footer() {
+  const { t } = useTranslation(['common'])
   return (
     <footer className='w-full  z-50 '>
       <div className='bg-mainStrong/90 w-full h-full text-white pt-10'>
@@ -25,31 +26,31 @@ export default function Footer() {
               <div className='flex flex-col md:flex-row md:justify-end items-start gap-8 ml-4'>
                 <ul className=' md:basis-1/3  flex flex-col justify-center items-start md:items-end gap-1 md:gap-2'>
                   <li>
-                    <h3 className='text-sub1 font-semibold md:pb-3 pb-1 cursor-pointer text-end'>Dịch vụ</h3>
+                    <h3 className='text-sub1 font-semibold md:pb-3 pb-1 cursor-pointer text-end'>{t('category')}</h3>
                   </li>
                   <li>
                     <Link to={path.products}>
-                      <p className='hover:text-gray-300 duration-300 text-end '>Khử trùng</p>
+                      <p className='hover:text-gray-300 duration-300 text-end '>{t('sterilization')}</p>
                     </Link>
                   </li>
                   <li>
                     <Link to={path.products}>
-                      <p className='hover:text-gray-300 duration-300 text-end'>Vệ sinh</p>
+                      <p className='hover:text-gray-300 duration-300 text-end'>{t('cleaning')}</p>
                     </Link>
                   </li>
                   <li>
                     <Link to={path.products}>
-                      <p className='hover:text-gray-300 duration-300 text-end'>Thuê giúp việc</p>
+                      <p className='hover:text-gray-300 duration-300 text-end'>{t('maid')}</p>
                     </Link>
                   </li>
                 </ul>
                 <ul className=' md:basis-1/3  flex flex-col justify-center items-start md:items-end gap-1 md:gap-2 '>
                   <li>
-                    <h3 className='text-sub1 font-semibold md:pb-3 pb-1 cursor-pointer text-end'>DomiCare và bạn</h3>
+                    <h3 className='text-sub1 font-semibold md:pb-3 pb-1 cursor-pointer text-end'>{t('our_title')}</h3>
                   </li>
                   <li>
                     <Link to={path.aboutUs}>
-                      <p className='hover:text-gray-300 duration-300 text-end'>Tại sao lại là DomiCare</p>
+                      <p className='hover:text-gray-300 duration-300 text-end'>{t('about_us')}</p>
                     </Link>
                   </li>
                   <li>
@@ -59,18 +60,18 @@ export default function Footer() {
                   </li>
                   <li>
                     <Link to={path.coming_soon}>
-                      <p className='hover:text-gray-300 duration-300 text-end'>Tuyển dụng</p>
+                      <p className='hover:text-gray-300 duration-300 text-end'>{t('recruitment')}</p>
                     </Link>
                   </li>
                   <li>
                     <Link to={path.coming_soon}>
-                      <p className='hover:text-gray-300 duration-300 text-end'>Bài viết</p>
+                      <p className='hover:text-gray-300 duration-300 text-end'>{t('news')}</p>
                     </Link>
                   </li>
                 </ul>
                 <ul className=' md:basis-1/3  flex flex-col justify-center items-start md:items-end gap-1 '>
                   <li>
-                    <h3 className='text-sub1 font-semibold '>Follow us</h3>
+                    <h3 className='text-sub1 font-semibold '>{t('follow_us')}</h3>
                   </li>
                   <li>
                     <ul className='flex justify-start items-center md:flex-col gap-2 md:gap-1'>
@@ -103,11 +104,11 @@ export default function Footer() {
           <div>
             <hr className='bg-white h-[1px] mt-10 md:mt-30' />
             <div className='py-4 flex items-center justify-center  md:justify-end gap-16 font-semibold text-white text-sub1'>
-              <Link to={'/service'} className=''>
-                Điều khoản và điều kiện
+              <Link to={path.coming_soon} className=''>
+                {t('terms')}
               </Link>
-              <Link to={'/service'} className=''>
-                Chính sách bảo mật
+              <Link to={path.coming_soon} className=''>
+                {t('privacy_policy')}
               </Link>
             </div>
           </div>

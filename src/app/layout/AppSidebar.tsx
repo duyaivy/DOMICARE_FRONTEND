@@ -4,13 +4,14 @@ import { NavUser } from './NavUser'
 import { AppContext } from '@/core/contexts/app.context'
 import { rolesCheck } from '@/utils/rolesCheck'
 import LogoSideNav from '@/components/LogoSideNav'
-import { getSidebarItems } from '@/core/constants/sidebar.const'
+import { useSidebarItems } from '@/core/constants/sidebar.const'
 import { ComponentProps, useContext } from 'react'
 
 export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
   const { profile } = useContext(AppContext)
   const isAdmin = rolesCheck.isAdmin(profile?.roles || [])
-  const initialSideBar = getSidebarItems()
+  const initialSideBar = useSidebarItems()
+  // fixx
   const sidebar = isAdmin ? initialSideBar.ROLE_ADMIN : initialSideBar.ROLE_SALE
   const { open } = useSidebar()
   return (

@@ -15,6 +15,7 @@ import { User } from '@/models/interface/user.interface'
 import { Link } from 'react-router-dom'
 import { path } from '@/core/constants/path'
 import { useLogoutMutation } from '@/core/queries/auth.query'
+import { useTranslation } from 'react-i18next'
 
 export function NavUser({ user }: { user?: User }) {
   const { isMobile } = useSidebar()
@@ -22,6 +23,7 @@ export function NavUser({ user }: { user?: User }) {
   const handleLogout = () => {
     logoutMutation.mutate()
   }
+  const { t } = useTranslation('common')
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -65,7 +67,7 @@ export function NavUser({ user }: { user?: User }) {
               <Link to={path.admin.coming_soon}>
                 <DropdownMenuItem>
                   <Sparkles />
-                  Nâng cấp hệ thống
+                  {t('upgrade_system')}
                 </DropdownMenuItem>
               </Link>
             </DropdownMenuGroup>
@@ -74,20 +76,20 @@ export function NavUser({ user }: { user?: User }) {
               <Link to={path.admin.setting.profile}>
                 <DropdownMenuItem>
                   <BadgeCheck />
-                  Cá nhân
+                  {t('profile')}
                 </DropdownMenuItem>
               </Link>
               <Link to={path.admin.coming_soon}>
                 <DropdownMenuItem>
                   <Bell />
-                  Thông báo
+                  {t('notification')}
                 </DropdownMenuItem>
               </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
-              Đăng xuất
+              {t('logout')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

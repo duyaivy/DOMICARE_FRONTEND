@@ -5,11 +5,11 @@ import SockJS from 'sockjs-client'
 interface WebSocketConfig {
   url: string
   topics: {
-    [key: string]: (message: any) => void
+    [key: string]: (message: unknown) => void
   }
   onConnect?: () => void
   onDisconnect?: () => void
-  onError?: (error: any) => void
+  onError?: (error: unknown) => void
 }
 
 export const useWebSocket = (config: WebSocketConfig) => {
@@ -28,7 +28,6 @@ export const useWebSocket = (config: WebSocketConfig) => {
 
     const client = new Client({
       webSocketFactory: () => new SockJS(config.url),
-      debug: (str) => console.log('[STOMP]', str),
       reconnectDelay: 5000,
       onConnect: () => {
         setIsConnected(true)

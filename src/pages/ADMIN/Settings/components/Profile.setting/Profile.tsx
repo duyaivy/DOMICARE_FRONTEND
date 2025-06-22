@@ -1,9 +1,11 @@
 import ChangeProfile from '@/components/ChangeProfile'
 import HeaderSettings from '../HeaderSettings'
+import { useTranslation } from 'react-i18next'
 
 export default function ProfileAdmin() {
+  const { t } = useTranslation(['settings'])
   return (
-    <HeaderSettings title='Cài đặt cá nhân' description='Thay đổi thông tin cá nhân của bạn.'>
+    <HeaderSettings title={t('profile_settings')} description={t('profile_description')}>
       <ChangeProfile />
     </HeaderSettings>
   )

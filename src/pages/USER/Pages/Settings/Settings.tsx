@@ -1,20 +1,27 @@
 import SectionUser from '../../Layouts/SectionUser'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useState } from 'react'
 import { languagesDefault } from '@/configs/consts'
 import { ThemeToggle } from '@/components/theme/theme-toogle'
+import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
+import { CardDescription } from '@/components/ui/card'
 export default function Settings() {
-  const [language, setLanguage] = useState(languagesDefault[0].code)
+  const { i18n, t } = useTranslation(['settings', 'common'])
+  const [language, setLanguage] = useState<string>(localStorage.getItem('i18nextLng') || 'vi')
+  const handleChange = (lng: string) => {
+    setLanguage(lng)
+    i18n.changeLanguage(lng)
+  }
   return (
-    <SectionUser title='Cài đặt' description='Cài đặt ngôn ngữ và chế độ hiển thị cho trang web của bạn.'>
+    <SectionUser title={t('common:settings')} description={t('common:settings_description')}>
       <div className='mb-6 max-w-xs mt-5'>
         <Label htmlFor='lang-select' className='mb-2 block text-lg text-mainStrong'>
-          Ngôn ngữ
+          {t('language')}
         </Label>
-        <Select value={language} onValueChange={setLanguage}>
+        <Select value={language} onValueChange={handleChange}>
           <SelectTrigger id='lang-select'>
-            <SelectValue placeholder='Select language' />
+            <SelectValue placeholder={t('language_placeholder')} />
           </SelectTrigger>
           <SelectContent>
             {languagesDefault.map((lang) => (
@@ -24,7 +31,7 @@ export default function Settings() {
             ))}
           </SelectContent>
         </Select>
-        <p className='text-sm text-gray-500 mt-1'>Lựa chọn ngôn ngữ cho ứng dụng.</p>
+        <CardDescription className='text-sm text-gray-500 mt-1'>{t('language_description')}</CardDescription>
       </div>
       {/* Theme */}
       <div className='mb-6'>

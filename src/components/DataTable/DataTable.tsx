@@ -27,6 +27,7 @@ import { noPrdImg } from '@/assets/images'
 import { DataTablePaginationProps } from './DataTablePagination'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { DataTableSearch } from './DataTableSearch'
+import { useTranslation } from 'react-i18next'
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -101,7 +102,7 @@ export function DataTable<TData, TValue>({
     enableMultiSort: true,
     enableFilters: true
   })
-
+  const { t } = useTranslation('common')
   return (
     <div className='w-full'>
       <div className='flex items-center justify-between py-2'>
@@ -117,7 +118,7 @@ export function DataTable<TData, TValue>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant='outline' className='ml-auto'>
-              Hiển thị <ChevronDown />
+              {t('display')} <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
@@ -173,7 +174,7 @@ export function DataTable<TData, TValue>({
                 <TableCell colSpan={columns.length} className='h-24 text-center'>
                   <div className='flex flex-col justify-center items-center pt-5'>
                     <img className='w-auto h-32' src={noPrdImg} alt='no_product' />
-                    <p className='text-black text-center py-4'>Danh mục trống</p>
+                    <p className='text-black text-center py-4'>{t('empty_category')}</p>
                   </div>
                 </TableCell>
               </TableRow>

@@ -13,8 +13,11 @@ import ScrollToTop from './app/layout/ScrollToTop.tsx'
 import config from './configs/index.ts'
 import { ThemeProvider } from './components/theme/theme-provider.tsx'
 import { HelmetProvider } from 'react-helmet-async'
+import { I18nextProvider } from 'react-i18next'
+import i18n from './core/configs/i18n.ts'
+import ErrorBoundary from './components/ErrorBoundary'
+
 const clientAPI = config.googleId
-// '1028525044202-qvt3p190o3l7sisveqgcemltuva0es04.apps.googleusercontent.com'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -26,23 +29,27 @@ const queryClient = new QueryClient({
 })
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <ToastContainer />
-      <GoogleOAuthProvider clientId={clientAPI}>
-        <QueryClientProvider client={queryClient}>
-          <HelmetProvider>
-            <ThemeProvider>
-              <ScrollToTop>
-                <AppProvider>
-                  <App />
-                </AppProvider>
-              </ScrollToTop>
-            </ThemeProvider>
-          </HelmetProvider>
-          <Toaster richColors closeButton />
-        </QueryClientProvider>
-      </GoogleOAuthProvider>
-    </BrowserRouter>
-  </StrictMode>
+  <ErrorBoundary>
+    <StrictMode>
+      <BrowserRouter>
+        <ToastContainer />
+        <GoogleOAuthProvider clientId={clientAPI}>
+          <QueryClientProvider client={queryClient}>
+            <HelmetProvider>
+              <ThemeProvider>
+                <ScrollToTop>
+                  <I18nextProvider i18n={i18n}>
+                    <AppProvider>
+                      <App />
+                    </AppProvider>
+                  </I18nextProvider>
+                </ScrollToTop>
+              </ThemeProvider>
+            </HelmetProvider>
+            <Toaster richColors closeButton />
+          </QueryClientProvider>
+        </GoogleOAuthProvider>
+      </BrowserRouter>
+    </StrictMode>
+  </ErrorBoundary>
 )

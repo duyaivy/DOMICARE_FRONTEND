@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer'
-import Header from '@/components/header'
+import Header from '@/components/Header'
 import Helmet from '@/components/Helmet/Helmet'
 import { path } from '@/core/constants/path'
 import { AppContext } from '@/core/contexts/app.context'

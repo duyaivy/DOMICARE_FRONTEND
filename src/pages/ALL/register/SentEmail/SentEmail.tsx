@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { useResetPWMutation, useSentMailMutation } from '@/core/queries/auth.query'
 import { SentMailSchema } from '@/core/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -15,21 +16,6 @@ interface SentEmailProps {
   type: SentEmailType
 }
 
-const emailConfig = {
-  verification: {
-    title: 'Gửi lại mã xác nhận',
-    description: 'Bạn hãy chắc rằng đã kiểm tra Spam và hộp thư rác nếu không nhận được email.',
-    buttonText: 'Gửi lại mã',
-    questionText: 'Không nhận được email xác thực?'
-  },
-  'reset-password': {
-    title: 'Quên mật khẩu',
-    description: 'Nhập email của bạn để nhận hướng dẫn đặt lại mật khẩu.',
-    buttonText: 'Quên mật khẩu?',
-    questionText: ''
-  }
-}
-
 export default function SentEmail({ type }: SentEmailProps) {
   const form = useForm<z.infer<typeof SentMailSchema>>({
     resolver: zodResolver(SentMailSchema),
@@ -37,6 +23,21 @@ export default function SentEmail({ type }: SentEmailProps) {
       email: ''
     }
   })
+  const { t } = useTranslation(['auth', 'common'])
+  const emailConfig = {
+    verification: {
+      title: t('send_verify_title'),
+      description: t('send_verify_description'),
+      buttonText: t('send_verify_button'),
+      questionText: t('send_verify_question')
+    },
+    'reset-password': {
+      title: t('forgot_password'),
+      description: t('reset_password_description'),
+      buttonText: t('reset_password'),
+      questionText: ''
+    }
+  }
 
   const sentEmailMutation = useSentMailMutation(form)
   const resetPWMutation = useResetPWMutation(form)
@@ -70,11 +71,11 @@ export default function SentEmail({ type }: SentEmailProps) {
                   name={'email'}
                   render={({ field }) => (
                     <FormItem className=' w-full'>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>{t('email')}</FormLabel>
                       <FormControl>
                         <Input
                           autoComplete='off'
-                          placeholder='Nhập email'
+                          placeholder={t('email_placeholder')}
                           type='email'
                           className='w-full focus:outline-0 mt-1'
                           {...field}
@@ -91,7 +92,7 @@ export default function SentEmail({ type }: SentEmailProps) {
                   className='w-full text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg'
                   type='submit'
                 >
-                  Xác Nhận
+                  {t('common:confirm')}
                 </Button>
               </form>
             </Form>

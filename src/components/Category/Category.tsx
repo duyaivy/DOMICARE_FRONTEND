@@ -2,8 +2,10 @@ import { path } from '@/core/constants/path'
 import { Category as CategoryType } from '@/models/interface/category.interface'
 
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export default function Category({ category }: { category: CategoryType }) {
+  const { t } = useTranslation(['common'])
   return (
     <div>
       <div className='rounded-xs shadow w-full flex  flex-col gap-3  pt-0 group hover:shadow-xl hover:translate-y-[-5px] duration-300'>
@@ -26,7 +28,7 @@ export default function Category({ category }: { category: CategoryType }) {
               search: `categoryid=${category.id}`
             }}
           >
-            <p className='text-left text-blue text-sub1 pt-0.5 cursor-pointer'>Tìm hiểu</p>
+            <p className='text-left text-blue text-sub1 pt-0.5 cursor-pointer'>{t('learn_more')}</p>
           </Link>
         </div>
       </div>

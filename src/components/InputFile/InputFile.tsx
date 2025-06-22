@@ -1,11 +1,13 @@
 import config from '@/configs'
 import { Toast } from '@/utils/toastMessage'
 import { Label } from '../ui/label'
+import { useTranslation } from 'react-i18next'
 
 interface InputFileProps {
   setFile: (file: File) => void
 }
 export default function InputFile({ setFile }: InputFileProps) {
+  const { t } = useTranslation(['common', 'toast'])
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file && file.size < config.maxSizeUploadAvatar && file.type.includes('image')) {
@@ -13,8 +15,7 @@ export default function InputFile({ setFile }: InputFileProps) {
     } else {
       // validate
       Toast.error({
-        title: `Dung lượng file tối đa 2MB
-                Định dạng .JPEG .PNG`
+        title: `${t('format_image')} ${t('format_image_description')}`
       })
     }
   }
@@ -32,7 +33,7 @@ export default function InputFile({ setFile }: InputFileProps) {
         htmlFor='inputFile'
         className='border border-gray-300 px-4 py-3 text-sm capitalize text-gray duration-300 cursor-pointer hover:bg-[#f4f4f4]'
       >
-        Chọn ảnh
+        {t('toast:select_picture')}
       </Label>
     </div>
   )

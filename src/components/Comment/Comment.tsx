@@ -3,12 +3,12 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import CommentItem from './CommentItem'
 import { Fragment } from 'react/jsx-runtime'
 import classNames from 'classnames'
-import { initialReviews } from '@/core/constants/initialValue.const'
+import { getInitialReviews } from '@/core/constants/initialValue.const'
 interface CommentProps {
   reviews?: Review[]
 }
 
-export default function Comment({ reviews = initialReviews }: CommentProps) {
+export default function Comment({ reviews = getInitialReviews() }: CommentProps) {
   return (
     <Fragment>
       {reviews && reviews.length > 0 && (

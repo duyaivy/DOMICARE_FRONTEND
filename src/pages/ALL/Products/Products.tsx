@@ -12,9 +12,11 @@ import SortProduct from './components/SortProduct'
 import { useProductQuery } from '@/core/queries/product.query'
 import { noPrdImg } from '@/assets/images'
 import CategoryList from './components/CategoryList'
+import { useTranslation } from 'react-i18next'
 
 export default function Products() {
   const queryString = usePrdQueryConfig()
+  const { t } = useTranslation(['product', 'common'])
   const { data: productsData, isLoading } = useProductQuery({ queryString })
   const prdList = productsData?.data.data.data
   const pageController = productsData?.data.data.meta
@@ -69,7 +71,7 @@ export default function Products() {
                     <div className='h-[500px] col-span-12 flex justify-center items-center '>
                       <div className='flex flex-col justify-center items-center'>
                         <img className='w-auto h-32' src={noPrdImg} alt='no_product' />
-                        <p className='text-black text-center py-4'>Không có sản phẩm</p>
+                        <p className='text-black text-center py-4'>{t('common:no_product')}</p>
                       </div>
                     </div>
                   )}

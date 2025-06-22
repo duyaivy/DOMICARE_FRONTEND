@@ -1,0 +1,28 @@
+{
+  "booking_status": {
+    "all": "All",
+    "pending": "Pending",
+    "accepted": "Consulting",
+    "success": "Success",
+    "failed": "Failed",
+    "rejected": "Rejected",
+    "cancelled": "Cancelled"
+  },
+  "sort_by": "Sort by",
+  "sort_by_name": "Name",
+  "sort_by_price": "Price",
+  "sort_by_rating": "Rating",
+  "cleaning_resource": "Cleaning resource",
+  "sort_by_discount": "Discount",
+  "sort_by_asc": "Low to high",
+  "sort_by_desc": "High to low",
+  "service_package": "Service package of",
+  "company_infor": "Our company specializes in providing industrial, domestic and disinfection services with a team of experienced staff, modern equipment and professional processes",
+  "learn_more_our_services": "Learn more about our services",
+  "rating_and_comment": "Review and evaluation",
+  "rating_count": "reviews",
+  "service_no_rating": "This service has no review",
+  "write_review": "Write review",
+  "send_review": "Send review",
+  "review_placeholder": "Share your experience..."
+}

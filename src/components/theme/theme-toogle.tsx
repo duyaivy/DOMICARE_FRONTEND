@@ -2,16 +2,15 @@ import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/c
 import { useTheme } from '@/components/theme/theme-provider'
 import classNames from 'classnames'
 import { isEqual } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
-
+  const { t } = useTranslation(['settings', 'common'])
   return (
     <div>
-      <CardTitle className='mb-1 text-lg text-mainStrong'>Chế độ hiển thị</CardTitle>
-      <CardDescription className='mb-4 text-gray-500 dark:text-gray-400'>
-        Chọn chế độ hiển thị cho trang web của bạn.
-      </CardDescription>
+      <CardTitle className='mb-1 text-lg text-mainStrong'>{t('theme')}</CardTitle>
+      <CardDescription className='mb-4 text-gray-500 dark:text-gray-400'>{t('theme_description')}</CardDescription>
       <div className='flex gap-6'>
         {/* Light Theme Card */}
         <Card
@@ -39,7 +38,7 @@ export function ThemeToggle() {
                 <div className='h-3 w-2/3 bg-gray-200 rounded' />
               </div>
             </div>
-            <span className={`font-medium ${theme === 'light' ? 'text-primary' : ''}`}>Sáng</span>
+            <span className={classNames('font-medium', { 'text-primary': isEqual(theme, 'light') })}>{t('light')}</span>
           </CardContent>
         </Card>
 
@@ -69,7 +68,7 @@ export function ThemeToggle() {
                 <div className='h-3 w-2/3 bg-[#3a4656] rounded' />
               </div>
             </div>
-            <span className={`font-medium ${theme === 'dark' ? 'text-primary' : 'text-white'}`}>Tối</span>
+            <span className={classNames('font-medium text-white')}>{t('dark')}</span>
           </CardContent>
         </Card>
       </div>

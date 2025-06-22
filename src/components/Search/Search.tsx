@@ -9,6 +9,7 @@ import { QueryPrdConfig } from '@/hooks/usePrdQueryConfig'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import { path } from '@/core/constants/path'
 import { SearchChema } from '@/core/zod/productSearch.zod'
+import { useTranslation } from 'react-i18next'
 
 export default function Search({ queryString }: { queryString: QueryPrdConfig }) {
   const navigate = useNavigate()
@@ -27,9 +28,10 @@ export default function Search({ queryString }: { queryString: QueryPrdConfig })
       }).toString()
     })
   }
+  const { t } = useTranslation(['product', 'common'])
   return (
     <div className='flex flex-col md:flex-row items-center justify-between pb-6 gap-4 '>
-      <h2 className='text-head text-main font-semibold shrink-0'>Tài nguyên làm sạch</h2>
+      <h2 className='text-head text-main font-semibold shrink-0'>{t('cleaning_resource')}</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className=' w-full  md:w-md space-y-4 ' noValidate>
           <FormField
@@ -40,7 +42,7 @@ export default function Search({ queryString }: { queryString: QueryPrdConfig })
                 <FormControl>
                   <Input
                     autoComplete='off'
-                    placeholder='Tìm kiếm'
+                    placeholder={t('common:search')}
                     type='email'
                     className='w-full h-12 focus:ring-0'
                     {...field}

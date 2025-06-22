@@ -1,6 +1,7 @@
 import config from '@/configs'
-import { clearLS, getAccessTokenFromLS, getRefreshTokenFromLS, setAccessTokenToLS } from '@/core/shared/storage'
+
 import { SuccessResponse } from '@/models/interface/response.interface'
+import { clearLS, getAccessTokenFromLS, getRefreshTokenFromLS, setAccessTokenToLS } from '@/utils/storage'
 import axios, {
   AxiosError,
   AxiosInstance,

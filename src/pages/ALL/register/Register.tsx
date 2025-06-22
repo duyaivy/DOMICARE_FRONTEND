@@ -17,9 +17,11 @@ import SentEmail from './SentEmail'
 import { useRegisterMutation } from '@/core/queries/auth.query'
 import InputPassword from '@/components/InputPassword/InputPassword'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export default function Register() {
   const navigate = useNavigate()
+  const { t } = useTranslation(['auth', 'common'])
   const [isConfirm, setIsconfirm] = useState<boolean>(false)
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -42,10 +44,10 @@ export default function Register() {
           <Link to={path.home}>
             <img src={logoSecond} alt='logo' className='hidden md:block mb-4' />
           </Link>
-          <h1 className='text-2xl md:text-5xl font-semibold text-black mb-6'>Đăng ký</h1>
+          <h1 className='text-2xl md:text-5xl font-semibold text-black mb-6'>{t('register')}</h1>
           <div className='flex  items-center justify-start gap-2 mb-4 px-4'>
             <p className='text-sm text-[#112211]  text-center'>
-              Hãy đăng ký để trải nghiệm dịch vụ của{' '}
+              {t('register_description')}
               <Link to={path.home} className='text-main text-sub1 font-bold'>
                 DomiCare
               </Link>
@@ -62,11 +64,11 @@ export default function Register() {
                 name='email'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>{t('email')}</FormLabel>
                     <FormControl>
                       <Input
                         autoComplete='off'
-                        placeholder='Nhập email'
+                        placeholder={t('email_placeholder')}
                         type='email'
                         className='w-full focus:outline-0 mt-1'
                         {...field}
@@ -83,11 +85,11 @@ export default function Register() {
                 name={'password'}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Mật khẩu</FormLabel>
+                    <FormLabel>{t('password')}</FormLabel>
                     <FormControl>
                       <InputPassword
                         autoComplete='off'
-                        placeholder='Nhập mật khẩu'
+                        placeholder={t('password_placeholder')}
                         className='w-full focus:outline-0 mt-1'
                         {...field}
                       />
@@ -95,10 +97,10 @@ export default function Register() {
                     <FormMessage />
 
                     <div className='flex flex-col text-sub2 text-gray'>
-                      <h4 className=''>Mật khẩu bao gồm:</h4>
+                      <h4 className=''>{t('password_description')}</h4>
                       <ul className='flex flex-col '>
-                        <li>- Ít nhất 6 kí tự.</li>
-                        <li>- Chữ in hoa, chữ thường và chữ số.</li>
+                        <li>- {t('password_description_1')}</li>
+                        <li>- {t('password_description_2')}</li>
                       </ul>
                     </div>
                   </FormItem>
@@ -109,10 +111,10 @@ export default function Register() {
                 name='confirmPassword'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nhập lại mật khẩu</FormLabel>
+                    <FormLabel>{t('confirm_password')}</FormLabel>
                     <FormControl>
                       <InputPassword
-                        placeholder='Nhập lại mật khẩu'
+                        placeholder={t('confirm_password_placeholder')}
                         autoComplete='off'
                         className='w-full focus:outline-0 mt-1'
                         {...field}
@@ -131,8 +133,10 @@ export default function Register() {
                     className='cursor-pointer w-4 h-4'
                   />
                   <Label htmlFor='terms' className='text-base font-normal text-gray-500 cursor-default'>
-                    Tôi đồng ý với mọi <span className='text-main hover:underline cursor-pointer'>Điều khoản</span> và{' '}
-                    <span className='text-main hover:underline cursor-pointer '>Chính sách bảo mật</span>
+                    {t('common:agree')}{' '}
+                    <span className='text-main hover:underline cursor-pointer'>{t('common:terms')}</span>{' '}
+                    {t('common:and')}{' '}
+                    <span className='text-main hover:underline cursor-pointer '>{t('common:privacy_policy')}</span>
                   </Label>
                 </div>
               </div>
@@ -142,13 +146,13 @@ export default function Register() {
                 type='submit'
                 disabled={!isConfirm}
               >
-                Tạo tài khoản
+                {t('create_account_button')}
               </Button>
               <SentEmail type='verification' />
               <p className='flex items-center justify-center '>
-                Đã có tài khoản?&nbsp;
+                {t('have_account')}?&nbsp;
                 <Link to='/login' className='cursor-pointer  text-main hover:underline '>
-                  Đăng nhập
+                  {t('login')}
                 </Link>
               </p>
             </form>

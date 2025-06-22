@@ -6,19 +6,21 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { BookingOverview as BookingOverviewInterface } from '@/models/interface/dashboard.interface'
 import { formatCurrentcy } from '@/utils/formatCurrentcy'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useTranslation } from 'react-i18next'
 
 interface BookingOverviewProps {
   value?: BookingOverviewInterface
   isLoading?: boolean
 }
 export function BookingOverview({ value, isLoading }: BookingOverviewProps) {
+  const { t } = useTranslation(['admin'])
   const chartData = React.useMemo(
     () => [
-      { status: 'Đang tư vấn', count: value?.totalAcceptedBookings, fill: '#42A5F5' },
-      { status: 'Bị từ chối', count: value?.totalRejectedBookings, fill: '#F57C00' },
-      { status: 'Thành công', count: value?.totalSuccessBookings, fill: '#2E7D32' },
-      { status: 'Thất bại', count: value?.totalFailedBookings, fill: '#C62828' },
-      { status: 'Chờ xác nhận', count: value?.totalPendingBookings, fill: '#FFA000' }
+      { status: t('product:booking_status.accepted'), count: value?.totalAcceptedBookings, fill: '#42A5F5' },
+      { status: t('product:booking_status.rejected'), count: value?.totalRejectedBookings, fill: '#F57C00' },
+      { status: t('product:booking_status.success'), count: value?.totalSuccessBookings, fill: '#2E7D32' },
+      { status: t('product:booking_status.failed'), count: value?.totalFailedBookings, fill: '#C62828' },
+      { status: t('product:booking_status.pending'), count: value?.totalPendingBookings, fill: '#FFA000' }
     ],
     [value]
   )
@@ -30,8 +32,8 @@ export function BookingOverview({ value, isLoading }: BookingOverviewProps) {
   return (
     <Card className='flex flex-col h-full'>
       <CardHeader className='items-center pb-0'>
-        <CardTitle className='text-lg font-semibold capitalize'>Biểu đồ đặt dịch vụ</CardTitle>
-        <CardDescription>Mô tả dữ liệu đơn đặt hàng</CardDescription>
+        <CardTitle className='text-lg font-semibold capitalize'>{t('admin:chart.order')}</CardTitle>
+        <CardDescription>{t('admin:chart.order_description')}</CardDescription>
       </CardHeader>
       <CardContent className='flex-1 pb-0'>
         {isLoading ? (
@@ -52,7 +54,7 @@ export function BookingOverview({ value, isLoading }: BookingOverviewProps) {
                             {totalcount.toLocaleString()}
                           </tspan>
                           <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className='fill-muted-foreground text-base'>
-                            Tổng số đơn
+                            {t('admin:chart.total_order')}
                           </tspan>
                         </text>
                       )
@@ -75,9 +77,10 @@ export function BookingOverview({ value, isLoading }: BookingOverviewProps) {
       </div>
       <CardFooter className='flex-col gap-2 text-sm'>
         <div className='flex items-center gap-2 font-medium leading-none text-center'>
-          Tổng doanh thu: {formatCurrentcy(value?.totalRevenueBookings)} VNĐ <TrendingUp className='h-4 w-4' />
+          {t('admin:chart.total_revenue')}: {formatCurrentcy(value?.totalRevenueBookings)} {t('common:currency')}{' '}
+          <TrendingUp className='h-4 w-4' />
         </div>
-        <div className='leading-none text-muted-foreground'>Biểu đồ mô tả tỉ lệ đơn hàng từ </div>
+        <div className='leading-none text-muted-foreground'>{t('admin:chart.order_description')}</div>
       </CardFooter>
     </Card>
   )

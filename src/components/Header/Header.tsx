@@ -3,7 +3,6 @@ import { path } from '@/core/constants/path'
 import { Link } from 'react-router-dom'
 import { animateScroll } from 'react-scroll'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -22,10 +21,12 @@ import { PhoneCallIcon } from 'lucide-react'
 import { ICON_SIZE_EXTRA } from '@/core/configs/icon-size'
 import IconBar from '@/assets/icons/icon-bar'
 import { useLogoutMutation } from '@/core/queries/auth.query'
+import { useTranslation } from 'react-i18next'
+import { isEmpty } from 'lodash'
 
 export default function Header() {
   const { isAuthenticated, profile, categories } = useContext(AppContext)
-
+  const { t } = useTranslation(['common', 'settings'])
   const [isShow, setIsShow] = useState<boolean>(false)
   const handleScrollUp = () => animateScroll.scrollTo(0, { smooth: true, duration: 500 })
   const [showUpBtn, setShowUpBtn] = useState<boolean>(false)
@@ -55,7 +56,7 @@ export default function Header() {
           <a href='tel: 0987654321' type='phone'>
             <div className='flex justify-center items-center gap-1 cursor-pointer'>
               <IconHeadphone className='fill-black w-5 h-5  md:w-8 md:h-8' />
-              <p className='text-black text-sm font-bold'> Hỗ trợ khách hàng</p>
+              <p className='text-black text-sm font-bold'> {t('support_customer')}</p>
             </div>
           </a>
         </div>
@@ -77,7 +78,7 @@ export default function Header() {
                     <NavigationMenuItem>
                       <NavigationMenuTrigger>
                         <NavigationMenuLink asChild className={'hover:bg-transparent'}>
-                          <Link to={path.products}>Dịch vụ cung cấp</Link>
+                          <Link to={path.products}>{t('category')}</Link>
                         </NavigationMenuLink>
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
@@ -93,22 +94,23 @@ export default function Header() {
                                 children={cate.name}
                               />
                             ))}
+                          {isEmpty(categories) && <p>{t('empty_category')}</p>}
                         </ul>
                       </NavigationMenuContent>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
                       <NavigationMenuLink asChild>
-                        <Link to={path.blog}>Tin tức</Link>
+                        <Link to={path.blog}>{t('news')}</Link>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
                       <NavigationMenuLink asChild>
-                        <Link to={path.recuitment}>Tuyển dụng </Link>
+                        <Link to={path.recuitment}>{t('recruitment')}</Link>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
                       <NavigationMenuLink asChild>
-                        <Link to={path.aboutUs}>Tại sao lại chọn DomiCare? </Link>
+                        <Link to={path.aboutUs}>{t('about_us')}</Link>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
                   </NavigationMenuList>
@@ -141,13 +143,13 @@ export default function Header() {
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
                           <ul className='w-[150px] min-h-10 py-2 flex flex-col justify-center items-center gap-1'>
-                            <ListItem to={path.user.profile}>Tài khoản của tôi</ListItem>
-                            <ListItem to={path.user.history}>Lịch sử dịch vụ</ListItem>
-                            <ListItem to={path.user.settings}>Cài đặt</ListItem>
+                            <ListItem to={path.user.profile}>{t('settings:account')}</ListItem>
+                            <ListItem to={path.user.history}>{t('settings:history')}</ListItem>
+                            <ListItem to={path.user.settings}>{t('settings:settings')}</ListItem>
 
                             <ListItem to={path.login}>
                               <button onClick={handleLogout} className='cursor-pointer font-semibold'>
-                                Đăng xuất
+                                {t('logout')}
                               </button>
                             </ListItem>
                           </ul>
@@ -161,7 +163,7 @@ export default function Header() {
                       to={path.login}
                       className='rounded-sm  md:px-4 mo:!px-8 text-sub2 py-2 duration-300 md:bg-main md:text-white md:hover:bg-main/90 '
                     >
-                      Đăng nhập
+                      {t('login')}
                     </Link>
                   </div>
                 )}
@@ -191,22 +193,22 @@ export default function Header() {
           <ul className='flex w-full flex-col justify-center items-center py-2'>
             <ListItem to={path.products}>
               <p className='text-sm text-tmain py-2 text-center line-clamp-2 group-hover:text-main duration-300'>
-                Dịch vụ cung cấp
+                {t('category')}
               </p>
             </ListItem>
             <ListItem to={path.blog}>
               <p className='text-sm text-tmain py-2 text-center line-clamp-2 group-hover:text-main duration-300'>
-                Tin tức
+                {t('news')}
               </p>
             </ListItem>
             <ListItem to={path.recuitment}>
               <p className='text-sm text-tmain py-2 text-center line-clamp-2 group-hover:text-main duration-300'>
-                Tuyển dụng
+                {t('recruitment')}
               </p>
             </ListItem>
             <ListItem to={path.aboutUs}>
               <p className='text-sm text-tmain py-2 text-center line-clamp-2 group-hover:text-main duration-300'>
-                Tại sao lại chọn DomiCare?
+                {t('about_us')}
               </p>
             </ListItem>
           </ul>

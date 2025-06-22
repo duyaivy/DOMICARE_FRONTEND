@@ -10,11 +10,13 @@ import { AppContext } from '@/core/contexts/app.context'
 import { Toast } from '@/utils/toastMessage'
 import { AxiosError } from 'axios'
 import { path } from '@/core/constants/path'
+import { useTranslation } from 'react-i18next'
 interface WriteReviewProps {
   productId: number
 }
 export default function WriteReview({ productId }: WriteReviewProps) {
   const queryClient = useQueryClient()
+  const { t } = useTranslation(['product'])
   const { profile } = useContext(AppContext)
   const [review, setReview] = useState<string>('')
   const [rating, setRating] = useState<number>(0)
@@ -45,12 +47,12 @@ export default function WriteReview({ productId }: WriteReviewProps) {
 
   return (
     <form noValidate onSubmit={handleSubmit} className='w-full   p-6 bg-white  space-y-4 z-10'>
-      <h3 className='text-xl font-semibold'>Viết đánh giá về dịch vụ</h3>
+      <h3 className='text-xl font-semibold'>{t('write_review')}</h3>
 
       <Textarea
         value={review}
         onChange={(e) => setReview(e.target.value)}
-        placeholder='Chia sẻ trải nghiệm của bạn...'
+        placeholder={t('review_placeholder')}
         className='w-full h-24 p-3 border-gray-200 placeholder:text-black'
         required
       />
@@ -71,7 +73,7 @@ export default function WriteReview({ productId }: WriteReviewProps) {
         className=' text-white px-4 w-full rounded-md capitalize text-base cursor-pointer h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg'
         disabled={isEqual(rating, 0)}
       >
-        Gửi đánh giá
+        {t('send_review')}
       </Button>
     </form>
   )

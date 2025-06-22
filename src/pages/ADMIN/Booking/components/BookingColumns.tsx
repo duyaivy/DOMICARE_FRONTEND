@@ -14,14 +14,16 @@ import { isEqual } from 'lodash'
 import { Toast } from '@/utils/toastMessage'
 import { useUpdateSttBookingMutation } from '@/core/queries/product.query'
 import StatusBadge from '@/components/StatusBadge'
+import { useTranslation } from 'react-i18next'
 
 export const useBookingColumns = (): ColumnDef<Booking>[] => {
+  const { t } = useTranslation('admin')
   const { setOpen, setCurrentRow } = useBookings()
   const handleAddSaleBooking = useUpdateSttBookingMutation({
-    successMessage: 'Nhận tư vấn đơn đặt hàng thành công.'
+    successMessage: t('toast:accept_booking_success')
   })
   const handleRejectBooking = useUpdateSttBookingMutation({
-    successMessage: 'Từ chối tư vấn đơn đặt hàng thành công.'
+    successMessage: t('booking.reject_booking_success')
   })
   return [
     {
@@ -47,16 +49,16 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
       accessorKey: 'id',
       header: 'ID',
       meta: {
-        displayName: 'Mã đơn hàng'
+        displayName: t('table.id')
       },
       cell: ({ row }) => <div>#{row.getValue('id')}</div>,
       enableHiding: false
     },
     {
       accessorKey: 'userDTO',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Khách Hàng' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.customer_name')} />,
       meta: {
-        displayName: 'Khách hàng',
+        displayName: t('table.customer_name'),
         className: cn(
           'sticky lg:relative left-0 md:table-cell',
           'bg-white lg:bg-inherit',
@@ -76,9 +78,9 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
     },
     {
       accessorKey: 'address',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Địa chỉ' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.address')} />,
       meta: {
-        displayName: 'Địa chỉ'
+        displayName: t('table.address')
       },
       cell: ({ row }) => (
         <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('address') || '--'}</div>
@@ -87,9 +89,9 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
     },
     {
       accessorKey: 'totalPrice',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Tổng tiền' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.total_price')} />,
       meta: {
-        displayName: 'Tổng tiền'
+        displayName: t('table.total_price')
       },
       cell: ({ row }) => {
         const totalPrice = row.getValue('totalPrice') as number
@@ -99,9 +101,9 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
     },
     {
       accessorKey: 'bookingStatus',
-      header: () => <div className='text-center capitalize w-full'>Trạng thái</div>,
+      header: () => <div className='text-center capitalize w-full'>{t('table.status')}</div>,
       meta: {
-        displayName: 'Trạng thái'
+        displayName: t('table.status')
       },
       cell: ({ row }) => {
         const status = row.getValue('bookingStatus') as BookingStatus
@@ -115,9 +117,9 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
     },
     {
       accessorKey: 'products',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Dịch vụ' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.service_name')} />,
       meta: {
-        displayName: 'Dịch vụ'
+        displayName: t('table.service_name')
       },
       cell: ({ row }) => {
         const product = (row.getValue('products') as Product[])[0]
@@ -135,7 +137,7 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
               // call API
               handleAddSaleBooking.mutate({ bookingId: row.id, status: BookingStatus.ACCEPTED })
             } else {
-              Toast.error({ description: 'Đơn hàng này đã có người tư vấn.' })
+              Toast.error({ description: t('toast.booking_has_sale') })
             }
           }}
           onRejected={(row) => {
@@ -143,19 +145,18 @@ export const useBookingColumns = (): ColumnDef<Booking>[] => {
               // call API
               handleRejectBooking.mutate({ bookingId: row.id, status: BookingStatus.REJECTED })
             } else {
-              Toast.error({ description: 'Chỉ được từ chối đơn hàng có trạng thái chờ tư vấn.' })
+              Toast.error({ description: t('toast.error_reject_booking') })
             }
           }}
           onView={(row) => {
             setCurrentRow(row)
-            console.log('view')
           }}
           onEdit={(row) => {
             if (
               !isEqual(row.bookingStatus, BookingStatus.PENDING) &&
               !isEqual(row.bookingStatus, BookingStatus.ACCEPTED)
             ) {
-              Toast.error({ description: 'Không thể chỉnh sửa đơn dịch vụ đã hoàn thành.' })
+              Toast.error({ description: t('toast.cannot_edit_booking') })
             } else {
               setCurrentRow(row)
               setOpen('edit')

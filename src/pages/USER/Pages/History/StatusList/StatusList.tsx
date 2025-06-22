@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator'
-import { BookingStatusExtra } from '@/configs/consts'
+import { getBookingStatusExtra } from '@/configs/consts'
 import { path } from '@/core/constants/path'
 import { BookingQueryConfig } from '@/hooks/useBookingQueryConfig'
 import classNames from 'classnames'
@@ -20,7 +20,7 @@ export default function StatusList({ queryString }: StatusListProps) {
       return isEqual(queryString.bookingStatus, status)
     }
   }
-
+  const BookingStatusExtra = getBookingStatusExtra()
   return (
     <>
       <ul className='bg-white flex justify-around items-center  text-black overflow-x-auto overflow-y-hidden w-full rounded-xs '>

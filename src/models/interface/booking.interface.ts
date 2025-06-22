@@ -44,7 +44,8 @@ export enum BookingStatus {
   FAILED = 'FAILED',
   SUCCESS = 'SUCCESS',
   REJECTED = 'REJECTED',
-  CANCELLED = 'CANCELLED'
+  CANCELLED = 'CANCELLED',
+  ALL = 'ALL'
 }
 export interface BookingListConfig {
   page?: number

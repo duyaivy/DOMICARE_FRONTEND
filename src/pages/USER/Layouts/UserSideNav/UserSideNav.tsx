@@ -6,9 +6,11 @@ import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronUp, ClipboardList, KeyRound, Settings, SquarePen, User } from 'lucide-react'
 import { useContext, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 
 export default function UserSideNav() {
+  const { t } = useTranslation(['settings', 'common', 'auth'])
   const { profile } = useContext(AppContext)
   const [isShow, setIsShow] = useState<boolean>(false)
   const { pathname } = useLocation()
@@ -29,11 +31,11 @@ export default function UserSideNav() {
 
           <Link to={path.user.profile} className='md:flex gap-1 items-center hidden'>
             <SquarePen className='!w-4 h-auto text-gray' />
-            <p className='text-gray text-sm capitalize'>Sửa hồ sơ</p>
+            <p className='text-gray text-sm capitalize'>{t('edit_profile')}</p>
           </Link>
           <div className='flex gap-1 items-center md:hidden'>
             <SquarePen className='!w-4 h-auto text-gray' />
-            <p className='text-gray text-sm capitalize'>Sửa hồ sơ</p>
+            <p className='text-gray text-sm capitalize'>{t('edit_profile')}</p>
           </div>
         </div>
         <div className='md:hidden flex items-center justify-center'>
@@ -61,7 +63,7 @@ export default function UserSideNav() {
                     'text-main font-semibold': isActive(path.user.profile, pathname)
                   })}
                 >
-                  Tài khoản
+                  {t('account')}
                 </p>
               </ListItem>
               <ListItem
@@ -75,7 +77,7 @@ export default function UserSideNav() {
                     'text-main font-semibold': isActive(path.user.history, pathname)
                   })}
                 >
-                  Lịch sử dịch vụ
+                  {t('history')}
                 </p>
               </ListItem>
               <ListItem
@@ -89,7 +91,7 @@ export default function UserSideNav() {
                     'text-main font-semibold': isActive(path.user.change_password, pathname)
                   })}
                 >
-                  Đổi mật khẩu
+                  {t('auth:change_password')}
                 </p>
               </ListItem>
               <ListItem
@@ -103,7 +105,7 @@ export default function UserSideNav() {
                     'text-main font-semibold': isActive(path.user.settings, pathname)
                   })}
                 >
-                  Cài đặt
+                  {t('settings')}
                 </p>
               </ListItem>
             </motion.ul>
@@ -123,7 +125,7 @@ export default function UserSideNav() {
                 'text-main font-semibold': isActive(path.user.profile, pathname)
               })}
             >
-              Tài khoản
+              {t('account')}
             </p>
           </ListItem>
           <ListItem
@@ -137,7 +139,7 @@ export default function UserSideNav() {
                 'text-main font-semibold': isActive(path.user.history, pathname)
               })}
             >
-              Lịch sử dịch vụ
+              {t('history')}
             </p>
           </ListItem>
           <ListItem
@@ -151,7 +153,7 @@ export default function UserSideNav() {
                 'text-main font-semibold': isActive(path.user.change_password, pathname)
               })}
             >
-              Đổi mật khẩu
+              {t('auth:change_password')}
             </p>
           </ListItem>
           <ListItem
@@ -165,7 +167,7 @@ export default function UserSideNav() {
                 'text-main font-semibold': isActive(path.user.settings, pathname)
               })}
             >
-              Cài đặt
+              {t('settings')}
             </p>
           </ListItem>
         </ul>

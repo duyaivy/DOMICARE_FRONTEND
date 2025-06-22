@@ -1,6 +1,6 @@
+import { Sidebar } from '@/core/constants/sidebar.const'
 import { Category } from '@/models/interface/category.interface'
 import { User } from '@/models/interface/user.interface'
-import { Sidebar } from '../constants/sidebar.const'
 
 export const LocalStorageEventTarget = new EventTarget()
 

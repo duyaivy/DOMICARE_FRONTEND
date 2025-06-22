@@ -6,6 +6,7 @@ import { ProductListConfig } from '@/models/interface/product.interface'
 import { path } from '@/core/constants/path'
 import { sortDirection as direction, sortBy as sort_by } from '@/core/constants/product.const'
 import { isActive } from '@/utils/isActiveLocation'
+import { useTranslation } from 'react-i18next'
 
 interface SortProductProps {
   queryString: QueryPrdConfig
@@ -14,6 +15,7 @@ interface SortProductProps {
 
 export default function SortProduct({ queryString }: SortProductProps) {
   const navigate = useNavigate()
+  const { t } = useTranslation(['product'])
   const { sortDirection = 'desc', sortBy = 'name' } = queryString
   const handleSort = (sortByValue: ProductListConfig['sortBy']) => {
     navigate({
@@ -44,7 +46,7 @@ export default function SortProduct({ queryString }: SortProductProps) {
       <div className='flex justify-between items-center gap-2 flex-row  md:flex-row'>
         <div className='grid grid-cols-12 gap-2 w-full'>
           <div className='col-span-6 md:col-span-3 mo:!col-span-2  text-sm text-gray-600  flex justify-center items-center '>
-            Sắp xếp theo
+            {t('sort_by')}
           </div>
           <button
             onClick={() => handleSort(sort_by.name as ProductListConfig['sortBy'])}
@@ -54,7 +56,7 @@ export default function SortProduct({ queryString }: SortProductProps) {
               { 'bg-bg text-black': !isActive(sort_by.name, sortBy) }
             )}
           >
-            Tên sản phẩm
+            {t('sort_by_name')}
           </button>
           <button
             onClick={() => handleSort(sort_by.price as ProductListConfig['sortBy'])}
@@ -64,7 +66,7 @@ export default function SortProduct({ queryString }: SortProductProps) {
               { 'bg-bg text-black': !isActive(sort_by.price, sortBy) }
             )}
           >
-            Giá
+            {t('sort_by_price')}
           </button>
           <button
             onClick={() => handleSort(sort_by.discount as ProductListConfig['sortBy'])}
@@ -74,7 +76,7 @@ export default function SortProduct({ queryString }: SortProductProps) {
               { 'bg-bg text-black': !isActive(sort_by.discount, sortBy) }
             )}
           >
-            Giảm giá
+            {t('sort_by_discount')}
           </button>
           <button
             onClick={() => handleSort(sort_by.ratingStar as ProductListConfig['sortBy'])}
@@ -84,7 +86,7 @@ export default function SortProduct({ queryString }: SortProductProps) {
               { 'bg-bg text-black': !isActive(sort_by.ratingStar, sortBy) }
             )}
           >
-            Đánh giá
+            {t('sort_by_rating')}
           </button>
 
           <select
@@ -102,13 +104,13 @@ export default function SortProduct({ queryString }: SortProductProps) {
               value={direction.desc}
               className='text-sm text-center  text-black  shadow lg:text-sm  my-1 px-2 capitalize'
             >
-              Cao đến thấp
+              {t('sort_by_desc')}
             </option>
             <option
               value={direction.asc}
               className='text-sm  text-center  shadow lg:text-sm text-black  my-1 px-2 capitalize'
             >
-              Thấp đến cao
+              {t('sort_by_asc')}
             </option>
           </select>
         </div>

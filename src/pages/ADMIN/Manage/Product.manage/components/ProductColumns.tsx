@@ -7,9 +7,11 @@ import { useProducts } from '@/core/contexts/product.context'
 import { CategoryMini } from '@/models/interface/category.interface'
 import { formatCurrentcy } from '@/utils/formatCurrentcy'
 import { cn } from '@/core/lib/utils'
+import { useTranslation } from 'react-i18next'
 
 export const useProductColumns = (): ColumnDef<Product>[] => {
   const { setOpen, setCurrentRow } = useProducts()
+  const { t } = useTranslation('admin')
   return [
     {
       id: 'select',
@@ -34,16 +36,16 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
       accessorKey: 'id',
       header: 'ID',
       meta: {
-        displayName: 'Mã dịch vụ'
+        displayName: t('table.id')
       },
       cell: ({ row }) => <div>#{row.getValue('id')}</div>,
       enableHiding: false
     },
     {
       accessorKey: 'name',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Tên dịch vụ' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.service_name')} />,
       meta: {
-        displayName: 'Tên dịch vụ',
+        displayName: t('table.service_name'),
         className: cn(
           'sticky lg:relative left-0 md:table-cell',
           'bg-white lg:bg-inherit',
@@ -61,9 +63,9 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     },
     {
       accessorKey: 'categoryMini',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Danh mục' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.category_name')} />,
       meta: {
-        displayName: 'Danh mục'
+        displayName: t('table.category_name')
       },
       cell: ({ row }) => {
         const categoryMini: CategoryMini = row.getValue('categoryMini')
@@ -73,9 +75,9 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     },
     {
       accessorKey: 'price',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Giá gốc' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.price_before_discount')} />,
       meta: {
-        displayName: 'Giá gốc'
+        displayName: t('table.price_before_discount')
       },
       cell: ({ row }) => {
         const price = row.getValue('price') as number
@@ -84,9 +86,9 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     },
     {
       accessorKey: 'discount',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Giảm giá (%)' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.discount')} />,
       meta: {
-        displayName: 'Giảm giá'
+        displayName: t('table.discount')
       },
       cell: ({ row }) => {
         const discount = row.getValue('discount') as number
@@ -96,9 +98,9 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     },
     {
       accessorKey: 'priceAfterDiscount',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Giá sau giảm' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.price_after_discount')} />,
       meta: {
-        displayName: 'Giá sau giảm'
+        displayName: t('table.price_after_discount')
       },
       cell: ({ row }) => {
         const priceAfter = row.getValue('priceAfterDiscount') as number
@@ -107,9 +109,9 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     },
     {
       accessorKey: 'ratingStar',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Đánh giá' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.rating')} />,
       meta: {
-        displayName: 'Đánh giá',
+        displayName: t('table.rating'),
         sortKey: 'overalRating'
       },
       cell: ({ row }) => {
@@ -119,9 +121,9 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     },
     {
       accessorKey: 'createAt',
-      header: () => <div className='text-center capitalize'>Ngày tạo</div>,
+      header: () => <div className='text-center capitalize'>{t('table.created_at')}</div>,
       meta: {
-        displayName: 'Ngày tạo'
+        displayName: t('table.created_at')
       },
       cell: ({ row }) => {
         const date = row.getValue('createAt') as string
@@ -131,9 +133,9 @@ export const useProductColumns = (): ColumnDef<Product>[] => {
     },
     {
       accessorKey: 'updateAt',
-      header: () => <div className='text-center capitalize'>Cập nhật lần cuối</div>,
+      header: () => <div className='text-center capitalize'>{t('table.updated_at')}</div>,
       meta: {
-        displayName: 'Cập nhật lần cuối'
+        displayName: t('table.updated_at')
       },
       cell: ({ row }) => {
         const date = row.getValue('updateAt') as string

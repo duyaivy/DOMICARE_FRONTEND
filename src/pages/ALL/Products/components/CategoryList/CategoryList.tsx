@@ -8,11 +8,13 @@ import { isActive } from '@/utils/isActiveLocation'
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { omit } from 'lodash'
+import { useTranslation } from 'react-i18next'
 import { useContext, useState } from 'react'
 import { createSearchParams, Link, useLocation } from 'react-router-dom'
 
 export default function CategoryList({ queryString }: { queryString: QueryPrdConfig }) {
   const { categories } = useContext(AppContext)
+  const { t } = useTranslation(['product'])
   const [isShow, setIsShow] = useState<boolean>(false)
   const { search } = useLocation()
   const isAllActive = categories?.some((cate) => isActive(`categoryId=${cate.id}`, search))
@@ -28,7 +30,7 @@ export default function CategoryList({ queryString }: { queryString: QueryPrdCon
               pathname: path.products
             }}
           >
-            Danh Mục
+            {t('common:category')}
           </Link>
 
           <IconChevronUp
@@ -39,7 +41,7 @@ export default function CategoryList({ queryString }: { queryString: QueryPrdCon
             })}
           />
         </li>
-        <li className=' text-sub0 capitalize font-semibold md:block hidden'>Danh Mục</li>
+        <li className=' text-sub0 capitalize font-semibold md:block hidden'>{t('common:category')}</li>
 
         <li
           className={classNames(
@@ -64,7 +66,7 @@ export default function CategoryList({ queryString }: { queryString: QueryPrdCon
               'text-main': !isAllActive
             })}
           >
-            Tất cả
+            {t('booking_status:all')}
           </Link>
         </li>
 

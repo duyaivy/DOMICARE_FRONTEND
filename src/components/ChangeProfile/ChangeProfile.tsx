@@ -19,13 +19,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { gender } from '@/core/constants/user.const'
 import { Label } from '@/components/ui/label'
 import hideEmail from '@/utils/hideEmail'
-
 import DateTimeSelect from '@/components/DateTimeSelect'
 import { useUploadFileMutation } from '@/core/queries/file.query'
 import { useUpdateUserMutation } from '@/core/queries/user.query'
+import { useTranslation } from 'react-i18next'
 
 export default function Profile() {
   const { profile } = useContext(AppContext)
+  const { t } = useTranslation(['auth', 'common'])
   const userId = profile?.id || 1
   const [file, setFile] = useState<File>()
   const fileLocal = useMemo(() => {
@@ -62,7 +63,6 @@ export default function Profile() {
       form.setValue('name', user.name || '')
       const dateOfBirth = new Date(user.dateOfBirth as string)
       form.setValue('dateOfBirth', dateOfBirth)
-      console.log('value', form.getValues())
     }
   }, [user, form])
 
@@ -99,7 +99,7 @@ export default function Profile() {
             <div className='grid grid-cols-12 gap-4 my-4'>
               <div className='col-span-12 md:col-span-7 order-2 md:order-1'>
                 <div>
-                  <Label>Email</Label>
+                  <Label>{t('email')}</Label>
                   <Input
                     disabled
                     value={hideEmail(user?.email) || hideEmail(profile?.email)}
@@ -114,11 +114,11 @@ export default function Profile() {
                   name='name'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Họ và tên</FormLabel>
+                      <FormLabel>{t('full_name')}</FormLabel>
                       <FormControl>
                         <Input
                           autoComplete='off'
-                          placeholder='Nhập họ và tên'
+                          placeholder={t('full_name_placeholder')}
                           type='text'
                           className='w-full focus:outline-0 mt-1'
                           {...field}
@@ -135,7 +135,7 @@ export default function Profile() {
                   name='gender'
                   render={({ field }) => (
                     <FormItem className='flex items-center gap-4 mt-3'>
-                      <FormLabel>Giới tính:</FormLabel>
+                      <FormLabel>{t('gender')}:</FormLabel>
 
                       <FormControl>
                         <RadioGroup onValueChange={field.onChange} value={field.value} className='flex'>
@@ -143,19 +143,19 @@ export default function Profile() {
                             <FormControl>
                               <RadioGroupItem value={gender.male} />
                             </FormControl>
-                            <FormLabel className='font-normal'>Nam</FormLabel>
+                            <FormLabel className='font-normal'>{t('male')}</FormLabel>
                           </FormItem>
                           <FormItem className='flex items-center space-x-3 space-y-0'>
                             <FormControl>
                               <RadioGroupItem value={gender.female} />
                             </FormControl>
-                            <FormLabel className='font-normal'>Nữ</FormLabel>
+                            <FormLabel className='font-normal'>{t('female')}</FormLabel>
                           </FormItem>
                           <FormItem className='flex items-center space-x-3 space-y-0'>
                             <FormControl>
                               <RadioGroupItem value={gender.other} />
                             </FormControl>
-                            <FormLabel className='font-normal'>Khác</FormLabel>
+                            <FormLabel className='font-normal'>{t('other')}</FormLabel>
                           </FormItem>
                         </RadioGroup>
                       </FormControl>
@@ -169,11 +169,11 @@ export default function Profile() {
                   name='phone'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Số điện thoại</FormLabel>
+                      <FormLabel>{t('phone')}</FormLabel>
                       <FormControl>
                         <Input
                           autoComplete='off'
-                          placeholder='Nhập họ và tên'
+                          placeholder={t('phone_placeholder')}
                           type='text'
                           className='w-full focus:outline-0 mt-1'
                           {...field}
@@ -189,7 +189,7 @@ export default function Profile() {
                   name='dateOfBirth'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Ngày sinh</FormLabel>
+                      <FormLabel>{t('birthday')}</FormLabel>
                       <FormControl>
                         <DateTimeSelect
                           onChange={field.onChange}
@@ -207,10 +207,10 @@ export default function Profile() {
                   name='address'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Địa chỉ</FormLabel>
+                      <FormLabel>{t('address')}</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder='Nhập địa chỉ'
+                          placeholder={t('address_placeholder')}
                           autoComplete='off'
                           className='w-full focus:outline-0 mt-1'
                           {...field}
@@ -227,7 +227,7 @@ export default function Profile() {
                     className='w-full  mt-10 text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
                     type='submit'
                   >
-                    Lưu Thông Tin
+                    {t('save')}
                   </Button>
                 </div>
               </div>
@@ -242,8 +242,8 @@ export default function Profile() {
                   </div>
                   <InputFile setFile={setFile} />
                   <div className='text-gray-400 text-sm text-left pl-1 pb-4 md:pb-0'>
-                    <p>Dung lượng file tối đa 2MB</p>
-                    <p>Định dạng .JPEG .PNG</p>
+                    <p>{t('common:format_image')}</p>
+                    <p>{t('common:format_image_description')}</p>
                   </div>
                 </div>
               </div>

@@ -23,12 +23,13 @@ import { isEqual } from 'lodash'
 import { useLoginMutation } from '@/core/queries/auth.query'
 import { authApi } from '@/core/services/auth.service'
 import { handleErrorAPI } from '@/utils/handleErrorAPI'
-import SentEmail from '../register/SentEmail'
+import SentEmail from '../Register/SentEmail'
+import { useTranslation } from 'react-i18next'
 export default function Login() {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const REMEMBER = localStorage.getItem(REMEMBER_ME)
   const [rememberMe, setRememberMe] = useState<boolean>(isEqual(REMEMBER, 'true') ? true : false)
-
+  const { t } = useTranslation('auth')
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -73,9 +74,9 @@ export default function Login() {
           <Link to={path.home}>
             <img src={logoSecond} alt='logo' className='hidden md:block mb-4' />
           </Link>
-          <h1 className='text-2xl md:text-5xl font-semibold text-black mb-6'>Đăng nhập</h1>
+          <h1 className='text-2xl md:text-5xl font-semibold text-black mb-6'>{t('login')}</h1>
           <div className='flex  items-center justify-start gap-2 mb-4'>
-            <p className='text-sm text-[#112211]  text-left'>Đăng nhập vào hệ thống </p>
+            <p className='text-sm text-[#112211]  text-left'>{t('login_description')}</p>
             <Link to={path.home} className='text-main text-sub1 font-bold'>
               DomiCare
             </Link>
@@ -91,11 +92,11 @@ export default function Login() {
                 name='email'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email </FormLabel>
+                    <FormLabel>{t('email')} </FormLabel>
                     <FormControl>
                       <Input
                         className='focus:outline-0 mt-1'
-                        placeholder='Nhập email'
+                        placeholder={t('email_placeholder')}
                         type='email'
                         {...field}
                         icon={<IconMail />}
@@ -110,10 +111,10 @@ export default function Login() {
                 name='password'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Mật khẩu</FormLabel>
+                    <FormLabel>{t('password')} </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='Nhập password'
+                        placeholder={t('password_placeholder')}
                         autoComplete='off'
                         className='w-full focus:outline-0 mt-1'
                         type={isPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
@@ -138,7 +139,7 @@ export default function Login() {
                   />
 
                   <Label htmlFor='terms' className=' text-sub2 text-base text-gray-500 cursor-pointer'>
-                    Lưu thông tin
+                    {t('remember_me')}
                   </Label>
                 </div>
                 <SentEmail type='reset-password' />
@@ -149,12 +150,12 @@ export default function Login() {
                 className='w-full text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
                 type='submit'
               >
-                Đăng nhập
+                {t('login')}
               </Button>
               <p className='flex items-center justify-center'>
-                Chưa có tài khoản?&nbsp;
+                {t('no_account')}?&nbsp;
                 <Link to='/register' className='cursor-pointer text-main hover:underline'>
-                  Đăng ký
+                  {t('register')}
                 </Link>
               </p>
             </form>
@@ -163,7 +164,7 @@ export default function Login() {
             <div className='flex justify-center'>
               <div className='text-black flex justify-center items-center gap-3 w-1/2'>
                 <hr className='h-px w-full' />
-                Hoặc
+                {t('or')}
                 <hr className='h-px w-full' />
               </div>
             </div>

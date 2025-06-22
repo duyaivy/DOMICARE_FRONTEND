@@ -5,7 +5,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
-import { BreadcrumbConfig, BreadcrumbKey } from '@/core/constants/breadcrumb.const'
+import { useBreadcrumbConfig, BreadcrumbKey } from '@/core/constants/breadcrumb.const'
 import { Link, useLocation } from 'react-router-dom'
 
 interface BreadcrumbItemType {
@@ -16,9 +16,9 @@ interface BreadcrumbItemType {
 export function BreadcrumbHeader() {
   const { pathname } = useLocation()
   const pathSegments = pathname.split('/').filter(Boolean)
-
+  const breadcrumbConfig = useBreadcrumbConfig()
   const breadcrumbs: BreadcrumbItemType[] = pathSegments.map((item: string) => {
-    const config = BreadcrumbConfig[item as BreadcrumbKey]
+    const config = breadcrumbConfig[item as BreadcrumbKey]
     if (config) {
       return {
         label: config.label,

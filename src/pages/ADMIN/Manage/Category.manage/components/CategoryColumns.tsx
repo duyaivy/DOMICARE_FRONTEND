@@ -7,9 +7,11 @@ import { DataTableColumnHeader } from '@/components/DataTable/DataTableColumnHea
 import { DataTableRowActions } from '@/components/DataTable/DataTableRowAction'
 import { cn } from '@/core/lib/utils'
 import { useCategories } from '@/core/contexts/category.context'
+import { useTranslation } from 'react-i18next'
 
 export const useCategoryColumns = (): ColumnDef<Category>[] => {
   const { setOpen, setCurrentRow } = useCategories()
+  const { t } = useTranslation('admin')
   return [
     {
       id: 'select',
@@ -34,16 +36,16 @@ export const useCategoryColumns = (): ColumnDef<Category>[] => {
       accessorKey: 'id',
       header: 'ID',
       meta: {
-        displayName: 'Mã danh mục'
+        displayName: t('table.id')
       },
       cell: ({ row }) => <div>#{row.getValue('id')}</div>,
       enableHiding: false
     },
     {
       accessorKey: 'name',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Tên danh mục' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.category_name')} />,
       meta: {
-        displayName: 'Tên danh mục',
+        displayName: t('table.category_name'),
         className: cn(
           'sticky lg:relative left-0 md:table-cell',
           'bg-white lg:bg-inherit',
@@ -59,9 +61,9 @@ export const useCategoryColumns = (): ColumnDef<Category>[] => {
     },
     {
       accessorKey: 'products',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Số sản phẩm' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.product_count')} />,
       meta: {
-        displayName: 'Số sản phẩm',
+        displayName: t('table.product_count'),
         className: cn('flex justify-center')
       },
       cell: ({ row }) => {
@@ -71,9 +73,9 @@ export const useCategoryColumns = (): ColumnDef<Category>[] => {
     },
     {
       accessorKey: 'createAt',
-      header: () => <div className='text-center capitalize'>Ngày tạo</div>,
+      header: () => <div className='text-center capitalize'>{t('table.created_at')}</div>,
       meta: {
-        displayName: 'Ngày tạo'
+        displayName: t('table.created_at')
       },
       cell: ({ row }) => {
         const date = row.getValue('createAt') as string
@@ -83,9 +85,9 @@ export const useCategoryColumns = (): ColumnDef<Category>[] => {
     },
     {
       accessorKey: 'updateAt',
-      header: () => <div className='text-center capitalize'>Cập nhật lần cuối</div>,
+      header: () => <div className='text-center capitalize'>{t('table.updated_at')}</div>,
       meta: {
-        displayName: 'Cập nhật lần cuối'
+        displayName: t('table.updated_at')
       },
       cell: ({ row }) => {
         const date = row.getValue('updateAt') as string

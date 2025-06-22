@@ -19,9 +19,11 @@ import SectionBgGreen from '@/components/SectionBgGreen/SectionBgGreen'
 import SectionBgWhite from '@/components/SectionBgWhite/SectionBgWhite'
 import CountUp from 'react-countup'
 import { Clock, Smile, Users } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 const HomePage = () => {
   const { categories } = useContext(AppContext)
+  const { t } = useTranslation(['home', 'common'])
   const navigate = useNavigate()
   const handleBooking = () => {
     navigate({ pathname: path.products })
@@ -33,29 +35,24 @@ const HomePage = () => {
         className='bg-center min-h-[300px] md:min-h-[500px] lg:min-h-[800px] bg-no-repeat bg-cover'
       ></div>
       <SectionBgGreen>
-        <h2 className='text-head text-black text-center py-5 font-semibold '>
-          Quan hệ đối tác và khách hàng đáng tự hào của chúng tôi
-        </h2>
+        <h2 className='text-head text-black text-center py-5 font-semibold '>{t('our_partner')}</h2>
         <SecctionInView>
           <Company />
         </SecctionInView>
       </SectionBgGreen>
       <SectionBgWhite>
         <div className='flex flex-col justify-between items-center'>
-          <h2 className='text-head text-black text-center py-5 font-semibold '>Những con số đáng ấn tượng</h2>
-          <p className='text-sub0  text-black text-justify md:text-center '>
-            Với nhiều năm kinh nghiệm trong lĩnh vực giúp việc gia đình, Domicare tự hào đang là giải pháp dọn nhà tốt
-            nhất và tiện lợi nhất cho phụ nữ Việt.
-          </p>
+          <h2 className='text-head text-black text-center py-5 font-semibold '>{t('impressive')}</h2>
+          <p className='text-sub0  text-black text-justify md:text-center '>{t('impressive_description')}</p>
 
           <div className='w-full mo:w-auto flex flex-col mo:flex-row justify-between items-center gap-3 mt-10 mb-3 mo:gap-10'>
-            <CardItem icon={<Clock />} sub='Giờ làm / năm'>
+            <CardItem icon={<Clock />} sub={t('work_time')}>
               <CountUp end={600} start={0} suffix={'+'} duration={6} />
             </CardItem>
-            <CardItem icon={<Users />} sub='Người theo dõi'>
+            <CardItem icon={<Users />} sub={t('number_of_followers')}>
               <CountUp end={11} start={0} suffix={'K'} prefix='+' duration={6} />
             </CardItem>
-            <CardItem icon={<Smile />} sub='Khách hàng hài lòng'>
+            <CardItem icon={<Smile />} sub={t('satisfied_customer')}>
               <CountUp end={99} start={0} suffix='%' duration={6} />
             </CardItem>
           </div>
@@ -63,20 +60,12 @@ const HomePage = () => {
       </SectionBgWhite>
       <SectionBgGreen>
         <div className='flex flex-col sm:flex-row gap-4 items-start sm:max-w-7xl max-w-9/12 mx-auto mt-8'>
-          <FeatureCard
-            icon={<IconGood />}
-            title='Chuyên nghiệp - Tận tâm'
-            description='Đội ngũ Tư vấn viên & Chăm sóc Khách hàng kinh nghiệm, chuyên nghiệp, tận tâm. Domicare cam kết bảo hành dịch vụ khi Khách hàng chưa hài lòng.'
-          />
-          <FeatureCard
-            icon={<IconQuickly />}
-            title='Thao tác tiện lợi và đơn giản'
-            description='Tìm Người giúp việc nhà nhanh chóng qua web thao tác. Hệ thống cung cấp đầy đủ thông tin dịch vụ và Người giúp việc, tiện lợi trong việc chọn lựa công việc và đánh giá.'
-          />
+          <FeatureCard icon={<IconGood />} title={t('professional')} description={t('professional_description')} />
+          <FeatureCard icon={<IconQuickly />} title={t('easy_to_use')} description={t('easy_to_use_description')} />
           <FeatureCard
             icon={<IconStaff />}
-            title='Nhân viên đạt tiêu chuẩn'
-            description='Nhân viên tiêu chuẩn, đăng tin chính, có đầy đủ hồ sơ. Công ty Domicare chấp nhận trách nhiệm cung cấp đào tạo và quản lý.'
+            title={t('standard_employee')}
+            description={t('standard_employee_description')}
           />
         </div>
         <div className='flex justify-center my-5'>
@@ -84,16 +73,16 @@ const HomePage = () => {
             onClick={handleBooking}
             className=' text-white text-xl  px-8 rounded-md py-6 bg-main hover:bg-main/80 transition duration-300 cursor-pointer'
           >
-            Đặt dịch vụ ngay
+            {t('common:book_service')}
           </Button>
         </div>
       </SectionBgGreen>
       <SectionBgWhite>
         <div className='w-full py-20 px-4'>
-          <h2 className=' text-head text-black text-center mb-6 md:mb-16 font-semibold '>Dịch vụ của chúng tôi</h2>
-          <div className='flex  justify-end items-center'>
+          <h2 className=' text-head text-black text-center mb-6 md:mb-16 font-semibold '>{t('common:category')}</h2>
+          <div className='flex justify-end items-center'>
             <Link to={path.products} className=' text-right text-black text-sub2 py-2 hover:underline duration-200'>
-              Xem tất cả
+              {t('common:view_all')}
             </Link>
           </div>
           <div className='grid grid-cols-12 gap-2 md:gap-4'>
@@ -113,7 +102,7 @@ const HomePage = () => {
       <SectionBgGreen className='my-5'>
         <div className='flex flex-col justify-between items-center '>
           <h2 className='text-head text-black text-center py-5 font-semibold flex flex-col sm:flex-row gap-2 cursor-default mb-4 md:mb-10'>
-            Khách hàng nói gì về <p className='text-main font-semibold'>DomiCare</p>
+            {t('customer_say')} <p className='text-main font-semibold'>DomiCare</p>
           </h2>
         </div>
         <SecctionInView>
@@ -127,13 +116,14 @@ const HomePage = () => {
           <div className='md:col-start-5 md:col-span-8 col-span-12 z-20 '>
             <SecctionInView className='flex flex-col items-center justify-center gap-8 h-full'>
               <h2 className='text-black text-head text-center'>
-                Tại sao nên thuê <span className='text-main font-semibold'>Domicare</span> làm dịch vụ vệ sinh cho bạn
+                {t('why_choose')} <span className='text-main font-semibold'>Domicare</span>
+                {t('why_choose_description')}
               </h2>
               <Link
                 to={path.aboutUs}
-                className='bg-brown rounded-sm text-center border duration-300 hover:bg-brown/80 uppercase text-white text-lg cursor-pointer w-[60%] py-2.5 md:py-4'
+                className='bg-brown rounded-sm text-center border duration-300 hover:bg-brown/80 uppercase text-white text-lg cursor-pointer w-4/6 py-2.5 md:py-4'
               >
-                Tìm hiểu thêm
+                {t('common:learn_more')}
               </Link>
             </SecctionInView>
           </div>

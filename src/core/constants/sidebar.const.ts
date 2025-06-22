@@ -1,7 +1,7 @@
 import { Archive, LayoutDashboard, LucideProps } from 'lucide-react'
 import { path } from './path'
 import { ChartNoAxesCombined, Bot, Users, Settings } from 'lucide-react'
-import { getUserFromLocalStorage } from '../shared/storage'
+import { getUserFromLocalStorage } from '@/utils/storage'
 
 export interface SidebarItem {
   title: string
@@ -20,110 +20,85 @@ export interface Sidebar {
   ROLE_SALE: SidebarItem[]
 }
 
-export const getSidebarItems = (): Sidebar => {
+import { useTranslation } from 'react-i18next'
+
+export const useSidebarItems = (): Sidebar => {
+  const { t } = useTranslation('admin') // dùng đúng namespace
+
   const createSaleOrderUrl = () => {
     const user = getUserFromLocalStorage()
-    if (!user?.id) {
-      return path.admin.booking
-    }
+    if (!user?.id) return path.admin.booking
     return `${path.admin.booking}?saleId=${user.id}`
   }
 
   return {
     ROLE_ADMIN: [
       {
-        title: 'Báo cáo & Thống kê',
+        title: t('sidebar.dashboard'),
         url: path.admin.dashboard,
         icon: ChartNoAxesCombined
       },
       {
-        title: 'Quản lý đơn hàng',
+        title: t('sidebar.manage_order'),
         url: path.admin.booking,
         icon: LayoutDashboard
       },
       {
-        title: 'Quản lý người dùng',
+        title: t('sidebar.manage_user'),
         url: path.admin.manage.sale,
         icon: Users,
         isActive: true,
         items: [
-          {
-            title: 'Nhân viên',
-            url: path.admin.manage.sale
-          },
-          {
-            title: 'Khách hàng',
-            url: path.admin.manage.user
-          }
+          { title: t('sidebar.sale'), url: path.admin.manage.sale },
+          { title: t('sidebar.customer'), url: path.admin.manage.user }
         ]
       },
       {
-        title: 'Quản lý hệ thống',
+        title: t('sidebar.manage_system'),
         url: path.admin.manage.category,
         icon: Bot,
         isActive: true,
         items: [
-          {
-            title: 'Danh mục',
-            url: path.admin.manage.category
-          },
-          {
-            title: 'Dịch vụ',
-            url: path.admin.manage.product
-          },
-          {
-            title: 'Bài viết',
-            url: path.admin.manage.post
-          }
+          { title: t('sidebar.category'), url: path.admin.manage.category },
+          { title: t('sidebar.service'), url: path.admin.manage.product },
+          { title: t('sidebar.post'), url: path.admin.manage.post }
         ]
       },
       {
-        title: 'Cài đặt',
+        title: t('sidebar.settings'),
         url: path.admin.setting.profile,
-        isActive: true,
         icon: Settings,
+        isActive: true,
         items: [
-          {
-            title: 'Cá nhân',
-            url: path.admin.setting.profile
-          },
-          {
-            title: 'Hệ thống',
-            url: path.admin.setting.system
-          }
+          { title: t('sidebar.profile'), url: path.admin.setting.profile },
+          { title: t('sidebar.system'), url: path.admin.setting.system }
         ]
       }
     ],
     ROLE_SALE: [
       {
-        title: 'Báo cáo & Thống kê',
+        title: t('sidebar.dashboard'),
         url: path.admin.dashboard,
         icon: ChartNoAxesCombined
       },
       {
-        title: 'Tất cả đơn hàng',
+        title: t('sidebar.all_order'),
         url: path.admin.booking,
         icon: LayoutDashboard
       },
       {
-        title: 'Đơn hàng của tôi',
+        title: t('sidebar.my_order'),
         url: createSaleOrderUrl(),
         icon: Archive
       },
       {
-        title: 'Cài đặt',
+        title: t('sidebar.settings'),
         url: path.admin.setting.profile,
-        isActive: true,
         icon: Settings,
+        isActive: true,
         items: [
-          {
-            title: 'Cá nhân',
-            url: path.admin.setting.profile
-          },
-          {
-            title: 'Hệ thống',
-            url: path.admin.setting.system
-          }
+          { title: t('sidebar.profile'), url: path.admin.setting.profile },
+          { title: t('sidebar.system'), url: path.admin.setting.system }
         ]
       }
     ]

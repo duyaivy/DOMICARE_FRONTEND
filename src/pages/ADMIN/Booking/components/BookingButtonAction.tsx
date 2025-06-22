@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
-import { bookingStatusList } from '@/configs/consts'
+import { getBookingStatusList } from '@/configs/consts'
 import { path } from '@/core/constants/path'
 import { cn } from '@/core/lib/utils'
 import { useBookingQueryConfig } from '@/hooks/useBookingQueryConfig'
@@ -25,7 +25,7 @@ import { createSearchParams, useNavigate } from 'react-router-dom'
 export function BookingButtonAction() {
   const queryString = useBookingQueryConfig({})
   const { bookingStatus } = queryString
-
+  const bookingStatusList = getBookingStatusList()
   const navigate = useNavigate()
 
   const handleRemoveSearch = () =>

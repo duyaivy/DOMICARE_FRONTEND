@@ -6,6 +6,7 @@ import { formatRevenueData } from '@/utils/formatRevenue'
 import { TrendingDown, TrendingUp } from 'lucide-react'
 import { CartesianGrid, Line, LineChart, XAxis, Tooltip, YAxis } from 'recharts'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useTranslation } from 'react-i18next'
 
 export function RevenueOverviewChart() {
   const chartConfig = {
@@ -14,7 +15,7 @@ export function RevenueOverviewChart() {
       color: '#02865a'
     }
   } satisfies ChartConfig
-
+  const { t } = useTranslation(['admin'])
   const { data, isLoading } = useGetRevenueQuery()
   const chartList = formatRevenueData(data?.data?.totalRevenue || {})
   const growRate = data?.data?.growthRate
@@ -22,8 +23,8 @@ export function RevenueOverviewChart() {
   return (
     <Card className='h-full'>
       <CardHeader>
-        <CardTitle className='text-lg font-semibold capitalize'>Biểu đồ doanh thu</CardTitle>
-        <CardDescription>Mô tả trực quan dữ liệu doanh thu mỗi tháng trong năm</CardDescription>
+        <CardTitle className='text-lg font-semibold capitalize'>{t('admin:chart.revenue')}</CardTitle>
+        <CardDescription>{t('admin:chart.revenue_description')}</CardDescription>
       </CardHeader>
       <CardContent>
         {isLoading ? (
@@ -72,19 +73,18 @@ export function RevenueOverviewChart() {
             <div className='flex gap-2 font-medium leading-none'>
               {growRate && growRate > 0 ? (
                 <>
-                  Tăng trưởng đạt {Number(growRate).toFixed(2)}% so với cùng kỳ trước <TrendingUp className='h-4 w-4' />
+                  {t('admin:chart.growth_up')} {Number(growRate).toFixed(2)}% {t('admin:chart.compared')}{' '}
+                  <TrendingUp className='h-4 w-4' />
                 </>
               ) : (
                 <>
-                  Tăng trưởng giảm{' '}
-                  <span className='text-red-500 font-semibold'>{growRate && Number(-growRate).toFixed(2)}% </span> so
-                  với cùng kỳ trước <TrendingDown className='h-4 w-4' />
+                  {t('admin:chart.growth_down')}{' '}
+                  <span className='text-red-500 font-semibold'>{growRate && Number(-growRate).toFixed(2)}% </span>{' '}
+                  {t('admin:chart.compared')} <TrendingDown className='h-4 w-4' />
                 </>
               )}
             </div>
-            <div className='leading-none text-muted-foreground'>
-              Biểu đồ mô tả trực quan doanh thu của 12 tháng gần nhất
-            </div>
+            <div className='leading-none text-muted-foreground'>{t('admin:chart.revenue_description')}</div>
           </>
         )}
       </CardFooter>

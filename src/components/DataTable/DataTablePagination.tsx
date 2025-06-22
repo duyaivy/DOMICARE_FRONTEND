@@ -5,6 +5,7 @@ import { createSearchParams, useNavigate } from 'react-router-dom'
 import { isEqual } from 'lodash'
 import { PaginationResponse } from '@/models/interface/response.interface'
 import { Table } from '@tanstack/react-table'
+import { useTranslation } from 'react-i18next'
 
 export interface DataTablePaginationProps<TQuery extends Record<string, string>, TData> {
   pageController?: PaginationResponse
@@ -22,7 +23,7 @@ export function DataTablePagination<TQuery extends Record<string, string>, TData
   const FIRST_INDEX_PAGE = 1
   const { page = 1, size = 10, totalPages = 1 } = pageController || {}
   const LAST_INDEX_PAGE = totalPages
-
+  const { t } = useTranslation('common')
   const navigatePage = (value: string) =>
     navigate({
       pathname: path,
@@ -39,11 +40,11 @@ export function DataTablePagination<TQuery extends Record<string, string>, TData
     >
       <div className='text-muted-foreground hidden flex-1 text-sm sm:block'>
         {table && table.getFilteredSelectedRowModel().rows.length} / {table && table.getFilteredRowModel().rows.length}
-        &nbsp; hàng được chọn.
+        &nbsp; {t('selected_rows')}
       </div>
       <div className='flex items-center sm:space-x-6 lg:space-x-8'>
         <div className='flex items-center space-x-2'>
-          <p className='hidden text-sm font-medium sm:block'>Số hàng mỗi trang</p>
+          <p className='hidden text-sm font-medium sm:block'>{t('rows_per_page')}</p>
           <Select
             value={`${size}`}
             onValueChange={(value) =>
@@ -70,7 +71,7 @@ export function DataTablePagination<TQuery extends Record<string, string>, TData
           </Select>
         </div>
         <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
-          Trang {page} / {totalPages}
+          {t('page')} {page} / {totalPages}
         </div>
         <div className='flex items-center space-x-2'>
           <Button
@@ -79,7 +80,7 @@ export function DataTablePagination<TQuery extends Record<string, string>, TData
             onClick={() => navigatePage(FIRST_INDEX_PAGE.toString())}
             disabled={isEqual(page, FIRST_INDEX_PAGE)}
           >
-            <span className='sr-only'>Trang đầu tiên</span>
+            <span className='sr-only'>{t('first_page')}</span>
             <ChevronsLeft className='h-4 w-4' />
           </Button>
           <Button
@@ -88,7 +89,7 @@ export function DataTablePagination<TQuery extends Record<string, string>, TData
             onClick={() => navigatePage((page ? page - 1 : FIRST_INDEX_PAGE).toString())}
             disabled={isEqual(page, FIRST_INDEX_PAGE)}
           >
-            <span className='sr-only'>Trước</span>
+            <span className='sr-only'>{t('previous_page')}</span>
             <ChevronLeftIcon className='h-4 w-4' />
           </Button>
           <Button
@@ -97,7 +98,7 @@ export function DataTablePagination<TQuery extends Record<string, string>, TData
             onClick={() => navigatePage((page ? page + 1 : LAST_INDEX_PAGE).toString())}
             disabled={isEqual(page, LAST_INDEX_PAGE)}
           >
-            <span className='sr-only'>Sau</span>
+            <span className='sr-only'>{t('next_page')}</span>
             <ChevronRightIcon className='h-4 w-4' />
           </Button>
           <Button
@@ -106,7 +107,7 @@ export function DataTablePagination<TQuery extends Record<string, string>, TData
             onClick={() => navigatePage(LAST_INDEX_PAGE.toString())}
             disabled={isEqual(page, LAST_INDEX_PAGE)}
           >
-            <span className='sr-only'>Trang cuối</span>
+            <span className='sr-only'>{t('last_page')}</span>
             <ChevronsRight className='h-4 w-4' />
           </Button>
         </div>

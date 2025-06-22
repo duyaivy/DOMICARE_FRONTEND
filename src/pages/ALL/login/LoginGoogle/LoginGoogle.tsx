@@ -3,8 +3,10 @@ import { useLoginMutation } from '@/core/queries/auth.query'
 import { authApi } from '@/core/services/auth.service'
 import { Toast } from '@/utils/toastMessage'
 import { useGoogleLogin } from '@react-oauth/google'
+import { useTranslation } from 'react-i18next'
 
 export default function LoginGoogle() {
+  const { t } = useTranslation('auth')
   const mutationLogin = useLoginMutation({
     mutationFn: authApi.loginWithGG,
     handleError: () => {
@@ -70,7 +72,7 @@ export default function LoginGoogle() {
             </g>
           </g>
         </svg>
-        <span>Đăng nhập với Google</span>
+        <span>{t('login_with_google')}</span>
       </Button>
     </div>
   )

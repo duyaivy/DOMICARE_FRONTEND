@@ -33,7 +33,7 @@ export default function CommentItem(props: CommentItemProps) {
         className
       )}
     >
-      <p className='text-gray text-base mb-4 text-justify italic'>{comment && `"${comment}"`}</p>
+      <blockquote className='text-gray text-base mb-4 text-justify italic'>{comment && `"${comment}"`}</blockquote>
       <div className='flex items-center space-x-4'>
         <Avatar className='!size-15'>
           <AvatarImage src={avatar} className='w-full h-full object-cover' alt='@shadcn' />

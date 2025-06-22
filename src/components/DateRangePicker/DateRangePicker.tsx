@@ -13,6 +13,7 @@ import { formatDateTime } from '@/core/helpers/date-time'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import { path } from '@/core/constants/path'
 import { OverviewQueryConfig } from '@/hooks/useOverviewQueryConfig'
+import { useTranslation } from 'react-i18next'
 
 const initialDateRange: DateRange = {
   to: new Date(),
@@ -24,6 +25,7 @@ interface DateRangePickerProps {
 }
 export function DateRangePicker({ className, queryString }: DateRangePickerProps) {
   const [date, setDate] = useState<DateRange | undefined>(initialDateRange)
+  const { t } = useTranslation(['admin'])
   const navigate = useNavigate()
   const handleChangeDate = (range: DateRange) => {
     setDate(range)
@@ -48,7 +50,7 @@ export function DateRangePicker({ className, queryString }: DateRangePickerProps
   return (
     <div className={cn('flex gap-2', className)}>
       <Button onClick={handleQuery} variant={'default'} className='cursor-pointer'>
-        Truy vấn
+        {t('query')}
       </Button>
       <Popover>
         <PopoverTrigger asChild>
@@ -71,7 +73,7 @@ export function DateRangePicker({ className, queryString }: DateRangePickerProps
                 format(date.from, 'LLL dd, y')
               )
             ) : (
-              <span>Chọn thời gian</span>
+              <span>{t('auth:select_time')}</span>
             )}
           </Button>
         </PopoverTrigger>

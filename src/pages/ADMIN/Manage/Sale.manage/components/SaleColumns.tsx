@@ -8,10 +8,12 @@ import { cn } from '@/core/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { toFixedNumber } from '@/core/helpers/calculator'
 import { useResetPWSaleMutation } from '@/core/queries/auth.query'
+import { useTranslation } from 'react-i18next'
 
 export const useSaleColumns = (): ColumnDef<User>[] => {
   const { setOpen, setCurrentRow } = useUsers()
   const resetPasswordMutation = useResetPWSaleMutation()
+  const { t } = useTranslation('admin')
   return [
     {
       id: 'select',
@@ -36,16 +38,16 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
       accessorKey: 'id',
       header: 'ID',
       meta: {
-        displayName: 'Mã nhân viên'
+        displayName: t('table.id')
       },
       cell: ({ row }) => <div>#{row.getValue('id')}</div>,
       enableHiding: false
     },
     {
       accessorKey: 'name',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Tên' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.name')} />,
       meta: {
-        displayName: 'Tên',
+        displayName: t('table.name'),
         sortKey: 'name',
         className: cn(
           'sticky lg:relative left-0 md:table-cell',
@@ -77,9 +79,9 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     },
     {
       accessorKey: 'phone',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Số điện thoại' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.phone')} />,
       meta: {
-        displayName: 'Số điện thoại'
+        displayName: t('table.phone')
       },
       cell: ({ row }) => (
         <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('phone') || '--'}</div>
@@ -88,9 +90,9 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     },
     {
       accessorKey: 'address',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Địa chỉ' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.address')} />,
       meta: {
-        displayName: 'Địa chỉ'
+        displayName: t('table.address')
       },
       cell: ({ row }) => (
         <div className='w-fit text-nowrap max-w-3xs md:max-w-md truncate'>{row.getValue('address') || '--'}</div>
@@ -99,15 +101,17 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     },
     {
       accessorKey: 'isActive',
-      header: () => <div className='text-center capitalize w-full'>Trạng thái</div>,
+      header: () => <div className='text-center capitalize w-full'>{t('table.status')}</div>,
       meta: {
-        displayName: 'Trạng thái'
+        displayName: t('table.status')
       },
       cell: ({ row }) => {
         const isActive = row.getValue('isActive') as boolean
         return (
           <div className='text-center'>
-            <Badge variant={isActive ? 'default' : 'destructive'}>{isActive ? 'Hoạt động' : 'Chưa kích hoạt'}</Badge>
+            <Badge variant={isActive ? 'default' : 'destructive'}>
+              {isActive ? t('table.active') : t('table.inactive')}
+            </Badge>
           </div>
         )
       },
@@ -115,9 +119,9 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     },
     {
       accessorKey: 'saleTotalBookings',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Tổng tư vấn' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.total_booking')} />,
       meta: {
-        displayName: 'Tổng tư vấn'
+        displayName: t('table.total_booking')
       },
       cell: ({ row }) => {
         return <div className='text-center'>{row.getValue('saleTotalBookings')}</div>
@@ -126,9 +130,9 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     },
     {
       accessorKey: 'saleSuccessPercent',
-      header: ({ column }) => <DataTableColumnHeader column={column} title='Tỷ lệ thành công' />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.success_rate')} />,
       meta: {
-        displayName: 'Tỷ lệ thành công'
+        displayName: t('table.success_rate')
       },
       cell: ({ row }) => {
         const rate = row.getValue('saleSuccessPercent') as number
@@ -138,9 +142,9 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
     },
     {
       accessorKey: 'updateAt',
-      header: () => <div className='text-center capitalize'>Cập nhật lần cuối</div>,
+      header: () => <div className='text-center capitalize'>{t('table.updated_at')}</div>,
       meta: {
-        displayName: 'Cập nhật lần cuối'
+        displayName: t('table.updated_at')
       },
       cell: ({ row }) => {
         const date = row.getValue('updateAt') as string
@@ -155,7 +159,6 @@ export const useSaleColumns = (): ColumnDef<User>[] => {
           row={row}
           onView={(row) => {
             setCurrentRow(row)
-            console.log('view')
           }}
           onReset={(row) => {
             setCurrentRow(row)

@@ -5,36 +5,42 @@ import CountUp from 'react-countup'
 import { DashboardSummary } from '@/models/interface/dashboard.interface'
 import { isEqual } from 'lodash'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useTranslation } from 'react-i18next'
 
 interface MetricsOverviewProps {
   value?: DashboardSummary
   isLoading?: boolean
 }
 
-const metrics = [
-  {
-    title: 'Doanh Thu',
-    key: 'totalRevenue',
-    icon: DollarSign
-  },
-  {
-    title: 'Đơn Đặt Hàng',
-    key: 'bookings',
-    icon: ShoppingCart
-  },
-  {
-    title: 'Khách Hàng Mới',
-    key: 'totalUsers',
-    icon: Users
-  },
-  {
-    title: 'Lượt Đánh giá',
-    key: 'reviews',
-    icon: Activity
-  }
-]
+export const useMetrics = () => {
+  const { t } = useTranslation('admin')
+  return [
+    {
+      title: t('metrics.revenue'),
+      key: 'totalRevenue',
+      icon: DollarSign
+    },
+    {
+      title: t('metrics.order'),
+      key: 'bookings',
+      icon: ShoppingCart
+    },
+    {
+      title: t('metrics.new_customer'),
+      key: 'totalUsers',
+      icon: Users
+    },
+    {
+      title: t('metrics.review'),
+      key: 'reviews',
+      icon: Activity
+    }
+  ] as const
+}
 
 export function MetricsOverview({ value = {}, isLoading = false }: MetricsOverviewProps) {
+  const { t } = useTranslation(['admin'])
+  const metrics = useMetrics()
   return (
     <div className='grid grid-cols-12 gap-2'>
       {metrics.map((metric) => {
@@ -76,7 +82,7 @@ export function MetricsOverview({ value = {}, isLoading = false }: MetricsOvervi
                       ) : (
                         <ArrowDownIcon className='inline size-4' />
                       )}
-                      {changeText} so với cùng kỳ
+                      {changeText} {t('admin:metrics.compared')}
                     </span>
                   </p>
                 </>

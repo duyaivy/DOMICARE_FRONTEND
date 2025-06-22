@@ -10,8 +10,10 @@ import InputPassword from '@/components/InputPassword/InputPassword'
 import { initialChangePW } from '@/core/constants/initialValue.const'
 import { isAxiosError } from 'axios'
 import { useUpdateUserMutation } from '@/core/queries/user.query'
+import { useTranslation } from 'react-i18next'
 
 export default function ChangePassword() {
+  const { t } = useTranslation(['auth', 'common'])
   const form = useForm<z.infer<typeof UpdatePassUserSchema>>({
     resolver: zodResolver(UpdatePassUserSchema),
     defaultValues: {
@@ -39,7 +41,7 @@ export default function ChangePassword() {
     }
   }
   return (
-    <SectionUser title='Đổi mật khẩu' description='Thay đổi mật khẩu 6 tháng 1 lần để bảo vệ tài khoản của bạn.'>
+    <SectionUser title={t('change_password')} description={t('change_password_description')}>
       <div className='flex justify-center w-full'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmitForm)} className='w-full md:w-full space-y-2  mb-10' noValidate>
@@ -50,9 +52,9 @@ export default function ChangePassword() {
                   name='oldPassword'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Mật khẩu cũ</FormLabel>
+                      <FormLabel>{t('old_password')}</FormLabel>
                       <FormControl>
-                        <InputPassword placeholder='Nhập mật khẩu' {...field} />
+                        <InputPassword placeholder={t('old_password_placeholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -64,10 +66,10 @@ export default function ChangePassword() {
                   name='newPassword'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Mật khẩu mới</FormLabel>
+                      <FormLabel>{t('new_password')}</FormLabel>
 
                       <FormControl>
-                        <InputPassword placeholder='Nhập mật khẩu mới' {...field} />
+                        <InputPassword placeholder={t('new_password_placeholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -78,9 +80,9 @@ export default function ChangePassword() {
                   name='confirmPassword'
                   render={({ field }) => (
                     <FormItem className='mb-4'>
-                      <FormLabel>Nhập lại mật khẩu</FormLabel>
+                      <FormLabel>{t('confirm_password')}</FormLabel>
                       <FormControl>
-                        <InputPassword placeholder='Nhập lại mật khẩu' {...field} />
+                        <InputPassword placeholder={t('confirm_password_placeholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -92,7 +94,7 @@ export default function ChangePassword() {
                     className='w-full  mt-10 text-lg cursor-pointer text-white h-12 bg-main py-3 hover:bg-main/80 duration-300 hover:shadow-lg '
                     type='submit'
                   >
-                    Đổi mật khẩu
+                    {t('change_password')}
                   </Button>
                 </div>
               </div>
