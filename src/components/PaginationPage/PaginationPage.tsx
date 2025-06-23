@@ -8,7 +8,7 @@ import {
   PaginationNext,
   PaginationEllipsis
 } from '@/components/ui/pagination'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { QueryPrdConfig } from '@/hooks/usePrdQueryConfig'
 
 interface PaginationPageProps {

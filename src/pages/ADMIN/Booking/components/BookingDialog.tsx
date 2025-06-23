@@ -1,5 +1,5 @@
 import { ADMIN_STATUS, BookingDialogType } from '@/configs/consts'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { BookingActionDialog } from './BookingActionDialog'
 import { useBookings } from '@/core/contexts/booking.context'
 export function BookingDialog() {

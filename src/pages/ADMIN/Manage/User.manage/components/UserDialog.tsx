@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { DeleteDialog } from '@/components/DataTable'
 import { ADMIN_STATUS, UserDialogType } from '@/configs/consts'
 import { UserActionDialog } from './UserActionDialog'

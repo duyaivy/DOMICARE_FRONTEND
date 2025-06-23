@@ -2,7 +2,7 @@ import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { createSearchParams } from 'react-router-dom'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import { useState } from 'react'
 import { Button } from '../ui/button'
 

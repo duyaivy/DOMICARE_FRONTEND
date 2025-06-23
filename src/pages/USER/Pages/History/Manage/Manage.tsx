@@ -5,7 +5,7 @@ import { BookingQueryConfig } from '@/hooks/useBookingQueryConfig'
 import { Booking, BookingStatus } from '@/models/interface/booking.interface'
 import { urlSEO } from '@/utils/urlSEO'
 import { useQueryClient } from '@tanstack/react-query'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { useNavigate } from 'react-router-dom'
 
 interface ManaegeProps {

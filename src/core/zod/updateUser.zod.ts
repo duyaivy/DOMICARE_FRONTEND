@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { validator } from '../helpers/validator'
 import { numberConstants } from '@/configs/consts'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 
 export const UpdateUserSchema = z.object({
   name: z.string().min(numberConstants.TWO, {

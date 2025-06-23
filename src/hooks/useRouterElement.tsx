@@ -4,7 +4,7 @@ import { rolesCheck } from '@/utils/rolesCheck'
 import { path } from '@/core/constants/path'
 import { AppContext } from '@/core/contexts/app.context'
 import { CleanLoading } from '@/assets/videos'
-import ComingSoon from '@/pages/ADMIN/CommingSoon/CommingSoon'
+const ComingSoon = lazy(() => import('@/pages/ADMIN/CommingSoon/CommingSoon'))
 // Lazy load all components
 const LayoutMain = lazy(() => import('@/app/layout/LayoutMain'))
 const Login = lazy(() => import('@/pages/ALL/Login'))

@@ -2,7 +2,7 @@ import { AxiosError, isAxiosError } from 'axios'
 import { UseFormReturn, Path, FieldValues } from 'react-hook-form'
 import { isError422 } from './isAxioxErr422'
 import { FailResponse } from '@/models/interface/response.interface'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import HttpStatusCode from '@/core/constants/http'
 import { Toast } from './toastMessage'
 

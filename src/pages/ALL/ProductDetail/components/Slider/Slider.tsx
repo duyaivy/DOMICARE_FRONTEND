@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 

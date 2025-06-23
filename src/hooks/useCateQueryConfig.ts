@@ -1,6 +1,6 @@
 import { CategoryListConfig } from '@/models/interface/category.interface'
-
-import { isUndefined, omitBy } from 'lodash'
+import isUndefined from 'lodash/isUndefined'
+import omitBy from 'lodash/omitBy'
 import { useParamsString } from './usePrdQueryConfig'
 
 export type QueryCateConfig = {

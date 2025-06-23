@@ -19,7 +19,7 @@ import { IconMail } from '@/assets/icons/icon-mail'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { useLoginMutation } from '@/core/queries/auth.query'
 import { authApi } from '@/core/services/auth.service'
 import { handleErrorAPI } from '@/utils/handleErrorAPI'

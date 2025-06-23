@@ -10,7 +10,7 @@ import axios, {
   HttpStatusCode,
   InternalAxiosRequestConfig
 } from 'axios'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 
 interface TokenResponse {
   accessToken: string

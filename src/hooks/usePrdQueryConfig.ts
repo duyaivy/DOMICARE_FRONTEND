@@ -1,5 +1,6 @@
 import { ProductListConfig } from '@/models/interface/product.interface'
-import { isUndefined, omitBy } from 'lodash'
+import isUndefined from 'lodash/isUndefined'
+import omitBy from 'lodash/omitBy'
 import { useSearchParams } from 'react-router-dom'
 
 export type QueryPrdConfig = {

@@ -5,11 +5,11 @@ import SockJS from 'sockjs-client'
 interface WebSocketConfig {
   url: string
   topics: {
-    [key: string]: (message: unknown) => void
+    [key: string]: (message: any) => void
   }
   onConnect?: () => void
   onDisconnect?: () => void
-  onError?: (error: unknown) => void
+  onError?: (error: any) => void
 }
 
 export const useWebSocket = (config: WebSocketConfig) => {

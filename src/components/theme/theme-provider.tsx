@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 
 const THEME_DARK = 'dark'

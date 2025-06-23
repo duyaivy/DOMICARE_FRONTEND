@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { motion } from 'framer-motion'
 import CountUp from 'react-countup'
 import { DashboardSummary } from '@/models/interface/dashboard.interface'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useTranslation } from 'react-i18next'
 

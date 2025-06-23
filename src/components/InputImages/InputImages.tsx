@@ -5,7 +5,7 @@ import config from '@/configs'
 import { useFileUpload } from '@/core/queries/file.query'
 import { UploadingFile } from '@/models/interface/file.interface'
 import { Progress } from '../ui/progress'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { Button } from '../ui/button'
 
 interface InputImagesProps {

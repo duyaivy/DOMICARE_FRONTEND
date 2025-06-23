@@ -1,5 +1,5 @@
 import { createSearchParams, useNavigate } from 'react-router-dom'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import classNames from 'classnames'
 import { QueryPrdConfig } from '@/hooks/usePrdQueryConfig'
 import { ProductListConfig } from '@/models/interface/product.interface'

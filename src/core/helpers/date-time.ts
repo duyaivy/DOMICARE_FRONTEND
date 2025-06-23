@@ -14,7 +14,9 @@ import {
 import dayjs, { Dayjs } from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { isEmpty, isEqual, isUndefined } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import isUndefined from 'lodash/isUndefined'
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)

@@ -1,7 +1,8 @@
 import { DashboardListConfig } from '@/models/interface/dashboard.interface'
 import { useParamsString } from './usePrdQueryConfig'
-import { isUndefined, omitBy } from 'lodash'
-import { addDays } from 'date-fns'
+import isUndefined from 'lodash/isUndefined'
+import omitBy from 'lodash/omitBy'
+import { addDays } from 'date-fns/addDays'
 import { useMemo } from 'react'
 
 export type OverviewQueryConfig = {

@@ -22,7 +22,7 @@ import { ICON_SIZE_EXTRA } from '@/core/configs/icon-size'
 import IconBar from '@/assets/icons/icon-bar'
 import { useLogoutMutation } from '@/core/queries/auth.query'
 import { useTranslation } from 'react-i18next'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 
 export default function Header() {
   const { isAuthenticated, profile, categories } = useContext(AppContext)

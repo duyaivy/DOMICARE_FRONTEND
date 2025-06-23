@@ -3,10 +3,17 @@ import { useOverviewQueryConfig } from '@/hooks/useOverviewQueryConfig'
 import { useOverviewQuery } from '@/core/queries/overview.query'
 import { overviewApi } from '@/core/services/overview.service'
 import { BookingOverview as BookingOverviewProps, DashboardData } from '@/models/interface/dashboard.interface'
-import { MetricsOverview } from './components/MetricsOverview'
-import { RevenueOverviewChart } from './components/RevenueOverviewChart'
-import { BookingOverview } from './components/BookingOverview'
-import { SaleOverview } from './components/SaleOverview'
+import { lazy, Suspense } from 'react'
+import MetricsOverview from './components/MetricsOverview'
+const RevenueOverviewChart = lazy(() => import('./components/RevenueOverviewChart'))
+const BookingOverview = lazy(() => import('./components/BookingOverview'))
+const SaleOverview = lazy(() => import('./components/SaleOverview'))
+
+const ChartLoading = () => (
+  <div className='w-full h-80 flex justify-center items-center bg-gray-100 rounded-lg'>
+    <p>Loading chart...</p>
+  </div>
+)
 
 export default function Dashboard() {
   const queryString = useOverviewQueryConfig()
@@ -23,13 +30,19 @@ export default function Dashboard() {
         <MetricsOverview value={summary} isLoading={isLoading} />
         <div className='grid grid-cols-12 gap-5 mt-5'>
           <div className='col-span-12 mo:col-span-7'>
-            <RevenueOverviewChart />
+            <Suspense fallback={<ChartLoading />}>
+              <RevenueOverviewChart />
+            </Suspense>
           </div>
           <div className='col-span-12 mo:col-span-5'>
-            <BookingOverview value={bookingOver} isLoading={isLoading} />
+            <Suspense fallback={<ChartLoading />}>
+              <BookingOverview value={bookingOver} isLoading={isLoading} />
+            </Suspense>
           </div>
           <div className='col-span-12'>
-            <SaleOverview queryString={queryString} />
+            <Suspense fallback={<ChartLoading />}>
+              <SaleOverview queryString={queryString} />
+            </Suspense>
           </div>
         </div>
       </div>

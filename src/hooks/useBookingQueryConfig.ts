@@ -1,4 +1,5 @@
-import { isUndefined, omitBy } from 'lodash'
+import isUndefined from 'lodash/isUndefined'
+import omitBy from 'lodash/omitBy'
 import { useParamsString } from './usePrdQueryConfig'
 import { BookingListConfig } from '@/models/interface/booking.interface'
 export type BookingQueryConfig = {

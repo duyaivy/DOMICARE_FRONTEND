@@ -1,6 +1,6 @@
 import { ROLES } from '@/configs/consts'
 import { role } from '@/models/interface/user.interface'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 
 export const rolesCheck = {
   isAdminOrSale: (roles: role[]) =>

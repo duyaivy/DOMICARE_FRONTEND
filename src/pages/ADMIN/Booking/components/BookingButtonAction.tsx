@@ -16,7 +16,8 @@ import { path } from '@/core/constants/path'
 import { cn } from '@/core/lib/utils'
 import { useBookingQueryConfig } from '@/hooks/useBookingQueryConfig'
 import { BookingStatus } from '@/models/interface/booking.interface'
-import { isEqual, omit } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import omit from 'lodash/omit'
 
 import { CheckIcon, PlusCircle, XCircle } from 'lucide-react'
 

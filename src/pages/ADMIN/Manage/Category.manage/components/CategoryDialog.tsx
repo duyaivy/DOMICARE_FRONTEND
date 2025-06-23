@@ -1,7 +1,7 @@
 import { useCategories } from '@/core/contexts/category.context'
 import { CategoryActionDialog } from './CategoryActionDialog'
 
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { DeleteDialog } from '@/components/DataTable'
 import { useCategoryDelete } from '@/core/queries/product.query'
 import { ADMIN_STATUS, CategoryDialogType } from '@/configs/consts'

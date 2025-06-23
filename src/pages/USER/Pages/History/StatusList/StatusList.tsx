@@ -3,7 +3,7 @@ import { getBookingStatusExtra } from '@/configs/consts'
 import { path } from '@/core/constants/path'
 import { BookingQueryConfig } from '@/hooks/useBookingQueryConfig'
 import classNames from 'classnames'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { createSearchParams, Link } from 'react-router-dom'
 
 interface StatusListProps {

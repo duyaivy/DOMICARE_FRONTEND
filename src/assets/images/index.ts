@@ -18,12 +18,24 @@ import logoDomicare from './Logo domicare.png'
 import Person from './Persion.png'
 import logoWhite from './LogoWhite.svg'
 import devlopment from './devlopment.png'
+import clear from './clean.png'
+import vacuum from './vacuum.png'
+import handsharke from './handshake.png'
+import legal from './legal-document.png'
+import team from './team_5065003.png'
+import wipe from './wipe_15341209.png'
 export const noPrdImg = 'https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/orderlist/4751043c866ed52f9661.png'
 export {
   devlopment,
   logo,
   loginPic,
   logoSecond,
+  clear,
+  vacuum,
+  handsharke,
+  legal,
+  team,
+  wipe,
   pic1,
   pic2,
   pic3,

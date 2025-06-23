@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { cn } from '@/core/lib/utils'
 import { Button } from '@/components/ui/button'
 import classNames from 'classnames'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>

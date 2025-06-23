@@ -1,5 +1,6 @@
-import { addDays, format } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
+import { addDays } from 'date-fns/addDays'
+import { format } from 'date-fns/format'
+import { Calendar as CalendarIcon } from 'lucide-react'
 import { DateRange } from 'react-day-picker'
 
 import { Button } from '@/components/ui/button'

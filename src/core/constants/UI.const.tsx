@@ -1,7 +1,7 @@
 import { IconRedTick } from '@/assets/icons/icon-redTick'
-import { IconClear, IconClear2, IconClear3, IconClear4, IconClear5, IconClear6 } from '@/assets/icons/icon-clears'
 import i18next from 'i18next'
 import { useTranslation } from 'react-i18next'
+import { clear, handsharke, legal, team, vacuum, wipe } from '@/assets/images'
 
 export const useFeatures = () => {
   const { t } = useTranslation('about_us')
@@ -31,27 +31,27 @@ export const useFeatures = () => {
 
 export const getServices = () => [
   {
-    icon: <IconClear />,
+    icon: <img className='size-20' src={clear} alt='clear' />,
     title: i18next.t('about_us:cleaning_program')
   },
   {
-    icon: <IconClear2 />,
+    icon: <img className='size-20' src={vacuum} alt='vacuum' />,
     title: i18next.t('about_us:modern_equipment')
   },
   {
-    icon: <IconClear3 />,
+    icon: <img className='size-20' src={handsharke} alt='handsharke' />,
     title: i18next.t('about_us:customer_service')
   },
   {
-    icon: <IconClear4 />,
+    icon: <img className='size-20' src={legal} alt='legal' />,
     title: i18next.t('about_us:licensed')
   },
   {
-    icon: <IconClear5 />,
+    icon: <img className='size-20' src={team} alt='team' />,
     title: i18next.t('about_us:professional_training')
   },
   {
-    icon: <IconClear6 />,
+    icon: <img className='size-20' src={wipe} alt='wipe' />,
     title: i18next.t('about_us:sterilization_program')
   }
 ]

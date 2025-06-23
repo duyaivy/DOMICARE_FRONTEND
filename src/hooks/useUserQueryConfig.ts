@@ -1,7 +1,7 @@
 import { UserListConfig } from '@/models/interface/user.interface'
 import { useParamsString } from './usePrdQueryConfig'
-import { isUndefined, omitBy } from 'lodash'
-
+import isUndefined from 'lodash/isUndefined'
+import omitBy from 'lodash/omitBy'
 import { ROLE_TYPE } from '@/models/types/user.type'
 
 export type QueryUserConfig = {

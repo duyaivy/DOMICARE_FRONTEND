@@ -13,10 +13,10 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
     <Badge
       className={cn('text-white ', className)}
       style={{
-        backgroundColor: statusColors[status]
+        backgroundColor: statusColors[status as keyof typeof statusColors]
       }}
     >
-      {statusLabels[status]}
+      {statusLabels[status as keyof typeof statusLabels]}
     </Badge>
   )
 }

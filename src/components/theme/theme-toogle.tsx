@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card'
 import { useTheme } from '@/components/theme/theme-provider'
 import classNames from 'classnames'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { useTranslation } from 'react-i18next'
 
 export function ThemeToggle() {
