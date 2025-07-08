@@ -90,7 +90,7 @@ export default function ProductDetail() {
     <div className='md:pt-25 '>
       {product ? (
         <Fragment>
-          <Helmet title={`${product?.name} | Dịch vụ DomiCare`} />
+          <Helmet title={product?.name} description={product?.description} />
           <section className='bg-linear-to-br from-gray-100 to-slate-50 '>
             <div className='max-w-6xl mx-auto py-10 flex items-center px-4'>
               <h1 className='text-head font-semibold md:mr-12 w-full md:w-1/2 lg:w-2/3 text-center md:text-left'>

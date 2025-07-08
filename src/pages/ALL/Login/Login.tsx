@@ -4,21 +4,17 @@ import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import { LoginSchema } from '@/core/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-
 import { Button } from '@/components/ui/button'
 import LoginGoogle from './LoginGoogle'
-
 import { PASSWORD_TYPE, TEXT_TYPE } from '@/configs/consts'
 import { EMAIL, REMEMBER_ME } from '@/core/configs/const'
 import { path } from '@/core/constants/path'
-
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { IconEye, IconNonEye } from '@/assets/icons'
 import { loginPic, logoSecond } from '@/assets/images'
 import { IconMail } from '@/assets/icons/icon-mail'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
 import isEqual from 'lodash/isEqual'
 import { useLoginMutation } from '@/core/queries/auth.query'
 import { authApi } from '@/core/services/auth.service'
