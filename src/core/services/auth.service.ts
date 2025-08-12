@@ -3,7 +3,7 @@ import { LoginResponse, RegisterReponse, SentEmailResponse } from '@/models/inte
 import { SuccessResponse } from '@/models/interface/response.interface'
 import { LoginType } from '@/models/types/login.type'
 import { RegisterType } from '@/models/types/register.type'
-const API_LOGIN_URL = '/login'
+const API_LOGIN_URL = 'users/login'
 const API_LOGOUT_URL = '/out'
 const API_REGISTER_URL = '/register'
 const API_SENT_EMAIL_URL = '/email/verify'

@@ -2,6 +2,7 @@ import { GENDER_TYPE, ROLE_TYPE } from '../types/user.type'
 import { PaginationResponse } from './response.interface'
 
 export interface User {
+  _id?: string
   id?: number
   name?: string
   email?: string

@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button'
 import config from '@/configs'
-import { path } from '@/core/constants/path'
 import { useLoginMutation } from '@/core/queries/auth.query'
 import { useGetMe } from '@/core/queries/user.query'
 import { authApi } from '@/core/services/auth.service'
@@ -20,7 +19,6 @@ export default function LoginGoogle() {
       setAccessTokenToLS(access_token as string)
       setRefreshTokenToLS(refresh_token as string)
       getMeMutation.mutate()
-      // navigate(path.home)
     }
   }, [access_token, refresh_token, getMeMutation, navigate])
 

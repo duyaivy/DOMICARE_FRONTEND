@@ -6,7 +6,7 @@ import { visualizer } from 'rollup-plugin-visualizer'
 const globalShim = `globalThis.global = globalThis;`
 export default defineConfig({
   server: {
-    port: 4000,
+    port: 3000,
     open: true
   },
   define: {
