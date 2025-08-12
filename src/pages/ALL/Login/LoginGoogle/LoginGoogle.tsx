@@ -1,25 +1,56 @@
 import { Button } from '@/components/ui/button'
+import config from '@/configs'
+import { path } from '@/core/constants/path'
 import { useLoginMutation } from '@/core/queries/auth.query'
+import { useGetMe } from '@/core/queries/user.query'
 import { authApi } from '@/core/services/auth.service'
+import { useParamsString } from '@/hooks/usePrdQueryConfig'
+import { setAccessTokenToLS, setRefreshTokenToLS } from '@/utils/storage'
 import { Toast } from '@/utils/toastMessage'
-import { useGoogleLogin } from '@react-oauth/google'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function LoginGoogle() {
+  const { access_token, refresh_token } = useParamsString()
+  const navigate = useNavigate()
+  const getMeMutation = useGetMe()
+  useEffect(() => {
+    if (access_token && refresh_token) {
+      setAccessTokenToLS(access_token as string)
+      setRefreshTokenToLS(refresh_token as string)
+      getMeMutation.mutate()
+      // navigate(path.home)
+    }
+  }, [access_token, refresh_token, getMeMutation, navigate])
+
+  // xuly
   const { t } = useTranslation('auth')
+  const myRef = useRef<HTMLAnchorElement>(null)
   const mutationLogin = useLoginMutation({
     mutationFn: authApi.loginWithGG,
     handleError: () => {
       Toast.error({ description: 'Đăng nhập với Google thất bại, vui lòng thử lại sau!' })
     }
   })
-  const loginGG = useGoogleLogin({
-    flow: 'auth-code',
-    onSuccess: (credentialResponse) => {
-      const code = credentialResponse.code
-      mutationLogin.mutate({ code })
+  const getGoogleURL = () => {
+    const url = config.googleURL
+    const query = {
+      client_id: config.googleId,
+      redirect_uri: config.redirectUri,
+      response_type: 'code',
+      scope: [
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email'
+      ].join(' '),
+      promt: 'consent'
     }
-  })
+    const queryString = new URLSearchParams(query).toString()
+    return `${url}?${queryString}`
+  }
+  const loginGG = () => {
+    myRef?.current?.click()
+  }
 
   return (
     <div className='mt-6'>
@@ -73,6 +104,7 @@ export default function LoginGoogle() {
           </g>
         </svg>
         <span>{t('login_with_google')}</span>
+        <Link hidden ref={myRef} to={getGoogleURL()}></Link>
       </Button>
     </div>
   )

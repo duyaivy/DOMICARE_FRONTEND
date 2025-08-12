@@ -10,8 +10,8 @@ i18n
   .init({
     ns: ['common', 'auth', 'settings', 'product', 'toast', 'about_us', 'home', 'admin'],
     defaultNS: 'common',
-    lng: localStorage.getItem('i18nextLng') || 'en',
-    fallbackLng: 'en',
+    lng: localStorage.getItem('i18nextLng') || 'vi',
+    fallbackLng: 'vi',
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json'
     },

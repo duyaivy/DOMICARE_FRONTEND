@@ -6,12 +6,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { keepPreviousData } from '@tanstack/react-query'
 import { path } from '../constants/path'
-import { UserListConfig } from '@/models/interface/user.interface'
+import { User, UserListConfig } from '@/models/interface/user.interface'
 import { QueryUserConfig } from '@/hooks/useUserQueryConfig'
 import { STATE_TIME } from '@/configs/consts'
 import { AxiosError } from 'axios'
 import { useContext } from 'react'
 import { AppContext } from '../contexts/app.context'
+import { setUserToLS } from '@/utils/storage'
 
 interface UserQueryProps {
   queryString: QueryUserConfig
@@ -76,5 +77,19 @@ export const useUserDelete = () => {
     onError: (error) => {
       handleToastError(error)
     }
+  })
+}
+export const useGetMe = () => {
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
+  return useMutation({
+    mutationFn: userApi.getMe,
+    onSuccess: ({ data }) => {
+      console.log(data)
+
+      setUserToLS(data.data as User)
+      setIsAuthenticated(true)
+      setProfile(data.data as User)
+    },
+    onError: handleToastError
   })
 }

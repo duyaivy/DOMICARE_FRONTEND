@@ -6,11 +6,9 @@ import { LoginSchema } from '@/core/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import LoginGoogle from './LoginGoogle'
-import { PASSWORD_TYPE, TEXT_TYPE } from '@/configs/consts'
 import { EMAIL, REMEMBER_ME } from '@/core/configs/const'
 import { path } from '@/core/constants/path'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { IconEye, IconNonEye } from '@/assets/icons'
 import { loginPic, logoSecond } from '@/assets/images'
 import { IconMail } from '@/assets/icons/icon-mail'
 import { Input } from '@/components/ui/input'
@@ -21,8 +19,8 @@ import { authApi } from '@/core/services/auth.service'
 import { handleErrorAPI } from '@/utils/handleErrorAPI'
 import SentEmail from '../Register/SentEmail'
 import { useTranslation } from 'react-i18next'
+import InputPassword from '@/components/InputPassword/InputPassword'
 export default function Login() {
-  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const REMEMBER = localStorage.getItem(REMEMBER_ME)
   const [rememberMe, setRememberMe] = useState<boolean>(isEqual(REMEMBER, 'true') ? true : false)
   const { t } = useTranslation('auth')
@@ -33,7 +31,6 @@ export default function Login() {
       password: ''
     }
   })
-
   const mutationLogin = useLoginMutation({
     mutationFn: authApi.login,
     handleError: (error) => handleErrorAPI(error, form)
@@ -42,8 +39,6 @@ export default function Login() {
     const loginData = form.getValues() as z.infer<typeof LoginSchema>
     mutationLogin.mutate(loginData)
   }
-
-  const togglePasswordVisibility = () => setIsPasswordVisible(!isPasswordVisible)
 
   const handleChangeRememberMe = (event: boolean) => {
     setRememberMe(event)
@@ -109,14 +104,11 @@ export default function Login() {
                   <FormItem>
                     <FormLabel>{t('password')} </FormLabel>
                     <FormControl>
-                      <Input
+                      <InputPassword
                         placeholder={t('password_placeholder')}
                         autoComplete='off'
                         className='w-full focus:outline-0 mt-1'
-                        type={isPasswordVisible ? TEXT_TYPE : PASSWORD_TYPE}
                         {...field}
-                        icon={isPasswordVisible ? <IconNonEye /> : <IconEye />}
-                        iconOnClick={togglePasswordVisibility}
                       />
                     </FormControl>
                     <FormMessage />

@@ -10,6 +10,7 @@ import {
 } from '@/models/interface/user.interface'
 
 const API_USER_URL = '/users'
+const API_GET_ME_URL = '/users/me'
 
 export const userApi = {
   get: (params: UserListConfig) => {
@@ -29,5 +30,8 @@ export const userApi = {
   },
   add: (user: UserRequest) => {
     return axiosClient.post<SuccessResponse<UserResponse>>(API_USER_URL, user)
+  },
+  getMe: () => {
+    return axiosClient.get<SuccessResponse<User>>(API_GET_ME_URL)
   }
 }
