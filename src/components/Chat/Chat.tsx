@@ -5,39 +5,108 @@ import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger
 import config from '@/configs'
 import { ICON_SIZE_EXTRA } from '@/configs/icon-size'
 import { AppContext } from '@/core/contexts/app.context'
-import classNames from 'classnames'
+import { ChatSchema } from '@/core/zod/chat.zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { MessageSquare, Send } from 'lucide-react'
-import { useContext, useEffect, useState } from 'react'
-import { io } from 'socket.io-client'
-interface Message {
-  sender_id: string
-  message: string
-  isSender?: boolean
-}
+import { useContext, useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { io, Socket } from 'socket.io-client'
+import { z } from 'zod'
+import { Form, FormControl, FormField, FormItem } from '../ui/form'
+import { useGetConversationByReceiverId } from '@/core/queries/chat.query'
+import { Conversation, Cursor } from '@/models/interface/chat.interface'
+import MessageChat from '../MessageChat'
+
 export function Chat() {
-  const [value, setValue] = useState<string>('')
   const [user, setUser] = useState<string>('')
-  const [messages, setMessages] = useState<Message[]>([])
+  const [messages, setMessages] = useState<Conversation[]>([])
+  const cursorRef = useRef<Cursor>({ last_message_id: '', last_updated_at: '' })
+  const chatMutation = useGetConversationByReceiverId()
+  const socketRef = useRef<Socket | null>(null)
+
+  useEffect(() => {
+    if (!socketRef.current) {
+      const socket = io(config.baseUrl, {
+        auth: {
+          authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+
+      socketRef.current = socket
+
+      socket.on('connect_error', (err) => {
+        console.log('Socket connection error:', err)
+      })
+
+      socket.on('receive chat', (data: Conversation) => {
+        setMessages((prev) => [...prev, data])
+      })
+    }
+
+    return () => {
+      socketRef.current?.disconnect()
+      socketRef.current = null
+    }
+  }, [])
+  useEffect(() => {
+    if (user) {
+      chatMutation
+        .mutateAsync({ receiverId: user, params: { limit: 10 } })
+        .then((conversations) => {
+          const historyChats = conversations.data.data.data
+          cursorRef.current = conversations.data.data.cursor
+          setMessages(historyChats)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+  }, [user])
   const { profile } = useContext(AppContext)
   //socket
-  const socket = io(config.baseUrl)
-  useEffect(() => {
-    socket.auth = {
-      _id: profile?._id
+
+  const handleSendMessage = () => {
+    const message = form.getValues('message')
+    const date = new Date()
+    const conversationNext: Conversation = {
+      receiver_id: user,
+      message: message,
+      sender_id: profile?._id as string,
+      created_at: date,
+      updated_at: date
     }
-    socket.connect()
-    socket.on('receive chat', (data: Message) => {
-      setMessages((prev) => [...prev, data])
-    })
-    return () => {
-      socket.disconnect()
+    setMessages((prev) => [...prev, conversationNext])
+    socketRef.current?.emit('private chat', conversationNext)
+    form.setValue('message', '')
+  }
+  const form = useForm<z.infer<typeof ChatSchema>>({
+    resolver: zodResolver(ChatSchema),
+    defaultValues: {
+      message: ''
     }
-  }, [socket, profile])
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setValue('')
-    setMessages((prev) => [...prev, { sender_id: profile?._id as string, message: value, isSender: true }])
-    socket.emit('private chat', { receiver_id: user, message: value })
+  })
+  const fetchMoreConversation = () => {
+    if (user) {
+      chatMutation
+        .mutateAsync({
+          receiverId: user,
+          params: {
+            limit: 10,
+            last_updated_at: cursorRef.current.last_updated_at,
+            last_message_id: cursorRef.current.last_message_id
+          }
+        })
+        .then((conversations) => {
+          const historyChats = conversations.data.data.data
+          cursorRef.current = conversations.data.data.cursor
+          console.warn(cursorRef.current, 'current cursor')
+
+          setMessages((prev) => [...historyChats, ...prev])
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
   }
   return (
     <Sheet>
@@ -55,41 +124,106 @@ export function Chat() {
             <Label htmlFor='sheet-demo-username'>Username</Label>
             <Input id='sheet-demo-username' value={user} onChange={(e) => setUser(e.target.value)} />
           </div>
-
-          <div className=' w-full '>
-            {messages.map((item) => (
-              <div
-                className={classNames('flex ', {
-                  'justify-end': item.isSender
-                })}
-                key={item.sender_id}
-              >
-                <p
-                  className={classNames(
-                    ' max-w-4/6 px-2  py-1 my-0.5 text-white rounded-md',
-                    {
-                      ' bg-blue ': item.isSender
-                    },
-                    {
-                      ' bg-gray ': !item.isSender
-                    }
-                  )}
-                >
-                  {item.message}
-                </p>
-              </div>
-            ))}
-          </div>
+        </div>
+        <div className='max-h-9/12'>
+          <MessageChat
+            hasMore={Boolean(cursorRef.current)}
+            messages={messages}
+            userId={profile?._id}
+            fetchMoreConversation={fetchMoreConversation}
+          />
         </div>
         <SheetFooter>
-          <form className='flex gap-2 w-full' onSubmit={handleSubmit}>
-            <Input value={value} onChange={(e) => setValue(e.target.value)} className='flex-grow ' type='text' />
-            <Button type='submit'>
-              <Send size={ICON_SIZE_EXTRA} />
-            </Button>
-          </form>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleSendMessage)}
+              className='flex gap-2 justify-center items-center'
+              noValidate
+            >
+              <FormField
+                control={form.control}
+                name='message'
+                render={({ field }) => (
+                  <FormItem className='flex-grow'>
+                    <FormControl>
+                      <Input className='focus:outline-0 mt-1' placeholder='Nhập tin nhắn' type='text' {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <Button type='submit'>
+                <Send size={ICON_SIZE_EXTRA} />
+              </Button>
+            </form>
+          </Form>
         </SheetFooter>
       </SheetContent>
     </Sheet>
   )
 }
+
+// function MessageChat({
+//   messages,
+//   userId,
+//   fetchMoreConversation,
+//   hasMore
+// }: {
+//   messages: Conversation[]
+//   userId?: string
+//   fetchMoreConversation: () => void
+//   hasMore: boolean
+// }) {
+//   return (
+//     <div
+//       id='scrollableDiv'
+//       style={{
+//         overflow: 'auto',
+//         display: 'flex',
+//         flexDirection: 'column-reverse'
+//       }}
+//     >
+//       <InfiniteScroll
+//         dataLength={messages.length}
+//         next={fetchMoreConversation}
+//         style={{
+//           display: 'flex',
+//           flexDirection: 'column',
+//           width: 'full',
+//           padding: '5px 10px'
+//         }}
+//         inverse={true}
+//         hasMore={hasMore}
+//         loader={
+//           <div className='w-full h-full flex justify-center items-center'>
+//             <Loader />
+//           </div>
+//         }
+//         scrollableTarget='scrollableDiv'
+//       >
+//         {messages.map((item) => (
+//           <div
+//             className={classNames('flex ', {
+//               'justify-end': userId === item.sender_id
+//             })}
+//             key={item._id}
+//           >
+//             <p
+//               className={classNames(
+//                 ' max-w-4/6 px-2  py-1 my-0.5 text-white rounded-md',
+//                 {
+//                   ' bg-blue ': userId === item.sender_id
+//                 },
+//                 {
+//                   ' bg-gray ': userId !== item.sender_id
+//                 }
+//               )}
+//             >
+//               {item.message}
+//             </p>
+//           </div>
+//         ))}
+//       </InfiniteScroll>
+//     </div>
+//   )
+// }
