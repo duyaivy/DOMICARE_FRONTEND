@@ -34,7 +34,7 @@ export default function MessageChat({
       clearTimeout(timer1)
       clearTimeout(timer2)
     }
-  }, [])
+  }, [messages.length])
 
   useEffect(() => {
     if (messages.length === 0) {

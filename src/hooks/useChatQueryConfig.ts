@@ -16,7 +16,7 @@ export const useChatQueryConfig = () => {
     {
       limit: queryString.limit || 10,
       lastMessageId: queryString.last_message_id,
-      lastUpdatedAt: queryString.last_updated_id || new Date()
+      lastUpdatedAt: queryString.last_updated_at || new Date()
     },
     isUndefined
   )

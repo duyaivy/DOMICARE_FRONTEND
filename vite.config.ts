@@ -19,10 +19,10 @@ export default defineConfig({
     react(),
     tailwindcss(),
     visualizer({
-      filename: 'dist/stats.html', // đường dẫn xuất file HTML
-      open: true, // tự động mở file sau khi build xong
-      gzipSize: true, // hiển thị thêm kích thước sau nén gzip
-      brotliSize: true // hiển thị thêm kích thước sau nén brotli
+      filename: 'dist/stats.html',
+      open: true,
+      gzipSize: true,
+      brotliSize: true
     })
   ],
   resolve: {
