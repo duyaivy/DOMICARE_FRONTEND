@@ -90,46 +90,14 @@ export const EMPTY_STRING = '---'
  * route constants
  */
 export const ROOT_ROUTE: string = import.meta.env.BASE_URL
-export const LOGIN_ROUTE = '/login'
-export const LOGOUT_ROUTE = '/logout'
-
-export const VERSION_WEB = '1.1.47'
-
-export const SLASH = '/'
 
 /**
  * size modal constants
  */
 
-export const MODAL_WIDTH_1100 = 1100
-export const MODAL_WIDTH_800 = 800
-
-export const EMPTY_WIDTH_400 = 400
-
-export const numberConstants = {
-  ZERO: 0,
-  ONE: 1,
-  TWO: 2,
-  THREE: 3,
-  FOUR: 4,
-  FIVE: 5,
-  SIX: 6,
-  SEVEN: 7,
-  EIGHT: 8,
-  NINE: 9,
-  TEN: 10,
-  ONE_HUNDRED: 100
-}
-
 export const TIME_FORMAT = 'HH:mm'
 // type day
 export const DAY_TYPE = 'day'
-
-export const datePickerPopupClassName = {
-  first: 'date-picker-popup-1',
-  second: 'date-picker-popup-2',
-  three: 'date-picker-popup-3'
-}
 
 export const DATE_PLACEHOLDER = STANDARD_DATE_FORMAT_SLASH.toLowerCase()
 

@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import config from '@/configs'
 import { ICON_SIZE_EXTRA } from '@/configs/icon-size'
@@ -18,12 +17,12 @@ import { Conversation, Cursor } from '@/models/interface/chat.interface'
 import MessageChat from '../MessageChat'
 
 export function Chat() {
-  const [user, setUser] = useState<string>('')
   const [messages, setMessages] = useState<Conversation[]>([])
   const cursorRef = useRef<Cursor>({ last_message_id: '', last_updated_at: '' })
   const chatMutation = useGetConversationByReceiverId()
   const socketRef = useRef<Socket | null>(null)
-
+  const { profile } = useContext(AppContext)
+  const user = profile?._id
   useEffect(() => {
     if (!socketRef.current) {
       const socket = io(config.baseUrl, {
@@ -33,7 +32,6 @@ export function Chat() {
       })
 
       socketRef.current = socket
-
       socket.on('connect_error', (err) => {
         console.log('Socket connection error:', err)
       })
@@ -62,14 +60,13 @@ export function Chat() {
         })
     }
   }, [user])
-  const { profile } = useContext(AppContext)
   //socket
 
   const handleSendMessage = () => {
     const message = form.getValues('message')
     const date = new Date()
     const conversationNext: Conversation = {
-      receiver_id: user,
+      receiver_id: user as string,
       message: message,
       sender_id: profile?._id as string,
       created_at: date,
@@ -119,12 +116,7 @@ export function Chat() {
         <SheetHeader>
           <SheetTitle>Chat</SheetTitle>
         </SheetHeader>
-        <div className='px-4 max-h-10/12 overflow-y-scroll'>
-          <div className=''>
-            <Label htmlFor='sheet-demo-username'>Username</Label>
-            <Input id='sheet-demo-username' value={user} onChange={(e) => setUser(e.target.value)} />
-          </div>
-        </div>
+
         <div className='max-h-9/12'>
           <MessageChat
             hasMore={Boolean(cursorRef.current)}
@@ -162,68 +154,3 @@ export function Chat() {
     </Sheet>
   )
 }
-
-// function MessageChat({
-//   messages,
-//   userId,
-//   fetchMoreConversation,
-//   hasMore
-// }: {
-//   messages: Conversation[]
-//   userId?: string
-//   fetchMoreConversation: () => void
-//   hasMore: boolean
-// }) {
-//   return (
-//     <div
-//       id='scrollableDiv'
-//       style={{
-//         overflow: 'auto',
-//         display: 'flex',
-//         flexDirection: 'column-reverse'
-//       }}
-//     >
-//       <InfiniteScroll
-//         dataLength={messages.length}
-//         next={fetchMoreConversation}
-//         style={{
-//           display: 'flex',
-//           flexDirection: 'column',
-//           width: 'full',
-//           padding: '5px 10px'
-//         }}
-//         inverse={true}
-//         hasMore={hasMore}
-//         loader={
-//           <div className='w-full h-full flex justify-center items-center'>
-//             <Loader />
-//           </div>
-//         }
-//         scrollableTarget='scrollableDiv'
-//       >
-//         {messages.map((item) => (
-//           <div
-//             className={classNames('flex ', {
-//               'justify-end': userId === item.sender_id
-//             })}
-//             key={item._id}
-//           >
-//             <p
-//               className={classNames(
-//                 ' max-w-4/6 px-2  py-1 my-0.5 text-white rounded-md',
-//                 {
-//                   ' bg-blue ': userId === item.sender_id
-//                 },
-//                 {
-//                   ' bg-gray ': userId !== item.sender_id
-//                 }
-//               )}
-//             >
-//               {item.message}
-//             </p>
-//           </div>
-//         ))}
-//       </InfiniteScroll>
-//     </div>
-//   )
-// }

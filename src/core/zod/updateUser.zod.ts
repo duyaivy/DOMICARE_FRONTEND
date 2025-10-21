@@ -1,19 +1,19 @@
 import { z } from 'zod'
 import { validator } from '../helpers/validator'
-import { numberConstants } from '@/configs/consts'
+
 import isEqual from 'lodash/isEqual'
 
 export const UpdateUserSchema = z.object({
-  name: z.string().min(numberConstants.TWO, {
+  name: z.string().min(2, {
     message: 'Họ tên không được để trống.'
   }),
   dateOfBirth: z.date({ message: 'Ngày sinh không được để trống.' }),
   phone: z
     .string()
-    .min(numberConstants.TEN, { message: 'Số điện thoại không được để trống.' })
+    .min(10, { message: 'Số điện thoại không được để trống.' })
     .regex(validator.number, { message: 'Số điện thoại chỉ được chứa số.' }),
   imageId: z.number().optional(),
-  address: z.string().min(numberConstants.FIVE, {
+  address: z.string().min(5, {
     message: 'Địa chỉ không được để trống.'
   }),
   gender: z.enum(['MALE', 'FEMALE', 'OTHER'])
@@ -26,7 +26,7 @@ export const AddUserSchema = UpdateUserSchema.extend({
   email: z.string().email('Email không hợp lệ'),
   password: z
     .string()
-    .min(numberConstants.ONE, {
+    .min(1, {
       message: 'Mật khẩu không được bỏ trống'
     })
     .regex(validator.passwordRegex, {
@@ -34,7 +34,7 @@ export const AddUserSchema = UpdateUserSchema.extend({
     }),
   confirmPassword: z
     .string()
-    .min(numberConstants.ONE, {
+    .min(1, {
       message: 'Nhập lại mật khẩu không được bỏ trống'
     })
     .regex(validator.passwordRegex, {
@@ -58,7 +58,7 @@ export const UpdatePassUserSchema = z
   .object({
     newPassword: z
       .string()
-      .min(numberConstants.ONE, {
+      .min(1, {
         message: 'Mật khẩu không được bỏ trống'
       })
       .regex(validator.passwordRegex, {
@@ -66,13 +66,13 @@ export const UpdatePassUserSchema = z
       }),
     confirmPassword: z
       .string()
-      .min(numberConstants.ONE, {
+      .min(1, {
         message: 'Nhập lại mật khẩu không được bỏ trống'
       })
       .regex(validator.passwordRegex, {
         message: 'Nhập lại mật khẩu phải chứa ít nhất 6 kí tự bao gồm chữ in hoa in thường và chữ số.'
       }),
-    oldPassword: z.string().min(numberConstants.SIX, {
+    oldPassword: z.string().min(6, {
       message: 'Mật khẩu cũ phải có ít nhất 6 ký tự.'
     })
   })

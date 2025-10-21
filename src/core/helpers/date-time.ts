@@ -8,8 +8,7 @@ import {
   STANDARD_DATE_TIME_REGEX,
   STANDARD_DATE_REGEX,
   STANDARD_TIME_REGEX,
-  DAY_TYPE,
-  numberConstants
+  DAY_TYPE
 } from '@/configs/consts'
 import dayjs, { Dayjs } from 'dayjs'
 import duration from 'dayjs/plugin/duration'
@@ -105,15 +104,15 @@ export function timeAgo(time: string) {
     [58060800000, 'thế kỉ trước', 'thế kỉ sau'] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
   ]
   const token = '',
-    list_choice = numberConstants.ONE
+    list_choice = 1
 
-  if (isEqual(seconds, numberConstants.ZERO)) {
+  if (isEqual(seconds, 0)) {
     return 'Vừa xong'
   }
-  if (seconds < numberConstants.ZERO) {
+  if (seconds < 0) {
     return 'Vừa xong'
   }
-  let i = numberConstants.ZERO,
+  let i = 0,
     format
 
   while ((format = time_formats[i++]))
@@ -125,7 +124,7 @@ export function timeAgo(time: string) {
 }
 
 export const padMonth = (month: number): string => {
-  return month?.toString()?.padStart(numberConstants.TWO, '0')
+  return month?.toString()?.padStart(2, '0')
 }
 
 export const getISOStringDate = (date: Dayjs): string => {

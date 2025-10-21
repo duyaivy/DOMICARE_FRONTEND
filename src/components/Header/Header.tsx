@@ -35,7 +35,7 @@ export default function Header() {
     <header className='w-full h-10 md:h-16 z-50 relative mb-[64px] md:mb-0'>
       <div className='bg-secondary w-full h-10 md:h-16'>
         <div className='max-w-7xl mx-auto px-4 py-2 h-full flex justify-center md:justify-end items-center'>
-          <a href='tel: 0987654321' type='phone'>
+          <a href='tel: 0986543xxx' type='phone'>
             <div className='flex justify-center items-center gap-1 cursor-pointer'>
               <IconHeadphone className='fill-black w-5 h-5  md:w-8 md:h-8' />
               <p className='text-black text-sm font-bold'> {t('support_customer')}</p>

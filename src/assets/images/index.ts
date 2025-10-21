@@ -24,10 +24,13 @@ import handsharke from './handshake.png'
 import legal from './legal-document.png'
 import team from './team_5065003.png'
 import wipe from './wipe_15341209.png'
-export const noPrdImg = 'https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/orderlist/4751043c866ed52f9661.png'
+import mascot from './mascot.png'
+import noPrdImg from './noPRD.png'
 export {
+  noPrdImg,
   devlopment,
   logo,
+  mascot,
   loginPic,
   logoSecond,
   clear,
