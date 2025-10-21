@@ -1,12 +1,11 @@
 import { z } from 'zod'
 import { validator } from '../helpers/validator'
-import { numberConstants } from '@/configs/consts'
 
 export const RegisterSchema = z
   .object({
     email: z
       .string()
-      .min(numberConstants.TWO, {
+      .min(2, {
         message: 'Email không được để trống.'
       })
       .email({
@@ -14,7 +13,7 @@ export const RegisterSchema = z
       }),
     password: z
       .string()
-      .min(numberConstants.ONE, {
+      .min(1, {
         message: 'Mật khẩu không được bỏ trống'
       })
       .regex(validator.passwordRegex, {
@@ -22,7 +21,7 @@ export const RegisterSchema = z
       }),
     confirmPassword: z
       .string()
-      .min(numberConstants.ONE, {
+      .min(1, {
         message: 'Nhập lại mật khẩu không được bỏ trống'
       })
       .regex(validator.passwordRegex, {
@@ -42,7 +41,7 @@ export const RegisterSchema = z
 export const SentMailSchema = z.object({
   email: z
     .string()
-    .min(numberConstants.TWO, {
+    .min(2, {
       message: 'Email không được để trống.'
     })
     .email({

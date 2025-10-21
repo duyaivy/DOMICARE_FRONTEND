@@ -12,6 +12,7 @@ export const path = {
   recuitment: '/recuitment',
   notFound: '/404',
   _admin: '/admin',
+  chat: '/chat',
   admin: {
     dashboard: '/admin/dashboard',
     coming_soon: '/admin/coming_soon',

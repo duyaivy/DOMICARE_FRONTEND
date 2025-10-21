@@ -1,7 +1,6 @@
 import { logoSecond } from '@/assets/images'
 import { path } from '@/core/constants/path'
 import { Link } from 'react-router-dom'
-import { animateScroll } from 'react-scroll'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import {
   NavigationMenu,
@@ -13,37 +12,20 @@ import {
   ListItem
 } from '../ui/navigation-menu'
 import classnames from 'classnames'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import IconHeadphone from '@/assets/icons/icon-headphone'
-import IconChevronUp from '@/assets/icons/icon-chevron-up'
 import { AppContext } from '@/core/contexts/app.context'
-import { PhoneCallIcon } from 'lucide-react'
-import { ICON_SIZE_EXTRA } from '@/core/configs/icon-size'
 import IconBar from '@/assets/icons/icon-bar'
 import { useLogoutMutation } from '@/core/queries/auth.query'
 import { useTranslation } from 'react-i18next'
 import isEmpty from 'lodash/isEmpty'
+import Contact from '../Contact'
 
 export default function Header() {
   const { isAuthenticated, profile, categories } = useContext(AppContext)
   const { t } = useTranslation(['common', 'settings'])
   const [isShow, setIsShow] = useState<boolean>(false)
-  const handleScrollUp = () => animateScroll.scrollTo(0, { smooth: true, duration: 500 })
-  const [showUpBtn, setShowUpBtn] = useState<boolean>(false)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 400) {
-        setShowUpBtn(true)
-      } else {
-        setShowUpBtn(false)
-      }
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
   const logoutMutation = useLogoutMutation()
   const handleLogout = () => {
     logoutMutation.mutate()
@@ -53,7 +35,7 @@ export default function Header() {
     <header className='w-full h-10 md:h-16 z-50 relative mb-[64px] md:mb-0'>
       <div className='bg-secondary w-full h-10 md:h-16'>
         <div className='max-w-7xl mx-auto px-4 py-2 h-full flex justify-center md:justify-end items-center'>
-          <a href='tel: 0987654321' type='phone'>
+          <a href='tel: 0986543xxx' type='phone'>
             <div className='flex justify-center items-center gap-1 cursor-pointer'>
               <IconHeadphone className='fill-black w-5 h-5  md:w-8 md:h-8' />
               <p className='text-black text-sm font-bold'> {t('support_customer')}</p>
@@ -215,21 +197,7 @@ export default function Header() {
         </div>
       </div>
 
-      <div className='fixed bottom-20 right-2 md:bottom-30 overflow-hidden z-50'>
-        {showUpBtn && (
-          <button
-            onClick={handleScrollUp}
-            className='flex rounded-full shadow-sm m-2 items-center justify-center size-16 cursor-pointer  bg-emerald-400'
-          >
-            <IconChevronUp className='fill-white w-10 h-10 text-center ml-1' />
-          </button>
-        )}
-        <a href='tel:0987654321'>
-          <div className='flex rounded-full mt-6 shadow-sm m-2 items-center justify-center size-16 cursor-pointer animate-bounce text-white bg-emerald-400'>
-            <PhoneCallIcon width={ICON_SIZE_EXTRA} height={ICON_SIZE_EXTRA} />
-          </div>
-        </a>
-      </div>
+      <Contact />
     </header>
   )
 }

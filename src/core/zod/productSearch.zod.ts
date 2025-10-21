@@ -1,8 +1,7 @@
-import { numberConstants } from '@/configs/consts'
 import { z } from 'zod'
 
 export const SearchChema = z.object({
-  name: z.string().min(numberConstants.TWO)
+  name: z.string().min(2)
 })
 
 export const productSchema = z.object({
