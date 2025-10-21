@@ -25,7 +25,6 @@ export const useBookingWebSocket = ({ queryKey, isUser = false, userId }: Bookin
 
   const handleUpdateBookingUser = useCallback(
     (message: Booking) => {
-      console.log(message)
       const prdName = message.products?.[0]?.name
       queryClient.invalidateQueries({ queryKey: queryKey })
       Toast.info({

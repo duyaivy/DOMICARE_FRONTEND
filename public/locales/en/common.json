@@ -57,5 +57,8 @@
   "page": "Page",
   "upgrade_system": "Upgrade system",
   "profile": "Profile",
-  "notification": "Notification"
+  "notification": "Notification",
+  "full_name": "Full name",
+  "history_title": "Service Booking History",
+  "history_description": "Manage and review your past service bookings"
 }

@@ -70,6 +70,8 @@
     "booking_success": "Booking success",
     "booking_failed": "Booking failed",
     "total_booking": "Total booking",
-    "success_rate": "Success rate"
+    "success_rate": "Success rate",
+    "active": "Active",
+    "inactive": "Inactive"
   }
 }

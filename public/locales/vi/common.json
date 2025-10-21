@@ -57,5 +57,8 @@
   "page": "Trang",
   "upgrade_system": "Nâng cấp hệ thống",
   "profile": "Cá nhân",
-  "notification": "Thông báo"
+  "notification": "Thông báo",
+  "full_name": "Họ và tên",
+  "history_title": "Lịch sử đặt dịch vụ",
+  "history_description": "Quản lý và xem lại các đơn đặt dịch vụ trước đây của bạn"
 }

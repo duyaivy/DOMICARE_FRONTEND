@@ -118,7 +118,6 @@ export const useResetPassWMutation = ({ handleError }: { handleError?: (error: A
 }
 //logout
 export const useLogoutMutation = () => {
-  const navigate = useNavigate()
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
   return useMutation({
     mutationKey: mutationKeys.logout,
@@ -128,7 +127,6 @@ export const useLogoutMutation = () => {
       setIsAuthenticated(false)
       clearLS()
       setProfile(null)
-      navigate(path.login)
     }
   })
 }

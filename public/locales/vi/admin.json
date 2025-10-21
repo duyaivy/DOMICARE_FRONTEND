@@ -66,6 +66,8 @@
     "booking_success": "Đặt thành công",
     "booking_failed": "Đặt thất bại",
     "total_booking": "Tổng đơn hàng",
-    "success_rate": "Tỷ lệ thành công"
+    "success_rate": "Tỷ lệ thành công",
+    "active": "Hoạt động",
+    "inactive": "Ngừng hoạt động"
   }
 }
