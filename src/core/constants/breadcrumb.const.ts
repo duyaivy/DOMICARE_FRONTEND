@@ -13,7 +13,8 @@ export const breadcrumbKeys = [
   'sale',
   'manage',
   'system',
-  'coming_soon'
+  'coming_soon',
+  'post'
 ] as const
 
 export type BreadcrumbKey = (typeof breadcrumbKeys)[number]
@@ -72,6 +73,10 @@ export const useBreadcrumbConfig = () => {
     coming_soon: {
       label: t('common:coming_soon'),
       href: path.admin.coming_soon
+    },
+    post: {
+      label: t('admin:sidebar.post'),
+      href: path.admin.manage.post
     }
   } as const
 }

@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next'
 export default function History() {
   const { profile } = useContext(AppContext)
   const queryString = useBookingQueryConfig({ userId: profile?.id })
-  const { t } = useTranslation(['history', 'common'])
+  const { t } = useTranslation(['common'])
   const { data } = useUserBookingQuery({ queryString })
   const bookingList = data?.data?.data.data
   const pageController = data?.data?.data.meta
@@ -44,11 +44,11 @@ export default function History() {
                           <p className=' text-black line-clamp-2 text-xl'>{item.products?.[0].name}</p>
                           <div className='flex justify-start items-center  cursor-default gap-1'>
                             <span className='text-gray text-sm line-through'>
-                              {t('common:currency')}
+                              {t('currency')}
                               {formatCurrentcy(item.products?.[0].price)}
                             </span>
                             <span className='text-sm text-mainStrong'>
-                              {t('common:currency')}
+                              {t('currency')}
                               {formatCurrentcy(item.totalPrice)}
                             </span>
                           </div>
@@ -66,7 +66,7 @@ export default function History() {
                         <div className='flex justify-end mo:col-span-2 cursor-default gap-1 items-end'>
                           <p className='text-gray'>{t('total_price')}:</p>
                           <p className='text-mainStrong text-2xl line-clamp-1'>
-                            {t('common:currency')}
+                            {t('currency')}
                             {formatCurrentcy(item.totalPrice)}
                           </p>
                         </div>
@@ -80,7 +80,7 @@ export default function History() {
           ) : (
             <div className='flex flex-col justify-center items-center pt-5'>
               <img className='w-auto h-32' src={noPrdImg} alt='no_product' />
-              <p className='text-black text-center py-4'>{t('common:empty_category')}</p>
+              <p className='text-black text-center py-4'>{t('empty_category')}</p>
             </div>
           )}
           <PaginationPage

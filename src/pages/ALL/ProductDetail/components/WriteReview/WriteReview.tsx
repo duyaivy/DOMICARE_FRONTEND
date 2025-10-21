@@ -11,6 +11,7 @@ import { Toast } from '@/utils/toastMessage'
 import { AxiosError } from 'axios'
 import { path } from '@/core/constants/path'
 import { useTranslation } from 'react-i18next'
+import { rolesCheck } from '@/utils/rolesCheck'
 interface WriteReviewProps {
   productId: number
 }
@@ -32,7 +33,10 @@ export default function WriteReview({ productId }: WriteReviewProps) {
         comment: review,
         productId: productId
       }
-
+      if (!profile || rolesCheck.isAdminOrSale(profile.roles || [])) {
+        Toast.info({ title: 'Vui lòng đăng nhập với tư cách khách hàng và thực hiện đơn hàng thành công để đánh giá' })
+        return
+      }
       const { data } = await reviewMutation.mutateAsync(dataApi)
       Toast.success({ title: 'Đánh giá thành công', description: data.message })
       // refetch

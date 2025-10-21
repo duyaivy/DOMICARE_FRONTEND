@@ -42,13 +42,13 @@ export function ThemeToggle() {
           </CardContent>
         </Card>
 
-        {/* Dark Theme Card */}
         <Card
-          onClick={() => setTheme('dark')}
+          // chưa lam dark theme
+          onClick={() => setTheme('light')}
           className={classNames(
             'w-60 cursor-pointer transition-all border-2',
             {
-              'border-primary shadow-lg': isEqual(theme, 'dark'),
+              'border-primary shadow-lg ': isEqual(theme, 'dark'),
               'border-muted': !isEqual(theme, 'dark')
             },
             'hover:border-primary bg-[#151a23]'
