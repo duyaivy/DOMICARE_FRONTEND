@@ -20,6 +20,7 @@ import { handleErrorAPI } from '@/utils/handleErrorAPI'
 import SentEmail from '../Register/SentEmail'
 import { useTranslation } from 'react-i18next'
 import InputPassword from '@/components/InputPassword/InputPassword'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 export default function Login() {
   const REMEMBER = localStorage.getItem(REMEMBER_ME)
   const [rememberMe, setRememberMe] = useState<boolean>(isEqual(REMEMBER, 'true') ? true : false)
@@ -27,8 +28,8 @@ export default function Login() {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: isEqual(REMEMBER, 'true') ? localStorage.getItem(EMAIL) || '' : '',
-      password: ''
+      email: isEqual(REMEMBER, 'true') ? localStorage.getItem(EMAIL) || 'testadmin@gmail.com' : 'testadmin@gmail.com',
+      password: 'Testadmin@123'
     }
   })
   const mutationLogin = useLoginMutation({
@@ -72,6 +73,25 @@ export default function Login() {
               DomiCare
             </Link>
           </div>
+          <Popover>
+            <PopoverTrigger>
+              <div className='hover:underline cursor-pointer'>{t('common:login_test_account')}</div>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div className=''>
+                <p className=''>
+                  user: testuser@gmail.com <br /> password: Testuser@123
+                </p>
+                <p className=''>
+                  sale: testsale@gmail.com <br /> password: Testsale@123
+                </p>
+                <p className=''>
+                  admin: testadmin@gmail.com <br /> password: Testadmin@123
+                </p>
+              </div>
+            </PopoverContent>
+          </Popover>
+
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}

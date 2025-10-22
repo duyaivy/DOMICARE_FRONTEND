@@ -60,5 +60,6 @@
   "notification": "Thông báo",
   "full_name": "Họ và tên",
   "history_title": "Lịch sử đặt dịch vụ",
+  "login_test_account": "Nhấn vào để xem tài khoản mẫu, truy cập DomiCare",
   "history_description": "Quản lý và xem lại các đơn đặt dịch vụ trước đây của bạn"
 }
