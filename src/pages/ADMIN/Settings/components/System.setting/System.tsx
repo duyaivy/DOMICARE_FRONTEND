@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { ThemeToggle } from '@/components/theme/theme-toogle'
@@ -9,11 +9,21 @@ import { CardDescription } from '@/components/ui/card'
 
 export default function SystemSetting() {
   const { i18n, t } = useTranslation(['settings', 'common'])
-  const [language, setLanguage] = useState<string>(localStorage.getItem('i18nextLng') || 'vi')
+  const [language, setLanguage] = useState<string>('vi')
+
+  // Initialize language from localStorage on client side only
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedLang = localStorage.getItem('i18nextLng') || 'vi'
+      setLanguage(storedLang)
+    }
+  }, [])
+
   const handleChange = (lng: string) => {
     setLanguage(lng)
     i18n.changeLanguage(lng)
   }
+
   return (
     <HeaderSettings title={t('system_settings')} description={t('settings_description')}>
       {/* Language */}

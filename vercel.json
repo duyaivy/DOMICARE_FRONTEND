@@ -1,4 +1,30 @@
 {
   "version": 2,
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "buildCommand": "yarn build",
+  "outputDirectory": "dist/client",
+  "builds": [
+    {
+      "src": "dist/server/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "dist/server/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "dist/server/server.js"
+    }
+  ],
+  "functions": {
+    "dist/server/server.js": {
+      "includeFiles": "dist/**"
+    }
+  }
 }

@@ -2,7 +2,7 @@ import { path } from '@/core/constants/path'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
-const IconLeftArrow = (
+export const IconLeftArrow = (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'

@@ -60,5 +60,6 @@
   "notification": "Notification",
   "full_name": "Full name",
   "history_title": "Service Booking History",
+  "login_test_account": "Click here to see test accounts, access DomiCare",
   "history_description": "Manage and review your past service bookings"
 }

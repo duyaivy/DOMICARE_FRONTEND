@@ -24,5 +24,18 @@
   "service_no_rating": "Dịch vụ này chưa có đánh giá",
   "write_review": "Viết đánh giá về dịch vụ",
   "send_review": "Gửi đánh giá",
-  "review_placeholder": "Chia sẻ trải nghiệm của bạn..."
+  "review_placeholder": "Chia sẻ trải nghiệm của bạn...",
+  "payment": {
+    "success_title": "Gửi thông tin tư vấn thành công!",
+    "thank_you_message": "Domicare xin chân thành cảm ơn bạn đã tin tưởng và gửi thông tin cho chúng tôi.",
+    "deposit_option_text": "Trong một số thời điểm, lượng công việc tăng cao nên để đảm bảo có thể phục vụ tốt nhất, bạn có thể",
+    "deposit_option_highlight": "tuỳ chọn đặt cọc 10%",
+    "deposit_option_suffix": "để giữ chỗ.",
+    "refund_policy_prefix": "Nếu sau đó có bất kỳ vấn đề gì, Domicare cam kết hoàn tiền",
+    "refund_policy_highlight": "100%",
+    "deposit_button": "Đặt cọc 10% để giữ chỗ",
+    "no_deposit_button": "Không đặt cọc",
+    "deposit_success_alert": "Cảm ơn bạn! Đơn đặt cọc đã được ghi nhận. Chúng tôi sẽ liên hệ sớm nhất!",
+    "no_deposit_alert": "Cảm ơn bạn! Thông tin của bạn đã được ghi nhận, tuy nhiên có thể chúng tôi sẽ không phục vụ được nếu số lượng quá tải."
+  }
 }

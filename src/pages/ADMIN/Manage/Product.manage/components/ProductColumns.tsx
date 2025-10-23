@@ -5,7 +5,7 @@ import { DataTableColumnHeader } from '@/components/DataTable/DataTableColumnHea
 import { DataTableRowActions } from '@/components/DataTable/DataTableRowAction'
 import { useProducts } from '@/core/contexts/product.context'
 import { CategoryMini } from '@/models/interface/category.interface'
-import { formatCurrentcy } from '@/utils/formatCurrentcy'
+import { formatCurrentcy } from '@/utils/format'
 import { cn } from '@/core/lib/utils'
 import { useTranslation } from 'react-i18next'
 

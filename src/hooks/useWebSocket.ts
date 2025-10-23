@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { Client } from '@stomp/stompjs'
-import SockJS from 'sockjs-client'
 
 interface WebSocketConfig {
   url: string
@@ -13,45 +11,65 @@ interface WebSocketConfig {
 }
 
 export const useWebSocket = (config: WebSocketConfig) => {
-  const stompClient = useRef<Client | null>(null)
+  const stompClient = useRef<any>(null)
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
-    if (!config.url || !config.topics || Object.keys(config.topics).length === 0) {
-      setIsConnected(false)
+    // Only run on client-side (not during SSR)
+    if (typeof window === 'undefined') {
       return
     }
-    if (stompClient.current) {
-      stompClient.current.deactivate()
-      stompClient.current = null
-    }
 
-    const client = new Client({
-      webSocketFactory: () => new SockJS(config.url),
-      reconnectDelay: 5000,
-      onConnect: () => {
-        setIsConnected(true)
-        Object.entries(config.topics).forEach(([topic, callback]) => {
-          client.subscribe(topic, (message) => {
-            const data = JSON.parse(message.body)
-            callback(data)
-          })
+    // Dynamic import để tránh load trên server
+    let client: any = null
+
+    const initWebSocket = async () => {
+      if (!config.url || !config.topics || Object.keys(config.topics).length === 0) {
+        setIsConnected(false)
+        return
+      }
+
+      if (stompClient.current) {
+        stompClient.current.deactivate()
+        stompClient.current = null
+      }
+
+      try {
+        const [{ Client }, { default: SockJS }] = await Promise.all([import('@stomp/stompjs'), import('sockjs-client')])
+
+        client = new Client({
+          webSocketFactory: () => new SockJS(config.url),
+          reconnectDelay: 5000,
+          onConnect: () => {
+            setIsConnected(true)
+            Object.entries(config.topics).forEach(([topic, callback]) => {
+              client.subscribe(topic, (message: any) => {
+                const data = JSON.parse(message.body)
+                callback(data)
+              })
+            })
+
+            config.onConnect?.()
+          },
+          onDisconnect: () => {
+            setIsConnected(false)
+            config.onDisconnect?.()
+          },
+          onStompError: (frame: any) => {
+            setIsConnected(false)
+            config.onError?.(frame)
+          }
         })
 
-        config.onConnect?.()
-      },
-      onDisconnect: () => {
+        stompClient.current = client
+        client.activate()
+      } catch (error) {
+        console.error('Failed to initialize WebSocket:', error)
         setIsConnected(false)
-        config.onDisconnect?.()
-      },
-      onStompError: (frame) => {
-        setIsConnected(false)
-        config.onError?.(frame)
       }
-    })
+    }
 
-    stompClient.current = client
-    client.activate()
+    initWebSocket()
 
     return () => {
       // Cleanup on unmount or dependency change

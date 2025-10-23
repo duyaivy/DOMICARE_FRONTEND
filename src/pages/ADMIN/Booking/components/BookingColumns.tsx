@@ -8,13 +8,13 @@ import React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { Booking, BookingStatus } from '@/models/interface/booking.interface'
 import { User } from '@/models/interface/user.interface'
-import { formatCurrentcy } from '@/utils/formatCurrentcy'
 import { Product } from '@/models/interface/product.interface'
 import isEqual from 'lodash/isEqual'
 import { Toast } from '@/utils/toastMessage'
 import { useUpdateSttBookingMutation } from '@/core/queries/product.query'
 import StatusBadge from '@/components/StatusBadge'
 import { useTranslation } from 'react-i18next'
+import { formatCurrentcy } from '@/utils/format'
 
 export const useBookingColumns = (): ColumnDef<Booking>[] => {
   const { t } = useTranslation('admin')

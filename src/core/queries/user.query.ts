@@ -84,8 +84,6 @@ export const useGetMe = () => {
   return useMutation({
     mutationFn: userApi.getMe,
     onSuccess: ({ data }) => {
-      console.log(data)
-
       setUserToLS(data.data as User)
       setIsAuthenticated(true)
       setProfile(data.data as User)

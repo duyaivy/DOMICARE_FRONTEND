@@ -3,13 +3,13 @@ import SectionBgGreen from '@/components/SectionBgGreen'
 import SectionBgWhite from '@/components/SectionBgWhite'
 import { AppContext } from '@/core/contexts/app.context'
 import isEqual from 'lodash/isEqual'
-import { Fragment, useContext, useEffect } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import SectionInView from '@/components/SectionInView'
 import { CalendarIcon, FlameIcon, MapPin, User } from 'lucide-react'
 import RatingStars from '@/components/RatingStars/RatingStars'
 import Comment from '@/components/Comment'
-import { formatCurrentcy } from '@/utils/formatCurrentcy'
+import { formatCurrentcy } from '@/utils/format'
 import Product from '@/components/Product'
 import { useForm } from 'react-hook-form'
 import { BookingSchema } from '@/core/zod/booking.zod'
@@ -36,8 +36,10 @@ import { format } from 'date-fns/format'
 import { scroller } from 'react-scroll'
 import Helmet from '@/components/Helmet/Helmet'
 import { useTranslation } from 'react-i18next'
+import Payment from './components/Payment'
 
 export default function ProductDetail() {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const { t } = useTranslation(['product', 'common', 'auth'])
   const { pathname } = useLocation()
   const pathString = pathname.split('$d$')
@@ -60,7 +62,10 @@ export default function ProductDetail() {
       isPeriodic: 'false'
     }
   })
-  const mutationBooking = useBookingMutation()
+  const handleShowPayment = () => {
+    setIsOpen((prev) => !prev)
+  }
+  const mutationBooking = useBookingMutation(handleShowPayment)
   const handleBooking = () => {
     const data = form.getValues()
     const dataAPI = {
@@ -434,6 +439,8 @@ export default function ProductDetail() {
           </div>
         </div>
       )}
+
+      <Payment product={product} isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   )
 }

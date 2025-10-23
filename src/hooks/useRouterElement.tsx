@@ -32,7 +32,7 @@ const Booking = lazy(() => import('@/pages/ADMIN/Booking'))
 const Post = lazy(() => import('@/pages/ADMIN/Manage/Post.manage/Post'))
 const Settings = lazy(() => import('@/pages/USER/Pages/Settings'))
 const Dashboard = lazy(() => import('@/pages/ADMIN/Dashboard/Dashboard'))
-
+const PaymentResult = lazy(() => import('@/pages/ALL/PaymentResult'))
 const LoadingSpinner = () => (
   <div className='flex items-center justify-center min-h-screen flex-col gap-4'>
     <video autoPlay loop muted className='size-80 object-cover'>
@@ -108,6 +108,16 @@ export default function useRoutesElements() {
             <LazyComponent>
               <CustomerLayout>
                 <AboutUs />
+              </CustomerLayout>
+            </LazyComponent>
+          )
+        },
+        {
+          path: path.paymentResult,
+          element: (
+            <LazyComponent>
+              <CustomerLayout>
+                <PaymentResult />
               </CustomerLayout>
             </LazyComponent>
           )

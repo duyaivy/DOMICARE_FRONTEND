@@ -126,18 +126,21 @@ export const useUserBookingQuery = ({ queryString }: { queryString: BookingQuery
     staleTime: STATE_TIME
   })
 }
-export const useBookingMutation = () => {
+
+export const useBookingMutation = (callbackFn: (data?: any) => void) => {
   return useMutation({
     mutationKey: mutationKeys.booking,
     mutationFn: (data: DataBookingAPI) => {
       const { dataAPI, isLogin } = data
       return bookingApi.post(dataAPI, isLogin)
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       Toast.success({
         title: 'Thành công',
         description: 'Đặt dịch vụ thành công. Chúng tôi sẽ tư vấn trong thời gian sớm nhất.'
       })
+      console.log(data)
+      callbackFn(data)
     },
     onError: (error) => handleToastError(error)
   })
