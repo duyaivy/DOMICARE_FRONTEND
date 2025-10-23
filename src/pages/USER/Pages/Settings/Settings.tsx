@@ -4,15 +4,25 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { languagesDefault } from '@/configs/consts'
 import { ThemeToggle } from '@/components/theme/theme-toogle'
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CardDescription } from '@/components/ui/card'
+
 export default function Settings() {
   const { i18n, t } = useTranslation(['settings', 'common'])
-  const [language, setLanguage] = useState<string>(localStorage.getItem('i18nextLng') || 'vi')
+  const [language, setLanguage] = useState<string>('vi')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedLang = localStorage.getItem('i18nextLng') || 'vi'
+      setLanguage(storedLang)
+    }
+  }, [])
+
   const handleChange = (lng: string) => {
     setLanguage(lng)
     i18n.changeLanguage(lng)
   }
+
   return (
     <SectionUser title={t('common:settings')} description={t('common:settings_description')}>
       <div className='mb-6 max-w-xs mt-5'>

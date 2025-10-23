@@ -9,36 +9,50 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { MessageSquare, Send } from 'lucide-react'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { io, Socket } from 'socket.io-client'
 import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem } from '../ui/form'
 import { useGetConversationByReceiverId } from '@/core/queries/chat.query'
 import { Conversation, Cursor } from '@/models/interface/chat.interface'
 import MessageChat from '../MessageChat'
+import { getAccessTokenFromLS } from '@/utils/storage'
 
 export function Chat() {
   const [messages, setMessages] = useState<Conversation[]>([])
   const cursorRef = useRef<Cursor>({ last_message_id: '', last_updated_at: '' })
   const chatMutation = useGetConversationByReceiverId()
-  const socketRef = useRef<Socket | null>(null)
+  const socketRef = useRef<any>(null)
   const { profile } = useContext(AppContext)
   const user = profile?._id
+
   useEffect(() => {
+    // Only run on client-side
+    if (typeof window === 'undefined') {
+      return
+    }
+
     if (!socketRef.current) {
-      const socket = io(config.baseUrl, {
-        auth: {
-          authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-      })
+      // Dynamic import socket.io-client
+      import('socket.io-client')
+        .then(({ io }) => {
+          const token = getAccessTokenFromLS()
+          const socket = io(config.baseUrl, {
+            auth: {
+              authorization: `Bearer ${token}`
+            }
+          })
 
-      socketRef.current = socket
-      socket.on('connect_error', (err) => {
-        console.log('Socket connection error:', err)
-      })
+          socketRef.current = socket
+          socket.on('connect_error', (err) => {
+            console.log('Socket connection error:', err)
+          })
 
-      socket.on('receive chat', (data: Conversation) => {
-        setMessages((prev) => [...prev, data])
-      })
+          socket.on('receive chat', (data: Conversation) => {
+            setMessages((prev) => [...prev, data])
+          })
+        })
+        .catch((err) => {
+          console.error('Failed to load socket.io-client:', err)
+        })
     }
 
     return () => {
@@ -46,6 +60,7 @@ export function Chat() {
       socketRef.current = null
     }
   }, [])
+
   useEffect(() => {
     if (user) {
       chatMutation
@@ -60,7 +75,6 @@ export function Chat() {
         })
     }
   }, [user])
-  //socket
 
   const handleSendMessage = () => {
     const message = form.getValues('message')
@@ -76,12 +90,14 @@ export function Chat() {
     socketRef.current?.emit('private chat', conversationNext)
     form.setValue('message', '')
   }
+
   const form = useForm<z.infer<typeof ChatSchema>>({
     resolver: zodResolver(ChatSchema),
     defaultValues: {
       message: ''
     }
   })
+
   const fetchMoreConversation = () => {
     if (user) {
       chatMutation

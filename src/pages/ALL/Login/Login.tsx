@@ -22,20 +22,42 @@ import { useTranslation } from 'react-i18next'
 import InputPassword from '@/components/InputPassword/InputPassword'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 export default function Login() {
-  const REMEMBER = localStorage.getItem(REMEMBER_ME)
-  const [rememberMe, setRememberMe] = useState<boolean>(isEqual(REMEMBER, 'true') ? true : false)
+  const [rememberMe, setRememberMe] = useState<boolean>(false)
+  const [initialEmail, setInitialEmail] = useState<string>('testadmin@gmail.com')
   const { t } = useTranslation('auth')
+
+  // Initialize from localStorage on client side only
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedRemember = localStorage.getItem(REMEMBER_ME)
+      const remember = isEqual(storedRemember, 'true')
+      setRememberMe(remember)
+
+      if (remember) {
+        const storedEmail = localStorage.getItem(EMAIL) || 'testadmin@gmail.com'
+        setInitialEmail(storedEmail)
+      }
+    }
+  }, [])
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: isEqual(REMEMBER, 'true') ? localStorage.getItem(EMAIL) || 'testadmin@gmail.com' : 'testadmin@gmail.com',
+      email: initialEmail,
       password: 'Testadmin@123'
     }
   })
+
+  // Update form email when initialEmail changes
+  useEffect(() => {
+    form.setValue('email', initialEmail)
+  }, [initialEmail, form])
+
   const mutationLogin = useLoginMutation({
     mutationFn: authApi.login,
     handleError: (error) => handleErrorAPI(error, form)
   })
+
   function onSubmit() {
     const loginData = form.getValues() as z.infer<typeof LoginSchema>
     mutationLogin.mutate(loginData)
@@ -43,12 +65,17 @@ export default function Login() {
 
   const handleChangeRememberMe = (event: boolean) => {
     setRememberMe(event)
-    localStorage.setItem(REMEMBER_ME, JSON.stringify(event))
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(REMEMBER_ME, JSON.stringify(event))
+    }
   }
+
   useEffect(() => {
-    const email = form.getValues('email')
-    if (rememberMe) {
-      localStorage.setItem(EMAIL, email)
+    if (typeof window !== 'undefined') {
+      const email = form.getValues('email')
+      if (rememberMe) {
+        localStorage.setItem(EMAIL, email)
+      }
     }
   }, [rememberMe, form])
   return (

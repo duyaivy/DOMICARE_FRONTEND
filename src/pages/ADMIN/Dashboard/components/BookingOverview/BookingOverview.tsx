@@ -4,9 +4,9 @@ import { Label, Pie, PieChart } from 'recharts'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 import { BookingOverview as BookingOverviewInterface } from '@/models/interface/dashboard.interface'
-import { formatCurrentcy } from '@/utils/formatCurrentcy'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useTranslation } from 'react-i18next'
+import { formatCurrentcy } from '@/utils/format'
 
 interface BookingOverviewProps {
   value?: BookingOverviewInterface

@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { ChartConfig, ChartTooltipContent } from '@/components/ui/chart'
 import { ChartContainer } from '@/components/ui/chart'
 import { useGetRevenueQuery } from '@/core/queries/overview.query'
-import { formatRevenueData } from '@/utils/formatRevenue'
+import { formatRevenueData } from '@/utils/format'
 import { TrendingDown, TrendingUp } from 'lucide-react'
 import { CartesianGrid, Line, LineChart, XAxis, Tooltip, YAxis } from 'recharts'
 import { Skeleton } from '@/components/ui/skeleton'
