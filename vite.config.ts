@@ -24,13 +24,7 @@ export default defineConfig({
   },
 
   ssr: {
-    noExternal: [
-      'react-router-dom',
-      // Externalize CommonJS packages that cause issues
-      'sockjs-client',
-      'socket.io-client',
-      '@stomp/stompjs'
-    ],
+    noExternal: ['react-router-dom', 'sockjs-client', 'socket.io-client', '@stomp/stompjs'],
     external: ['express', 'vnpay', 'dotenv', 'compression', 'serve-static']
   },
 
