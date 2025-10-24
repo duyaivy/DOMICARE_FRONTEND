@@ -41,6 +41,7 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    allowedHosts: ['domicare-frontend-a4g5.onrender.com', 'domicare.duyaivy.id.vn'],
     fs: {
       // Cho phép serve files từ thư mục utils
       allow: ['..']
