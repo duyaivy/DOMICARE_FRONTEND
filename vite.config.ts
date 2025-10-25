@@ -3,10 +3,6 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 import tailwindcss from '@tailwindcss/vite'
 
-// ======================================================
-// ⚙️ Cấu hình Vite SSR + React + Tailwind + Express
-// ======================================================
-
 export default defineConfig({
   plugins: [react(), tailwindcss()],
 
@@ -41,9 +37,8 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
-    allowedHosts: ['domicare-frontend-a4g5.onrender.com', 'domicare.duyaivy.id.vn'],
+    allowedHosts: true,
     fs: {
-      // Cho phép serve files từ thư mục utils
       allow: ['..']
     }
   },

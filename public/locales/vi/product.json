@@ -29,13 +29,22 @@
     "success_title": "Gửi thông tin tư vấn thành công!",
     "thank_you_message": "Domicare xin chân thành cảm ơn bạn đã tin tưởng và gửi thông tin cho chúng tôi.",
     "deposit_option_text": "Trong một số thời điểm, lượng công việc tăng cao nên để đảm bảo có thể phục vụ tốt nhất, bạn có thể",
-    "deposit_option_highlight": "tuỳ chọn đặt cọc 10%",
+    "deposit_option_highlight": "tuỳ chọn đặt cọc 10% tối thiểu 25,000VND",
     "deposit_option_suffix": "để giữ chỗ.",
     "refund_policy_prefix": "Nếu sau đó có bất kỳ vấn đề gì, Domicare cam kết hoàn tiền",
     "refund_policy_highlight": "100%",
     "deposit_button": "Đặt cọc 10% để giữ chỗ",
     "no_deposit_button": "Không đặt cọc",
     "deposit_success_alert": "Cảm ơn bạn! Đơn đặt cọc đã được ghi nhận. Chúng tôi sẽ liên hệ sớm nhất!",
-    "no_deposit_alert": "Cảm ơn bạn! Thông tin của bạn đã được ghi nhận, tuy nhiên có thể chúng tôi sẽ không phục vụ được nếu số lượng quá tải."
+    "no_deposit_alert": "Cảm ơn bạn! Thông tin của bạn đã được ghi nhận, tuy nhiên có thể chúng tôi sẽ không phục vụ được nếu số lượng quá tải.",
+    "infor_payment": "Thông tin thanh toán (Sandbox Demo)",
+    "infor_title": "Đây là thông tin demo trong môi trường sandbox.",
+    "infor_note": "Không sử dụng thẻ thật trong môi trường thử nghiệm.",
+    "note": "Lưu ý:",
+    "bank": "Ngân hàng",
+    "card_number": "Số thẻ",
+    "card_holder": "Tên chủ thẻ",
+    "exp_date": "Ngày phát hành",
+    "otp": "Mật khẩu OTP"
   }
 }

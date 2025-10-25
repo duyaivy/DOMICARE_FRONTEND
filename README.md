@@ -4,8 +4,6 @@
 
 **DomiCare** is a modern web platform for home cleaning and maintenance services. This frontend project focuses on delivering a smooth and intuitive user experience, built with React and TypeScript.
 
-> 🚧 This frontend is under active development.
-
 ---
 
 ## 🚀 Tech Stack
@@ -22,6 +20,10 @@
 
 ## 🧪 Getting Started
 
+### Environment Variables
+
+Create a `.env` file in the root directory from `.env.example`
+
 ### Development Setup
 
 ```bash
@@ -37,18 +39,7 @@ yarn install
 yarn dev
 ```
 
-Open your browser at `http://localhost:4000`.
-
----
-
-## 🌐 Environment Variables
-
-Create a `.env` file in the root directory and add:
-
-```bash
-VITE_API_URL=https://localhost:8443
-VITE_GOOGLE_CLIENT_ID=your-google-client-id
-```
+Open your browser at `http://localhost:3000`.
 
 ---
 
@@ -61,6 +52,7 @@ VITE_GOOGLE_CLIENT_ID=your-google-client-id
 - ⭐ Service Rating & Feedback
 - 📜 Service History
 - 🧑‍💼 Sales & Technician Dashboards
+- Payment with VNPay
 - ⚙️ Admin Panel (CRUD for services, users, orders)
 
 ---

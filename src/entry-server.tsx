@@ -6,7 +6,6 @@ import { AppProvider } from './core/contexts/app.context'
 import { ThemeProvider } from './components/theme/theme-provider'
 import { I18nextProvider } from 'react-i18next'
 import i18n from './core/configs/i18n'
-// Fix CommonJS import for react-helmet-async in production
 import HelmetAsyncPkg from 'react-helmet-async'
 const { HelmetProvider } = HelmetAsyncPkg as any
 
