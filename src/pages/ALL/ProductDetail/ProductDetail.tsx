@@ -39,7 +39,7 @@ import { useTranslation } from 'react-i18next'
 import Payment from './components/Payment'
 
 export default function ProductDetail() {
-  const [isOpen, setIsOpen] = useState<boolean>(true)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const { t } = useTranslation(['product', 'common', 'auth'])
   const { pathname } = useLocation()
   const pathString = pathname.split('$d$')
