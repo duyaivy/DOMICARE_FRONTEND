@@ -5,6 +5,7 @@ import { Product } from '@/models/interface/product.interface'
 import { Toast } from '@/utils/toastMessage'
 import axios from 'axios'
 import { CheckCircle, Copy } from 'lucide-react'
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface PaymentProps {
@@ -15,6 +16,7 @@ interface PaymentProps {
 
 export default function Payment({ product, isOpen, setIsOpen }: PaymentProps) {
   const { t } = useTranslation('product')
+  const count = useRef<number>(0)
   const sandboxCard = {
     bank: 'NCB',
     cardNumber: '9704198526191432198',
@@ -37,6 +39,13 @@ export default function Payment({ product, isOpen, setIsOpen }: PaymentProps) {
     }
   }
   const handleDeposit = async () => {
+    if (count.current > 0) {
+      Toast.info({
+        description: t('payment.already_in_deposit')
+      })
+      return
+    }
+    count.current += 1
     const amount = product?.priceAfterDiscount ? product.priceAfterDiscount * 0.1 : 0
     const amountRounded = Math.max(amount, 25000)
     const orderInfo = `${product?.name} - ${amount} VND`
@@ -52,7 +61,6 @@ export default function Payment({ product, isOpen, setIsOpen }: PaymentProps) {
       })
 
     window.open(paymentURL, '_blank')
-    setIsOpen(false)
   }
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

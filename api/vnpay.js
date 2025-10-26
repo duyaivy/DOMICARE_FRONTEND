@@ -59,5 +59,12 @@ router.get('/vnpay-return', (req, res) => {
     return res.redirect(`/payment?status=invalid&orderInfo=${orderId}&amount=${amount}`)
   }
 })
+router.get('/health-check', (req, res) => {
+  res.status(200).send({
+    statusCode: 200,
+    message: 'Domicare is healthy. Siuuu',
+    data: null
+  })
+})
 
 export default router

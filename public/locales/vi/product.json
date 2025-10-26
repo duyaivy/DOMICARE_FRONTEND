@@ -45,6 +45,7 @@
     "card_number": "Số thẻ",
     "card_holder": "Tên chủ thẻ",
     "exp_date": "Ngày phát hành",
-    "otp": "Mật khẩu OTP"
+    "otp": "Mật khẩu OTP",
+    "already_in_deposit": "Bạn đang có một đơn đặt cọc chưa hoàn tất, vui lòng kiểm tra lại."
   }
 }
